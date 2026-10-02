@@ -1,0 +1,1409 @@
+// FarmLink — Prisma schema (PostgreSQL)
+// Data model covers: users, roles, organisations, FPOs, warehouses, storage;
+// crops, varieties, produce/pickup requests, lots, images, grades; inventory
+// events/reservations/balances; price observations + pricing insights + AI/rule
+// metadata; consumer orders, bulk RFQs, negotiations, invoices, payments,
+// deliveries, disputes; finance consents/cases/status events; notifications,
+// documents, integration events, audit logs, consent history.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+enum Role {
+  farmer
+  consumer
+  bulk_buyer
+  warehouse_operator
+  operations_admin
+  platform_admin
+  finance_partner
+}
+
+enum UserStatus {
+  ACTIVE
+  PENDING
+  SUSPENDED
+  DEACTIVATED
+}
+
+enum Language {
+  en
+  hi
+}
+
+enum OrgType {
+  FPO
+  WAREHOUSE_CO
+  BUYER
+  FINANCE_PARTNER
+  LOGISTICS
+  OTHER
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  SUSPENDED
+}
+
+enum Grade {
+  UNGRADED
+  A1
+  A2
+  B
+  C
+}
+
+enum GradingStatus {
+  NONE
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum GradeSource {
+  MANUAL
+  MODEL
+}
+
+enum LotStatus {
+  DECLARED
+  ACCEPTED
+  STORED
+  RESERVED
+  DISPATCHED
+  SOLD
+  SPOILED
+  LOST
+  REJECTED
+  QC_HOLD
+}
+
+enum FarmerDecisionType {
+  SELL_NOW
+  HOLD
+  REQUEST_QUOTE
+  LIST_FOR_BUYERS
+}
+
+enum ProduceStatus {
+  DECLARED
+  PROCESSED
+  PICKUP_REQUESTED
+  CANCELLED
+}
+
+enum PickupStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+  PICKUP_SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+enum InventoryEventType {
+  INTAKE
+  GRADING
+  TRANSFER
+  RESERVATION
+  UNRESERVATION
+  DISPATCH
+  SALE
+  SPOILAGE
+  LOSS
+  CORRECTION
+  RETURN
+}
+
+enum Direction {
+  IN
+  OUT
+  ADJUST
+  RESERVE
+  RELEASE
+}
+
+enum ReservationStatus {
+  ACTIVE
+  FULFILLED
+  EXPIRED
+  CANCELLED
+}
+
+enum OrderType {
+  CONSUMER
+  BULK
+}
+
+enum OrderStatus {
+  DRAFT
+  PENDING_PAYMENT
+  CONFIRMED
+  PACKING
+  DISPATCHED
+  DELIVERED
+  PARTIALLY_DELIVERED
+  RETURNED
+  CANCELLED
+  REFUNDED
+  EXPIRED
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  MOCK
+  RAZORPAY
+}
+
+enum DeliveryType {
+  PICKUP
+  DELIVERY
+}
+
+enum ShipmentStatus {
+  SCHEDULED
+  ASSIGNED
+  IN_TRANSIT
+  DELIVERED
+  RETURNED
+  FAILED
+}
+
+enum DisputeStatus {
+  OPEN
+  UNDER_REVIEW
+  RESOLVED
+  REJECTED
+  AUTO_REFUNDED
+}
+
+enum DisputeType {
+  PRODUCT
+  DELIVERY
+  PAYMENT
+  QUANTITY
+  OTHER
+}
+
+enum RfqStatus {
+  DRAFT
+  SUBMITTED
+  NEGOTIATING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+  CONVERTED
+}
+
+enum NegotiationStatus {
+  OPEN
+  ACCEPTED
+  COUNTERED
+  REJECTED
+  WITHDRAWN
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum ConsentType {
+  FINANCE_E_NWR
+  DATA_SHARING
+  MARKETING
+  PRIVACY_POLICY
+}
+
+enum ConsentStatus {
+  GRANTED
+  REVOKED
+  EXPIRED
+}
+
+enum ConsentAction {
+  GRANTED
+  REVOKED
+  EXPIRED
+}
+
+enum FinanceCaseStatus {
+  DRAFT
+  AWAITING_CONSENT
+  ELIGIBILITY_CHECK
+  CONSENTED
+  SHARED_WITH_PARTNER
+  UNDER_PARTNER_REVIEW
+  APPROVED_BY_PARTNER
+  DECLINED
+  CLOSED
+}
+
+enum NotificationChannel {
+  SMS
+  EMAIL
+  PUSH
+  IVR
+}
+
+enum NotificationStatus {
+  QUEUED
+  SENT
+  FAILED
+}
+
+enum FileKind {
+  INTAKE
+  GRADING
+  DOCUMENT
+  POD
+  DISPUTE
+}
+
+enum IntegrationProviderEnum {
+  ONDC
+  PAYMENT
+  MARKET_DATA
+  TELEPHONY
+  LENDER_E_NWR
+  LOGISTICS
+  WAREHOUSE
+}
+
+enum IntegrationDirection {
+  OUTBOUND
+  INBOUND
+}
+
+enum IntegrationEventStatus {
+  QUEUED
+  DELIVERED
+  FAILED
+  RETRY
+  CANCELED
+}
+
+enum QueuedStatus {
+  PENDING
+  PROCESSING
+  SUCCESS
+  FAILED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum RouteStatus {
+  PLANNED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum StorageKind {
+  AMBIENT
+  VENTILATED
+  COLD
+  GRADED
+}
+
+enum DeliverySlotKind {
+  PICKUP
+  DELIVERY
+}
+
+enum StockAgeAlert {
+  NONE
+  ATTENTION
+  WARNING
+  CRITICAL
+}
+
+// ---------------------------------------------------------------------------
+// Identity & organisations
+// ---------------------------------------------------------------------------
+model User {
+  id           String     @id @default(cuid())
+  phone        String?    @unique
+  email        String?    @unique
+  passwordHash String?
+  name         String
+  role         Role
+  lang         Language   @default(hi)
+  status       UserStatus @default(PENDING)
+  avatarKey    String?
+  demoPinHash  String?
+  lastLoginAt  DateTime?
+  deletedAt    DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  farmerProfile      FarmerProfile?
+  memberships        OrgMember[]
+  farms              Farm[]
+  produceRequests    ProduceRequest[]
+  pickupRequests     PickupRequest[]
+  lots               Lot[]                   @relation("LotFarmer")
+  intakeLots         Lot[]                   @relation("LotIntakeBy")
+  gradedLots         Lot[]                   @relation("LotGradedBy")
+  lotDecisions       Lot[]                   @relation("LotDecidedBy")
+  stockBalances      InventoryEvent[]        @relation("InventoryEventBy")
+  operatedWarehouses Warehouse[]
+  cartItems          CartItem[]
+  orders             Order[]
+  rfqNegotiations    RfqNegotiation[]
+  disputes           Dispute[]
+  reviews            Review[]
+  consents           FinanceConsent[]
+  consentHistory     FinanceConsentHistory[]
+  financeCases       FinanceCase[]
+  financeEvents      FinanceStatusEvent[]
+  documents          Document[]              @relation("DocumentOwner")
+  uploadedDocuments  Document[]              @relation("DocumentUploader")
+  notifications      Notification[]
+  pricingInsights    PricingInsight[]
+  ivrSessions        IvrSession[]
+  exports            ExportRequest[]
+  deletionRequests   DeletionRequest[]
+  auditLogs          AuditLog[]              @relation("AuditActor")
+  verifiedUsers      VerificationEvent[]     @relation("VerificationReviewer")
+
+  @@index([phone])
+  @@index([role, status])
+}
+
+model Organization {
+  id                 String             @id @default(cuid())
+  name               String
+  legalName          String?
+  type               OrgType
+  gstin              String?            @unique
+  address            String?
+  state              String?
+  verificationStatus VerificationStatus @default(PENDING)
+  contactPhone       String?
+  contactEmail       String?
+  category           String? // buyer category
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  members     OrgMember[]
+  warehouses  Warehouse[]
+  rfqs        Rfq[]
+  financCases FinanceCase[]
+  verifiedBy  String?
+  verifiedAt  DateTime?
+
+  @@index([type, verificationStatus])
+}
+
+model OrgMember {
+  id        String     @id @default(cuid())
+  orgId     String
+  userId    String
+  role      Role
+  isPrimary Boolean    @default(false)
+  status    UserStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
+
+  org  Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([orgId, userId])
+}
+
+// ---------------------------------------------------------------------------
+// Farms & farmer profile
+// ---------------------------------------------------------------------------
+model Farm {
+  id            String   @id @default(cuid())
+  farmerUserId  String   @unique
+  name          String
+  address       String?
+  lat           Float?
+  lng           Float?
+  state         String   @default("RJ")
+  district      String?
+  pinCode       String?
+  fpoCluster    String?
+  landSizeAcres Float?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  farmer  User           @relation(fields: [farmerUserId], references: [id], onDelete: Cascade)
+  profile FarmerProfile?
+
+  @@index([state, district])
+}
+
+model FarmerProfile {
+  id                     String   @id @default(cuid())
+  userId                 String   @unique
+  farmId                 String   @unique
+  preferredLanguage      Language @default(hi)
+  cropsGrown             String[] @default([])
+  incomeBand             String?
+  consentVersionAccepted String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  farm Farm @relation(fields: [farmId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------------------------
+// Warehouses & storage
+// ---------------------------------------------------------------------------
+model Warehouse {
+  id                 String             @id @default(cuid())
+  code               String             @unique
+  name               String
+  orgId              String?
+  operatorUserId     String
+  address            String?
+  lat                Float?
+  lng                Float?
+  state              String             @default("RJ")
+  district           String?
+  coverageRadiusKm   Float              @default(50)
+  hasColdChain       Boolean            @default(false)
+  verificationStatus VerificationStatus @default(PENDING)
+  isActive           Boolean            @default(true)
+  createdAt          DateTime           @default(now())
+
+  org            Organization?     @relation(fields: [orgId], references: [id], onDelete: SetNull)
+  operator       User              @relation(fields: [operatorUserId], references: [id], onDelete: Restrict)
+  storage        StorageLocation[]
+  lots           Lot[]
+  routes         LogisticsRoute[]
+  pickupRequests PickupRequest[]
+
+  @@index([state, district])
+}
+
+model StorageLocation {
+  id           String      @id @default(cuid())
+  warehouseId  String
+  code         String
+  kind         StorageKind @default(AMBIENT)
+  capacityKg   Float
+  temperatureC Int?
+  humidityPct  Int?
+  isActive     Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+  lots      Lot[]
+
+  @@unique([warehouseId, code])
+}
+
+// ---------------------------------------------------------------------------
+// Catalogue
+// ---------------------------------------------------------------------------
+model Crop {
+  id            String   @id @default(cuid())
+  code          String   @unique
+  name          String
+  nameHi        String
+  category      String
+  emoji         String?
+  season        String[] @default([])
+  shelfLifeDays Int      @default(7)
+  isActive      Boolean  @default(true)
+  imageKey      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  varieties         Variety[]
+  priceRules        PriceRule[]
+  priceObservations PriceObservation[]
+  lots              Lot[]
+  produceRequests   ProduceRequest[]
+  pickupRequests    PickupRequest[]
+  rfqs              Rfq[]
+}
+
+model Variety {
+  id       String  @id @default(cuid())
+  cropId   String
+  name     String
+  nameHi   String
+  isActive Boolean @default(true)
+
+  crop            Crop             @relation(fields: [cropId], references: [id], onDelete: Cascade)
+  lots            Lot[]
+  produceRequests ProduceRequest[]
+  pickupRequests  PickupRequest[]
+
+  @@unique([cropId, name])
+}
+
+// ---------------------------------------------------------------------------
+// Farmer declarations & pickup requests
+// ---------------------------------------------------------------------------
+model ProduceRequest {
+  id                  String        @id @default(cuid())
+  farmerId            String
+  cropId              String
+  varietyId           String
+  quantityKg          Float
+  expectedHarvestDate DateTime
+  cluster             String
+  preferredLanguage   Language      @default(hi)
+  status              ProduceStatus @default(DECLARED)
+  createdAt           DateTime      @default(now())
+
+  farmer  User    @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  crop    Crop    @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  variety Variety @relation(fields: [varietyId], references: [id], onDelete: Restrict)
+}
+
+model PickupRequest {
+  id               String       @id @default(cuid())
+  farmerId         String
+  produceRequestId String?
+  cropId           String
+  varietyId        String
+  quantityKg       Float
+  cluster          String
+  status           PickupStatus @default(SUBMITTED)
+  notes            String?
+  warehouseId      String?
+  scheduledWindow  DateTime?
+  assignedRouteId  String?
+  isDemo           Boolean      @default(false)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  farmer    User            @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  crop      Crop            @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  variety   Variety         @relation(fields: [varietyId], references: [id], onDelete: Restrict)
+  warehouse Warehouse?      @relation(fields: [warehouseId], references: [id], onDelete: SetNull)
+  route     LogisticsRoute? @relation(fields: [assignedRouteId], references: [id], onDelete: SetNull)
+}
+
+// ---------------------------------------------------------------------------
+// Lots, images, grading
+// ---------------------------------------------------------------------------
+model Lot {
+  id                String              @id @default(cuid())
+  lotNumber         String              @unique
+  qrCode            String              @unique
+  farmerId          String
+  cropId            String
+  varietyId         String
+  warehouseId       String
+  storageLocationId String?
+  sourceCluster     String
+  grossWeightKg     Float
+  tareWeightKg      Float
+  netWeightKg       Float
+  intakeAt          DateTime            @default(now())
+  intakeById        String
+  status            LotStatus           @default(ACCEPTED)
+  gradingStatus     GradingStatus       @default(NONE)
+  manualGrade       Grade?
+  modelGrade        Grade?
+  confirmedGrade    Grade?
+  gradeConfirmedAt  DateTime?
+  gradeRemarks      String?
+  overrideReason    String?
+  decision          FarmerDecisionType?
+  decisionAt        DateTime?
+  decisionById      String?
+  gradedById        String?
+  riskLevel         RiskLevel           @default(LOW)
+  stockAgeAlert     StockAgeAlert       @default(NONE)
+  note              String?
+  isDemo            Boolean             @default(false)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  farmer          User                @relation("LotFarmer", fields: [farmerId], references: [id], onDelete: Restrict)
+  crop            Crop                @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  variety         Variety             @relation(fields: [varietyId], references: [id], onDelete: Restrict)
+  warehouse       Warehouse           @relation(fields: [warehouseId], references: [id], onDelete: Restrict)
+  storageLocation StorageLocation?    @relation(fields: [storageLocationId], references: [id], onDelete: SetNull)
+  intakeBy        User                @relation("LotIntakeBy", fields: [intakeById], references: [id], onDelete: Restrict)
+  gradedBy        User?               @relation("LotGradedBy", fields: [gradedById], references: [id], onDelete: SetNull)
+  decidedBy       User?               @relation("LotDecidedBy", fields: [decisionById], references: [id], onDelete: SetNull)
+  images          LotImage[]
+  gradingRuns     GradingRun[]
+  confirmations   GradeConfirmation[]
+  stockBalance    StockBalance?
+  events          InventoryEvent[]
+  reservations    Reservation[]
+  orderItems      OrderItem[]
+  pricingInsights PricingInsight[]
+  financeCases    FinanceCase[]
+  reviews         Review[]
+  cartItems       CartItem[]
+  rfqNegotiations RfqNegotiation[]
+
+  @@index([farmerId, status])
+  @@index([warehouseId, cropId, confirmedGrade])
+  @@index([qrCode])
+}
+
+model LotImage {
+  id           String   @id @default(cuid())
+  lotId        String
+  kind         FileKind
+  bucket       String
+  objectKey    String   @unique
+  mime         String
+  sizeBytes    Int
+  width        Int?
+  height       Int?
+  captureMeta  Json?
+  uploadedById String
+  isPrivate    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  lot Lot @relation(fields: [lotId], references: [id], onDelete: Cascade)
+
+  @@index([lotId])
+}
+
+model GradingRun {
+  id                  String        @id @default(cuid())
+  lotId               String
+  status              GradingStatus @default(QUEUED)
+  modelVersion        String?
+  candidateGrade      Grade?
+  candidateConfidence Float?
+  defects             Json?
+  imageMeta           Json?
+  imageObjectKeys     String[]      @default([])
+  error               String?
+  queuedAt            DateTime      @default(now())
+  startedAt           DateTime?
+  completedAt         DateTime?
+
+  lot Lot @relation(fields: [lotId], references: [id], onDelete: Cascade)
+
+  @@index([lotId, status])
+}
+
+model GradeConfirmation {
+  id             String      @id @default(cuid())
+  lotId          String
+  gradingRunId   String?
+  confirmedGrade Grade
+  source         GradeSource
+  overridden     Boolean     @default(false)
+  overrideReason String?
+  remarks        String?
+  reviewerId     String
+  reviewedAt     DateTime    @default(now())
+
+  lot Lot @relation(fields: [lotId], references: [id], onDelete: Cascade)
+
+  @@unique([lotId, gradingRunId])
+  @@index([lotId])
+}
+
+// ---------------------------------------------------------------------------
+// Inventory (append-only events + balances + reservations)
+// ---------------------------------------------------------------------------
+model StockBalance {
+  id                  String   @id @default(cuid())
+  lotId               String   @unique
+  warehouseId         String
+  storageLocationId   String?
+  quantityAvailableKg Float    @default(0)
+  quantityReservedKg  Float    @default(0)
+  version             Int      @default(1)
+  updatedAt           DateTime @updatedAt
+
+  lot Lot @relation(fields: [lotId], references: [id], onDelete: Cascade)
+
+  @@index([warehouseId])
+}
+
+model InventoryEvent {
+  id                String             @id @default(cuid())
+  lotId             String
+  type              InventoryEventType
+  direction         Direction
+  quantityDeltaKg   Float
+  prevBalanceKg     Float
+  postBalanceKg     Float
+  warehouseId       String
+  storageLocationId String?
+  referenceType     String?
+  referenceId       String?
+  payload           Json?              @default("{}")
+  idempotencyKey    String             @unique
+  createdById       String
+  createdAt         DateTime           @default(now())
+
+  lot       Lot  @relation(fields: [lotId], references: [id], onDelete: Restrict)
+  createdBy User @relation("InventoryEventBy", fields: [createdById], references: [id], onDelete: Restrict)
+
+  @@index([lotId, createdAt])
+  @@index([type])
+}
+
+model Reservation {
+  id             String            @id @default(cuid())
+  lotId          String
+  orderId        String?
+  orderItemId    String?
+  rfqId          String?
+  channel        String
+  quantityKg     Float
+  status         ReservationStatus @default(ACTIVE)
+  ttlSeconds     Int
+  expiresAt      DateTime
+  idempotencyKey String            @unique
+  reference      String?
+  metadata       Json?             @default("{}")
+  createdAt      DateTime          @default(now())
+  fulfilledAt    DateTime?
+  releasedAt     DateTime?
+
+  lot   Lot    @relation(fields: [lotId], references: [id], onDelete: Restrict)
+  order Order? @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  rfq   Rfq?   @relation(fields: [rfqId], references: [id], onDelete: SetNull)
+}
+
+// ---------------------------------------------------------------------------
+// Price observations, rules, insights
+// ---------------------------------------------------------------------------
+model PriceObservation {
+  id             String   @id @default(cuid())
+  cropId         String
+  varietyId      String?
+  marketName     String
+  state          String
+  district       String?
+  wholesalePrice Float
+  retailPrice    Float?
+  source         String   @default("MANDI")
+  observedAt     DateTime
+  isDemo         Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  crop Crop @relation(fields: [cropId], references: [id], onDelete: Cascade)
+
+  @@index([cropId, observedAt])
+}
+
+model PriceRule {
+  id                String   @id @default(cuid())
+  cropId            String
+  grade             Grade
+  baseLowRs         Float
+  baseHighRs        Float
+  mspRs             Float?
+  demandFactorBps   Int      @default(0)
+  supplyFactorBps   Int      @default(0)
+  seasonFactorBps   Int      @default(0)
+  stockAgeFactorBps Int      @default(0)
+  version           String   @default("price-rules-v1")
+  isActive          Boolean  @default(true)
+  isDemo            Boolean  @default(false)
+  updatedBy         String?
+  updatedAt         DateTime @updatedAt
+
+  crop Crop @relation(fields: [cropId], references: [id], onDelete: Cascade)
+
+  @@unique([cropId, grade])
+}
+
+model PricingInsight {
+  id                   String              @id @default(cuid())
+  lotId                String?
+  farmerId             String
+  cropId               String
+  varietyId            String?
+  grade                Grade
+  state                String
+  inputSnapshot        Json
+  marketSnapshot       Json
+  outputSnapshot       Json
+  suggestedLowRs       Float
+  suggestedHighRs      Float
+  demandSignal         String
+  recommendSell        Boolean
+  considerHold         Boolean
+  confidence           Float
+  dataFreshnessMinutes Int
+  ruleVersion          String
+  disclaimer           String
+  farmerDecision       FarmerDecisionType?
+  farmerDecisionAt     DateTime?
+  isDemo               Boolean             @default(false)
+  createdAt            DateTime            @default(now())
+
+  farmer User @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  lot    Lot? @relation(fields: [lotId], references: [id], onDelete: SetNull)
+
+  @@index([farmerId, createdAt])
+  @@index([cropId, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Consumer market, cart, orders, payments, delivery, disputes, reviews
+// ---------------------------------------------------------------------------
+model CartItem {
+  id         String   @id @default(cuid())
+  userId     String
+  lotId      String
+  quantityKg Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lot  Lot  @relation(fields: [lotId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lotId])
+}
+
+model Order {
+  id                String       @id @default(cuid())
+  orderNumber       String       @unique
+  type              OrderType    @default(CONSUMER)
+  userId            String
+  organizationId    String?
+  status            OrderStatus  @default(DRAFT)
+  deliveryType      DeliveryType
+  addressSnapshot   Json?
+  subtotal          Float        @default(0)
+  deliveryFee       Float        @default(0)
+  tax               Float        @default(0)
+  total             Float        @default(0)
+  currency          String       @default("INR")
+  deliverySlotStart DateTime?
+  deliverySlotEnd   DateTime?
+  idempotencyKey    String       @unique
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  placedAt          DateTime?
+  isDemo            Boolean      @default(false)
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  items        OrderItem[]
+  payments     Payment[]
+  shipment     Shipment?
+  disputes     Dispute[]
+  reservations Reservation[]
+
+  @@index([userId, createdAt])
+  @@index([status, createdAt])
+}
+
+model OrderItem {
+  id              String   @id @default(cuid())
+  orderId         String
+  lotId           String
+  reservationId   String?
+  quantityKg      Float
+  unitPrice       Float
+  gradeSnapshot   Grade
+  cropSnapshot    String
+  varietySnapshot String
+  netWeightKg     Float
+  total           Float
+  createdAt       DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  lot   Lot   @relation(fields: [lotId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+}
+
+model Payment {
+  id             String          @id @default(cuid())
+  orderId        String
+  amount         Float
+  currency       String          @default("INR")
+  provider       PaymentProvider @default(MOCK)
+  status         PaymentStatus   @default(PENDING)
+  referenceId    String?
+  providerRef    String?
+  meta           Json?           @default("{}")
+  idempotencyKey String          @unique
+  createdAt      DateTime        @default(now())
+  completedAt    DateTime?
+  refundedAt     DateTime?
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+}
+
+model Invoice {
+  id            String        @id @default(cuid())
+  invoiceNumber String        @unique
+  orderId       String?
+  rfqId         String?
+  amount        Float
+  status        InvoiceStatus @default(DRAFT)
+  dueDate       DateTime?
+  issuedAt      DateTime?
+  objectKey     String?
+  paidAt        DateTime?
+  createdAt     DateTime      @default(now())
+
+  @@index([orderId])
+}
+
+model Shipment {
+  id           String         @id @default(cuid())
+  orderId      String         @unique
+  status       ShipmentStatus @default(SCHEDULED)
+  slotStart    DateTime?
+  slotEnd      DateTime?
+  driverUserId String?
+  routeId      String?
+  isPickedUp   Boolean        @default(false)
+  podKey       String?
+  podSignedAt  DateTime?
+  deliveredAt  DateTime?
+  returnReason String?
+  notes        String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([driverUserId, status])
+}
+
+model Dispute {
+  id           String        @id @default(cuid())
+  orderId      String
+  raisedById   String
+  type         DisputeType
+  reason       String
+  status       DisputeStatus @default(OPEN)
+  resolution   String?
+  resolvedById String?
+  resolvedAt   DateTime?
+  createdAt    DateTime      @default(now())
+
+  order  Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  raiser User  @relation(fields: [raisedById], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  orderItemId String   @unique
+  userId      String
+  lotId       String
+  rating      Int
+  comment     String?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  lot  Lot  @relation(fields: [lotId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------------------------
+// Bulk buyer RFQs & negotiations
+// ---------------------------------------------------------------------------
+model Rfq {
+  id                  String    @id @default(cuid())
+  rfqNumber           String    @unique
+  organizationId      String
+  cropId              String
+  varietyId           String?
+  targetGrade         Grade
+  quantityKg          Float
+  maxPricePerKg       Float
+  targetWarehouseId   String?
+  status              RfqStatus @default(DRAFT)
+  negotiateDeadlineAt DateTime?
+  note                String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  organization Organization     @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  crop         Crop             @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  negotiations RfqNegotiation[]
+  reservations Reservation[]
+
+  @@index([status, createdAt])
+}
+
+model RfqNegotiation {
+  id                 String            @id @default(cuid())
+  rfqId              String
+  lotId              String?
+  warehouseId        String?
+  byRole             Role
+  byUserId           String
+  proposedPricePerKg Float
+  quantityKg         Float
+  message            String?
+  status             NegotiationStatus @default(OPEN)
+  createdAt          DateTime          @default(now())
+
+  rfq  Rfq  @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [byUserId], references: [id], onDelete: Restrict)
+  lot  Lot? @relation(fields: [lotId], references: [id], onDelete: SetNull)
+
+  @@index([rfqId, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Logistics
+// ---------------------------------------------------------------------------
+model LogisticsRoute {
+  id           String      @id @default(cuid())
+  routeCode    String      @unique
+  state        String      @default("RJ")
+  date         DateTime
+  warehouseId  String
+  cluster      String
+  driverUserId String
+  vehicleType  String      @default("BOLERO")
+  status       RouteStatus @default(PLANNED)
+  distanceKm   Float
+  etaMinutes   Int
+  stops        Json        @default("{}")
+  assignedBy   String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  warehouse      Warehouse       @relation(fields: [warehouseId], references: [id], onDelete: Restrict)
+  pickupRequests PickupRequest[]
+
+  @@index([date, status])
+}
+
+// ---------------------------------------------------------------------------
+// Finance & consent
+// ---------------------------------------------------------------------------
+model FinanceConsent {
+  id              String        @id @default(cuid())
+  userId          String
+  type            ConsentType
+  version         String
+  status          ConsentStatus @default(GRANTED)
+  dataFields      String[]      @default([])
+  consentTextHash String
+  grantedAt       DateTime      @default(now())
+  expiresAt       DateTime?
+  revokedAt       DateTime?
+  reason          String?
+  createdAt       DateTime      @default(now())
+
+  user         User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  history      FinanceConsentHistory[]
+  financeCases FinanceCase[]
+
+  @@index([userId, status])
+}
+
+model FinanceConsentHistory {
+  id        String        @id @default(cuid())
+  consentId String
+  action    ConsentAction
+  version   String
+  at        DateTime      @default(now())
+  byUserId  String?
+  reason    String?
+
+  consent FinanceConsent @relation(fields: [consentId], references: [id], onDelete: Cascade)
+  user    User?          @relation(fields: [byUserId], references: [id], onDelete: SetNull)
+
+  @@index([consentId, at])
+}
+
+model FinanceCase {
+  id                 String            @id @default(cuid())
+  caseNumber         String            @unique
+  farmerUserId       String
+  partnerOrgId       String?
+  consentId          String
+  lotId              String?
+  cropId             String?
+  quantityKg         Float?
+  reason             String
+  requestedAmountRs  Float?
+  durationMonths     Int?
+  eligibility        Json?             @default("{}")
+  status             FinanceCaseStatus @default(DRAFT)
+  partnerRef         String?
+  disclaimerSnapshot Json              @default("{}")
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  farmer  User                 @relation(fields: [farmerUserId], references: [id], onDelete: Restrict)
+  partner Organization?        @relation(fields: [partnerOrgId], references: [id], onDelete: SetNull)
+  consent FinanceConsent       @relation(fields: [consentId], references: [id], onDelete: Restrict)
+  lot     Lot?                 @relation(fields: [lotId], references: [id], onDelete: SetNull)
+  events  FinanceStatusEvent[]
+
+  @@index([partnerOrgId, status])
+  @@index([farmerUserId, createdAt])
+}
+
+model FinanceStatusEvent {
+  id        String            @id @default(cuid())
+  caseId    String
+  from      FinanceCaseStatus
+  to        FinanceCaseStatus
+  byUserId  String?
+  note      String?
+  createdAt DateTime          @default(now())
+
+  case FinanceCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  user User?       @relation(fields: [byUserId], references: [id], onDelete: SetNull)
+
+  @@index([caseId, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Notifications, documents, integration, webhooks, offline sync
+// ---------------------------------------------------------------------------
+model Notification {
+  id          String              @id @default(cuid())
+  userId      String
+  channel     NotificationChannel
+  templateKey String
+  title       String
+  body        String
+  data        Json?               @default("{}")
+  status      NotificationStatus  @default(QUEUED)
+  readAt      DateTime?
+  sentAt      DateTime?
+  externalRef String?
+  createdAt   DateTime            @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model NotificationTemplate {
+  id        String              @id @default(cuid())
+  key       String              @unique
+  channel   NotificationChannel
+  variants  Json // { en: {subject, body}, hi: {subject, body} }
+  isActive  Boolean             @default(true)
+  version   Int                 @default(1)
+  updatedAt DateTime            @updatedAt
+}
+
+model Document {
+  id           String   @id @default(cuid())
+  ownerUserId  String
+  kind         FileKind
+  bucket       String
+  objectKey    String   @unique
+  mime         String
+  sizeBytes    Int
+  status       String   @default("STORED")
+  isPrivate    Boolean  @default(true)
+  uploadedById String
+  createdAt    DateTime @default(now())
+
+  owner    User @relation("DocumentOwner", fields: [ownerUserId], references: [id], onDelete: Cascade)
+  uploader User @relation("DocumentUploader", fields: [uploadedById], references: [id], onDelete: Restrict)
+
+  @@index([ownerUserId])
+}
+
+model SyncQueueItem {
+  id             String       @id @default(cuid())
+  deviceId       String
+  idempotencyKey String       @unique
+  payload        Json
+  status         QueuedStatus @default(PENDING)
+  attempts       Int          @default(0)
+  lastError      String?
+  createdAt      DateTime     @default(now())
+  processedAt    DateTime?
+
+  @@index([deviceId, status])
+}
+
+model IntegrationEvent {
+  id             String                  @id @default(cuid())
+  provider       IntegrationProviderEnum
+  direction      IntegrationDirection
+  eventType      String
+  payload        Json
+  status         IntegrationEventStatus  @default(QUEUED)
+  attempts       Int                     @default(0)
+  nextAttemptAt  DateTime?
+  lastError      String?
+  idempotencyKey String?                 @unique
+  createdAt      DateTime                @default(now())
+  processedAt    DateTime?
+
+  @@index([provider, status])
+}
+
+model WebhookEndpoint {
+  id         String            @id @default(cuid())
+  name       String
+  url        String
+  secret     String // NOTE: production must use managed secrets, not plaintext
+  events     String[]          @default([])
+  isActive   Boolean           @default(true)
+  createdBy  String
+  createdAt  DateTime          @default(now())
+  deliveries WebhookDelivery[]
+
+  @@index([isActive])
+}
+
+model WebhookDelivery {
+  id          String                 @id @default(cuid())
+  endpointId  String
+  eventType   String
+  payloadHash String
+  nonce       String
+  status      IntegrationEventStatus @default(QUEUED)
+  attempts    Int                    @default(0)
+  lastError   String?
+  createdAt   DateTime               @default(now())
+  deliveredAt DateTime?
+
+  endpoint WebhookEndpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+
+  @@unique([endpointId, nonce]) // replay prevention
+  @@index([createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Audit, privacy, settings, OTP, IVR
+// ---------------------------------------------------------------------------
+model AuditLog {
+  id          String   @id @default(cuid())
+  actorUserId String?
+  actorRole   String?
+  action      String
+  targetType  String?
+  targetId    String?
+  before      Json?
+  after       Json?
+  ip          String?
+  ua          String?
+  requestId   String?
+  prevHash    String? // integrity hash chain
+  hash        String
+  createdAt   DateTime @default(now())
+
+  actor User? @relation("AuditActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+
+  @@index([actorUserId, createdAt])
+  @@index([action, createdAt])
+  @@index([targetType, targetId])
+}
+
+model ExportRequest {
+  id        String    @id @default(cuid())
+  userId    String
+  sections  String[]
+  status    String    @default("PENDING")
+  objectKey String?
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  readyAt   DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model DeletionRequest {
+  id          String    @id @default(cuid())
+  userId      String
+  status      String    @default("PENDING")
+  reason      String?
+  requestedAt DateTime  @default(now())
+  processedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  sensitive Boolean  @default(false)
+  version   Int      @default(1)
+  updatedBy String?
+  updatedAt DateTime @updatedAt
+}
+
+model IvrSession {
+  id            String    @id @default(cuid())
+  callSid       String    @unique
+  phone         String
+  status        String    @default("ACTIVE")
+  intent        String?
+  state         Json?     @default("{}")
+  verifiedAt    DateTime?
+  transcribedAt DateTime?
+  transcript    String?
+  confidence    Float?
+  createdAt     DateTime  @default(now())
+  endedAt       DateTime?
+
+  user User? @relation(fields: [phone], references: [phone], onDelete: SetNull) // loose link via phone
+
+  @@index([callSid])
+  @@index([phone, status])
+}
+
+model OtpChallenge {
+  id         String    @id @default(cuid())
+  identifier String
+  channel    String
+  purpose    String
+  codeHash   String
+  expiresAt  DateTime
+  consumedAt DateTime?
+  attempts   Int       @default(0)
+  createdAt  DateTime  @default(now())
+
+  @@index([identifier, purpose, createdAt])
+}
+
+model VerificationEvent {
+  id         String   @id @default(cuid())
+  reviewerId String
+  targetType String
+  targetId   String
+  decision   String
+  reason     String?
+  createdAt  DateTime @default(now())
+
+  reviewer User @relation("VerificationReviewer", fields: [reviewerId], references: [id], onDelete: Restrict)
+
+  @@index([targetType, targetId])
+}

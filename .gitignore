@@ -1,0 +1,47 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# builds
+dist/
+build/
+.next/
+out/
+turbo/
+*.tsbuildinfo
+
+# env / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+
+# coverage
+coverage/
+.nyc_output/
+
+# logs
+*.log
+logs/
+pids/
+
+# editor / os
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# prisma
+apps/api/prisma/dev.db
+apps/api/prisma/migrations/dev/
+*.sqlite
+
+# local storage uploads
+.data/
+storage-local/
+
+# temp
+.tmp/

@@ -1,0 +1,12 @@
+module.exports = {
+  moduleFileExtensions: ['js', 'json', 'ts'],
+  rootDir: '.',
+  testEnvironment: 'node',
+  testRegex: '.*\\.e2e-spec\\.ts$',
+  testTimeout: 60000,
+  maxWorkers: 1,
+  transform: {
+    '^.+\\.(t|j)s$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
+  },
+  setupFiles: ['<rootDir>/test/setup-env.ts'],
+};

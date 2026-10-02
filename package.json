@@ -1,0 +1,30 @@
+{
+  "name": "farmlink",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FarmLink - farmer-friendly produce marketplace for Smart India Hackathon 2026 (PS 26033)",
+  "packageManager": "pnpm@12.4.1",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r --filter @farmlink/shared --filter @farmlink/api --filter @farmlink/web build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "test:unit": "pnpm -r --filter @farmlink/shared --filter @farmlink/api test:unit",
+    "test:integration": "pnpm --filter @farmlink/api test:integration",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md,yaml,yml,prisma}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md,yaml,yml,prisma}\"",
+    "db:generate": "pnpm --filter @farmlink/api db:generate",
+    "db:migrate": "pnpm --filter @farmlink/api db:migrate",
+    "db:seed": "pnpm --filter @farmlink/api db:seed",
+    "dev:api": "pnpm --filter @farmlink/api dev",
+    "dev:web": "pnpm --filter @farmlink/web dev",
+    "dev": "pnpm --parallel --filter @farmlink/api --filter @farmlink/web dev",
+    "audit": "pnpm audit --prod"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.0"
+  }
+}

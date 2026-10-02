@@ -1,0 +1,8 @@
+# Terraform variables for FarmLink AWS deployment
+# Copy this file to terraform.tfvars and fill in actual values
+
+aws_region           = "us-east-1"
+database_url         = "postgres://farmlink:farmlink@localhost:5432/farmlink?schema=public"
+redis_url            = "redis://localhost:6379"
+object_storage       = "minio"
+cors_origins        = "http://localhost:3000,http://127.0.0.1:3000"
