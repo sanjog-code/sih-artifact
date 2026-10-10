@@ -2,7 +2,11 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-export type LanguageCode = 'en' | 'hi' | 'pa' | 'mr' | 'te' | 'ta';
+export type LanguageCode =
+  | 'en' | 'hi' | 'pa' | 'mr' | 'te' | 'ta'
+  | 'bn' | 'gu' | 'kn' | 'ml' | 'or' | 'as'
+  | 'ur' | 'sa' | 'ne' | 'sd' | 'ks' | 'kok'
+  | 'mni' | 'brx' | 'mai' | 'sat' | 'doi';
 
 export interface LanguageOption {
   code: LanguageCode;
@@ -17,6 +21,23 @@ export const LANGUAGES: LanguageOption[] = [
   { code: 'mr', label: 'Marathi', native: 'मराठी' },
   { code: 'te', label: 'Telugu', native: 'తెలుగు' },
   { code: 'ta', label: 'Tamil', native: 'தமிழ்' },
+  { code: 'bn', label: 'Bengali', native: 'বাংলা' },
+  { code: 'gu', label: 'Gujarati', native: 'ગુજરાતી' },
+  { code: 'kn', label: 'Kannada', native: 'ಕನ್ನಡ' },
+  { code: 'ml', label: 'Malayalam', native: 'മലയാളം' },
+  { code: 'or', label: 'Odia', native: 'ଓଡ଼ିଆ' },
+  { code: 'as', label: 'Assamese', native: 'অসমীয়া' },
+  { code: 'ur', label: 'Urdu', native: 'اردو' },
+  { code: 'sa', label: 'Sanskrit', native: 'संस्कृतम्' },
+  { code: 'ne', label: 'Nepali', native: 'नेपाली' },
+  { code: 'sd', label: 'Sindhi', native: 'سنڌي' },
+  { code: 'ks', label: 'Kashmiri', native: 'کٲشُر' },
+  { code: 'kok', label: 'Konkani', native: 'कोंकणी' },
+  { code: 'mni', label: 'Manipuri', native: 'মৈতৈলোন্' },
+  { code: 'brx', label: 'Bodo', native: 'बर’' },
+  { code: 'mai', label: 'Maithili', native: 'मैथिली' },
+  { code: 'sat', label: 'Santali', native: 'ᱥᱟᱱᱛᱟᱲᱤ' },
+  { code: 'doi', label: 'Dogri', native: 'डोगरी' },
 ];
 
 export const translations = {
@@ -2529,6 +2550,23 @@ export const resolvedTranslations: Record<LanguageCode, TranslationDictionary> =
   mr: deepMergeFallback(translations.mr, translations.en),
   te: deepMergeFallback(translations.te, translations.en),
   ta: deepMergeFallback(translations.ta, translations.en),
+  bn: deepMergeFallback((translations as Record<string, unknown>).bn, translations.en),
+  gu: deepMergeFallback((translations as Record<string, unknown>).gu, translations.en),
+  kn: deepMergeFallback((translations as Record<string, unknown>).kn, translations.en),
+  ml: deepMergeFallback((translations as Record<string, unknown>).ml, translations.en),
+  or: deepMergeFallback((translations as Record<string, unknown>).or, translations.en),
+  as: deepMergeFallback((translations as Record<string, unknown>).as, translations.en),
+  ur: deepMergeFallback((translations as Record<string, unknown>).ur, translations.en),
+  sa: deepMergeFallback((translations as Record<string, unknown>).sa, translations.en),
+  ne: deepMergeFallback((translations as Record<string, unknown>).ne, translations.en),
+  sd: deepMergeFallback((translations as Record<string, unknown>).sd, translations.en),
+  ks: deepMergeFallback((translations as Record<string, unknown>).ks, translations.en),
+  kok: deepMergeFallback((translations as Record<string, unknown>).kok, translations.en),
+  mni: deepMergeFallback((translations as Record<string, unknown>).mni, translations.en),
+  brx: deepMergeFallback((translations as Record<string, unknown>).brx, translations.en),
+  mai: deepMergeFallback((translations as Record<string, unknown>).mai, translations.en),
+  sat: deepMergeFallback((translations as Record<string, unknown>).sat, translations.en),
+  doi: deepMergeFallback((translations as Record<string, unknown>).doi, translations.en),
 };
 
 interface LanguageContextProps {

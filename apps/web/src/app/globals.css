@@ -24,6 +24,12 @@
   }
 }
 
+.dark, html.dark, [data-theme="dark"] {
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  color-scheme: dark;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

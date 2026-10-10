@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider, LanguageCode } from '../context/LanguageContext';
+import { ThemeProvider } from '../context/ThemeContext';
+import AiAssistant from '../components/AiAssistant';
 import { cookies } from 'next/headers';
 
 const geistSans = Geist({
@@ -28,7 +30,7 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const cookieLang = cookieStore.get('farmlink_lang')?.value as LanguageCode | undefined;
   const validLang: LanguageCode =
-    cookieLang && ['en', 'hi', 'pa', 'mr', 'te', 'ta'].includes(cookieLang)
+    cookieLang && ['en', 'hi', 'pa', 'mr', 'te', 'ta', 'bn', 'gu', 'kn', 'ml', 'or', 'as', 'ur', 'sa', 'ne', 'sd', 'ks', 'kok', 'mni', 'brx', 'mai', 'sat', 'doi'].includes(cookieLang)
       ? cookieLang
       : 'en';
 
@@ -36,9 +38,15 @@ export default async function RootLayout({
     <html
       lang={validLang}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-[#fafafa] text-zinc-900 font-sans">
-        <LanguageProvider initialLanguage={validLang}>{children}</LanguageProvider>
+      <body className="min-h-full flex flex-col bg-[#fafafa] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">
+        <ThemeProvider>
+          <LanguageProvider initialLanguage={validLang}>
+            {children}
+            <AiAssistant />
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -514,138 +514,130 @@ export default function FarmerPortal() {
               </div>
 
               <form onSubmit={handleCreateListing} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1.5">
-                      {t.farmer.cropCommodity}
-                    </label>
-                    <select
-                      value={commodity}
-                      onChange={(e) => setCommodity(e.target.value)}
-                      className="w-full text-xs p-3 border border-zinc-200 rounded-xl bg-zinc-50 font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                    >
-                      <option value="Tomato">{t.farmer.cropTomatoOption}</option>
-                      <option value="Mustard">{t.farmer.cropMustardOption}</option>
-                      <option value="Wheat">{t.farmer.cropWheatOption}</option>
-                      <option value="Soybean">{t.farmer.cropSoybeanOption}</option>
-                      <option value="Potato">Potato (आलू / ਬਟਾਟਾ)</option>
-                      <option value="Onion">Onion (प्याज़ / ਪਿਆਜ਼)</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1.5">
-                      Variety / Strain
-                    </label>
-                    <input
-                      type="text"
-                      value={variety}
-                      onChange={(e) => setVariety(e.target.value)}
-                      placeholder="e.g. Hybrid Gold, Sharbati 306, Pusa Bold"
-                      className="w-full text-xs p-3 border border-zinc-200 rounded-xl bg-zinc-50 font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1.5">
-                      {t.farmer.quantityLabel}
-                    </label>
-                    <input
-                      type="number"
-                      min={100}
-                      step={100}
-                      value={quantity}
-                      onChange={(e) => setQuantity(Number(e.target.value))}
-                      className="w-full text-xs p-3 border border-zinc-200 rounded-xl bg-zinc-50 font-mono font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1.5">
-                      {t.farmer.qualityTier}
-                    </label>
-                    <select
-                      value={grade}
-                      onChange={(e) => setGrade(e.target.value as 'A1' | 'A2' | 'B')}
-                      className="w-full text-xs p-3 border border-zinc-200 rounded-xl bg-zinc-50 font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                    >
-                      <option value="A1">{t.farmer.gradeA1Option}</option>
-                      <option value="A2">{t.farmer.gradeA2Option}</option>
-                      <option value="B">{t.farmer.gradeBOption}</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1.5">
-                      {t.farmer.expectedPriceLabel}
-                    </label>
-                    <input
-                      type="number"
-                      step={0.5}
-                      min={10}
-                      value={price}
-                      onChange={(e) => setPrice(Number(e.target.value))}
-                      className="w-full text-xs p-3 border border-zinc-200 rounded-xl bg-zinc-50 font-mono font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                      required
-                    />
+                {/* 1. Quick Crop Selector */}
+                <div>
+                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">
+                    1. Select Crop / Commodity
+                  </label>
+                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                    {[
+                      { name: 'Tomato', label: 'Tomato (टमाटर)' },
+                      { name: 'Wheat', label: 'Wheat (गेहूं)' },
+                      { name: 'Mustard', label: 'Mustard (सरसों)' },
+                      { name: 'Soybean', label: 'Soybean (सोयाबीन)' },
+                      { name: 'Potato', label: 'Potato (आलू)' },
+                      { name: 'Onion', label: 'Onion (प्याज़)' },
+                    ].map((c) => (
+                      <button
+                        key={c.name}
+                        type="button"
+                        onClick={() => {
+                          setCommodity(c.name);
+                          setVariety(`Standard ${c.name} Hybrid`);
+                        }}
+                        className={`p-2.5 rounded-xl border text-xs font-bold transition text-center ${
+                          commodity === c.name
+                            ? 'bg-emerald-900 text-white border-emerald-900 shadow-sm'
+                            : 'bg-zinc-50 border-zinc-200 text-zinc-800 hover:bg-zinc-100'
+                        }`}
+                      >
+                        {c.name}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1.5">
-                      Designated WDRA Depot / Warehouse
+                {/* 2. Quantity with Quick Increment Pills */}
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider">
+                      2. Total Harvest Quantity (kg)
                     </label>
-                    <select
-                      value={depot}
-                      onChange={(e) => setDepot(e.target.value)}
-                      className="w-full text-xs p-3 border border-zinc-200 rounded-xl bg-zinc-50 font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                    >
-                      <option value="Jaipur WDRA Terminal Hub">Jaipur North WDRA Hub</option>
-                      <option value="Phulera Depot #3">Phulera Agro Cold-Depot #3</option>
-                      <option value="Ujjain Central Silo">Ujjain Central e-NWR Silo</option>
-                      <option value="Nagpur East Agro Hub">Nagpur East Agro Terminal</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1.5">
-                      Delivery Mode
-                    </label>
-                    <select
-                      value={deliveryMode}
-                      onChange={(e) => setDeliveryMode(e.target.value as typeof deliveryMode)}
-                      className="w-full text-xs p-3 border border-zinc-200 rounded-xl bg-zinc-50 font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                    >
-                      <option value="platform_logistics">Platform Optimized Logistics (Recommended)</option>
-                      <option value="buyer_pickup">Buyer Depot Pickup</option>
-                      <option value="self_delivery">Self-Delivery to Terminal</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* AI Guidance Box inside form */}
-                {aiData && (
-                  <div className="p-3.5 bg-emerald-50/70 border border-emerald-200 rounded-xl flex items-center justify-between text-xs text-emerald-950">
-                    <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-emerald-700 shrink-0" />
-                      <span>
-                        AI recommended asking rate for {commodity}: <strong>₹{aiData.predictedNextPrice}/kg</strong> (CCEA statutory floor: ₹{aiData.mspFloor || 22.75}/kg).
-                      </span>
+                    <div className="flex gap-1.5">
+                      {[500, 1000, 2500, 5000].map((inc) => (
+                        <button
+                          key={inc}
+                          type="button"
+                          onClick={() => setQuantity(inc)}
+                          className="px-2 py-0.5 rounded-md bg-zinc-100 hover:bg-zinc-200 text-[10px] font-mono font-bold text-zinc-700"
+                        >
+                          {inc.toLocaleString('en-IN')} kg
+                        </button>
+                      ))}
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => setPrice(aiData.predictedNextPrice)}
-                      className="text-[11px] font-bold text-emerald-900 underline hover:text-emerald-700 shrink-0 ml-2"
-                    >
-                      Apply Rate
-                    </button>
                   </div>
-                )}
+                  <input
+                    type="number"
+                    min={100}
+                    step={50}
+                    value={quantity}
+                    onChange={(e) => setQuantity(Number(e.target.value))}
+                    className="w-full text-sm p-3 border border-zinc-200 rounded-xl bg-zinc-50 font-mono font-bold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    required
+                  />
+                </div>
+
+                {/* 3. Visual Quality Tier Selector */}
+                <div>
+                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">
+                    3. AGMARK Quality Grade
+                  </label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {[
+                      { id: 'A1', title: 'Grade A1', desc: 'Premium Export (≤1% defect)' },
+                      { id: 'A2', title: 'Grade A2', desc: 'Standard Wholesale (≤3% defect)' },
+                      { id: 'B', title: 'Grade B', desc: 'Processing / Fair Avg (≤6% defect)' },
+                    ].map((g) => (
+                      <button
+                        key={g.id}
+                        type="button"
+                        onClick={() => setGrade(g.id as 'A1' | 'A2' | 'B')}
+                        className={`p-3 rounded-xl border text-left transition ${
+                          grade === g.id
+                            ? 'bg-emerald-50 border-emerald-600 text-emerald-950 ring-1 ring-emerald-600'
+                            : 'bg-zinc-50 border-zinc-200 text-zinc-700 hover:bg-zinc-100'
+                        }`}
+                      >
+                        <div className="font-extrabold text-xs">{g.title}</div>
+                        <div className="text-[10px] text-zinc-500 mt-0.5 leading-snug">{g.desc}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 4. Expected Price with Instant AI Mandi Rate */}
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider">
+                      4. Asking Price (₹/kg)
+                    </label>
+                    {aiData && (
+                      <button
+                        type="button"
+                        onClick={() => setPrice(aiData.predictedNextPrice)}
+                        className="text-[11px] font-bold text-emerald-800 underline hover:text-emerald-950 flex items-center gap-1"
+                      >
+                        <Sparkles className="w-3 h-3 text-emerald-600" />
+                        Use AI Rate: ₹{aiData.predictedNextPrice}/kg
+                      </button>
+                    )}
+                  </div>
+                  <input
+                    type="number"
+                    step={0.5}
+                    min={5}
+                    value={price}
+                    onChange={(e) => setPrice(Number(e.target.value))}
+                    className="w-full text-sm p-3 border border-zinc-200 rounded-xl bg-zinc-50 font-mono font-bold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    required
+                  />
+                  {aiData && (
+                    <div className="mt-1 text-[11px] text-zinc-500 flex items-center justify-between">
+                      <span>Statutory MSP Floor: ₹{aiData.mspFloor || 22.75}/kg</span>
+                      <span className="text-emerald-700 font-semibold">100% Escrow Protection</span>
+                    </div>
+                  )}
+                </div>
 
                 <div className="pt-2 flex gap-3">
                   <button

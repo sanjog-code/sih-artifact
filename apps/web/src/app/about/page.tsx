@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '../../context/LanguageContext';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -102,6 +103,86 @@ export default function AboutPage() {
                   <span className="text-xs text-zinc-500 font-medium">
                     {t.about.statBrokerCut}
                   </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Real Ground Reality Photo Gallery */}
+        <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="group rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm flex flex-col">
+              <div className="relative h-56 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80"
+                  alt="Verified Direct Harvest"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[10px] font-mono font-bold uppercase text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">
+                    Farm Gate Assaying
+                  </span>
+                  <h3 className="text-sm font-bold text-zinc-950 dark:text-white mt-2">
+                    Direct Smallholder Harvests
+                  </h3>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
+                    Farmers grading fresh produce lots directly at source, eliminating cartel deductions.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="group rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm flex flex-col">
+              <div className="relative h-56 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=80"
+                  alt="WDRA Accredited Warehousing"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[10px] font-mono font-bold uppercase text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950 px-2 py-0.5 rounded">
+                    WDRA & e-NWR Depots
+                  </span>
+                  <h3 className="text-sm font-bold text-zinc-950 dark:text-white mt-2">
+                    Accredited Cold Silos & Vaults
+                  </h3>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
+                    State-of-the-art temperature and moisture telemetry protecting storable grain and perishables.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="group rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm flex flex-col">
+              <div className="relative h-56 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=800&q=80"
+                  alt="Institutional Procurement"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[10px] font-mono font-bold uppercase text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-950 px-2 py-0.5 rounded">
+                    T+1 Escrow Settlement
+                  </span>
+                  <h3 className="text-sm font-bold text-zinc-950 dark:text-white mt-2">
+                    Direct Institutional Clearance
+                  </h3>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
+                    Seamless delivery to bulk processors and consumers with guaranteed automated payments.
+                  </p>
                 </div>
               </div>
             </div>

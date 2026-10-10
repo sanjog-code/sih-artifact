@@ -265,32 +265,6 @@ export default function Home() {
                     Khanna Mandi • Wheat Baseline
                   </p>
                 </div>
-
-                {/* Floating Spatial Mesh Ribbon (Bottom Center) */}
-                <div className="absolute bottom-3 inset-x-3 sm:bottom-4 sm:inset-x-4 backdrop-blur-2xl bg-zinc-950/80 text-white border border-white/15 shadow-2xl rounded-2xl p-3 sm:p-4">
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
-                    <div className="border-r border-white/10 pr-2">
-                      <div className="text-[10px] text-zinc-400 font-mono uppercase tracking-wider">Storage Node</div>
-                      <div className="text-xs sm:text-sm font-bold text-white mt-0.5 truncate">5.2°C Cold-Vault</div>
-                      <div className="text-[10px] text-emerald-400 font-medium">88% RH Safe</div>
-                    </div>
-                    <div className="border-r border-white/10 pr-2">
-                      <div className="text-[10px] text-zinc-400 font-mono uppercase tracking-wider">Settlement</div>
-                      <div className="text-xs sm:text-sm font-bold text-white mt-0.5 truncate">T+1 Direct Escrow</div>
-                      <div className="text-[10px] text-emerald-400 font-medium">₹18.4 Cr Cleared</div>
-                    </div>
-                    <div className="border-r border-white/10 pr-2 hidden sm:block">
-                      <div className="text-[10px] text-zinc-400 font-mono uppercase tracking-wider">Logistics Dispatch</div>
-                      <div className="text-xs sm:text-sm font-bold text-white mt-0.5 truncate">Capacitated VRP</div>
-                      <div className="text-[10px] text-emerald-400 font-medium">38.2% Emission Cut</div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] text-zinc-400 font-mono uppercase tracking-wider">Verification</div>
-                      <div className="text-xs sm:text-sm font-bold text-white mt-0.5 truncate">WDRA & e-NWR</div>
-                      <div className="text-[10px] text-emerald-400 font-medium">Cryptographic Trail</div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 

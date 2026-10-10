@@ -58,6 +58,7 @@ export default function ConsumerPortal() {
   const [shippingAddress, setShippingAddress] = useState('Flat 402, Green Glen Layout, Bellandur, Bengaluru');
   const [paymentMethod, setPaymentMethod] = useState<'ESCROW_UPI' | 'ESCROW_CARD' | 'NET_BANKING'>('ESCROW_UPI');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   // Filtered Produce Listings
   const filteredProduce = useMemo(() => {
@@ -135,9 +136,15 @@ export default function ConsumerPortal() {
     setActiveTab('cart');
   };
 
-  // Order Placement & Escrow Lock
-  const handleConfirmOrder = (e: React.FormEvent) => {
+  // Step 1: Pre-order validation and open confirmation dialog
+  const handleInitiateCheckout = (e: React.FormEvent) => {
     e.preventDefault();
+    if (cartItems.length === 0) return;
+    setShowConfirmModal(true);
+  };
+
+  // Step 2: Final Order Placement & Escrow Lock
+  const handleFinalConfirmOrder = () => {
     if (cartItems.length === 0) return;
 
     setIsSubmitting(true);
@@ -174,6 +181,7 @@ export default function ConsumerPortal() {
 
       // 3. Clear cart and switch to orders tab
       setCart({});
+      setShowConfirmModal(false);
       setOrderNotice(
         t.consumer.orderConfirmedNotice.replace('{id}', newOrder.id).replace('{amount}', String(totalPayable))
       );
@@ -629,7 +637,7 @@ export default function ConsumerPortal() {
                 </div>
 
                 {/* Consumer Delivery Details Form */}
-                <form onSubmit={handleConfirmOrder} className="space-y-3 pt-2 border-t border-zinc-100">
+                <form onSubmit={handleInitiateCheckout} className="space-y-3 pt-2 border-t border-zinc-100">
                   <div>
                     <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-600 mb-1">
                       {t.consumer.recipientName}
@@ -716,11 +724,124 @@ export default function ConsumerPortal() {
                     className="w-full py-3 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
                   >
                     <Lock className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>
-                      {isSubmitting ? t.consumer.securingEscrow : t.consumer.lockEscrowBtn.replace('{amount}', String(totalPayable))}
-                    </span>
+                    <span>Review & Confirm Order (₹{totalPayable.toLocaleString('en-IN')})</span>
                   </button>
                 </form>
+
+                {/* Step Modal: Confirmation before payment / lock */}
+                {showConfirmModal && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/60 backdrop-blur-sm">
+                    <div className="bg-white rounded-2xl border border-zinc-200 max-w-lg w-full p-6 shadow-2xl space-y-4">
+                      <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                            <ShieldCheck className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <h3 className="text-sm font-extrabold text-zinc-950">
+                              Confirm Agrarian Escrow Lock
+                            </h3>
+                            <p className="text-[11px] text-zinc-500">
+                              Direct Farm-Gate Procurement Verification
+                            </p>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmModal(false)}
+                          className="p-1 rounded-md text-zinc-400 hover:text-zinc-600 font-bold"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      {/* Delivery Details Overview */}
+                      <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-xs space-y-1.5">
+                        <div className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider">
+                          Delivery Destination
+                        </div>
+                        <div className="font-bold text-zinc-900 flex items-center justify-between">
+                          <span>{buyerName}</span>
+                          <span className="font-mono text-zinc-600">{buyerPhone}</span>
+                        </div>
+                        <div className="text-zinc-600 leading-snug">
+                          {shippingAddress}
+                        </div>
+                      </div>
+
+                      {/* Itemized Cart List */}
+                      <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1">
+                        <div className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider">
+                          Itemized Produce ({cartItems.length} items)
+                        </div>
+                        {cartItems.map((item) => (
+                          <div
+                            key={item.lotId}
+                            className="flex items-center justify-between p-2 rounded-lg bg-zinc-50 border border-zinc-100 text-xs"
+                          >
+                            <div>
+                              <span className="font-bold text-zinc-900 mr-1.5">{item.cropName}</span>
+                              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-200 text-zinc-700">
+                                Grade {item.grade}
+                              </span>
+                              <span className="text-zinc-500 ml-2">
+                                {item.quantityKg} kg × ₹{item.unitPrice}
+                              </span>
+                            </div>
+                            <span className="font-mono font-bold text-zinc-900">
+                              ₹{(item.quantityKg * item.unitPrice).toLocaleString('en-IN')}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Total & Escrow Breakdown */}
+                      <div className="pt-2 border-t border-zinc-100 space-y-1 text-xs">
+                        <div className="flex justify-between text-zinc-600">
+                          <span>Produce Subtotal:</span>
+                          <span className="font-mono font-semibold text-zinc-900">
+                            ₹{cartSubtotal.toLocaleString('en-IN')}
+                          </span>
+                        </div>
+                        <div className="flex justify-between text-zinc-600">
+                          <span>Cold-Chain Delivery:</span>
+                          <span className="font-mono font-semibold text-zinc-900">₹{deliveryFee}</span>
+                        </div>
+                        <div className="flex justify-between text-emerald-800">
+                          <span>Direct-to-Farmer Middleman Markup:</span>
+                          <span className="font-mono font-bold">₹0 (Zero Commission)</span>
+                        </div>
+                        <div className="flex justify-between text-base font-extrabold text-zinc-950 pt-2 border-t border-zinc-200">
+                          <span>Total Escrow Amount:</span>
+                          <span className="font-mono text-emerald-900">
+                            ₹{totalPayable.toLocaleString('en-IN')}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="pt-2 flex gap-3">
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmModal(false)}
+                          disabled={isSubmitting}
+                          className="flex-1 py-2.5 rounded-xl border border-zinc-300 hover:bg-zinc-50 text-zinc-800 text-xs font-semibold transition"
+                        >
+                          Edit Order Details
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleFinalConfirmOrder}
+                          disabled={isSubmitting}
+                          className="flex-1 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md disabled:opacity-50"
+                        >
+                          <Lock className="w-3.5 h-3.5 text-emerald-400" />
+                          <span>{isSubmitting ? 'Securing Escrow...' : 'Confirm & Lock Escrow'}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
