@@ -45,3 +45,5 @@ storage-local/
 
 # temp
 .tmp/
+.vercel
+.env*
