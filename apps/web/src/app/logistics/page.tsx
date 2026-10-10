@@ -109,7 +109,7 @@ export default function LogisticsPortal() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-zinc-900 font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-950">
+    <div className="min-h-screen bg-[#fafafa] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-950">
       <Navbar onOpenInquiry={() => setInquiryOpen(true)} />
 
       <RoleGuard allowedRoles={['admin']} portalName="Logistics Dispatch Engine">
@@ -118,14 +118,14 @@ export default function LogisticsPortal() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <div className="flex items-center gap-2 text-xs text-zinc-500 mb-1">
-              <Link href="/" className="hover:text-zinc-900 transition">{t.common.overview}</Link>
+              <Link href="/" className="hover:text-zinc-900 dark:text-zinc-100 transition">{t.common.overview}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <span className="font-semibold text-zinc-800">{t.logistics.breadcrumb}</span>
+              <span className="font-semibold text-zinc-800 dark:text-zinc-200">{t.logistics.breadcrumb}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
               {t.logistics.routes}
             </h1>
-            <p className="text-xs sm:text-sm text-zinc-600 mt-1">
+            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
               {t.logistics.subtitle}
             </p>
           </div>
@@ -148,8 +148,8 @@ export default function LogisticsPortal() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Controls & Vehicle Selector */}
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-xs">
-              <h3 className="text-sm font-bold text-zinc-950 mb-1">{t.logistics.vehicleClassTitle}</h3>
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs">
+              <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 mb-1">{t.logistics.vehicleClassTitle}</h3>
               <p className="text-xs text-zinc-500 mb-4">{t.logistics.vehicleClassSubtitle}</p>
 
               <div className="space-y-2">
@@ -165,7 +165,7 @@ export default function LogisticsPortal() {
                     className={`w-full p-3 rounded-xl border text-left transition flex items-center justify-between ${
                       vehicle === v.id
                         ? 'bg-zinc-900 text-white border-zinc-900 font-semibold shadow-xs'
-                        : 'bg-zinc-50 text-zinc-700 border-zinc-200 hover:bg-zinc-100'
+                        : 'bg-zinc-50 text-zinc-700 dark:text-zinc-300 border-zinc-200 hover:bg-zinc-100'
                     }`}
                   >
                     <div>
@@ -179,7 +179,7 @@ export default function LogisticsPortal() {
                 ))}
               </div>
 
-              <div className="mt-6 pt-4 border-t border-zinc-100">
+              <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800">
                 <button
                   onClick={() => calculateRoute(vehicle)}
                   disabled={loading}
@@ -193,7 +193,7 @@ export default function LogisticsPortal() {
 
             {/* Environmental & Fuel Savings Metrics */}
             {routeResult && (
-              <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-xs space-y-4">
+              <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs space-y-4">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">
                   {t.logistics.optimizationImpact}
                 </h3>
@@ -220,10 +220,10 @@ export default function LogisticsPortal() {
                   </div>
                 </div>
 
-                <div className="text-xs text-zinc-600 space-y-2 pt-2 border-t border-zinc-100">
+                <div className="text-xs text-zinc-600 dark:text-zinc-400 space-y-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
                   <div className="flex justify-between">
                     <span>{t.logistics.optimizedCircuit}</span>
-                    <strong className="text-zinc-900 font-mono">{routeResult.totalDistanceKm} {t.common.km}</strong>
+                    <strong className="text-zinc-900 dark:text-zinc-100 font-mono">{routeResult.totalDistanceKm} {t.common.km}</strong>
                   </div>
                   <div className="flex justify-between">
                     <span>{t.logistics.sequentialBaseline}</span>
@@ -241,10 +241,10 @@ export default function LogisticsPortal() {
           {/* Route Sequence & Stops Breakdown */}
           <div className="lg:col-span-2 space-y-6">
             {routeResult && (
-              <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-xs">
-                <div className="flex items-center justify-between border-b border-zinc-100 pb-4 mb-6">
+              <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs">
+                <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-4 mb-6">
                   <div>
-                    <h2 className="text-base font-bold text-zinc-950">
+                    <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
                       {t.logistics.optimizedSequenceTitle}
                     </h2>
                     <span className="text-xs text-zinc-500">
@@ -253,7 +253,7 @@ export default function LogisticsPortal() {
                   </div>
 
                   <div className="text-right">
-                    <span className="text-xs font-semibold text-zinc-700 block">
+                    <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 block">
                       {t.logistics.estTotalTime.replace('{mins}', String(routeResult.estimatedDurationMinutes))}
                     </span>
                     <span className="text-[11px] text-zinc-500">
@@ -264,7 +264,7 @@ export default function LogisticsPortal() {
 
                 {/* Capacity Progress Bar */}
                 <div className="mb-6">
-                  <div className="flex justify-between text-[11px] font-semibold text-zinc-600 mb-1">
+                  <div className="flex justify-between text-[11px] font-semibold text-zinc-600 dark:text-zinc-400 mb-1">
                     <span>{t.logistics.vehicleUtilizationTitle}</span>
                     <span>{routeResult.capacityUtilizationPercent}%</span>
                   </div>
@@ -280,28 +280,28 @@ export default function LogisticsPortal() {
 
                 {/* Stop by Stop Checklist */}
                 <div className="space-y-4">
-                  <div className="flex items-start gap-3 p-3 rounded-xl bg-zinc-50 border border-zinc-200">
+                  <div className="flex items-start gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800">
                     <div className="w-6 h-6 rounded-full bg-zinc-900 text-white flex items-center justify-center text-xs font-bold shrink-0">
                       0
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <strong className="text-xs text-zinc-900">{routeResult.origin?.name}</strong>
-                        <span className="text-[10px] font-mono uppercase bg-zinc-200 text-zinc-700 px-2 py-0.5 rounded font-bold">{t.logistics.depotBadge}</span>
+                        <strong className="text-xs text-zinc-900 dark:text-zinc-100">{routeResult.origin?.name}</strong>
+                        <span className="text-[10px] font-mono uppercase bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200 px-2 py-0.5 rounded font-bold">{t.logistics.depotBadge}</span>
                       </div>
                       <span className="text-[11px] text-zinc-500">{t.logistics.depotDesc}</span>
                     </div>
                   </div>
 
                   {routeResult.orderedStops?.map((stop: RouteStop, index: number) => (
-                    <div key={stop.id} className="flex items-start gap-3 p-3.5 rounded-xl border border-zinc-200 bg-white">
+                    <div key={stop.id} className="flex items-start gap-3 p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
                       <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold shrink-0">
                         {index + 1}
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
-                          <strong className="text-xs text-zinc-900">{stop.name}</strong>
-                          <span className="text-xs font-mono font-bold text-zinc-900">+{stop.quantityKg} {t.common.kg}</span>
+                          <strong className="text-xs text-zinc-900 dark:text-zinc-100">{stop.name}</strong>
+                          <span className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100">+{stop.quantityKg} {t.common.kg}</span>
                         </div>
                         <div className="flex items-center justify-between mt-1 text-[11px] text-zinc-500">
                           <span>{t.logistics.legDistance.replace('{km}', String(stop.distanceToNextKm))}</span>
@@ -312,7 +312,7 @@ export default function LogisticsPortal() {
                   ))}
                 </div>
 
-                <div className="mt-8 pt-4 border-t border-zinc-100 flex items-center justify-end gap-3">
+                <div className="mt-8 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-end gap-3">
                   <button
                     onClick={handleDispatch}
                     className="px-6 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg text-xs font-semibold transition flex items-center gap-2 shadow-xs"
@@ -325,13 +325,13 @@ export default function LogisticsPortal() {
             )}
 
             {/* Persistent Dispatches Ledger */}
-            <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-xs mt-6">
-              <div className="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs mt-6">
+              <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-4">
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-emerald-700" />
-                  <h3 className="text-sm font-bold text-zinc-950">{t.logistics.activeDispatchesTitle}</h3>
+                  <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">{t.logistics.activeDispatchesTitle}</h3>
                 </div>
-                <span className="text-[11px] font-mono font-bold bg-zinc-100 text-zinc-700 px-2.5 py-0.5 rounded">
+                <span className="text-[11px] font-mono font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 px-2.5 py-0.5 rounded">
                   {dispatches.length} {t.common.vehicles}
                 </span>
               </div>
@@ -340,12 +340,12 @@ export default function LogisticsPortal() {
                 {dispatches.map((disp) => (
                   <div
                     key={disp.id}
-                    className="p-3.5 rounded-xl border border-zinc-200 bg-zinc-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                    className="p-3.5 rounded-xl border border-zinc-200 bg-zinc-50/70 dark:bg-zinc-900/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono font-bold text-zinc-900">{disp.id}</span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-200 text-zinc-800">
+                        <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100">{disp.id}</span>
+                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-200 text-zinc-800 dark:text-zinc-200">
                           {disp.vehicleType}
                         </span>
                         <span className="text-[10px] font-bold px-2 py-0.2 rounded-full bg-emerald-100 text-emerald-800">
@@ -358,7 +358,7 @@ export default function LogisticsPortal() {
                     </div>
 
                     <div className="text-right sm:self-center font-mono">
-                      <div className="font-bold text-zinc-900">{t.logistics.payloadSummary.replace('{payload}', disp.totalPayloadKg.toLocaleString())}</div>
+                      <div className="font-bold text-zinc-900 dark:text-zinc-100">{t.logistics.payloadSummary.replace('{payload}', disp.totalPayloadKg.toLocaleString())}</div>
                       <div className="text-[11px] text-zinc-500">{t.logistics.dispatchStats.replace('{distance}', String(disp.totalDistanceKm)).replace('{percent}', String(disp.capacityUtilizationPercent))}</div>
                     </div>
                   </div>

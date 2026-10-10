@@ -8,6 +8,7 @@ import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import {
   Globe,
+  Languages,
   Menu,
   X,
   Sprout,
@@ -201,10 +202,14 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
                 type="button"
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
                 className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200/80 dark:hover:bg-zinc-800 rounded-md transition border border-zinc-200 dark:border-zinc-800"
-                aria-label="Select Language"
+                aria-label="Select Language / भाषा चुनें"
+                title="Change Language (22 Official Languages Supported)"
               >
-                <Globe className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
+                <Languages className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 <span>{LANGUAGES.find((l) => l.code === language)?.native || 'English'}</span>
+                <span className="text-[10px] font-mono px-1 py-0.5 rounded bg-zinc-200/70 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-semibold">
+                  अ/A
+                </span>
               </button>
 
               {langDropdownOpen && (
@@ -297,10 +302,12 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
 
             <button
               onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="p-1.5 rounded-md text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800"
+              className="p-1.5 rounded-md text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-1"
               aria-label="Toggle language menu"
+              title="Change Language"
             >
-              <Globe className="w-4 h-4" />
+              <Languages className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400">अ</span>
             </button>
 
             <button

@@ -218,7 +218,7 @@ export default function FarmerPortal() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-zinc-900 font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-950">
+    <div className="min-h-screen bg-[#fafafa] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-950">
       <Navbar onOpenInquiry={() => setInquiryOpen(true)} />
 
       <RoleGuard allowedRoles={['farmer']} portalName="Farmer Hub">
@@ -227,14 +227,14 @@ export default function FarmerPortal() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-zinc-200">
           <div>
             <div className="flex items-center gap-2 text-xs text-zinc-500 mb-1">
-              <Link href="/" className="hover:text-zinc-900 transition">{t.common.overview}</Link>
+              <Link href="/" className="hover:text-zinc-900 dark:text-zinc-100 transition">{t.common.overview}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <span className="font-semibold text-zinc-800">{t.farmer.breadcrumb}</span>
+              <span className="font-semibold text-zinc-800 dark:text-zinc-200">{t.farmer.breadcrumb}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
               {t.farmer.dashboard}
             </h1>
-            <p className="text-xs sm:text-sm text-zinc-600 mt-1">
+            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
               {t.farmer.subtitle}
             </p>
           </div>
@@ -244,8 +244,8 @@ export default function FarmerPortal() {
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
               <span>WDRA & PM-KISAN Verified</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 text-zinc-800 text-xs font-mono font-medium border border-zinc-200">
-              <IndianRupee className="w-3.5 h-3.5 text-zinc-600" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-mono font-medium border border-zinc-200">
+              <IndianRupee className="w-3.5 h-3.5 text-zinc-600 dark:text-zinc-400" />
               <span>Escrow: ₹{walletBalance.toLocaleString('en-IN')}</span>
             </span>
           </div>
@@ -282,7 +282,7 @@ export default function FarmerPortal() {
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border ${
                   isActive
                     ? 'bg-zinc-900 text-white border-zinc-900 shadow-xs'
-                    : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50 hover:text-zinc-900'
+                    : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 hover:text-zinc-900 dark:text-zinc-100'
                 }`}
               >
                 <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-400' : 'text-zinc-500'}`} />
@@ -306,11 +306,11 @@ export default function FarmerPortal() {
           <div className="space-y-6">
             {/* Impact & Metric Tiles */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-xs">
+              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
                 <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-semibold block">
                   Direct Sales Settled
                 </span>
-                <span className="text-2xl font-extrabold text-zinc-950 font-mono mt-1 block">
+                <span className="text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-1 block">
                   ₹3,42,800
                 </span>
                 <span className="text-xs text-emerald-700 font-medium mt-1 inline-flex items-center gap-1">
@@ -318,11 +318,11 @@ export default function FarmerPortal() {
                 </span>
               </div>
 
-              <div className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-xs">
+              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
                 <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-semibold block">
                   Active Buyer Demands
                 </span>
-                <span className="text-2xl font-extrabold text-zinc-950 font-mono mt-1 block">
+                <span className="text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-1 block">
                   38 Institutional
                 </span>
                 <span className="text-xs text-zinc-500 font-medium mt-1 inline-flex items-center gap-1">
@@ -330,7 +330,7 @@ export default function FarmerPortal() {
                 </span>
               </div>
 
-              <div className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-xs">
+              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
                 <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-semibold block">
                   Intermediary Savings
                 </span>
@@ -342,11 +342,11 @@ export default function FarmerPortal() {
                 </span>
               </div>
 
-              <div className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-xs">
+              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
                 <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-semibold block">
                   Escrow Lock State
                 </span>
-                <span className="text-2xl font-extrabold text-zinc-950 font-mono mt-1 block">
+                <span className="text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-1 block">
                   100% Protected
                 </span>
                 <span className="text-xs text-emerald-700 font-medium mt-1 inline-flex items-center gap-1">
@@ -359,15 +359,15 @@ export default function FarmerPortal() {
             {/* Quick Actions & AI Barometer Banner */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* AI Opportunity Card */}
-              <div className="lg:col-span-2 bg-white rounded-2xl border border-zinc-200 p-6 shadow-xs flex flex-col justify-between">
+              <div className="lg:col-span-2 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between pb-4 border-b border-zinc-100 mb-4">
+                  <div className="flex items-center justify-between pb-4 border-b border-zinc-100 dark:border-zinc-800 mb-4">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-center font-bold">
                         <Sparkles className="w-4 h-4" />
                       </div>
                       <div>
-                        <h3 className="text-sm font-bold text-zinc-950">AI Selling Opportunity</h3>
+                        <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">AI Selling Opportunity</h3>
                         <p className="text-xs text-zinc-500">Based on historical mandi price regression & demand telemetry</p>
                       </div>
                     </div>
@@ -385,10 +385,10 @@ export default function FarmerPortal() {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-3 text-center bg-zinc-50 border border-zinc-200 rounded-xl p-3">
+                  <div className="grid grid-cols-3 gap-3 text-center bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3">
                     <div>
                       <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">Current Modal</span>
-                      <span className="text-base font-extrabold text-zinc-950 font-mono mt-0.5 block">₹24.27/kg</span>
+                      <span className="text-base font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-0.5 block">₹24.27/kg</span>
                     </div>
                     <div>
                       <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">Projected 72h</span>
@@ -396,12 +396,12 @@ export default function FarmerPortal() {
                     </div>
                     <div>
                       <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">Statutory MSP</span>
-                      <span className="text-base font-extrabold text-zinc-700 font-mono mt-0.5 block">₹22.75/kg</span>
+                      <span className="text-base font-extrabold text-zinc-700 dark:text-zinc-300 font-mono mt-0.5 block">₹22.75/kg</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-zinc-100 mt-4 flex flex-wrap gap-2">
+                <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800 mt-4 flex flex-wrap gap-2">
                   <button
                     type="button"
                     onClick={() => setActiveTab('sell')}
@@ -413,7 +413,7 @@ export default function FarmerPortal() {
                   <button
                     type="button"
                     onClick={() => setActiveTab('marketplace')}
-                    className="px-4 py-2 border border-zinc-300 hover:bg-zinc-50 text-zinc-800 rounded-xl text-xs font-semibold transition"
+                    className="px-4 py-2 border border-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 text-zinc-800 dark:text-zinc-200 rounded-xl text-xs font-semibold transition"
                   >
                     View Buyer Requirements
                   </button>
@@ -421,9 +421,9 @@ export default function FarmerPortal() {
               </div>
 
               {/* Quick Actions Panel */}
-              <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-xs flex flex-col justify-between">
+              <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs flex flex-col justify-between">
                 <div>
-                  <h3 className="text-sm font-bold text-zinc-950 mb-3 pb-2 border-b border-zinc-100">
+                  <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 mb-3 pb-2 border-b border-zinc-100 dark:border-zinc-800">
                     Kisan Quick Controls
                   </h3>
                   <div className="space-y-2.5">
@@ -435,7 +435,7 @@ export default function FarmerPortal() {
                       <div className="flex items-center gap-2.5">
                         <PlusCircle className="w-4 h-4 text-emerald-700" />
                         <div>
-                          <div className="text-xs font-bold text-zinc-950">Declare Harvest Lot</div>
+                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">Declare Harvest Lot</div>
                           <div className="text-[11px] text-zinc-500">Self-declare crop, volume & grade</div>
                         </div>
                       </div>
@@ -450,7 +450,7 @@ export default function FarmerPortal() {
                       <div className="flex items-center gap-2.5">
                         <PackageCheck className="w-4 h-4 text-emerald-700" />
                         <div>
-                          <div className="text-xs font-bold text-zinc-950">Manage Orders ({orders.length})</div>
+                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">Manage Orders ({orders.length})</div>
                           <div className="text-[11px] text-zinc-500">Accept and dispatch buyer pickups</div>
                         </div>
                       </div>
@@ -465,7 +465,7 @@ export default function FarmerPortal() {
                       <div className="flex items-center gap-2.5">
                         <TrendingUp className="w-4 h-4 text-emerald-700" />
                         <div>
-                          <div className="text-xs font-bold text-zinc-950">Mandi Price Simulator</div>
+                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">Mandi Price Simulator</div>
                           <div className="text-[11px] text-zinc-500">Evaluate holding vs immediate sale</div>
                         </div>
                       </div>
@@ -480,7 +480,7 @@ export default function FarmerPortal() {
                       <div className="flex items-center gap-2.5">
                         <IndianRupee className="w-4 h-4 text-emerald-700" />
                         <div>
-                          <div className="text-xs font-bold text-zinc-950">T+1 Bank Escrow Payout</div>
+                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">T+1 Bank Escrow Payout</div>
                           <div className="text-[11px] text-zinc-500">Withdraw cleared proceeds</div>
                         </div>
                       </div>
@@ -489,8 +489,8 @@ export default function FarmerPortal() {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-zinc-100 mt-4">
-                  <div className="flex items-center gap-2 text-xs text-zinc-600">
+                <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800 mt-4">
+                  <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
                     <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
                     <span>Helpline: <strong>1800-180-1551</strong> (Kisan Toll-Free)</span>
                   </div>
@@ -505,12 +505,12 @@ export default function FarmerPortal() {
         {/* ============================================================== */}
         {activeTab === 'sell' && (
           <div className="max-w-3xl mx-auto">
-            <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 shadow-xs">
-              <div className="border-b border-zinc-100 pb-4 mb-6">
-                <h2 className="text-xl font-extrabold text-zinc-950 tracking-tight">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xs">
+              <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 mb-6">
+                <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
                   {t.farmer.declare}
                 </h2>
-                <p className="text-xs sm:text-sm text-zinc-600 mt-1">
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
                   {t.farmer.declareSubtitle}
                 </p>
               </div>
@@ -518,7 +518,7 @@ export default function FarmerPortal() {
               <form onSubmit={handleCreateListing} className="space-y-5">
                 {/* 1. Quick Crop Selector */}
                 <div>
-                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
                     1. Select Crop / Commodity
                   </label>
                   <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
@@ -540,7 +540,7 @@ export default function FarmerPortal() {
                         className={`p-2.5 rounded-xl border text-xs font-bold transition text-center ${
                           commodity === c.name
                             ? 'bg-emerald-900 text-white border-emerald-900 shadow-sm'
-                            : 'bg-zinc-50 border-zinc-200 text-zinc-800 hover:bg-zinc-100'
+                            : 'bg-zinc-50 dark:bg-zinc-900/60 border-zinc-200 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800'
                         }`}
                       >
                         {c.name}
@@ -552,7 +552,7 @@ export default function FarmerPortal() {
                 {/* 2. Quantity with Quick Increment Pills */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider">
+                    <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
                       2. Total Harvest Quantity (kg)
                     </label>
                     <div className="flex gap-1.5">
@@ -561,7 +561,7 @@ export default function FarmerPortal() {
                           key={inc}
                           type="button"
                           onClick={() => setQuantity(inc)}
-                          className="px-2 py-0.5 rounded-md bg-zinc-100 hover:bg-zinc-200 text-[10px] font-mono font-bold text-zinc-700"
+                          className="px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 text-[10px] font-mono font-bold text-zinc-700 dark:text-zinc-300"
                         >
                           {inc.toLocaleString('en-IN')} kg
                         </button>
@@ -574,14 +574,14 @@ export default function FarmerPortal() {
                     step={50}
                     value={quantity}
                     onChange={(e) => setQuantity(Number(e.target.value))}
-                    className="w-full text-sm p-3 border border-zinc-200 rounded-xl bg-zinc-50 font-mono font-bold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    className="w-full text-sm p-3 border border-zinc-200 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 font-mono font-bold text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                     required
                   />
                 </div>
 
                 {/* 3. Visual Quality Tier Selector */}
                 <div>
-                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
                     3. AGMARK Quality Grade
                   </label>
                   <div className="grid grid-cols-3 gap-3">
@@ -597,7 +597,7 @@ export default function FarmerPortal() {
                         className={`p-3 rounded-xl border text-left transition ${
                           grade === g.id
                             ? 'bg-emerald-50 border-emerald-600 text-emerald-950 ring-1 ring-emerald-600'
-                            : 'bg-zinc-50 border-zinc-200 text-zinc-700 hover:bg-zinc-100'
+                            : 'bg-zinc-50 dark:bg-zinc-900/60 border-zinc-200 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800'
                         }`}
                       >
                         <div className="font-extrabold text-xs">{g.title}</div>
@@ -610,7 +610,7 @@ export default function FarmerPortal() {
                 {/* 4. Expected Price with Instant AI Mandi Rate */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider">
+                    <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
                       4. Asking Price (₹/kg)
                     </label>
                     {aiData && (
@@ -630,7 +630,7 @@ export default function FarmerPortal() {
                     min={5}
                     value={price}
                     onChange={(e) => setPrice(Number(e.target.value))}
-                    className="w-full text-sm p-3 border border-zinc-200 rounded-xl bg-zinc-50 font-mono font-bold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    className="w-full text-sm p-3 border border-zinc-200 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 font-mono font-bold text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                     required
                   />
                   {aiData && (
@@ -652,7 +652,7 @@ export default function FarmerPortal() {
                   <button
                     type="button"
                     onClick={() => setActiveTab('overview')}
-                    className="py-3 px-5 border border-zinc-300 hover:bg-zinc-50 text-zinc-700 rounded-xl text-xs sm:text-sm font-semibold transition"
+                    className="py-3 px-5 border border-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 rounded-xl text-xs sm:text-sm font-semibold transition"
                   >
                     Cancel
                   </button>
@@ -669,7 +669,7 @@ export default function FarmerPortal() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-xl font-extrabold text-zinc-950 tracking-tight">
+                <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
                   {t.farmer.lots}
                 </h2>
                 <p className="text-xs text-zinc-500">
@@ -688,7 +688,7 @@ export default function FarmerPortal() {
             </div>
 
             {produceListings.length === 0 ? (
-              <div className="bg-white rounded-2xl border border-zinc-200 p-12 text-center text-zinc-500">
+              <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 p-12 text-center text-zinc-500">
                 <Sprout className="w-8 h-8 mx-auto text-zinc-300 mb-2" />
                 <p className="text-xs">{t.farmer.declareSubtitle}</p>
               </div>
@@ -699,13 +699,13 @@ export default function FarmerPortal() {
                   return (
                     <div
                       key={lot.id}
-                      className={`bg-white rounded-2xl border p-5 shadow-xs transition flex flex-col justify-between ${
+                      className={`bg-white dark:bg-zinc-900 rounded-2xl border p-5 shadow-xs transition flex flex-col justify-between ${
                         isPaused ? 'border-amber-200 bg-amber-50/20 opacity-80' : 'border-zinc-200 hover:border-zinc-300'
                       }`}
                     >
                       <div>
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[10px] font-mono uppercase bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded font-bold">
+                          <span className="text-[10px] font-mono uppercase bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2 py-0.5 rounded font-bold">
                             {lot.id}
                           </span>
                           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
@@ -713,40 +713,40 @@ export default function FarmerPortal() {
                               ? 'bg-amber-100 text-amber-900 border border-amber-300'
                               : lot.status === 'ACTIVE'
                               ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                              : 'bg-zinc-100 text-zinc-700'
+                              : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300'
                           }`}>
                             {lot.status}
                           </span>
                         </div>
 
-                        <h3 className="text-base font-bold text-zinc-950 mt-1">
+                        <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mt-1">
                           {lot.cropName}
                         </h3>
-                        <div className="text-lg font-extrabold text-zinc-950 font-mono mt-0.5">
+                        <div className="text-lg font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-0.5">
                           ₹{lot.price} <span className="text-xs text-zinc-500 font-normal">/ kg</span>
                         </div>
 
-                        <div className="mt-3 pt-3 border-t border-zinc-100 space-y-1.5 text-xs text-zinc-600">
+                        <div className="mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 space-y-1.5 text-xs text-zinc-600 dark:text-zinc-400">
                           <div className="flex justify-between">
                             <span className="text-zinc-500">Available:</span>
-                            <strong className="text-zinc-900 font-mono">{lot.quantity}</strong>
+                            <strong className="text-zinc-900 dark:text-zinc-100 font-mono">{lot.quantity}</strong>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-zinc-500">Grade:</span>
-                            <span className="text-zinc-900 font-semibold">AGMARK Grade {lot.grade}</span>
+                            <span className="text-zinc-900 dark:text-zinc-100 font-semibold">AGMARK Grade {lot.grade}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-zinc-500">Warehouse:</span>
-                            <span className="text-zinc-900 truncate max-w-[150px]">{lot.location}</span>
+                            <span className="text-zinc-900 dark:text-zinc-100 truncate max-w-[150px]">{lot.location}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-zinc-500">Declared:</span>
-                            <span className="text-zinc-900">{lot.harvestDate}</span>
+                            <span className="text-zinc-900 dark:text-zinc-100">{lot.harvestDate}</span>
                           </div>
                         </div>
                       </div>
 
-                      <div className="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between gap-2">
+                      <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between gap-2">
                         <button
                           type="button"
                           onClick={() => {
@@ -757,7 +757,7 @@ export default function FarmerPortal() {
                           className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition border ${
                             isPaused
                               ? 'bg-emerald-50 text-emerald-900 border-emerald-200 hover:bg-emerald-100'
-                              : 'bg-zinc-50 text-zinc-700 border-zinc-200 hover:bg-zinc-100'
+                              : 'bg-zinc-50 dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800'
                           }`}
                         >
                           {isPaused ? <PlayCircle className="w-3.5 h-3.5 text-emerald-700" /> : <PauseCircle className="w-3.5 h-3.5 text-amber-700" />}
@@ -791,7 +791,7 @@ export default function FarmerPortal() {
         {activeTab === 'marketplace' && (
           <div className="space-y-6">
             <div>
-              <h2 className="text-xl font-extrabold text-zinc-950 tracking-tight">
+              <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
                 Verified Institutional Demands
               </h2>
               <p className="text-xs text-zinc-500">
@@ -803,11 +803,11 @@ export default function FarmerPortal() {
               {BUYER_REQUIREMENTS.map((req) => (
                 <div
                   key={req.id}
-                  className="bg-white rounded-2xl border border-zinc-200 p-5 shadow-xs hover:border-zinc-300 transition flex flex-col justify-between"
+                  className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-xs hover:border-zinc-300 transition flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[10px] font-mono uppercase bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded font-bold">
+                      <span className="text-[10px] font-mono uppercase bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2 py-0.5 rounded font-bold">
                         {req.id}
                       </span>
                       <span className="text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200/80 px-2 py-0.5 rounded-full">
@@ -815,36 +815,36 @@ export default function FarmerPortal() {
                       </span>
                     </div>
 
-                    <h3 className="text-base font-bold text-zinc-950 mt-1">
+                    <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mt-1">
                       {req.commodity}
                     </h3>
                     <div className="text-xs text-zinc-500 font-semibold">{req.buyer}</div>
 
-                    <div className="text-xl font-extrabold text-zinc-950 font-mono mt-2">
+                    <div className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-2">
                       ₹{req.targetPrice} <span className="text-xs text-zinc-500 font-normal">/ kg Target</span>
                     </div>
 
-                    <div className="mt-3 pt-3 border-t border-zinc-100 space-y-1.5 text-xs text-zinc-600">
+                    <div className="mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 space-y-1.5 text-xs text-zinc-600 dark:text-zinc-400">
                       <div className="flex justify-between">
                         <span className="text-zinc-500">Volume Required:</span>
-                        <strong className="text-zinc-900 font-mono">{req.volume}</strong>
+                        <strong className="text-zinc-900 dark:text-zinc-100 font-mono">{req.volume}</strong>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-zinc-500">Intake Depot:</span>
-                        <span className="text-zinc-900">{req.location}</span>
+                        <span className="text-zinc-900 dark:text-zinc-100">{req.location}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-zinc-500">Timeline:</span>
-                        <span className="text-zinc-900">{req.deliveryDate}</span>
+                        <span className="text-zinc-900 dark:text-zinc-100">{req.deliveryDate}</span>
                       </div>
                     </div>
 
-                    <p className="text-[11px] text-zinc-500 mt-3 p-2 bg-zinc-50 rounded-lg border border-zinc-100">
+                    <p className="text-[11px] text-zinc-500 mt-3 p-2 bg-zinc-50 dark:bg-zinc-900/60 rounded-lg border border-zinc-100">
                       <strong>Specs:</strong> {req.specs}
                     </p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-zinc-100">
+                  <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800">
                     <button
                       type="button"
                       onClick={() => {
@@ -864,27 +864,27 @@ export default function FarmerPortal() {
             {/* Submit Offer Modal */}
             {selectedReq && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-                <div className="bg-white rounded-2xl border border-zinc-200 p-6 max-w-md w-full shadow-2xl space-y-4">
-                  <div className="flex items-center justify-between pb-2 border-b border-zinc-100">
-                    <h3 className="text-sm font-bold text-zinc-950">
+                <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 p-6 max-w-md w-full shadow-2xl space-y-4">
+                  <div className="flex items-center justify-between pb-2 border-b border-zinc-100 dark:border-zinc-800">
+                    <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">
                       Submit Offer to {selectedReq.buyer}
                     </h3>
                     <button
                       type="button"
                       onClick={() => setSelectedReq(null)}
-                      className="text-zinc-400 hover:text-zinc-700 text-xs font-bold"
+                      className="text-zinc-400 hover:text-zinc-700 dark:text-zinc-300 text-xs font-bold"
                     >
                       ✕
                     </button>
                   </div>
 
-                  <p className="text-xs text-zinc-600">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">
                     Declare volume to fulfill for <strong>{selectedReq.commodity}</strong> at {selectedReq.location}.
                   </p>
 
                   <form onSubmit={handleSubmitOffer} className="space-y-3">
                     <div>
-                      <label className="block text-[11px] font-bold text-zinc-700 uppercase mb-1">
+                      <label className="block text-[11px] font-bold text-zinc-700 dark:text-zinc-300 uppercase mb-1">
                         Supply Quantity (kg)
                       </label>
                       <input
@@ -893,13 +893,13 @@ export default function FarmerPortal() {
                         step={100}
                         value={offerVolume}
                         onChange={(e) => setOfferVolume(Number(e.target.value))}
-                        className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-zinc-50 font-mono text-zinc-900"
+                        className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-mono text-zinc-900 dark:text-zinc-100"
                         required
                       />
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-bold text-zinc-700 uppercase mb-1">
+                      <label className="block text-[11px] font-bold text-zinc-700 dark:text-zinc-300 uppercase mb-1">
                         Offered Rate (₹/kg)
                       </label>
                       <input
@@ -908,14 +908,14 @@ export default function FarmerPortal() {
                         min={10}
                         value={offerRate}
                         onChange={(e) => setOfferRate(Number(e.target.value))}
-                        className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-zinc-50 font-mono text-zinc-900"
+                        className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-mono text-zinc-900 dark:text-zinc-100"
                         required
                       />
                     </div>
 
-                    <div className="p-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-[11px] text-zinc-600 flex justify-between">
+                    <div className="p-2.5 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-lg text-[11px] text-zinc-600 dark:text-zinc-400 flex justify-between">
                       <span>Total Value:</span>
-                      <strong className="text-zinc-950 font-mono">
+                      <strong className="text-zinc-950 dark:text-zinc-50 font-mono">
                         ₹{(offerVolume * offerRate).toLocaleString('en-IN')}
                       </strong>
                     </div>
@@ -930,7 +930,7 @@ export default function FarmerPortal() {
                       <button
                         type="button"
                         onClick={() => setSelectedReq(null)}
-                        className="py-2.5 px-4 border border-zinc-200 rounded-xl text-xs font-semibold text-zinc-700"
+                        className="py-2.5 px-4 border border-zinc-200 rounded-xl text-xs font-semibold text-zinc-700 dark:text-zinc-300"
                       >
                         Cancel
                       </button>
@@ -948,7 +948,7 @@ export default function FarmerPortal() {
         {activeTab === 'orders' && (
           <div className="space-y-6">
             <div>
-              <h2 className="text-xl font-extrabold text-zinc-950 tracking-tight">
+              <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
                 Harvest Orders & Fulfilment
               </h2>
               <p className="text-xs text-zinc-500">
@@ -957,7 +957,7 @@ export default function FarmerPortal() {
             </div>
 
             {orders.length === 0 ? (
-              <div className="bg-white rounded-2xl border border-zinc-200 p-12 text-center text-zinc-500">
+              <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 p-12 text-center text-zinc-500">
                 <PackageCheck className="w-8 h-8 mx-auto text-zinc-300 mb-2" />
                 <p className="text-xs">No active orders placed yet.</p>
               </div>
@@ -968,11 +968,11 @@ export default function FarmerPortal() {
                   return (
                     <div
                       key={ord.id}
-                      className="bg-white rounded-2xl border border-zinc-200 p-5 shadow-xs hover:border-zinc-300 transition flex flex-col md:flex-row md:items-center justify-between gap-4"
+                      className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-xs hover:border-zinc-300 transition flex flex-col md:flex-row md:items-center justify-between gap-4"
                     >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-mono uppercase bg-zinc-100 text-zinc-700 px-2 py-0.5 rounded font-bold">
+                          <span className="text-[10px] font-mono uppercase bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 px-2 py-0.5 rounded font-bold">
                             {ord.id}
                           </span>
                           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
@@ -987,13 +987,13 @@ export default function FarmerPortal() {
                           <span className="text-xs text-zinc-500">• {ord.createdAt}</span>
                         </div>
 
-                        <h3 className="text-sm font-bold text-zinc-950">
+                        <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">
                           {ord.items}
                         </h3>
 
-                        <div className="text-xs text-zinc-600 flex flex-wrap gap-x-4 gap-y-1 pt-1">
+                        <div className="text-xs text-zinc-600 dark:text-zinc-400 flex flex-wrap gap-x-4 gap-y-1 pt-1">
                           <span>Buyer: <strong>{ord.buyerName}</strong> ({ord.buyerType})</span>
-                          <span>Value: <strong className="font-mono text-zinc-950">₹{ord.totalPrice.toLocaleString('en-IN')}</strong></span>
+                          <span>Value: <strong className="font-mono text-zinc-950 dark:text-zinc-50">₹{ord.totalPrice.toLocaleString('en-IN')}</strong></span>
                           <span>Tracking: <strong className="font-mono">{ord.trackingId}</strong></span>
                         </div>
                       </div>
@@ -1028,13 +1028,13 @@ export default function FarmerPortal() {
         {/* ============================================================== */}
         {activeTab === 'forecast' && (
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 shadow-xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-4 mb-6">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800 pb-4 mb-6">
                 <div>
-                  <h2 className="text-xl font-extrabold text-zinc-950 tracking-tight">
+                  <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
                     {t.farmer.aiForecastTitle}
                   </h2>
-                  <p className="text-xs sm:text-sm text-zinc-600 mt-1">
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
                     Calibrated multi-lag auto-regressive model trained on 737,392 APMC clearing records.
                   </p>
                 </div>
@@ -1042,7 +1042,7 @@ export default function FarmerPortal() {
                 <button
                   type="button"
                   onClick={() => fetchAiAdvisory(commodity)}
-                  className="px-3.5 py-1.5 rounded-xl border border-zinc-200 text-zinc-700 hover:bg-zinc-50 transition text-xs font-semibold flex items-center gap-1.5 self-start"
+                  className="px-3.5 py-1.5 rounded-xl border border-zinc-200 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 transition text-xs font-semibold flex items-center gap-1.5 self-start"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${loadingAi ? 'animate-spin' : ''}`} />
                   <span>Recalibrate Forecast</span>
@@ -1059,7 +1059,7 @@ export default function FarmerPortal() {
                     className={`p-3 rounded-xl border text-xs font-bold transition text-center ${
                       commodity === crop
                         ? 'bg-zinc-900 text-white border-zinc-900 shadow-xs'
-                        : 'bg-zinc-50 text-zinc-700 border-zinc-200 hover:bg-zinc-100'
+                        : 'bg-zinc-50 dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800'
                     }`}
                   >
                     {crop}
@@ -1070,10 +1070,10 @@ export default function FarmerPortal() {
               {aiData && (
                 <div className="space-y-6">
                   {/* Valuation Dashboard */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-zinc-50 border border-zinc-200 rounded-2xl p-4 text-center">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 text-center">
                     <div>
                       <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">{t.farmer.currentModal}</span>
-                      <span className="text-2xl font-extrabold text-zinc-950 font-mono mt-1 block">
+                      <span className="text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-1 block">
                         ₹{aiData.currentModalPrice}/kg
                       </span>
                     </div>
@@ -1087,7 +1087,7 @@ export default function FarmerPortal() {
 
                     <div>
                       <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">MSP Statutory Floor</span>
-                      <span className="text-2xl font-extrabold text-zinc-800 font-mono mt-1 block">
+                      <span className="text-2xl font-extrabold text-zinc-800 dark:text-zinc-200 font-mono mt-1 block">
                         ₹{aiData.mspFloor || 22.75}/kg
                       </span>
                     </div>
@@ -1102,12 +1102,12 @@ export default function FarmerPortal() {
 
                   {/* Explainability Breakdown */}
                   <div>
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-600 mb-3">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-3">
                       AI Explainable Valuation Rationale
                     </h3>
                     <div className="space-y-2">
                       {aiData.factors?.map((f, i) => (
-                        <div key={i} className="p-3 bg-zinc-50 rounded-xl border border-zinc-200 text-xs text-zinc-700 flex items-center gap-2">
+                        <div key={i} className="p-3 bg-zinc-50 dark:bg-zinc-900/60 rounded-xl border border-zinc-200 text-xs text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
                           <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                           <span>{f}</span>
                         </div>
@@ -1137,7 +1137,7 @@ export default function FarmerPortal() {
         {activeTab === 'logistics' && (
           <div className="space-y-6">
             <div>
-              <h2 className="text-xl font-extrabold text-zinc-950 tracking-tight">
+              <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
                 Logistics & Active Shipment Telemetry
               </h2>
               <p className="text-xs text-zinc-500">
@@ -1145,21 +1145,21 @@ export default function FarmerPortal() {
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-xs space-y-6">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs space-y-6">
               {/* Manifest Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-100">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-100 dark:border-zinc-800">
                 <div>
                   <span className="text-[10px] font-mono uppercase bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded font-bold">
                     ACTIVE SHIPMENT • DISPATCH #MNF-2891
                   </span>
-                  <h3 className="text-base font-bold text-zinc-950 mt-1">
+                  <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mt-1">
                     Route: Jaitpura Cluster → Jaipur North WDRA Hub
                   </h3>
                 </div>
 
                 <div className="text-right">
                   <div className="text-xs text-zinc-500">Vehicle Assigned</div>
-                  <div className="text-sm font-extrabold text-zinc-950 font-mono">RJ-14-GA-8921 (3T Refrig)</div>
+                  <div className="text-sm font-extrabold text-zinc-950 dark:text-zinc-50 font-mono">RJ-14-GA-8921 (3T Refrig)</div>
                 </div>
               </div>
 
@@ -1177,25 +1177,25 @@ export default function FarmerPortal() {
                   <div className="text-xs font-bold">3. In Transit</div>
                   <div className="text-[11px] mt-0.5 text-blue-700">ETA: 45 Minutes</div>
                 </div>
-                <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-xl text-zinc-500">
+                <div className="p-3 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-500">
                   <div className="text-xs font-bold">4. Depot Intake</div>
                   <div className="text-[11px] mt-0.5">Pending Delivery</div>
                 </div>
               </div>
 
               {/* Sensor Telemetry */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-zinc-50 border border-zinc-200 rounded-xl text-xs text-zinc-700">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-700 dark:text-zinc-300">
                 <div>
                   <span className="text-zinc-500 block">Cold-Chain Temperature:</span>
-                  <strong className="text-zinc-950 font-mono">5.2°C (Optimal Range 4-8°C)</strong>
+                  <strong className="text-zinc-950 dark:text-zinc-50 font-mono">5.2°C (Optimal Range 4-8°C)</strong>
                 </div>
                 <div>
                   <span className="text-zinc-500 block">Relative Humidity:</span>
-                  <strong className="text-zinc-950 font-mono">88% (Arrhenius Safe)</strong>
+                  <strong className="text-zinc-950 dark:text-zinc-50 font-mono">88% (Arrhenius Safe)</strong>
                 </div>
                 <div>
                   <span className="text-zinc-500 block">Driver Contact:</span>
-                  <strong className="text-zinc-950">Gurpreet Singh (+91 98291 04921)</strong>
+                  <strong className="text-zinc-950 dark:text-zinc-50">Gurpreet Singh (+91 98291 04921)</strong>
                 </div>
               </div>
             </div>
@@ -1207,13 +1207,13 @@ export default function FarmerPortal() {
         {/* ============================================================== */}
         {activeTab === 'payments' && (
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 shadow-xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-6 mb-6">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800 pb-6 mb-6">
                 <div>
                   <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-semibold block">
                     Available Escrow Balance
                   </span>
-                  <div className="text-3xl sm:text-4xl font-extrabold text-zinc-950 font-mono mt-1">
+                  <div className="text-3xl sm:text-4xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-1">
                     ₹{walletBalance.toLocaleString('en-IN')}
                   </div>
                   <p className="text-xs text-emerald-700 font-medium mt-1 flex items-center gap-1">
@@ -1234,13 +1234,13 @@ export default function FarmerPortal() {
               </div>
 
               {/* Linked Bank Account Card */}
-              <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl flex items-center justify-between mb-6 text-xs text-zinc-700">
+              <div className="p-4 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl flex items-center justify-between mb-6 text-xs text-zinc-700 dark:text-zinc-300">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-white border border-zinc-200 text-zinc-900 flex items-center justify-center font-bold">
+                  <div className="w-9 h-9 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 text-zinc-900 dark:text-zinc-100 flex items-center justify-center font-bold">
                     SBI
                   </div>
                   <div>
-                    <div className="font-bold text-zinc-950">State Bank of India (Primary PM-KISAN A/C)</div>
+                    <div className="font-bold text-zinc-950 dark:text-zinc-50">State Bank of India (Primary PM-KISAN A/C)</div>
                     <div className="text-[11px] text-zinc-500 font-mono">A/C: **********4819 • IFSC: SBIN0004921</div>
                   </div>
                 </div>
@@ -1251,7 +1251,7 @@ export default function FarmerPortal() {
 
               {/* Transaction Ledger */}
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-600 mb-3">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-3">
                   Recent Settlement Ledger & Cryptographic Proofs
                 </h3>
                 <div className="space-y-2">
@@ -1262,10 +1262,10 @@ export default function FarmerPortal() {
                   ].map((tx) => (
                     <div
                       key={tx.id}
-                      className="p-3.5 bg-white border border-zinc-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
+                      className="p-3.5 bg-white dark:bg-zinc-900 border border-zinc-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
                     >
                       <div>
-                        <div className="font-bold text-zinc-950">{tx.lot}</div>
+                        <div className="font-bold text-zinc-950 dark:text-zinc-50">{tx.lot}</div>
                         <div className="text-[11px] text-zinc-500">
                           {tx.buyer} • {tx.date} • Audit Hash: <span className="font-mono">{tx.hash}</span>
                         </div>
@@ -1289,12 +1289,12 @@ export default function FarmerPortal() {
         {/* ============================================================== */}
         {activeTab === 'support' && (
           <div className="max-w-3xl mx-auto space-y-6">
-            <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-8 shadow-xs">
-              <div className="border-b border-zinc-100 pb-4 mb-6">
-                <h2 className="text-xl font-extrabold text-zinc-950 tracking-tight">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xs">
+              <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 mb-6">
+                <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
                   Kisan Telephony & Agrarian Support
                 </h2>
-                <p className="text-xs sm:text-sm text-zinc-600 mt-1">
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
                   Accessible toll-free assistance in Hindi, Punjabi, Marathi, Telugu, Tamil, and English.
                 </p>
               </div>
@@ -1321,7 +1321,7 @@ export default function FarmerPortal() {
 
               {/* FAQ Accordion */}
               <div className="space-y-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-600 mb-2">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-2">
                   Frequently Asked Questions
                 </h3>
 
@@ -1343,9 +1343,9 @@ export default function FarmerPortal() {
                     a: 'Platform-optimized logistics are grouped via our Capacitated VRP solver across farm clusters, reducing transport expenditure by up to 38.2% compared to individual haulage.',
                   },
                 ].map((item, i) => (
-                  <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl">
-                    <h4 className="text-xs font-bold text-zinc-950 mb-1">{item.q}</h4>
-                    <p className="text-xs text-zinc-600 leading-relaxed">{item.a}</p>
+                  <div key={i} className="p-4 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl">
+                    <h4 className="text-xs font-bold text-zinc-950 dark:text-zinc-50 mb-1">{item.q}</h4>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">{item.a}</p>
                   </div>
                 ))}
               </div>

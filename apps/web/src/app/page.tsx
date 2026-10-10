@@ -177,24 +177,24 @@ export default function Home() {
     <div className="min-h-screen bg-[#fafafa] text-zinc-900 font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-950">
       <Navbar onOpenInquiry={() => setInquiryOpen(true)} />
 
-      <main className="flex-1">
+      <main className="flex-1 bg-zinc-50 dark:bg-zinc-950 transition-colors">
         {/* Hero Section */}
-        <section className="relative pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-white border-b border-zinc-200/80">
+        <section className="relative pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-zinc-950 border-b border-zinc-200/80 dark:border-zinc-800 transition-colors">
           <div className="max-w-5xl mx-auto text-center space-y-6">
             {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-900 text-xs font-semibold tracking-wide uppercase">
-              <Shield className="w-3.5 h-3.5 text-emerald-700" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800 text-emerald-900 dark:text-emerald-300 text-xs font-semibold tracking-wide uppercase">
+              <Shield className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
               <span>{t.hero.badge}</span>
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-6xl font-extrabold text-zinc-950 tracking-tight leading-tight">
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight leading-tight">
               {t.hero.titleLine1} <br />
-              <span className="text-zinc-500 font-semibold">{t.hero.titleLine2}</span>
+              <span className="text-zinc-500 dark:text-zinc-400 font-semibold">{t.hero.titleLine2}</span>
             </h1>
 
             {/* Subtext */}
-            <p className="text-base sm:text-lg text-zinc-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto leading-relaxed">
               {t.hero.description}
             </p>
 
@@ -202,15 +202,15 @@ export default function Home() {
             <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
               <a
                 href="#marketplace"
-                className="px-6 py-3 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 shadow-xs"
+                className="px-6 py-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-white dark:bg-zinc-900 text-white dark:text-zinc-900 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 shadow-xs"
               >
                 <span>{t.hero.exploreMarket}</span>
-                <ArrowRight className="w-4 h-4 text-zinc-400" />
+                <ArrowRight className="w-4 h-4 text-zinc-400 dark:text-zinc-600" />
               </a>
 
               <a
                 href="#advisory"
-                className="px-6 py-3 bg-white hover:bg-zinc-50 text-zinc-800 border border-zinc-300 rounded-xl text-xs sm:text-sm font-semibold transition"
+                className="px-6 py-3 bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 text-zinc-800 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700 rounded-xl text-xs sm:text-sm font-semibold transition"
               >
                 {t.hero.calculatePrice}
               </a>
@@ -218,7 +218,7 @@ export default function Home() {
 
             {/* Spatial UI Live Command Deck */}
             <div className="pt-8 max-w-5xl mx-auto">
-              <div className="relative rounded-3xl overflow-hidden border border-zinc-200/90 shadow-[0_30px_90px_rgba(0,0,0,0.09)] bg-zinc-950">
+              <div className="relative rounded-3xl overflow-hidden border border-zinc-200/90 dark:border-zinc-800 shadow-[0_30px_90px_rgba(0,0,0,0.09)] dark:shadow-[0_30px_90px_rgba(0,0,0,0.4)] bg-zinc-950">
                 {/* Live Atmospheric Background Photograph */}
                 <div className="relative h-72 sm:h-96 w-full overflow-hidden">
                   <Image
@@ -234,34 +234,34 @@ export default function Home() {
                 </div>
 
                 {/* Floating Spatial Card 1: Optical Quality HUD (Top-Left) */}
-                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-xs backdrop-blur-xl bg-white/85 text-zinc-900 border border-white/70 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white/95 text-left">
+                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-xs backdrop-blur-xl bg-white dark:bg-zinc-900/85 dark:bg-zinc-900/85 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:bg-zinc-900/95 dark:hover:bg-zinc-900/95 text-left">
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="relative flex h-2.5 w-2.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
                     </span>
-                    <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-emerald-950">
+                    <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-emerald-950 dark:text-emerald-300">
                       Live Optical Telemetry
                     </span>
                   </div>
-                  <div className="text-xs sm:text-sm font-extrabold text-zinc-950 tracking-tight">
+                  <div className="text-xs sm:text-sm font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
                     AGMARK Grade A1 (98.4%)
                   </div>
-                  <p className="text-[11px] text-zinc-600 mt-0.5 leading-snug">
+                  <p className="text-[11px] text-zinc-600 dark:text-zinc-300 mt-0.5 leading-snug">
                     Phulera Depot #3 • 0.8% defect floor • Assayed
                   </p>
                 </div>
 
                 {/* Floating Spatial Card 2: AI Price Radar (Top-Right) */}
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 max-w-[260px] backdrop-blur-xl bg-white/85 text-zinc-900 border border-white/70 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white/95 text-right hidden sm:block">
-                  <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100/90 text-emerald-900 text-[10px] font-mono font-bold uppercase mb-1">
+                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 max-w-[260px] backdrop-blur-xl bg-white dark:bg-zinc-900/85 dark:bg-zinc-900/85 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:bg-zinc-900/95 dark:hover:bg-zinc-900/95 text-right hidden sm:block">
+                  <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100/90 dark:bg-emerald-950/90 text-emerald-900 dark:text-emerald-300 text-[10px] font-mono font-bold uppercase mb-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
                     MSP Guarded
                   </div>
-                  <div className="text-base font-extrabold text-zinc-950 font-mono">
-                    ₹24.41 <span className="text-xs font-normal text-zinc-600">/ kg</span>
+                  <div className="text-base font-extrabold text-zinc-950 dark:text-zinc-50 font-mono">
+                    ₹24.41 <span className="text-xs font-normal text-zinc-600 dark:text-zinc-400">/ kg</span>
                   </div>
-                  <p className="text-[11px] text-zinc-600 mt-0.5">
+                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-0.5">
                     Khanna Mandi • Wheat Baseline
                   </p>
                 </div>
@@ -308,63 +308,63 @@ export default function Home() {
             <div className="pt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
               <Link
                 href="/farmer"
-                className="group p-4 bg-white hover:bg-emerald-50/40 rounded-xl border border-zinc-200 hover:border-emerald-300 transition text-left shadow-xs flex flex-col justify-between"
+                className="group p-4 bg-white dark:bg-zinc-900 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition text-left shadow-xs flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center mb-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 flex items-center justify-center mb-2.5">
                     <Sprout className="w-4 h-4" />
                   </div>
-                  <h3 className="text-sm font-bold text-zinc-950 group-hover:text-emerald-900 transition flex items-center justify-between">
+                  <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 group-hover:text-emerald-900 dark:group-hover:text-emerald-300 transition flex items-center justify-between">
                     <span>{t.nav.farmer}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-emerald-700 transition transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
                   </h3>
-                  <p className="text-xs text-zinc-600 mt-1">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
                     {t.portal.farmerDeskDesc}
                   </p>
                 </div>
-                <div className="mt-3 pt-2 border-t border-zinc-100 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 font-semibold">
+                <div className="mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
                   <span>{t.portal.openFarmerDesk}</span>
                 </div>
               </Link>
 
               <Link
                 href="/buyer"
-                className="group p-4 bg-white hover:bg-emerald-50/40 rounded-xl border border-zinc-200 hover:border-emerald-300 transition text-left shadow-xs flex flex-col justify-between"
+                className="group p-4 bg-white dark:bg-zinc-900 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition text-left shadow-xs flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-800 flex items-center justify-center mb-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 flex items-center justify-center mb-2.5">
                     <Building2 className="w-4 h-4" />
                   </div>
-                  <h3 className="text-sm font-bold text-zinc-950 group-hover:text-emerald-900 transition flex items-center justify-between">
+                  <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 group-hover:text-emerald-900 dark:group-hover:text-emerald-300 transition flex items-center justify-between">
                     <span>{t.nav.buyer}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-emerald-700 transition transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
                   </h3>
-                  <p className="text-xs text-zinc-600 mt-1">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
                     {t.portal.buyerDeskDesc}
                   </p>
                 </div>
-                <div className="mt-3 pt-2 border-t border-zinc-100 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 font-semibold">
+                <div className="mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
                   <span>{t.portal.openBuyerDesk}</span>
                 </div>
               </Link>
 
               <Link
                 href="/logistics"
-                className="group p-4 bg-white hover:bg-emerald-50/40 rounded-xl border border-zinc-200 hover:border-emerald-300 transition text-left shadow-xs flex flex-col justify-between"
+                className="group p-4 bg-white dark:bg-zinc-900 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition text-left shadow-xs flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-800 flex items-center justify-center mb-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 flex items-center justify-center mb-2.5">
                     <Truck className="w-4 h-4" />
                   </div>
-                  <h3 className="text-sm font-bold text-zinc-950 group-hover:text-emerald-900 transition flex items-center justify-between">
+                  <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 group-hover:text-emerald-900 dark:group-hover:text-emerald-300 transition flex items-center justify-between">
                     <span>{t.nav.logistics}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-emerald-700 transition transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
                   </h3>
-                  <p className="text-xs text-zinc-600 mt-1">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
                     {t.portal.logisticsDeskDesc}
                   </p>
                 </div>
-                <div className="mt-3 pt-2 border-t border-zinc-100 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 font-semibold">
+                <div className="mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
                   <span>{t.portal.openLogisticsDesk}</span>
                 </div>
               </Link>
@@ -375,22 +375,22 @@ export default function Home() {
         {/* Section 1: Interactive Price Advisory */}
         <section id="advisory" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs uppercase font-mono tracking-wider text-emerald-800 font-bold">
+            <span className="text-xs uppercase font-mono tracking-wider text-emerald-800 dark:text-emerald-400 font-bold">
               {t.advisory.sectionBadge}
             </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-zinc-950 mt-1 mb-2 tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-1 mb-2 tracking-tight">
               {t.advisory.title}
             </h2>
-            <p className="text-sm text-zinc-600">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
               {t.advisory.subtitle}
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-zinc-200 shadow-xs overflow-hidden">
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs overflow-hidden">
             {/* Notification Banner */}
             {actionNotice && (
-              <div className="bg-emerald-50 border-b border-emerald-200 px-6 py-3 text-xs font-semibold text-emerald-900 flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+              <div className="bg-emerald-50 dark:bg-emerald-950/60 border-b border-emerald-200 dark:border-emerald-800 px-6 py-3 text-xs font-semibold text-emerald-900 dark:text-emerald-300 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
                 <span>{actionNotice}</span>
               </div>
             )}
@@ -399,13 +399,13 @@ export default function Home() {
               {/* Controls */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-700 mb-1.5">
+                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
                     {t.advisory.cropLabel}
                   </label>
                   <select
                     value={selectedCrop}
                     onChange={(e) => setSelectedCrop(e.target.value as 'Tomato' | 'Mustard' | 'Wheat' | 'Soybean')}
-                    className="w-full bg-zinc-50 border border-zinc-200 rounded-lg p-2.5 text-xs sm:text-sm font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg p-2.5 text-xs sm:text-sm font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                   >
                     <option value="Tomato">{t.advisory.cropTomato}</option>
                     <option value="Mustard">{t.advisory.cropMustard}</option>
@@ -415,13 +415,13 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-700 mb-1.5">
+                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
                     {t.advisory.holdingLabel}
                   </label>
                   <select
                     value={holdingDays}
                     onChange={(e) => setHoldingDays(Number(e.target.value))}
-                    className="w-full bg-zinc-50 border border-zinc-200 rounded-lg p-2.5 text-xs sm:text-sm font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg p-2.5 text-xs sm:text-sm font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                   >
                     <option value={1}>{t.advisory.holdingDay1}</option>
                     <option value={3}>{t.advisory.holdingDay3}</option>
@@ -431,28 +431,28 @@ export default function Home() {
               </div>
 
               {/* Valuation Dashboard */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-zinc-50 border border-zinc-200 rounded-xl p-4 mb-6 text-center">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 mb-6 text-center">
                 <div>
-                  <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wide block">
+                  <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide block">
                     {t.advisory.suggestedRange}
                   </span>
-                  <span className="text-xl sm:text-2xl font-extrabold text-zinc-950 font-mono mt-0.5 block">
+                  <span className="text-xl sm:text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-0.5 block">
                     {advisoryEngine.range}
                   </span>
                 </div>
                 <div>
-                  <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wide block">
+                  <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide block">
                     {t.advisory.confidence}
                   </span>
-                  <span className="text-xl sm:text-2xl font-extrabold text-emerald-800 font-mono mt-0.5 block">
+                  <span className="text-xl sm:text-2xl font-extrabold text-emerald-800 dark:text-emerald-400 font-mono mt-0.5 block">
                     {advisoryEngine.conf}
                   </span>
                 </div>
                 <div>
-                  <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wide block">
+                  <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide block">
                     {t.advisory.dataFreshness}
                   </span>
-                  <span className="text-xs font-semibold text-zinc-700 mt-2 block">
+                  <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 mt-2 block">
                     {advisoryEngine.fresh}
                   </span>
                 </div>
@@ -460,19 +460,19 @@ export default function Home() {
 
               {/* Explainable Reasoning Factors */}
               <div className="mb-6">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-3">
                   {t.advisory.factorsTitle}
                 </h4>
-                <ul className="space-y-2 text-xs sm:text-sm text-zinc-700">
+                <ul className="space-y-2 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300">
                   {advisoryEngine.factors.map((factor, i) => (
                     <li key={i} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                       <span>{factor}</span>
                     </li>
                   ))}
                   {advisoryEngine.isPerishableNearExpiry && (
-                    <li className="flex items-start gap-2 text-amber-900 bg-amber-50 p-2 rounded-lg border border-amber-200">
-                      <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <li className="flex items-start gap-2 text-amber-900 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 p-2 rounded-lg border border-amber-200 dark:border-amber-800">
+                      <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                       <span>{t.advisory.spoilageWarning}</span>
                     </li>
                   )}
@@ -480,7 +480,7 @@ export default function Home() {
               </div>
 
               {/* Guardrail Disclaimer */}
-              <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-3 text-xs text-zinc-600 flex items-center gap-2 mb-6">
+              <div className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 text-xs text-zinc-600 dark:text-zinc-400 flex items-center gap-2 mb-6">
                 <Scale className="w-4 h-4 text-zinc-500 shrink-0" />
                 <span>{t.advisory.guardrailText}</span>
               </div>
@@ -490,14 +490,14 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={handleHoldAction}
-                  className="w-full py-3 px-4 border border-zinc-300 hover:bg-zinc-50 rounded-xl text-xs sm:text-sm font-semibold text-zinc-800 transition"
+                  className="w-full py-3 px-4 border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-xl text-xs sm:text-sm font-semibold text-zinc-800 dark:text-zinc-200 transition"
                 >
                   {t.advisory.btnHold}
                 </button>
                 <button
                   type="button"
                   onClick={handleListAction}
-                  className="w-full py-3 px-4 bg-zinc-900 hover:bg-zinc-800 rounded-xl text-xs sm:text-sm font-semibold text-white transition shadow-xs"
+                  className="w-full py-3 px-4 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-white dark:bg-zinc-900 text-white dark:text-zinc-900 rounded-xl text-xs sm:text-sm font-semibold transition shadow-xs"
                 >
                   {t.advisory.btnList}
                 </button>
@@ -507,16 +507,22 @@ export default function Home() {
         </section>
 
         {/* Section 2: Live Verified Produce Marketplace */}
-        <section id="marketplace" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-200">
+        <section id="marketplace" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-200 dark:border-zinc-800">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
-              <span className="text-xs uppercase font-mono tracking-wider text-emerald-800 font-bold">
-                {t.market.sectionBadge}
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-zinc-950 mt-1 tracking-tight">
+              <div className="flex items-center gap-2">
+                <span className="text-xs uppercase font-mono tracking-wider text-emerald-800 dark:text-emerald-400 font-bold">
+                  {t.market.sectionBadge}
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  Live Synced
+                </span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-1 tracking-tight">
                 {t.market.title}
               </h2>
-              <p className="text-xs sm:text-sm text-zinc-600 mt-1 max-w-xl">
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-xl">
                 {t.market.subtitle}
               </p>
             </div>
@@ -529,8 +535,8 @@ export default function Home() {
                   onClick={() => setMarketFilter(cat)}
                   className={`text-xs px-3 py-1.5 rounded-lg font-medium transition border ${
                     marketFilter === cat
-                      ? 'bg-zinc-900 text-white border-zinc-900 font-semibold'
-                      : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50'
+                      ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-900 border-zinc-900 dark:border-zinc-100 font-semibold'
+                      : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800'
                   }`}
                 >
                   {cat === 'all'
@@ -555,14 +561,14 @@ export default function Home() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t.market.searchPlaceholder}
-              className="w-full pl-9 pr-3 py-2 text-xs border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 text-zinc-900"
+              className="w-full pl-9 pr-3 py-2 text-xs border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-600"
             />
           </div>
 
           {/* Quote Success Notice */}
           {cartSuccessNotice && (
-            <div className="mb-6 p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 font-medium flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+            <div className="mb-6 p-3 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 rounded-xl text-xs text-emerald-900 dark:text-emerald-300 font-medium flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
               <span>{cartSuccessNotice}</span>
             </div>
           )}
@@ -572,11 +578,11 @@ export default function Home() {
             {filteredLots.map((lot) => (
               <div
                 key={lot.id}
-                className="group bg-white rounded-2xl border border-zinc-200 p-4 shadow-xs hover:border-zinc-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between"
+                className="group bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4 shadow-xs hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_16px_40px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   {/* Spatial Photography Banner */}
-                  <div className="relative h-40 w-full overflow-hidden rounded-xl mb-3.5 bg-zinc-100">
+                  <div className="relative h-40 w-full overflow-hidden rounded-xl mb-3.5 bg-zinc-100 dark:bg-zinc-800">
                     <Image
                       src={getCropImage(lot.cropName)}
                       alt={lot.cropName}
@@ -590,7 +596,7 @@ export default function Home() {
                     <span className="absolute top-2.5 left-2.5 text-[10px] font-mono uppercase backdrop-blur-md bg-zinc-950/75 text-white border border-white/20 px-2 py-0.5 rounded-md font-semibold">
                       {lot.id}
                     </span>
-                    <span className="absolute top-2.5 right-2.5 text-[10px] font-semibold backdrop-blur-md bg-white/90 text-emerald-900 border border-white/70 px-2.5 py-0.5 rounded-full shadow-xs">
+                    <span className="absolute top-2.5 right-2.5 text-[10px] font-semibold backdrop-blur-md bg-white dark:bg-zinc-900/90 dark:bg-zinc-900/90 text-emerald-900 dark:text-emerald-300 border border-white/70 dark:border-zinc-700 px-2.5 py-0.5 rounded-full shadow-xs">
                       {t.common.grade.replace('{grade}', lot.grade)}
                     </span>
                     
@@ -599,41 +605,41 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <h3 className="text-base font-bold text-zinc-950 mt-1">
+                  <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mt-1">
                     {getLotDisplayName(lot)}
                   </h3>
-                  <div className="text-xl font-extrabold text-zinc-950 font-mono mt-1">
-                    ₹{lot.price} <span className="text-xs text-zinc-500 font-normal">/ {t.market.perKg}</span>
+                  <div className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-1">
+                    ₹{lot.price} <span className="text-xs text-zinc-500 dark:text-zinc-400 font-normal">/ {t.market.perKg}</span>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-zinc-100 space-y-1.5 text-[11px] text-zinc-600">
+                  <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 space-y-1.5 text-[11px] text-zinc-600 dark:text-zinc-400">
                     <div className="flex justify-between">
                       <span className="text-zinc-500">{t.market.inStock}:</span>
-                      <strong className="text-zinc-900 font-mono">{lot.quantity}</strong>
+                      <strong className="text-zinc-900 dark:text-zinc-100 font-mono">{lot.quantity}</strong>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-zinc-500">{t.market.warehouseLabel}:</span>
-                      <span className="text-zinc-900 text-right truncate max-w-[140px]">{lot.location}</span>
+                      <span className="text-zinc-900 dark:text-zinc-100 text-right truncate max-w-[140px]">{lot.location}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-zinc-500">{t.market.farmerLabel}:</span>
-                      <span className="text-zinc-900 text-right truncate max-w-[140px]">{lot.cluster}</span>
+                      <span className="text-zinc-900 dark:text-zinc-100 text-right truncate max-w-[140px]">{lot.cluster}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-zinc-100 flex gap-2">
+                <div className="mt-5 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex gap-2">
                   <button
                     type="button"
                     onClick={() => handleLotOrder(lot.id)}
-                    className="flex-1 py-2 text-center text-xs font-semibold bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg transition"
+                    className="flex-1 py-2 text-center text-xs font-semibold bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-white dark:bg-zinc-900 text-white dark:text-zinc-900 rounded-lg transition"
                   >
                     {t.market.buyNow}
                   </button>
                   <button
                     type="button"
                     onClick={() => setInquiryOpen(true)}
-                    className="px-3 py-2 text-xs font-semibold border border-zinc-200 hover:bg-zinc-50 text-zinc-700 rounded-lg transition"
+                    className="px-3 py-2 text-xs font-semibold border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-lg transition"
                   >
                     {t.portal.rfqBtn}
                   </button>
@@ -659,9 +665,9 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Card 1 */}
-            <div className="group bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs hover:border-zinc-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
+            <div className="group bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_16px_40px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
               <div>
-                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100">
+                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100 dark:bg-zinc-800">
                   <Image
                     src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=800&q=80"
                     alt={t.architecture.card1Title}
@@ -670,7 +676,7 @@ export default function Home() {
                     className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
-                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white/90 text-zinc-900 flex items-center justify-center border border-white/80 shadow-xs">
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
                     <Camera className="w-4 h-4" />
                   </div>
                   <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
@@ -678,22 +684,22 @@ export default function Home() {
                   </span>
                 </div>
 
-                <h3 className="text-base font-bold text-zinc-950 mb-2">
+                <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
                   {t.architecture.card1Title}
                 </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
                   {t.architecture.card1Desc}
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-zinc-100 text-[11px] font-mono text-zinc-500">
+              <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
                 {t.portal.standardAgmark}
               </div>
             </div>
 
             {/* Card 2 */}
-            <div className="group bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs hover:border-zinc-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
+            <div className="group bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_16px_40px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
               <div>
-                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100">
+                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100 dark:bg-zinc-800">
                   <Image
                     src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=800&q=80"
                     alt={t.architecture.card2Title}
@@ -702,7 +708,7 @@ export default function Home() {
                     className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
-                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white/90 text-zinc-900 flex items-center justify-center border border-white/80 shadow-xs">
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
                     <Scale className="w-4 h-4" />
                   </div>
                   <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
@@ -710,22 +716,22 @@ export default function Home() {
                   </span>
                 </div>
 
-                <h3 className="text-base font-bold text-zinc-950 mb-2">
+                <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
                   {t.architecture.card2Title}
                 </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
                   {t.architecture.card2Desc}
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-zinc-100 text-[11px] font-mono text-zinc-500">
+              <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
                 {t.portal.guaranteedMsp}
               </div>
             </div>
 
             {/* Card 3 */}
-            <div className="group bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs hover:border-zinc-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
+            <div className="group bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_16px_40px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
               <div>
-                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100">
+                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100 dark:bg-zinc-800">
                   <Image
                     src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80"
                     alt={t.architecture.card3Title}
@@ -734,7 +740,7 @@ export default function Home() {
                     className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
-                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white/90 text-zinc-900 flex items-center justify-center border border-white/80 shadow-xs">
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
                     <ThermometerSnowflake className="w-4 h-4" />
                   </div>
                   <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
@@ -742,22 +748,22 @@ export default function Home() {
                   </span>
                 </div>
 
-                <h3 className="text-base font-bold text-zinc-950 mb-2">
+                <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
                   {t.architecture.card3Title}
                 </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
                   {t.architecture.card3Desc}
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-zinc-100 text-[11px] font-mono text-zinc-500">
+              <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
                 {t.portal.telemetrySensors}
               </div>
             </div>
 
             {/* Card 4 */}
-            <div className="group bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs hover:border-zinc-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
+            <div className="group bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_16px_40px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
               <div>
-                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100">
+                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100 dark:bg-zinc-800">
                   <Image
                     src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=800&q=80"
                     alt={t.architecture.card4Title}
@@ -766,7 +772,7 @@ export default function Home() {
                     className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
-                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white/90 text-zinc-900 flex items-center justify-center border border-white/80 shadow-xs">
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
                     <PhoneCall className="w-4 h-4" />
                   </div>
                   <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
@@ -774,14 +780,14 @@ export default function Home() {
                   </span>
                 </div>
 
-                <h3 className="text-base font-bold text-zinc-950 mb-2">
+                <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
                   {t.architecture.card4Title}
                 </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
                   {t.architecture.card4Desc}
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-zinc-100 text-[11px] font-mono text-zinc-500">
+              <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
                 {t.portal.accessIvr}
               </div>
             </div>
@@ -801,14 +807,14 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Traditional Channel */}
-            <div className="bg-white rounded-xl border border-red-200/80 p-6 shadow-xs">
-              <span className="text-[10px] font-mono uppercase bg-red-50 text-red-700 px-2 py-0.5 rounded font-bold">
+            <div className="bg-white dark:bg-zinc-900 rounded-xl border border-red-200/80 dark:border-red-900/40 p-6 shadow-xs">
+              <span className="text-[10px] font-mono uppercase bg-red-50 dark:bg-red-950/80 text-red-700 dark:text-red-300 px-2 py-0.5 rounded font-bold">
                 {t.portal.legacySupplyChain}
               </span>
-              <h3 className="text-base font-bold text-zinc-950 mt-2 mb-4">
+              <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mt-2 mb-4">
                 {t.comparison.middlemanTitle}
               </h3>
-              <ul className="space-y-3 text-xs sm:text-sm text-zinc-600">
+              <ul className="space-y-3 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
                 <li className="flex items-start gap-2">
                   <span className="text-red-500 font-bold shrink-0">✕</span>
                   <span>{t.comparison.middlemanDeduction}</span>
@@ -825,24 +831,24 @@ export default function Home() {
             </div>
 
             {/* FarmLink Direct */}
-            <div className="bg-white rounded-xl border border-emerald-300 p-6 shadow-xs ring-1 ring-emerald-500/10">
-              <span className="text-[10px] font-mono uppercase bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">
+            <div className="bg-white dark:bg-zinc-900 rounded-xl border border-emerald-300 dark:border-emerald-700/60 p-6 shadow-xs ring-1 ring-emerald-500/10">
+              <span className="text-[10px] font-mono uppercase bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded font-bold">
                 {t.portal.directTransparentNetwork}
               </span>
-              <h3 className="text-base font-bold text-zinc-950 mt-2 mb-4">
+              <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mt-2 mb-4">
                 {t.comparison.farmlinkTitle}
               </h3>
-              <ul className="space-y-3 text-xs sm:text-sm text-zinc-700">
+              <ul className="space-y-3 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300">
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span className="font-medium">{t.comparison.farmlinkDirect}</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span className="font-medium">{t.comparison.farmlinkSettlement}</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span className="font-medium">{t.comparison.farmlinkGrading}</span>
                 </li>
               </ul>

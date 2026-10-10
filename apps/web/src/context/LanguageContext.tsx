@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { extraTranslations } from './extraTranslations';
 
 export type LanguageCode =
   | 'en' | 'hi' | 'pa' | 'mr' | 'te' | 'ta'
@@ -2518,6 +2519,7 @@ export const translations = {
       categoryAll: 'அனைத்தும்',
     },
   },
+  ...extraTranslations,
 };
 
 export type TranslationDictionary = typeof translations.en;

@@ -53,6 +53,29 @@ export default function ConsumerPortal() {
   const [cart, setCart] = useState<Record<string, number>>({});
   const [orderNotice, setOrderNotice] = useState<string | null>(null);
 
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem('farmlink_cart');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object') {
+          setCart(parsed);
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const syncCartToStorage = (updatedCart: Record<string, number>) => {
+    try {
+      localStorage.setItem('farmlink_cart', JSON.stringify(updatedCart));
+      window.dispatchEvent(new CustomEvent('farmlink_cart_updated'));
+    } catch {
+      // ignore
+    }
+  };
+
   // Checkout Form State
   const [buyerName, setBuyerName] = useState('Ananya Sen');
   const [buyerPhone, setBuyerPhone] = useState('+91 98301 22419');
@@ -113,7 +136,9 @@ export default function ConsumerPortal() {
       const lot = listings.find((l) => l.id === lotId);
       const maxAvailable = lot ? lot.quantityKg : 999;
       const next = Math.min(maxAvailable, current + amount);
-      return { ...prev, [lotId]: next };
+      const updated = { ...prev, [lotId]: next };
+      syncCartToStorage(updated);
+      return updated;
     });
   };
 
@@ -124,11 +149,14 @@ export default function ConsumerPortal() {
       if (next <= 0) {
         const copy = { ...prev };
         delete copy[lotId];
+        syncCartToStorage(copy);
         return copy;
       }
       const lot = listings.find((l) => l.id === lotId);
       const maxAvailable = lot ? lot.quantityKg : 999;
-      return { ...prev, [lotId]: Math.min(maxAvailable, next) };
+      const updated = { ...prev, [lotId]: Math.min(maxAvailable, next) };
+      syncCartToStorage(updated);
+      return updated;
     });
   };
 
@@ -182,6 +210,7 @@ export default function ConsumerPortal() {
 
       // 3. Clear cart and switch to orders tab
       setCart({});
+      syncCartToStorage({});
       setShowConfirmModal(false);
       setOrderNotice(
         t.consumer.orderConfirmedNotice.replace('{id}', newOrder.id).replace('{amount}', String(totalPayable))
@@ -199,7 +228,7 @@ export default function ConsumerPortal() {
   const totalActiveItems = listings.reduce((acc, l) => acc + (l.quantityKg > 0 ? 1 : 0), 0);
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-zinc-900 font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-950">
+    <div className="min-h-screen bg-[#fafafa] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-950">
       <Navbar onOpenInquiry={() => setInquiryOpen(true)} />
 
       <RoleGuard allowedRoles={['consumer']} portalName="Consumer Hub & Marketplace">
@@ -208,28 +237,28 @@ export default function ConsumerPortal() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-2 text-xs text-zinc-500 mb-1">
-              <Link href="/" className="hover:text-zinc-900 transition">
+              <Link href="/" className="hover:text-zinc-900 dark:text-zinc-100 transition">
                 {t.common.overview}
               </Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <span className="font-semibold text-zinc-800">{t.nav.consumerRoleTitle}</span>
+              <span className="font-semibold text-zinc-800 dark:text-zinc-200">{t.nav.consumerRoleTitle}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
               {t.consumer.title}
             </h1>
-            <p className="text-xs sm:text-sm text-zinc-600 mt-0.5">
+            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-0.5">
               {t.consumer.subtitle}
             </p>
           </div>
 
           {/* Tab Navigation Pill */}
-          <div className="flex items-center gap-1.5 p-1 bg-zinc-200/80 rounded-xl self-start sm:self-auto text-xs font-semibold">
+          <div className="flex items-center gap-1.5 p-1 bg-zinc-200/80 dark:bg-zinc-800 rounded-xl self-start sm:self-auto text-xs font-semibold">
             <button
               onClick={() => setActiveTab('shop')}
               className={`px-3.5 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
                 activeTab === 'shop'
-                  ? 'bg-white text-zinc-900 shadow-xs font-bold'
-                  : 'text-zinc-600 hover:text-zinc-900'
+                  ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-xs font-bold'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-zinc-100'
               }`}
             >
               <ShoppingBag className="w-3.5 h-3.5" />
@@ -243,8 +272,8 @@ export default function ConsumerPortal() {
               onClick={() => setActiveTab('cart')}
               className={`px-3.5 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
                 activeTab === 'cart'
-                  ? 'bg-white text-zinc-900 shadow-xs font-bold'
-                  : 'text-zinc-600 hover:text-zinc-900'
+                  ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-xs font-bold'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-zinc-100'
               }`}
             >
               <ShoppingCart className="w-3.5 h-3.5" />
@@ -260,8 +289,8 @@ export default function ConsumerPortal() {
               onClick={() => setActiveTab('orders')}
               className={`px-3.5 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
                 activeTab === 'orders'
-                  ? 'bg-white text-zinc-900 shadow-xs font-bold'
-                  : 'text-zinc-600 hover:text-zinc-900'
+                  ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-xs font-bold'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-zinc-100'
               }`}
             >
               <Package className="w-3.5 h-3.5" />
@@ -291,42 +320,42 @@ export default function ConsumerPortal() {
 
         {/* Trust Badges Ribbon */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-          <div className="p-3.5 rounded-xl border border-zinc-200 bg-white flex items-center gap-3 shadow-2xs">
+          <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center gap-3 shadow-2xs">
             <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
               <ShieldCheck className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-xs font-bold text-zinc-900">{t.consumer.badgeCommission}</div>
+              <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{t.consumer.badgeCommission}</div>
               <div className="text-[11px] text-zinc-500">{t.consumer.badgeCommissionSub}</div>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-zinc-200 bg-white flex items-center gap-3 shadow-2xs">
+          <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center gap-3 shadow-2xs">
             <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center shrink-0">
               <Lock className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-xs font-bold text-zinc-900">{t.consumer.badgeEscrow}</div>
+              <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{t.consumer.badgeEscrow}</div>
               <div className="text-[11px] text-zinc-500">{t.consumer.badgeEscrowSub}</div>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-zinc-200 bg-white flex items-center gap-3 shadow-2xs">
+          <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center gap-3 shadow-2xs">
             <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-xs font-bold text-zinc-900">{t.consumer.badgeAgmark}</div>
+              <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{t.consumer.badgeAgmark}</div>
               <div className="text-[11px] text-zinc-500">{t.consumer.badgeAgmarkSub}</div>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-zinc-200 bg-white flex items-center gap-3 shadow-2xs">
+          <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center gap-3 shadow-2xs">
             <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center shrink-0">
               <Truck className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-xs font-bold text-zinc-900">{t.consumer.badgeDispatch}</div>
+              <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{t.consumer.badgeDispatch}</div>
               <div className="text-[11px] text-zinc-500">{t.consumer.badgeDispatchSub}</div>
             </div>
           </div>
@@ -336,7 +365,7 @@ export default function ConsumerPortal() {
         {activeTab === 'shop' && (
           <div className="space-y-6">
             {/* Filter & Search Bar */}
-            <div className="bg-white p-4 rounded-xl border border-zinc-200 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
+            <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
               {/* Category Pills */}
               <div className="flex flex-wrap items-center gap-1.5">
                 <span className="text-xs font-bold text-zinc-500 mr-1 flex items-center gap-1">
@@ -349,7 +378,7 @@ export default function ConsumerPortal() {
                     className={`text-xs px-3 py-1.5 rounded-lg capitalize transition border ${
                       categoryFilter === cat
                         ? 'bg-zinc-900 text-white border-zinc-900 font-semibold'
-                        : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50'
+                        : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60'
                     }`}
                   >
                     {cat}
@@ -364,7 +393,7 @@ export default function ConsumerPortal() {
                   <select
                     value={gradeFilter}
                     onChange={(e) => setGradeFilter(e.target.value)}
-                    className="bg-zinc-50 border border-zinc-200 text-xs rounded-lg px-2 py-1.5 text-zinc-800 font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                    className="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-xs rounded-lg px-2 py-1.5 text-zinc-800 dark:text-zinc-200 font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-600"
                   >
                     <option value="all">{t.consumer.allGrades}</option>
                     <option value="a1">{t.common.grade.replace('{grade}', 'A1')}</option>
@@ -380,7 +409,7 @@ export default function ConsumerPortal() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder={t.consumer.searchPlaceholder}
-                    className="w-full pl-8 pr-3 py-1.5 text-xs border border-zinc-200 rounded-lg bg-zinc-50 focus:outline-none focus:ring-1 focus:ring-emerald-600 text-zinc-900"
+                    className="w-full pl-8 pr-3 py-1.5 text-xs border border-zinc-200 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 focus:outline-none focus:ring-1 focus:ring-emerald-600 text-zinc-900 dark:text-zinc-100"
                   />
                 </div>
               </div>
@@ -388,9 +417,9 @@ export default function ConsumerPortal() {
 
             {/* Produce Grid */}
             {filteredProduce.length === 0 ? (
-              <div className="bg-white rounded-xl border border-zinc-200 p-12 text-center">
+              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-12 text-center">
                 <Package className="w-12 h-12 text-zinc-400 mx-auto mb-3" />
-                <h3 className="text-base font-bold text-zinc-900">{t.consumer.noProduceTitle}</h3>
+                <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">{t.consumer.noProduceTitle}</h3>
                 <p className="text-xs text-zinc-500 mt-1 max-w-sm mx-auto">
                   {t.consumer.noProduceDesc}
                 </p>
@@ -412,12 +441,12 @@ export default function ConsumerPortal() {
                   return (
                     <div
                       key={lot.id}
-                      className="bg-white rounded-xl border border-zinc-200 p-4 shadow-2xs hover:shadow-xs transition flex flex-col justify-between"
+                      className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 shadow-2xs hover:shadow-xs transition flex flex-col justify-between"
                     >
                       <div>
                         {/* Top Lot Meta */}
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[10px] font-mono font-bold bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded">
+                          <span className="text-[10px] font-mono font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2 py-0.5 rounded">
                             {lot.id}
                           </span>
                           <span
@@ -433,24 +462,24 @@ export default function ConsumerPortal() {
 
                         {/* Title & Price */}
                         <div className="flex items-baseline justify-between mt-1">
-                          <h3 className="text-base font-bold text-zinc-950">{lot.cropName}</h3>
-                          <span className="text-lg font-mono font-extrabold text-zinc-950">
+                          <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">{lot.cropName}</h3>
+                          <span className="text-lg font-mono font-extrabold text-zinc-950 dark:text-zinc-50">
                             ₹{lot.price}
                             <span className="text-xs text-zinc-500 font-normal">{t.common.perKg}</span>
                           </span>
                         </div>
 
                         {/* Cluster & Location details */}
-                        <div className="mt-3 pt-2.5 border-t border-zinc-100 space-y-1 text-[11px] text-zinc-600">
+                        <div className="mt-3 pt-2.5 border-t border-zinc-100 dark:border-zinc-800 space-y-1 text-[11px] text-zinc-600 dark:text-zinc-400">
                           <div className="flex justify-between">
                             <span className="text-zinc-500">{t.consumer.originCluster}</span>
-                            <strong className="text-zinc-800 text-right truncate max-w-[140px]">
+                            <strong className="text-zinc-800 dark:text-zinc-200 text-right truncate max-w-[140px]">
                               {lot.cluster}
                             </strong>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-zinc-500">{t.consumer.depotHub}</span>
-                            <span className="text-zinc-800 text-right truncate max-w-[140px]">
+                            <span className="text-zinc-800 dark:text-zinc-200 text-right truncate max-w-[140px]">
                               {lot.location}
                             </span>
                           </div>
@@ -464,24 +493,24 @@ export default function ConsumerPortal() {
                       </div>
 
                       {/* Card Action Controls */}
-                      <div className="mt-4 pt-3 border-t border-zinc-100">
+                      <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800">
                         {inCartQty > 0 ? (
-                          <div className="flex items-center justify-between bg-zinc-50 border border-zinc-200 rounded-lg p-1">
+                          <div className="flex items-center justify-between bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-lg p-1">
                             <button
                               type="button"
                               onClick={() => handleUpdateCartQty(lot.id, -1)}
-                              className="w-7 h-7 rounded bg-white text-zinc-800 border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 font-bold"
+                              className="w-7 h-7 rounded bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800 font-bold"
                             >
                               <Minus className="w-3.5 h-3.5" />
                             </button>
-                            <span className="text-xs font-bold font-mono text-zinc-900">
+                            <span className="text-xs font-bold font-mono text-zinc-900 dark:text-zinc-100">
                               {t.consumer.inCart.replace('{qty}', String(inCartQty))}
                             </span>
                             <button
                               type="button"
                               onClick={() => handleUpdateCartQty(lot.id, 1)}
                               disabled={inCartQty >= lot.quantityKg}
-                              className="w-7 h-7 rounded bg-white text-zinc-800 border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 font-bold disabled:opacity-50"
+                              className="w-7 h-7 rounded bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800 font-bold disabled:opacity-50"
                             >
                               <Plus className="w-3.5 h-3.5" />
                             </button>
@@ -519,9 +548,9 @@ export default function ConsumerPortal() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Cart Items List */}
             <div className="lg:col-span-7 space-y-4">
-              <div className="bg-white rounded-xl border border-zinc-200 p-5 shadow-2xs">
-                <div className="flex items-center justify-between pb-3 border-b border-zinc-100 mb-4">
-                  <h2 className="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-2xs">
+                <div className="flex items-center justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800 mb-4">
+                  <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
                     <ShoppingCart className="w-4 h-4 text-emerald-700" />
                     <span>{t.consumer.basketTitle}</span>
                   </h2>
@@ -533,7 +562,7 @@ export default function ConsumerPortal() {
                 {cartItems.length === 0 ? (
                   <div className="py-12 text-center">
                     <ShoppingCart className="w-10 h-10 text-zinc-400 mx-auto mb-2" />
-                    <p className="text-sm font-semibold text-zinc-800">{t.consumer.basketEmpty}</p>
+                    <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{t.consumer.basketEmpty}</p>
                     <p className="text-xs text-zinc-500 mt-0.5">
                       {t.consumer.basketEmptyDesc}
                     </p>
@@ -549,12 +578,12 @@ export default function ConsumerPortal() {
                     {cartItems.map((item) => (
                       <div
                         key={item.lotId}
-                        className="flex items-center justify-between p-3 rounded-lg border border-zinc-100 bg-zinc-50/70"
+                        className="flex items-center justify-between p-3 rounded-lg border border-zinc-100 bg-zinc-50 dark:bg-zinc-900/60/70 dark:bg-zinc-900/50"
                       >
                         <div className="flex-1 mr-3">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs font-bold text-zinc-900">{item.cropName}</span>
-                            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-200 text-zinc-700">
+                            <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{item.cropName}</span>
+                            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200">
                               {t.common.grade.replace('{grade}', item.grade)}
                             </span>
                           </div>
@@ -565,27 +594,27 @@ export default function ConsumerPortal() {
 
                         {/* Qty Controls */}
                         <div className="flex items-center gap-2">
-                          <div className="flex items-center border border-zinc-200 bg-white rounded-md">
+                          <div className="flex items-center border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 rounded-md">
                             <button
                               type="button"
                               onClick={() => handleUpdateCartQty(item.lotId, -1)}
-                              className="px-2 py-1 text-xs hover:bg-zinc-100 text-zinc-600 font-bold"
+                              className="px-2 py-1 text-xs hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold"
                             >
                               -
                             </button>
-                            <span className="px-2.5 py-1 text-xs font-bold font-mono text-zinc-900">
+                            <span className="px-2.5 py-1 text-xs font-bold font-mono text-zinc-900 dark:text-zinc-100">
                               {item.quantityKg} {t.common.kg}
                             </span>
                             <button
                               type="button"
                               onClick={() => handleUpdateCartQty(item.lotId, 1)}
                               disabled={item.quantityKg >= item.availableKg}
-                              className="px-2 py-1 text-xs hover:bg-zinc-100 text-zinc-600 font-bold disabled:opacity-40"
+                              className="px-2 py-1 text-xs hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold disabled:opacity-40"
                             >
                               +
                             </button>
                           </div>
-                          <span className="text-xs font-bold font-mono text-zinc-900 w-16 text-right">
+                          <span className="text-xs font-bold font-mono text-zinc-900 dark:text-zinc-100 w-16 text-right">
                             ₹{(item.unitPrice * item.quantityKg).toLocaleString('en-IN')}
                           </span>
                         </div>
@@ -598,9 +627,9 @@ export default function ConsumerPortal() {
 
             {/* Escrow Checkout Form */}
             <div className="lg:col-span-5">
-              <div className="bg-white rounded-xl border border-zinc-200 p-5 shadow-2xs space-y-5 sticky top-20">
-                <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
-                  <h3 className="text-sm font-bold text-zinc-950 flex items-center gap-2">
+              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-2xs space-y-5 sticky top-20">
+                <div className="flex items-center justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800">
+                  <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 flex items-center gap-2">
                     <Lock className="w-4 h-4 text-emerald-700" />
                     <span>{t.consumer.escrowSummaryTitle}</span>
                   </h3>
@@ -611,17 +640,17 @@ export default function ConsumerPortal() {
 
                 {/* Calculation Rows */}
                 <div className="space-y-2 text-xs">
-                  <div className="flex justify-between text-zinc-600">
+                  <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
                     <span>{t.consumer.produceSubtotal}</span>
-                    <span className="font-mono font-semibold text-zinc-900">
+                    <span className="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
                       ₹{cartSubtotal.toLocaleString('en-IN')}
                     </span>
                   </div>
-                  <div className="flex justify-between text-zinc-600">
+                  <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
                     <span className="flex items-center gap-1">
                       <span>{t.consumer.deliveryFee}</span>
                     </span>
-                    <span className="font-mono font-semibold text-zinc-900">₹{deliveryFee}</span>
+                    <span className="font-mono font-semibold text-zinc-900 dark:text-zinc-100">₹{deliveryFee}</span>
                   </div>
                   <div className="flex justify-between text-emerald-800">
                     <span className="flex items-center gap-1 font-semibold">
@@ -630,7 +659,7 @@ export default function ConsumerPortal() {
                     </span>
                     <span className="font-mono font-bold">₹{escrowProtectionFee}</span>
                   </div>
-                  <div className="pt-2 border-t border-zinc-100 flex justify-between text-sm font-extrabold text-zinc-950">
+                  <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800 flex justify-between text-sm font-extrabold text-zinc-950 dark:text-zinc-50">
                     <span>{t.consumer.totalEscrowAmount}</span>
                     <span className="font-mono text-base text-emerald-900">
                       ₹{totalPayable.toLocaleString('en-IN')}
@@ -639,9 +668,9 @@ export default function ConsumerPortal() {
                 </div>
 
                 {/* Consumer Delivery Details Form */}
-                <form onSubmit={handleInitiateCheckout} className="space-y-3 pt-2 border-t border-zinc-100">
+                <form onSubmit={handleInitiateCheckout} className="space-y-3 pt-2 border-t border-zinc-100 dark:border-zinc-800">
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-600 mb-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1">
                       {t.consumer.recipientName}
                     </label>
                     <input
@@ -649,12 +678,12 @@ export default function ConsumerPortal() {
                       required
                       value={buyerName}
                       onChange={(e) => setBuyerName(e.target.value)}
-                      className="w-full text-xs p-2 bg-zinc-50 border border-zinc-200 rounded-lg text-zinc-900 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                      className="w-full text-xs p-2 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-600"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-600 mb-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1">
                       {t.consumer.mobileNumber}
                     </label>
                     <input
@@ -662,12 +691,12 @@ export default function ConsumerPortal() {
                       required
                       value={buyerPhone}
                       onChange={(e) => setBuyerPhone(e.target.value)}
-                      className="w-full text-xs p-2 bg-zinc-50 border border-zinc-200 rounded-lg text-zinc-900 focus:outline-none focus:ring-1 focus:ring-emerald-600 font-mono"
+                      className="w-full text-xs p-2 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-600 font-mono"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-600 mb-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1">
                       {t.consumer.deliveryAddress}
                     </label>
                     <textarea
@@ -675,12 +704,12 @@ export default function ConsumerPortal() {
                       required
                       value={shippingAddress}
                       onChange={(e) => setShippingAddress(e.target.value)}
-                      className="w-full text-xs p-2 bg-zinc-50 border border-zinc-200 rounded-lg text-zinc-900 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                      className="w-full text-xs p-2 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-600"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-600 mb-1">
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1">
                       {t.consumer.settlementMethod}
                     </label>
                     <div className="grid grid-cols-2 gap-2 text-xs">
@@ -690,7 +719,7 @@ export default function ConsumerPortal() {
                         className={`p-2 rounded-lg border text-left font-semibold transition ${
                           paymentMethod === 'ESCROW_UPI'
                             ? 'bg-emerald-50/80 border-emerald-500 text-emerald-950'
-                            : 'bg-zinc-50 border-zinc-200 text-zinc-700'
+                            : 'bg-zinc-50 dark:bg-zinc-900/60 border-zinc-200 text-zinc-700 dark:text-zinc-300'
                         }`}
                       >
                         {t.consumer.methodUpi}
@@ -701,7 +730,7 @@ export default function ConsumerPortal() {
                         className={`p-2 rounded-lg border text-left font-semibold transition ${
                           paymentMethod === 'ESCROW_CARD'
                             ? 'bg-emerald-50/80 border-emerald-500 text-emerald-950'
-                            : 'bg-zinc-50 border-zinc-200 text-zinc-700'
+                            : 'bg-zinc-50 dark:bg-zinc-900/60 border-zinc-200 text-zinc-700 dark:text-zinc-300'
                         }`}
                       >
                         {t.consumer.methodCard}
@@ -710,8 +739,8 @@ export default function ConsumerPortal() {
                   </div>
 
                   {/* Escrow Disclaimer Box */}
-                  <div className="p-3 rounded-lg bg-zinc-50 border border-zinc-200 text-[11px] text-zinc-600 space-y-1">
-                    <div className="flex items-center gap-1.5 font-bold text-zinc-800">
+                  <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-600 dark:text-zinc-400 space-y-1">
+                    <div className="flex items-center gap-1.5 font-bold text-zinc-800 dark:text-zinc-200">
                       <Lock className="w-3.5 h-3.5 text-emerald-700" />
                       <span>{t.consumer.escrowWorksTitle}</span>
                     </div>
@@ -720,27 +749,37 @@ export default function ConsumerPortal() {
                     </p>
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={cartItems.length === 0 || isSubmitting}
-                    className="w-full py-3 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
-                  >
-                    <Lock className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Review & Confirm Order (₹{totalPayable.toLocaleString('en-IN')})</span>
-                  </button>
+                  <div className="flex flex-col gap-2 pt-1">
+                    <button
+                      type="submit"
+                      disabled={cartItems.length === 0 || isSubmitting}
+                      className="w-full py-3 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
+                    >
+                      <Lock className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Review & Confirm Order (₹{totalPayable.toLocaleString('en-IN')})</span>
+                    </button>
+
+                    <Link
+                      href="/checkout"
+                      className="w-full py-2.5 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-emerald-900 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                      <span>Open Dedicated Spatial Checkout</span>
+                    </Link>
+                  </div>
                 </form>
 
                 {/* Step Modal: Confirmation before payment / lock */}
                 {showConfirmModal && (
                   <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/60 backdrop-blur-sm">
-                    <div className="bg-white rounded-2xl border border-zinc-200 max-w-lg w-full p-6 shadow-2xl space-y-4">
-                      <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
+                    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 max-w-lg w-full p-6 shadow-2xl space-y-4">
+                      <div className="flex items-center justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800">
                         <div className="flex items-center gap-2">
                           <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
                             <ShieldCheck className="w-5 h-5" />
                           </div>
                           <div>
-                            <h3 className="text-sm font-extrabold text-zinc-950">
+                            <h3 className="text-sm font-extrabold text-zinc-950 dark:text-zinc-50">
                               Confirm Agrarian Escrow Lock
                             </h3>
                             <p className="text-[11px] text-zinc-500">
@@ -751,22 +790,22 @@ export default function ConsumerPortal() {
                         <button
                           type="button"
                           onClick={() => setShowConfirmModal(false)}
-                          className="p-1 rounded-md text-zinc-400 hover:text-zinc-600 font-bold"
+                          className="p-1 rounded-md text-zinc-400 hover:text-zinc-600 dark:text-zinc-400 font-bold"
                         >
                           ✕
                         </button>
                       </div>
 
                       {/* Delivery Details Overview */}
-                      <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-xs space-y-1.5">
+                      <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-xs space-y-1.5">
                         <div className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider">
                           Delivery Destination
                         </div>
-                        <div className="font-bold text-zinc-900 flex items-center justify-between">
+                        <div className="font-bold text-zinc-900 dark:text-zinc-100 flex items-center justify-between">
                           <span>{buyerName}</span>
-                          <span className="font-mono text-zinc-600">{buyerPhone}</span>
+                          <span className="font-mono text-zinc-600 dark:text-zinc-400">{buyerPhone}</span>
                         </div>
-                        <div className="text-zinc-600 leading-snug">
+                        <div className="text-zinc-600 dark:text-zinc-400 leading-snug">
                           {shippingAddress}
                         </div>
                       </div>
@@ -779,18 +818,18 @@ export default function ConsumerPortal() {
                         {cartItems.map((item) => (
                           <div
                             key={item.lotId}
-                            className="flex items-center justify-between p-2 rounded-lg bg-zinc-50 border border-zinc-100 text-xs"
+                            className="flex items-center justify-between p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-100 text-xs"
                           >
                             <div>
-                              <span className="font-bold text-zinc-900 mr-1.5">{item.cropName}</span>
-                              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-200 text-zinc-700">
+                              <span className="font-bold text-zinc-900 dark:text-zinc-100 mr-1.5">{item.cropName}</span>
+                              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200">
                                 Grade {item.grade}
                               </span>
                               <span className="text-zinc-500 ml-2">
                                 {item.quantityKg} kg × ₹{item.unitPrice}
                               </span>
                             </div>
-                            <span className="font-mono font-bold text-zinc-900">
+                            <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100">
                               ₹{(item.quantityKg * item.unitPrice).toLocaleString('en-IN')}
                             </span>
                           </div>
@@ -798,22 +837,22 @@ export default function ConsumerPortal() {
                       </div>
 
                       {/* Total & Escrow Breakdown */}
-                      <div className="pt-2 border-t border-zinc-100 space-y-1 text-xs">
-                        <div className="flex justify-between text-zinc-600">
+                      <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800 space-y-1 text-xs">
+                        <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
                           <span>Produce Subtotal:</span>
-                          <span className="font-mono font-semibold text-zinc-900">
+                          <span className="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
                             ₹{cartSubtotal.toLocaleString('en-IN')}
                           </span>
                         </div>
-                        <div className="flex justify-between text-zinc-600">
+                        <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
                           <span>Cold-Chain Delivery:</span>
-                          <span className="font-mono font-semibold text-zinc-900">₹{deliveryFee}</span>
+                          <span className="font-mono font-semibold text-zinc-900 dark:text-zinc-100">₹{deliveryFee}</span>
                         </div>
                         <div className="flex justify-between text-emerald-800">
                           <span>Direct-to-Farmer Middleman Markup:</span>
                           <span className="font-mono font-bold">₹0 (Zero Commission)</span>
                         </div>
-                        <div className="flex justify-between text-base font-extrabold text-zinc-950 pt-2 border-t border-zinc-200">
+                        <div className="flex justify-between text-base font-extrabold text-zinc-950 dark:text-zinc-50 pt-2 border-t border-zinc-200">
                           <span>Total Escrow Amount:</span>
                           <span className="font-mono text-emerald-900">
                             ₹{totalPayable.toLocaleString('en-IN')}
@@ -827,7 +866,7 @@ export default function ConsumerPortal() {
                           type="button"
                           onClick={() => setShowConfirmModal(false)}
                           disabled={isSubmitting}
-                          className="flex-1 py-2.5 rounded-xl border border-zinc-300 hover:bg-zinc-50 text-zinc-800 text-xs font-semibold transition"
+                          className="flex-1 py-2.5 rounded-xl border border-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 text-zinc-800 dark:text-zinc-200 text-xs font-semibold transition"
                         >
                           Edit Order Details
                         </button>
@@ -852,10 +891,10 @@ export default function ConsumerPortal() {
         {/* TAB 3: ORDERS & ESCROW TRACKING */}
         {activeTab === 'orders' && (
           <div className="space-y-6">
-            <div className="bg-white rounded-xl border border-zinc-200 p-5 shadow-2xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-zinc-100">
+            <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-2xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-zinc-100 dark:border-zinc-800">
                 <div>
-                  <h2 className="text-base font-bold text-zinc-950 flex items-center gap-2">
+                  <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-50 flex items-center gap-2">
                     <Package className="w-4 h-4 text-emerald-700" />
                     <span>{t.consumer.ordersLedgerTitle}</span>
                   </h2>
@@ -863,7 +902,7 @@ export default function ConsumerPortal() {
                     {t.consumer.ordersLedgerSubtitle}
                   </p>
                 </div>
-                <span className="text-xs font-mono font-bold px-2.5 py-1 bg-zinc-100 text-zinc-700 rounded-lg self-start sm:self-auto">
+                <span className="text-xs font-mono font-bold px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-lg self-start sm:self-auto">
                   {t.consumer.activeRecordsCount.replace('{count}', String(orders.length))}
                 </span>
               </div>
@@ -871,7 +910,7 @@ export default function ConsumerPortal() {
               {orders.length === 0 ? (
                 <div className="py-12 text-center">
                   <Package className="w-10 h-10 text-zinc-400 mx-auto mb-2" />
-                  <p className="text-sm font-semibold text-zinc-800">{t.consumer.noOrdersTitle}</p>
+                  <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{t.consumer.noOrdersTitle}</p>
                   <p className="text-xs text-zinc-500 mt-0.5">
                     {t.consumer.noOrdersDesc}
                   </p>
@@ -883,7 +922,7 @@ export default function ConsumerPortal() {
                   </button>
                 </div>
               ) : (
-                <div className="divide-y divide-zinc-100 mt-2">
+                <div className="divide-y divide-zinc-100 dark:divide-zinc-800 mt-2">
                   {orders.map((order) => {
                     const isDelivered = order.status === 'DELIVERED';
                     const isDispatched = order.status === 'DISPATCHED';
@@ -891,7 +930,7 @@ export default function ConsumerPortal() {
                       <div key={order.id} className="py-4 space-y-3">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                           <div className="flex items-center gap-2.5">
-                            <span className="text-xs font-mono font-extrabold text-zinc-900 bg-zinc-100 px-2.5 py-1 rounded">
+                            <span className="text-xs font-mono font-extrabold text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded">
                               {order.id}
                             </span>
                             <span
@@ -913,7 +952,7 @@ export default function ConsumerPortal() {
                           </div>
 
                           <div className="text-right">
-                            <div className="text-sm font-mono font-extrabold text-zinc-900">
+                            <div className="text-sm font-mono font-extrabold text-zinc-900 dark:text-zinc-100">
                               ₹{order.totalPrice.toLocaleString('en-IN')}
                             </div>
                             <div className="text-[10px] text-zinc-500">{order.createdAt}</div>
@@ -921,16 +960,16 @@ export default function ConsumerPortal() {
                         </div>
 
                         {/* Order Description & Delivery Info */}
-                        <div className="bg-zinc-50/80 rounded-lg p-3 text-xs text-zinc-700 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        <div className="bg-zinc-50 dark:bg-zinc-900/60/80 dark:bg-zinc-900/50 rounded-lg p-3 text-xs text-zinc-700 dark:text-zinc-300 flex flex-col md:flex-row md:items-center justify-between gap-3">
                           <div>
-                            <div className="font-semibold text-zinc-900">{order.items}</div>
+                            <div className="font-semibold text-zinc-900 dark:text-zinc-100">{order.items}</div>
                             <div className="text-[11px] text-zinc-500 mt-0.5">
                               {t.consumer.deliverTo.replace('{address}', order.shippingAddress || 'Direct Doorstep')}
                             </div>
                           </div>
 
                           {order.trackingId && (
-                            <div className="text-[11px] font-mono text-zinc-600 bg-white border border-zinc-200 px-2.5 py-1 rounded-md self-start md:self-auto">
+                            <div className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 bg-white dark:bg-zinc-900 border border-zinc-200 px-2.5 py-1 rounded-md self-start md:self-auto">
                               {t.consumer.trackingId.replace('{id}', order.trackingId)}
                             </div>
                           )}
