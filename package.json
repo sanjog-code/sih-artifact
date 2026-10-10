@@ -2,7 +2,7 @@
   "name": "farmlink",
   "version": "0.1.0",
   "private": true,
-  "description": "FarmLink - farmer-friendly produce marketplace for Smart India Hackathon 2026 (PS 26033)",
+  "description": "FarmLink — Direct produce marketplace connecting farmers, accredited warehouses, and verified buyers with transparent pricing.",
   "packageManager": "pnpm@12.4.1",
   "engines": {
     "node": ">=22.0.0"

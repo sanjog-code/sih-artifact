@@ -1,17 +1,21 @@
 import { Lang } from '../constants';
 import { en } from './en';
 import { hi } from './hi';
+import { pa } from './pa';
+import { mr } from './mr';
+import { te } from './te';
+import { ta } from './ta';
 import type { Dictionary } from './en';
 
-export { en, hi };
+export { en, hi, pa, mr, te, ta };
 export type { Dictionary };
 
 /**
- * Architecture for additional Indian languages: add a new dict here and it is
- * wired through `t()`. Fallback is English, so partial translations are safe.
+ * All 6 Indian languages wired through `t()`.
+ * Fallback is English, ensuring partial translations never crash.
  */
-const dictionaries: Record<Lang, Dictionary> = { en, hi };
-export const availableLanguages: Lang[] = ['en', 'hi'];
+const dictionaries: Record<Lang, Dictionary> = { en, hi, pa, mr, te, ta };
+export const availableLanguages: Lang[] = ['en', 'hi', 'pa', 'mr', 'te', 'ta'];
 
 export function translate(lang: Lang, keyPath: string, params?: Record<string, string | number>): string {
   const dict = dictionaries[lang] ?? dictionaries.en;

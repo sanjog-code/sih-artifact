@@ -1,319 +1,740 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
+import Link from 'next/link';
+import { useLanguage } from '../context/LanguageContext';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import InquiryModal from '../components/InquiryModal';
+import { useProduceStore, useOrderStore, useRfqStore, ProduceLotItem } from '../lib/store';
+import {
+  Shield,
+  ArrowRight,
+  Search,
+  CheckCircle2,
+  AlertCircle,
+  Scale,
+  Camera,
+  ThermometerSnowflake,
+  PhoneCall,
+  Sprout,
+  Building2,
+  Truck,
+} from 'lucide-react';
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'advisory' | 'architecture' | 'pilot'>('advisory');
-  const [selectedCrop, setSelectedCrop] = useState('Tomato');
-  const [holdingDays, setHoldingDays] = useState(1);
+  const { t } = useLanguage();
+  const [inquiryOpen, setInquiryOpen] = useState(false);
 
-  const advisoryData: Record<string, { range: string; conf: string; fresh: string; factors: string[]; msp?: number; rec: string }> = {
-    Tomato: {
-      range: '₹26 - ₹29/kg',
-      conf: '78%',
-      fresh: 'Today, 9:00 AM',
-      factors: [
-        'Nearby regional demand is up 8% this week.',
-        'Grade A availability in Jaipur North is moderate.',
-        'Your lot is 1 day old; shelf-life risk is low.'
-      ],
-      rec: 'SELL_THIS_WEEK'
-    },
-    'Rapeseed & mustard': {
-      range: '₹82 - ₹98.40/kg',
-      conf: '84%',
-      fresh: 'Today, 9:00 AM',
-      msp: 56.50,
-      factors: [
-        'Official MSP floor secured at ₹56.50/kg.',
-        'Jaitpura/Phulera regional pilot: ₹82/kg purchase, ₹98.40/kg selling price.',
-        'Non-perishable commodity; eligible for 50% working capital pledge advance.'
-      ],
-      rec: 'HOLD_OR_PLEDGE'
-    },
-    Wheat: {
-      range: '₹24 - ₹28.50/kg',
-      conf: '82%',
-      fresh: 'Today, 9:00 AM',
-      msp: 22.75,
-      factors: [
-        'Official MSP floor is ₹22.75/kg (guaranteed minimum).',
-        'Stable market arrival volumes across Rajasthan APMCs.',
-        'Low storage depreciation in accredited warehouse facilities.'
-      ],
-      rec: 'HOLD_OR_SELL'
+  // Persistence Stores
+  const { listings, decrementQuantity } = useProduceStore();
+  const { placeOrder } = useOrderStore();
+  const { submitRfq } = useRfqStore();
+
+  // Advisory State
+  const [selectedCrop, setSelectedCrop] = useState<'Tomato' | 'Mustard' | 'Wheat' | 'Soybean'>('Tomato');
+  const [holdingDays, setHoldingDays] = useState<number>(1);
+  const [actionNotice, setActionNotice] = useState<string | null>(null);
+
+  // Marketplace State
+  const [marketFilter, setMarketFilter] = useState<'all' | 'grains' | 'vegetables' | 'oilseeds' | 'pulses'>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [cartSuccessNotice, setCartSuccessNotice] = useState<string | null>(null);
+
+  // Advisory Dynamic Engine
+  const advisoryEngine = useMemo(() => {
+    switch (selectedCrop) {
+      case 'Tomato': {
+        const baseMin = 26;
+        const baseMax = 29;
+        const decay = holdingDays >= 6 ? 0.85 : holdingDays >= 3 ? 0.95 : 1.0;
+        return {
+          range: `₹${(baseMin * decay).toFixed(0)} - ₹${(baseMax * decay).toFixed(0)} / ${t.market.perKg}`,
+          conf: holdingDays === 1 ? '88%' : holdingDays === 3 ? '81%' : '74%',
+          fresh: 'Just now (APMC Real-Time)',
+          factors: [t.advisory.factorDemand, t.advisory.factorGrade, t.advisory.factorShelf],
+          isPerishableNearExpiry: holdingDays >= 6,
+        };
+      }
+      case 'Mustard': {
+        return {
+          range: `₹84 - ₹96 / ${t.market.perKg}`,
+          conf: '91%',
+          fresh: 'Verified 09:30 AM',
+          factors: [t.advisory.factorMsp, t.advisory.factorPledge, t.advisory.factorStorage],
+          isPerishableNearExpiry: false,
+        };
+      }
+      case 'Wheat': {
+        return {
+          range: `₹24.50 - ₹28 / ${t.market.perKg}`,
+          conf: '94%',
+          fresh: 'Verified 09:30 AM',
+          factors: [t.advisory.factorMsp, t.advisory.factorStorage, t.advisory.factorDemand],
+          isPerishableNearExpiry: false,
+        };
+      }
+      case 'Soybean': {
+        return {
+          range: `₹46 - ₹52 / ${t.market.perKg}`,
+          conf: '86%',
+          fresh: 'Verified 10:00 AM',
+          factors: [t.advisory.factorMsp, t.advisory.factorGrade, t.advisory.factorDemand],
+          isPerishableNearExpiry: false,
+        };
+      }
     }
+  }, [selectedCrop, holdingDays, t]);
+
+  const getLotDisplayName = useCallback((lot: ProduceLotItem) => {
+    if (t?.advisory && (t.advisory as Record<string, string>)[lot.nameKey]) {
+      return (t.advisory as Record<string, string>)[lot.nameKey];
+    }
+    return lot.cropName || lot.id;
+  }, [t]);
+
+  const filteredLots = useMemo(() => {
+    return listings.filter((lot) => {
+      const matchesCategory = marketFilter === 'all' || lot.category === marketFilter;
+      const cropName = getLotDisplayName(lot).toLowerCase();
+      const matchesSearch =
+        searchQuery === '' ||
+        cropName.includes(searchQuery.toLowerCase()) ||
+        lot.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lot.id.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch && lot.quantityKg > 0;
+    });
+  }, [listings, marketFilter, searchQuery, getLotDisplayName]);
+
+  const handleHoldAction = () => {
+    setActionNotice(t.advisory.holdSuccess);
+    setTimeout(() => setActionNotice(null), 4000);
   };
 
-  const currentAdvisory = advisoryData[selectedCrop] || advisoryData.Tomato;
+  const handleListAction = () => {
+    setActionNotice(t.advisory.listSuccess);
+    setTimeout(() => setActionNotice(null), 4000);
+  };
+
+  const handleLotOrder = (lotId: string) => {
+    const target = listings.find((l) => l.id.toLowerCase() === lotId.toLowerCase());
+    if (!target) return;
+
+    const orderAmountKg = Math.min(target.quantityKg, 1000);
+    decrementQuantity(target.id, orderAmountKg);
+
+    const order = placeOrder({
+      lotId: target.id,
+      items: `${orderAmountKg} kg ${target.cropName} (Grade ${target.grade})`,
+      commodity: target.cropName,
+      quantityKg: orderAmountKg,
+      unitPrice: target.price,
+      totalPrice: orderAmountKg * target.price,
+      buyerType: 'BULK_BUYER',
+      buyerName: 'Verified Institutional Buyer',
+      status: 'ESCROW_LOCKED',
+      escrowLocked: true,
+      createdAt: 'Just now',
+    });
+
+    submitRfq({
+      lotId: target.id,
+      crop: target.cropName,
+      sellerCluster: target.cluster,
+      volumeKg: orderAmountKg,
+      askingRate: target.price,
+      bidRate: target.price,
+      status: 'ACCEPTED',
+      escrowLocked: true,
+      createdAt: 'Just now',
+    });
+
+    setCartSuccessNotice(
+      `${t.market.quoteSentMsg} (${target.id}) — Order #${order.id} placed & escrow locked!`
+    );
+    setTimeout(() => setCartSuccessNotice(null), 4500);
+  };
 
   return (
-    <div className="min-h-screen bg-emerald-50/40 text-zinc-900 font-sans">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#1f5c37] text-white shadow-md">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl font-bold tracking-tight">FarmLink 🌱</span>
-            <span className="text-xs bg-emerald-700/80 text-emerald-100 px-2 py-0.5 rounded-full font-medium">
-              SIH 2026 · PS 26033
-            </span>
-          </div>
-          <div className="flex items-center gap-4">
-            <a
-              href="https://farmlinkk.vercel.app"
-              target="_blank"
-              rel="noreferrer"
-              className="bg-emerald-400 text-emerald-950 hover:bg-emerald-300 px-3 py-1.5 rounded-lg text-sm font-semibold transition"
-            >
-              Open Live Web Demo ↗
-            </a>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-[#fafafa] text-zinc-900 font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-950">
+      <Navbar onOpenInquiry={() => setInquiryOpen(true)} />
 
-      {/* Hero Section */}
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        <section className="text-center py-6">
-          <p className="text-emerald-700 font-bold tracking-wide uppercase text-xs">
-            Smart India Hackathon 2026 · Team False 6
-          </p>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1f5c37] mt-2 mb-3">
-            Connecting Farmers, Warehouses & Consumers Directly
-          </h1>
-          <p className="text-zinc-600 max-w-2xl mx-auto text-base">
-            Eliminating intermediate trader markups to deliver <strong className="text-emerald-800">+₹5/kg more for farmers</strong> while saving <strong className="text-emerald-800">₹5–8/kg for consumers</strong> with explainable AI pricing and e-NWR pledge liquidity.
-          </p>
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="relative pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-white border-b border-zinc-200/80">
+          <div className="max-w-5xl mx-auto text-center space-y-6">
+            {/* Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-900 text-xs font-semibold tracking-wide uppercase">
+              <Shield className="w-3.5 h-3.5 text-emerald-700" />
+              <span>{t.hero.badge}</span>
+            </div>
+
+            {/* Headline */}
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-zinc-950 tracking-tight leading-tight">
+              {t.hero.titleLine1} <br />
+              <span className="text-zinc-500 font-semibold">{t.hero.titleLine2}</span>
+            </h1>
+
+            {/* Subtext */}
+            <p className="text-base sm:text-lg text-zinc-600 max-w-2xl mx-auto leading-relaxed">
+              {t.hero.description}
+            </p>
+
+            {/* CTAs */}
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="#marketplace"
+                className="px-6 py-3 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 shadow-xs"
+              >
+                <span>{t.hero.exploreMarket}</span>
+                <ArrowRight className="w-4 h-4 text-zinc-400" />
+              </a>
+
+              <a
+                href="#advisory"
+                className="px-6 py-3 bg-white hover:bg-zinc-50 text-zinc-800 border border-zinc-300 rounded-xl text-xs sm:text-sm font-semibold transition"
+              >
+                {t.hero.calculatePrice}
+              </a>
+            </div>
+
+            {/* Trust Metrics Ribbon */}
+            <div className="pt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto border-t border-zinc-100">
+              <div className="p-3 text-center">
+                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 font-mono">
+                  {t.hero.trustStat1}
+                </span>
+                <span className="text-xs text-zinc-500 font-medium">
+                  {t.hero.trustStat1Sub}
+                </span>
+              </div>
+              <div className="p-3 text-center">
+                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 font-mono">
+                  {t.hero.trustStat2}
+                </span>
+                <span className="text-xs text-zinc-500 font-medium">
+                  {t.hero.trustStat2Sub}
+                </span>
+              </div>
+              <div className="p-3 text-center">
+                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 font-mono">
+                  {t.hero.trustStat3}
+                </span>
+                <span className="text-xs text-zinc-500 font-medium">
+                  {t.hero.trustStat3Sub}
+                </span>
+              </div>
+              <div className="p-3 text-center">
+                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 font-mono">
+                  {t.hero.trustStat4}
+                </span>
+                <span className="text-xs text-zinc-500 font-medium">
+                  {t.hero.trustStat4Sub}
+                </span>
+              </div>
+            </div>
+
+            {/* Operational Portals Grid */}
+            <div className="pt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Link
+                href="/farmer"
+                className="group p-4 bg-white hover:bg-emerald-50/40 rounded-xl border border-zinc-200 hover:border-emerald-300 transition text-left shadow-xs flex flex-col justify-between"
+              >
+                <div>
+                  <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center mb-2.5">
+                    <Sprout className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-sm font-bold text-zinc-950 group-hover:text-emerald-900 transition flex items-center justify-between">
+                    <span>{t.nav.farmer}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-emerald-700 transition transform group-hover:translate-x-0.5" />
+                  </h3>
+                  <p className="text-xs text-zinc-600 mt-1">
+                    {t.portal.farmerDeskDesc}
+                  </p>
+                </div>
+                <div className="mt-3 pt-2 border-t border-zinc-100 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 font-semibold">
+                  <span>{t.portal.openFarmerDesk}</span>
+                </div>
+              </Link>
+
+              <Link
+                href="/buyer"
+                className="group p-4 bg-white hover:bg-emerald-50/40 rounded-xl border border-zinc-200 hover:border-emerald-300 transition text-left shadow-xs flex flex-col justify-between"
+              >
+                <div>
+                  <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-800 flex items-center justify-center mb-2.5">
+                    <Building2 className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-sm font-bold text-zinc-950 group-hover:text-emerald-900 transition flex items-center justify-between">
+                    <span>{t.nav.buyer}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-emerald-700 transition transform group-hover:translate-x-0.5" />
+                  </h3>
+                  <p className="text-xs text-zinc-600 mt-1">
+                    {t.portal.buyerDeskDesc}
+                  </p>
+                </div>
+                <div className="mt-3 pt-2 border-t border-zinc-100 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 font-semibold">
+                  <span>{t.portal.openBuyerDesk}</span>
+                </div>
+              </Link>
+
+              <Link
+                href="/logistics"
+                className="group p-4 bg-white hover:bg-emerald-50/40 rounded-xl border border-zinc-200 hover:border-emerald-300 transition text-left shadow-xs flex flex-col justify-between"
+              >
+                <div>
+                  <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-800 flex items-center justify-center mb-2.5">
+                    <Truck className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-sm font-bold text-zinc-950 group-hover:text-emerald-900 transition flex items-center justify-between">
+                    <span>{t.nav.logistics}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-emerald-700 transition transform group-hover:translate-x-0.5" />
+                  </h3>
+                  <p className="text-xs text-zinc-600 mt-1">
+                    {t.portal.logisticsDeskDesc}
+                  </p>
+                </div>
+                <div className="mt-3 pt-2 border-t border-zinc-100 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 font-semibold">
+                  <span>{t.portal.openLogisticsDesk}</span>
+                </div>
+              </Link>
+            </div>
+          </div>
         </section>
 
-        {/* Navigation Tabs */}
-        <div className="flex justify-center gap-2 mb-8">
-          <button
-            onClick={() => setActiveTab('advisory')}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
-              activeTab === 'advisory' ? 'bg-[#1f5c37] text-white' : 'bg-white text-zinc-700 hover:bg-emerald-100'
-            }`}
-          >
-            Explainable AI Advisory (Slide 7)
-          </button>
-          <button
-            onClick={() => setActiveTab('architecture')}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
-              activeTab === 'architecture' ? 'bg-[#1f5c37] text-white' : 'bg-white text-zinc-700 hover:bg-emerald-100'
-            }`}
-          >
-            4 AI Services & Architecture
-          </button>
-          <button
-            onClick={() => setActiveTab('pilot')}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
-              activeTab === 'pilot' ? 'bg-[#1f5c37] text-white' : 'bg-white text-zinc-700 hover:bg-emerald-100'
-            }`}
-          >
-            Phulera Financial Pilot (Slide 8)
-          </button>
-        </div>
+        {/* Section 1: Interactive Price Advisory */}
+        <section id="advisory" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="text-xs uppercase font-mono tracking-wider text-emerald-800 font-bold">
+              {t.advisory.sectionBadge}
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-zinc-950 mt-1 mb-2 tracking-tight">
+              {t.advisory.title}
+            </h2>
+            <p className="text-sm text-zinc-600">
+              {t.advisory.subtitle}
+            </p>
+          </div>
 
-        {/* Tab 1: Explainable AI Advisory (Slide 7) */}
-        {activeTab === 'advisory' && (
-          <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm border border-emerald-200/80 p-6">
-            <div className="flex items-center justify-between border-b pb-3 mb-4">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
-                  Explainable Farm Advisory
-                </span>
-                <h2 className="text-xl font-bold text-[#1f5c37] mt-0.5">
-                  {selectedCrop}: consider selling this week
-                </h2>
+          <div className="bg-white rounded-2xl border border-zinc-200 shadow-xs overflow-hidden">
+            {/* Notification Banner */}
+            {actionNotice && (
+              <div className="bg-emerald-50 border-b border-emerald-200 px-6 py-3 text-xs font-semibold text-emerald-900 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>{actionNotice}</span>
               </div>
-              <span className="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full">
-                Live Guidance
+            )}
+
+            <div className="p-6 sm:p-8">
+              {/* Controls */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-700 mb-1.5">
+                    {t.advisory.cropLabel}
+                  </label>
+                  <select
+                    value={selectedCrop}
+                    onChange={(e) => setSelectedCrop(e.target.value as 'Tomato' | 'Mustard' | 'Wheat' | 'Soybean')}
+                    className="w-full bg-zinc-50 border border-zinc-200 rounded-lg p-2.5 text-xs sm:text-sm font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                  >
+                    <option value="Tomato">{t.advisory.cropTomato}</option>
+                    <option value="Mustard">{t.advisory.cropMustard}</option>
+                    <option value="Wheat">{t.advisory.cropWheat}</option>
+                    <option value="Soybean">{t.advisory.cropSoybean}</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-700 mb-1.5">
+                    {t.advisory.holdingLabel}
+                  </label>
+                  <select
+                    value={holdingDays}
+                    onChange={(e) => setHoldingDays(Number(e.target.value))}
+                    className="w-full bg-zinc-50 border border-zinc-200 rounded-lg p-2.5 text-xs sm:text-sm font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                  >
+                    <option value={1}>{t.advisory.holdingDay1}</option>
+                    <option value={3}>{t.advisory.holdingDay3}</option>
+                    <option value={6}>{t.advisory.holdingDay6}</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Valuation Dashboard */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-zinc-50 border border-zinc-200 rounded-xl p-4 mb-6 text-center">
+                <div>
+                  <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wide block">
+                    {t.advisory.suggestedRange}
+                  </span>
+                  <span className="text-xl sm:text-2xl font-extrabold text-zinc-950 font-mono mt-0.5 block">
+                    {advisoryEngine.range}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wide block">
+                    {t.advisory.confidence}
+                  </span>
+                  <span className="text-xl sm:text-2xl font-extrabold text-emerald-800 font-mono mt-0.5 block">
+                    {advisoryEngine.conf}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wide block">
+                    {t.advisory.dataFreshness}
+                  </span>
+                  <span className="text-xs font-semibold text-zinc-700 mt-2 block">
+                    {advisoryEngine.fresh}
+                  </span>
+                </div>
+              </div>
+
+              {/* Explainable Reasoning Factors */}
+              <div className="mb-6">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3">
+                  {t.advisory.factorsTitle}
+                </h4>
+                <ul className="space-y-2 text-xs sm:text-sm text-zinc-700">
+                  {advisoryEngine.factors.map((factor, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <span>{factor}</span>
+                    </li>
+                  ))}
+                  {advisoryEngine.isPerishableNearExpiry && (
+                    <li className="flex items-start gap-2 text-amber-900 bg-amber-50 p-2 rounded-lg border border-amber-200">
+                      <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                      <span>{t.advisory.spoilageWarning}</span>
+                    </li>
+                  )}
+                </ul>
+              </div>
+
+              {/* Guardrail Disclaimer */}
+              <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-3 text-xs text-zinc-600 flex items-center gap-2 mb-6">
+                <Scale className="w-4 h-4 text-zinc-500 shrink-0" />
+                <span>{t.advisory.guardrailText}</span>
+              </div>
+
+              {/* Interactive Decision Actions */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={handleHoldAction}
+                  className="w-full py-3 px-4 border border-zinc-300 hover:bg-zinc-50 rounded-xl text-xs sm:text-sm font-semibold text-zinc-800 transition"
+                >
+                  {t.advisory.btnHold}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleListAction}
+                  className="w-full py-3 px-4 bg-zinc-900 hover:bg-zinc-800 rounded-xl text-xs sm:text-sm font-semibold text-white transition shadow-xs"
+                >
+                  {t.advisory.btnList}
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 2: Live Verified Produce Marketplace */}
+        <section id="marketplace" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-200">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div>
+              <span className="text-xs uppercase font-mono tracking-wider text-emerald-800 font-bold">
+                {t.market.sectionBadge}
               </span>
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-zinc-950 mt-1 tracking-tight">
+                {t.market.title}
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-600 mt-1 max-w-xl">
+                {t.market.subtitle}
+              </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <div>
-                <label className="text-xs font-bold text-zinc-600 block mb-1">Select Crop:</label>
-                <select
-                  value={selectedCrop}
-                  onChange={(e) => setSelectedCrop(e.target.value)}
-                  className="w-full bg-emerald-50/50 border border-emerald-300 rounded-lg p-2 text-sm font-medium text-zinc-800"
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap gap-1.5">
+              {(['all', 'grains', 'vegetables', 'oilseeds', 'pulses'] as const).map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setMarketFilter(cat)}
+                  className={`text-xs px-3 py-1.5 rounded-lg font-medium transition border ${
+                    marketFilter === cat
+                      ? 'bg-zinc-900 text-white border-zinc-900 font-semibold'
+                      : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50'
+                  }`}
                 >
-                  <option value="Tomato">Tomato (Perishable)</option>
-                  <option value="Rapeseed & mustard">Rapeseed & Mustard (Oilseed)</option>
-                  <option value="Wheat">Wheat (MSP Storable Grain)</option>
-                </select>
+                  {cat === 'all'
+                    ? t.market.allCrops
+                    : cat === 'grains'
+                    ? t.market.grains
+                    : cat === 'vegetables'
+                    ? t.market.vegetables
+                    : cat === 'oilseeds'
+                    ? t.market.oilseeds
+                    : t.market.pulses}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Search Box */}
+          <div className="relative mb-6 max-w-md">
+            <Search className="w-4 h-4 text-zinc-400 absolute left-3 top-3" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={t.market.searchPlaceholder}
+              className="w-full pl-9 pr-3 py-2 text-xs border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 text-zinc-900"
+            />
+          </div>
+
+          {/* Quote Success Notice */}
+          {cartSuccessNotice && (
+            <div className="mb-6 p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 font-medium flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+              <span>{cartSuccessNotice}</span>
+            </div>
+          )}
+
+          {/* Grid of Verified Produce Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {filteredLots.map((lot) => (
+              <div
+                key={lot.id}
+                className="bg-white rounded-xl border border-zinc-200 p-5 shadow-xs hover:border-zinc-300 transition flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono uppercase bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded font-semibold">
+                      {lot.id}
+                    </span>
+                    <span className="text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200/60 px-2 py-0.5 rounded-full">
+                      {t.common.grade.replace('{grade}', lot.grade)}
+                    </span>
+                  </div>
+
+                  <h3 className="text-base font-bold text-zinc-950 mt-1">
+                    {getLotDisplayName(lot)}
+                  </h3>
+                  <div className="text-xl font-extrabold text-zinc-950 font-mono mt-2">
+                    ₹{lot.price} <span className="text-xs text-zinc-500 font-normal">/ {t.market.perKg}</span>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-zinc-100 space-y-1.5 text-[11px] text-zinc-600">
+                    <div className="flex justify-between">
+                      <span className="text-zinc-500">{t.market.inStock}:</span>
+                      <strong className="text-zinc-900 font-mono">{lot.quantity}</strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-zinc-500">{t.market.warehouseLabel}:</span>
+                      <span className="text-zinc-900 text-right truncate max-w-[140px]">{lot.location}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-zinc-500">{t.market.farmerLabel}:</span>
+                      <span className="text-zinc-900 text-right truncate max-w-[140px]">{lot.cluster}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-5 pt-3 border-t border-zinc-100 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleLotOrder(lot.id)}
+                    className="flex-1 py-2 text-center text-xs font-semibold bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg transition"
+                  >
+                    {t.market.buyNow}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setInquiryOpen(true)}
+                    className="px-3 py-2 text-xs font-semibold border border-zinc-200 hover:bg-zinc-50 text-zinc-700 rounded-lg transition"
+                  >
+                    {t.portal.rfqBtn}
+                  </button>
+                </div>
               </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Section 3: Verifiable Infrastructure (4 Pillars) */}
+        <section id="architecture" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-zinc-200">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs uppercase font-mono tracking-wider text-emerald-800 font-bold">
+              {t.architecture.sectionBadge}
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-zinc-950 mt-1 mb-2 tracking-tight">
+              {t.architecture.title}
+            </h2>
+            <p className="text-sm text-zinc-600">
+              {t.architecture.subtitle}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Card 1 */}
+            <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-xs flex flex-col justify-between">
               <div>
-                <label className="text-xs font-bold text-zinc-600 block mb-1">Holding Age:</label>
-                <select
-                  value={holdingDays}
-                  onChange={(e) => setHoldingDays(Number(e.target.value))}
-                  className="w-full bg-emerald-50/50 border border-emerald-300 rounded-lg p-2 text-sm font-medium text-zinc-800"
-                >
-                  <option value={1}>1 Day Fresh</option>
-                  <option value={3}>3 Days in Storage</option>
-                  <option value={6}>6 Days (Near Spoilage Limit)</option>
-                </select>
+                <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-900 flex items-center justify-center mb-3">
+                  <Camera className="w-4 h-4" />
+                </div>
+                <span className="text-[10px] font-mono uppercase bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">
+                  {t.architecture.card1Badge}
+                </span>
+                <h3 className="text-base font-bold text-zinc-950 mt-2 mb-2">
+                  {t.architecture.card1Title}
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                  {t.architecture.card1Desc}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-zinc-100 text-[11px] font-mono text-zinc-500">
+                {t.portal.standardAgmark}
               </div>
             </div>
 
-            {/* Metrics Ribbon */}
-            <div className="grid grid-cols-3 gap-3 bg-[#eef7f2] border border-emerald-200 rounded-xl p-3 mb-4 text-center">
+            {/* Card 2 */}
+            <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-xs flex flex-col justify-between">
               <div>
-                <span className="text-[11px] font-bold text-emerald-800 uppercase block">Suggested Range</span>
-                <span className="text-lg font-extrabold text-[#1f5c37]">{currentAdvisory.range}</span>
+                <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-900 flex items-center justify-center mb-3">
+                  <Scale className="w-4 h-4" />
+                </div>
+                <span className="text-[10px] font-mono uppercase bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">
+                  {t.architecture.card2Badge}
+                </span>
+                <h3 className="text-base font-bold text-zinc-950 mt-2 mb-2">
+                  {t.architecture.card2Title}
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                  {t.architecture.card2Desc}
+                </p>
               </div>
-              <div>
-                <span className="text-[11px] font-bold text-emerald-800 uppercase block">Confidence</span>
-                <span className="text-lg font-extrabold text-[#1f5c37]">{currentAdvisory.conf}</span>
-              </div>
-              <div>
-                <span className="text-[11px] font-bold text-emerald-800 uppercase block">Data Freshness</span>
-                <span className="text-sm font-bold text-[#1f5c37] mt-1 block">{currentAdvisory.fresh}</span>
+              <div className="mt-4 pt-3 border-t border-zinc-100 text-[11px] font-mono text-zinc-500">
+                {t.portal.guaranteedMsp}
               </div>
             </div>
 
-            {/* Why This Guidance */}
-            <div className="mb-4">
-              <h3 className="text-sm font-bold text-[#1f5c37] mb-2">Why this guidance?</h3>
-              <ul className="space-y-1.5 text-sm text-zinc-700 pl-4 list-disc">
-                {currentAdvisory.factors.map((factor, i) => (
-                  <li key={i}>{factor}</li>
-                ))}
-                {holdingDays >= 6 && selectedCrop === 'Tomato' && (
-                  <li className="text-amber-700 font-medium">
-                    Batch has reached 6 days in storage. Consider 10% markdown to redistribute before spoilage.
-                  </li>
-                )}
+            {/* Card 3 */}
+            <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-900 flex items-center justify-center mb-3">
+                  <ThermometerSnowflake className="w-4 h-4" />
+                </div>
+                <span className="text-[10px] font-mono uppercase bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">
+                  {t.architecture.card3Badge}
+                </span>
+                <h3 className="text-base font-bold text-zinc-950 mt-2 mb-2">
+                  {t.architecture.card3Title}
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                  {t.architecture.card3Desc}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-zinc-100 text-[11px] font-mono text-zinc-500">
+                {t.portal.telemetrySensors}
+              </div>
+            </div>
+
+            {/* Card 4 */}
+            <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-900 flex items-center justify-center mb-3">
+                  <PhoneCall className="w-4 h-4" />
+                </div>
+                <span className="text-[10px] font-mono uppercase bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">
+                  {t.architecture.card4Badge}
+                </span>
+                <h3 className="text-base font-bold text-zinc-950 mt-2 mb-2">
+                  {t.architecture.card4Title}
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                  {t.architecture.card4Desc}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-zinc-100 text-[11px] font-mono text-zinc-500">
+                {t.portal.accessIvr}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 4: Direct Economic Comparison */}
+        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto border-t border-zinc-200">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 tracking-tight">
+              {t.comparison.title}
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-600 mt-1">
+              {t.comparison.subtitle}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Traditional Channel */}
+            <div className="bg-white rounded-xl border border-red-200/80 p-6 shadow-xs">
+              <span className="text-[10px] font-mono uppercase bg-red-50 text-red-700 px-2 py-0.5 rounded font-bold">
+                {t.portal.legacySupplyChain}
+              </span>
+              <h3 className="text-base font-bold text-zinc-950 mt-2 mb-4">
+                {t.comparison.middlemanTitle}
+              </h3>
+              <ul className="space-y-3 text-xs sm:text-sm text-zinc-600">
+                <li className="flex items-start gap-2">
+                  <span className="text-red-500 font-bold shrink-0">✕</span>
+                  <span>{t.comparison.middlemanDeduction}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-500 font-bold shrink-0">✕</span>
+                  <span>{t.comparison.middlemanDelay}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-500 font-bold shrink-0">✕</span>
+                  <span>{t.comparison.middlemanGrading}</span>
+                </li>
               </ul>
             </div>
 
-            {/* Guardrail Disclaimer */}
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-2.5 text-xs text-amber-900 flex items-center gap-2 mb-4">
-              <span>🛡️</span>
-              <span>This is an explainable recommendation, not a guaranteed price. You remain in control of your sale decision.</span>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex gap-3">
-              <button className="flex-1 border-2 border-[#1f5c37] text-[#1f5c37] hover:bg-emerald-50 py-2.5 rounded-lg text-sm font-bold transition">
-                I’ll hold
-              </button>
-              <button className="flex-1 bg-[#1f5c37] text-white hover:bg-[#16472a] py-2.5 rounded-lg text-sm font-bold transition">
-                List for buyers
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Tab 2: 4 AI Services & Architecture */}
-        {activeTab === 'architecture' && (
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="bg-white p-5 rounded-xl border border-emerald-200">
-              <span className="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold uppercase">Service 1</span>
-              <h3 className="font-bold text-[#1f5c37] text-base mt-2 mb-1">Camera-Assisted Produce Grading</h3>
-              <p className="text-sm text-zinc-600 mb-3">
-                Computer vision analyzing produce color hue (ripeness), surface uniformity, and defect contour density to classify lots into Grade A1, A2, B, or C with human override.
-              </p>
-              <div className="text-xs font-mono bg-emerald-50 p-2 rounded text-emerald-900">
-                Endpoint: POST /api/ai/grade
-              </div>
-            </div>
-
-            <div className="bg-white p-5 rounded-xl border border-emerald-200">
-              <span className="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold uppercase">Service 2</span>
-              <h3 className="font-bold text-[#1f5c37] text-base mt-2 mb-1">Explainable Price & Demand Intelligence</h3>
-              <p className="text-sm text-zinc-600 mb-3">
-                Multi-factor pricing engine enforcing official government MSP floors while adjusting for quality tier, seasonal trends, nearby demand spikes, and holding depreciation.
-              </p>
-              <div className="text-xs font-mono bg-emerald-50 p-2 rounded text-emerald-900">
-                Rule: @farmlink/shared/rules/pricing.ts
-              </div>
-            </div>
-
-            <div className="bg-white p-5 rounded-xl border border-emerald-200">
-              <span className="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold uppercase">Service 3</span>
-              <h3 className="font-bold text-[#1f5c37] text-base mt-2 mb-1">Stock-Age & Spoilage Prevention Engine</h3>
-              <p className="text-sm text-zinc-600 mb-3">
-                Monitors warehouse batch age against crop perishability curves (leafy greens: 3d, tomatoes: 8d, grains: 180d) and triggers automated markdown alerts before spoilage.
-              </p>
-              <div className="text-xs font-mono bg-emerald-50 p-2 rounded text-emerald-900">
-                Logic: freshnessForListing() in src/main.jsx
-              </div>
-            </div>
-
-            <div className="bg-white p-5 rounded-xl border border-emerald-200">
-              <span className="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold uppercase">Service 4</span>
-              <h3 className="font-bold text-[#1f5c37] text-base mt-2 mb-1">Multilingual Toll-Free Voice AI</h3>
-              <p className="text-sm text-zinc-600 mb-3">
-                Natural speech processing in Hindi and English with text-to-speech audio playback for low-literacy farmers to check mandi rates, stock balance, and vehicle pickups.
-              </p>
-              <div className="text-xs font-mono bg-emerald-50 p-2 rounded text-emerald-900">
-                Module: apps/api/src/modules/ivr
-              </div>
+            {/* FarmLink Direct */}
+            <div className="bg-white rounded-xl border border-emerald-300 p-6 shadow-xs ring-1 ring-emerald-500/10">
+              <span className="text-[10px] font-mono uppercase bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">
+                {t.portal.directTransparentNetwork}
+              </span>
+              <h3 className="text-base font-bold text-zinc-950 mt-2 mb-4">
+                {t.comparison.farmlinkTitle}
+              </h3>
+              <ul className="space-y-3 text-xs sm:text-sm text-zinc-700">
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <span className="font-medium">{t.comparison.farmlinkDirect}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <span className="font-medium">{t.comparison.farmlinkSettlement}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <span className="font-medium">{t.comparison.farmlinkGrading}</span>
+                </li>
+              </ul>
             </div>
           </div>
-        )}
 
-        {/* Tab 3: Phulera Financial Pilot (Slide 8) */}
-        {activeTab === 'pilot' && (
-          <div className="max-w-2xl mx-auto bg-white p-6 rounded-2xl border border-emerald-200 shadow-sm">
-            <h2 className="text-xl font-bold text-[#1f5c37] mb-1">
-              FarmLink 1-Month Financial Pilot: Jaitpura, Phulera
-            </h2>
-            <p className="text-xs text-zinc-500 mb-4">
-              Parameters: 50 participating farmers · ~5 bigha average holding · 40% land under mustard
-            </p>
-
-            <div className="grid grid-cols-4 gap-2 text-center mb-6">
-              <div className="bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
-                <span className="text-[11px] font-bold text-emerald-800 block">Produce</span>
-                <b className="text-base text-[#1f5c37]">29.6 T</b>
-              </div>
-              <div className="bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
-                <span className="text-[11px] font-bold text-emerald-800 block">Purchase</span>
-                <b className="text-base text-[#1f5c37]">₹82/kg</b>
-              </div>
-              <div className="bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
-                <span className="text-[11px] font-bold text-emerald-800 block">Selling</span>
-                <b className="text-base text-[#1f5c37]">₹98.40/kg</b>
-              </div>
-              <div className="bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
-                <span className="text-[11px] font-bold text-emerald-800 block">Gross Margin</span>
-                <b className="text-base text-[#1f5c37]">₹4.86 L</b>
-              </div>
-            </div>
-
-            <div className="border-t pt-3 space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-zinc-600">Produce value sold:</span>
-                <strong className="text-zinc-800">₹29.15 L</strong>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-600">Less: farmer purchase:</span>
-                <span className="text-red-700 font-semibold">- ₹24.29 L</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-600">Logistics & delivery cost:</span>
-                <span className="text-red-700 font-semibold">- ₹0.44 L</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-600">Salary + warehouse + utilities:</span>
-                <span className="text-red-700 font-semibold">- ₹0.43 L</span>
-              </div>
-              <div className="flex justify-between border-t pt-2 text-base font-bold text-emerald-900 bg-emerald-100/60 p-2 rounded-lg">
-                <span>Estimated Operating Surplus:</span>
-                <span className="text-[#1f5c37]">₹3.99 L / month</span>
-              </div>
-            </div>
+          {/* Learn More link to About Us */}
+          <div className="mt-8 text-center">
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-emerald-800 hover:text-emerald-950 transition"
+            >
+              <span>{t.portal.readMoreCause}</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
-        )}
+        </section>
       </main>
 
-      {/* Footer */}
-      <footer className="text-center py-6 text-xs text-zinc-500 border-t bg-white mt-12">
-        <p>FarmLink · Smart India Hackathon 2026 (Problem Statement 26033) · Team False 6</p>
-      </footer>
+      <Footer />
+      <InquiryModal isOpen={inquiryOpen} onClose={() => setInquiryOpen(false)} />
     </div>
   );
 }

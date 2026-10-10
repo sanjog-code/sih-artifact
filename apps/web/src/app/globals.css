@@ -3,13 +3,18 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-indic-devanagari: "Noto Sans Devanagari", "Mangal", "Nirmala UI", sans-serif;
+  --font-indic-gurmukhi: "Noto Sans Gurmukhi", "Raavi", "Nirmala UI", sans-serif;
+  --font-indic-telugu: "Noto Sans Telugu", "Gautami", "Vani", "Nirmala UI", sans-serif;
+  --font-indic-tamil: "Noto Sans Tamil", "Latha", "Vijaya", "Nirmala UI", sans-serif;
+  --font-fallback-stack: var(--font-geist-sans), "Noto Sans Devanagari", "Mangal", "Noto Sans Gurmukhi", "Raavi", "Noto Sans Telugu", "Gautami", "Noto Sans Tamil", "Latha", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-fallback-stack);
+  --font-mono: var(--font-geist-mono), monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +27,29 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-fallback-stack);
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Indic Typography Enhancements: Generous line-height to prevent matra/diacritic clipping */
+:lang(hi), :lang(mr), html[lang="hi"] body, html[lang="mr"] body {
+  font-family: var(--font-geist-sans), var(--font-indic-devanagari);
+  line-height: 1.6;
+}
+
+:lang(pa), html[lang="pa"] body {
+  font-family: var(--font-geist-sans), var(--font-indic-gurmukhi);
+  line-height: 1.6;
+}
+
+:lang(te), html[lang="te"] body {
+  font-family: var(--font-geist-sans), var(--font-indic-telugu);
+  line-height: 1.65;
+}
+
+:lang(ta), html[lang="ta"] body {
+  font-family: var(--font-geist-sans), var(--font-indic-tamil);
+  line-height: 1.6;
 }

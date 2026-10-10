@@ -280,7 +280,7 @@ export const USER_STATUS = {
 } as const;
 export type UserStatus = (typeof USER_STATUS)[keyof typeof USER_STATUS];
 
-export const LANGS = ['en', 'hi'] as const;
+export const LANGS = ['en', 'hi', 'pa', 'mr', 'te', 'ta'] as const;
 export type Lang = (typeof LANGS)[number];
 
 export const AUTH_SECURE_ACTIONS = ['sell', 'finance', 'delete_account', 'refund'] as const;

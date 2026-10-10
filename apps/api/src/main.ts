@@ -58,7 +58,7 @@ async function bootstrap(): Promise<void> {
   // -------------------------------------------------------------------- swagger
   const config = new DocumentBuilder()
     .setTitle('FarmLink API')
-    .setDescription('FarmLink — SIH 2026 (PS 26033) farm-to-fork marketplace. Demo build with sample data.')
+    .setDescription('FarmLink — Direct produce marketplace connecting farmers, warehouses, and buyers with explainable price intelligence.')
     .setVersion('0.1.0')
     .addCookieAuth('__fl_session')
     .addTag('auth', 'OTP, demo login, session, secure actions')
