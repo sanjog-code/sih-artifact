@@ -4,7 +4,7 @@ import { useSyncExternalStore } from 'react';
 
 export type ProduceCategory = 'vegetables' | 'oilseeds' | 'grains' | 'pulses' | 'fruits';
 export type ProduceGrade = 'A1' | 'A2' | 'B' | 'C';
-export type ProduceLotStatus = 'ACTIVE' | 'IN_WAREHOUSE' | 'SOLD' | 'DISPATCHED' | 'ESCROW_LOCKED';
+export type ProduceLotStatus = 'ACTIVE' | 'PAUSED' | 'IN_WAREHOUSE' | 'SOLD' | 'DISPATCHED' | 'ESCROW_LOCKED';
 
 export interface ProduceLotItem {
   id: string;
@@ -276,6 +276,33 @@ export const produceStore = {
     return found;
   },
 
+  deleteListing(id: string): boolean {
+    const current = safeGetLocalStorage();
+    const updated = current.filter((item) => item.id.toLowerCase() !== id.toLowerCase());
+    if (updated.length !== current.length) {
+      safeSetLocalStorage(updated);
+      return true;
+    }
+    return false;
+  },
+
+  togglePauseListing(id: string): boolean {
+    const current = safeGetLocalStorage();
+    let found = false;
+    const updated = current.map((item) => {
+      if (item.id.toLowerCase() === id.toLowerCase()) {
+        found = true;
+        const newStatus = item.status === 'PAUSED' ? 'ACTIVE' : 'PAUSED';
+        return { ...item, status: newStatus as ProduceLotStatus };
+      }
+      return item;
+    });
+    if (found) {
+      safeSetLocalStorage(updated);
+    }
+    return found;
+  },
+
   resetToSeed(): void {
     safeSetLocalStorage([...INITIAL_PRODUCE_SEED]);
   },
@@ -303,6 +330,8 @@ export function useProduceStore() {
     updateListingQuantity: produceStore.updateListingQuantity,
     decrementQuantity: produceStore.decrementQuantity,
     updateLotStatus: produceStore.updateLotStatus,
+    deleteListing: produceStore.deleteListing,
+    togglePauseListing: produceStore.togglePauseListing,
     resetToSeed: produceStore.resetToSeed,
   };
 }
