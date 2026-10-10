@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useLanguage } from '../context/LanguageContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -21,6 +22,23 @@ import {
   Building2,
   Truck,
 } from 'lucide-react';
+
+const CROP_IMAGE_MAP: Record<string, string> = {
+  tomato: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80',
+  wheat: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=800&q=80',
+  mustard: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=800&q=80',
+  soybean: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80',
+  potato: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=800&q=80',
+  onion: 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?auto=format&fit=crop&w=800&q=80',
+};
+
+function getCropImage(name: string): string {
+  const lower = (name || '').toLowerCase();
+  for (const [key, url] of Object.entries(CROP_IMAGE_MAP)) {
+    if (lower.includes(key)) return url;
+  }
+  return 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=800&q=80';
+}
 
 export default function Home() {
   const { t } = useLanguage();
@@ -196,6 +214,84 @@ export default function Home() {
               >
                 {t.hero.calculatePrice}
               </a>
+            </div>
+
+            {/* Spatial UI Live Command Deck */}
+            <div className="pt-8 max-w-5xl mx-auto">
+              <div className="relative rounded-3xl overflow-hidden border border-zinc-200/90 shadow-[0_30px_90px_rgba(0,0,0,0.09)] bg-zinc-950">
+                {/* Live Atmospheric Background Photograph */}
+                <div className="relative h-72 sm:h-96 w-full overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1600&q=80"
+                    alt="Automated High-Tech Agrarian Glasshouse"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 1024px"
+                    className="object-cover object-center filter brightness-[0.88] contrast-[1.05] transform scale-105 hover:scale-100 transition-transform duration-1000 ease-out"
+                  />
+                  {/* Spatial Vignette & Gradient Overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/35 to-transparent pointer-events-none" />
+                </div>
+
+                {/* Floating Spatial Card 1: Optical Quality HUD (Top-Left) */}
+                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-xs backdrop-blur-xl bg-white/85 text-zinc-900 border border-white/70 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white/95 text-left">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
+                    </span>
+                    <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-emerald-950">
+                      Live Optical Telemetry
+                    </span>
+                  </div>
+                  <div className="text-xs sm:text-sm font-extrabold text-zinc-950 tracking-tight">
+                    AGMARK Grade A1 (98.4%)
+                  </div>
+                  <p className="text-[11px] text-zinc-600 mt-0.5 leading-snug">
+                    Phulera Depot #3 • 0.8% defect floor • Assayed
+                  </p>
+                </div>
+
+                {/* Floating Spatial Card 2: AI Price Radar (Top-Right) */}
+                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 max-w-[260px] backdrop-blur-xl bg-white/85 text-zinc-900 border border-white/70 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white/95 text-right hidden sm:block">
+                  <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100/90 text-emerald-900 text-[10px] font-mono font-bold uppercase mb-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    MSP Guarded
+                  </div>
+                  <div className="text-base font-extrabold text-zinc-950 font-mono">
+                    ₹24.41 <span className="text-xs font-normal text-zinc-600">/ kg</span>
+                  </div>
+                  <p className="text-[11px] text-zinc-600 mt-0.5">
+                    Khanna Mandi • Wheat Baseline
+                  </p>
+                </div>
+
+                {/* Floating Spatial Mesh Ribbon (Bottom Center) */}
+                <div className="absolute bottom-3 inset-x-3 sm:bottom-4 sm:inset-x-4 backdrop-blur-2xl bg-zinc-950/80 text-white border border-white/15 shadow-2xl rounded-2xl p-3 sm:p-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
+                    <div className="border-r border-white/10 pr-2">
+                      <div className="text-[10px] text-zinc-400 font-mono uppercase tracking-wider">Storage Node</div>
+                      <div className="text-xs sm:text-sm font-bold text-white mt-0.5 truncate">5.2°C Cold-Vault</div>
+                      <div className="text-[10px] text-emerald-400 font-medium">88% RH Safe</div>
+                    </div>
+                    <div className="border-r border-white/10 pr-2">
+                      <div className="text-[10px] text-zinc-400 font-mono uppercase tracking-wider">Settlement</div>
+                      <div className="text-xs sm:text-sm font-bold text-white mt-0.5 truncate">T+1 Direct Escrow</div>
+                      <div className="text-[10px] text-emerald-400 font-medium">₹18.4 Cr Cleared</div>
+                    </div>
+                    <div className="border-r border-white/10 pr-2 hidden sm:block">
+                      <div className="text-[10px] text-zinc-400 font-mono uppercase tracking-wider">Logistics Dispatch</div>
+                      <div className="text-xs sm:text-sm font-bold text-white mt-0.5 truncate">Capacitated VRP</div>
+                      <div className="text-[10px] text-emerald-400 font-medium">38.2% Emission Cut</div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-zinc-400 font-mono uppercase tracking-wider">Verification</div>
+                      <div className="text-xs sm:text-sm font-bold text-white mt-0.5 truncate">WDRA & e-NWR</div>
+                      <div className="text-[10px] text-emerald-400 font-medium">Cryptographic Trail</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Trust Metrics Ribbon */}
@@ -502,22 +598,37 @@ export default function Home() {
             {filteredLots.map((lot) => (
               <div
                 key={lot.id}
-                className="bg-white rounded-xl border border-zinc-200 p-5 shadow-xs hover:border-zinc-300 transition flex flex-col justify-between"
+                className="group bg-white rounded-2xl border border-zinc-200 p-4 shadow-xs hover:border-zinc-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono uppercase bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded font-semibold">
+                  {/* Spatial Photography Banner */}
+                  <div className="relative h-40 w-full overflow-hidden rounded-xl mb-3.5 bg-zinc-100">
+                    <Image
+                      src={getCropImage(lot.cropName)}
+                      alt={lot.cropName}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+                    
+                    {/* Floating Glassmorphic Chips */}
+                    <span className="absolute top-2.5 left-2.5 text-[10px] font-mono uppercase backdrop-blur-md bg-zinc-950/75 text-white border border-white/20 px-2 py-0.5 rounded-md font-semibold">
                       {lot.id}
                     </span>
-                    <span className="text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200/60 px-2 py-0.5 rounded-full">
+                    <span className="absolute top-2.5 right-2.5 text-[10px] font-semibold backdrop-blur-md bg-white/90 text-emerald-900 border border-white/70 px-2.5 py-0.5 rounded-full shadow-xs">
                       {t.common.grade.replace('{grade}', lot.grade)}
                     </span>
+                    
+                    <div className="absolute bottom-2.5 left-2.5 text-white font-mono text-xs font-bold drop-shadow-sm flex items-center gap-1">
+                      <span>{lot.quantity}</span>
+                    </div>
                   </div>
 
                   <h3 className="text-base font-bold text-zinc-950 mt-1">
                     {getLotDisplayName(lot)}
                   </h3>
-                  <div className="text-xl font-extrabold text-zinc-950 font-mono mt-2">
+                  <div className="text-xl font-extrabold text-zinc-950 font-mono mt-1">
                     ₹{lot.price} <span className="text-xs text-zinc-500 font-normal">/ {t.market.perKg}</span>
                   </div>
 
@@ -574,15 +685,26 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Card 1 */}
-            <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-xs flex flex-col justify-between">
+            <div className="group bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs hover:border-zinc-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
               <div>
-                <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-900 flex items-center justify-center mb-3">
-                  <Camera className="w-4 h-4" />
+                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100">
+                  <Image
+                    src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=800&q=80"
+                    alt={t.architecture.card1Title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white/90 text-zinc-900 flex items-center justify-center border border-white/80 shadow-xs">
+                    <Camera className="w-4 h-4" />
+                  </div>
+                  <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
+                    {t.architecture.card1Badge}
+                  </span>
                 </div>
-                <span className="text-[10px] font-mono uppercase bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">
-                  {t.architecture.card1Badge}
-                </span>
-                <h3 className="text-base font-bold text-zinc-950 mt-2 mb-2">
+
+                <h3 className="text-base font-bold text-zinc-950 mb-2">
                   {t.architecture.card1Title}
                 </h3>
                 <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
@@ -595,15 +717,26 @@ export default function Home() {
             </div>
 
             {/* Card 2 */}
-            <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-xs flex flex-col justify-between">
+            <div className="group bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs hover:border-zinc-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
               <div>
-                <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-900 flex items-center justify-center mb-3">
-                  <Scale className="w-4 h-4" />
+                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100">
+                  <Image
+                    src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=800&q=80"
+                    alt={t.architecture.card2Title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white/90 text-zinc-900 flex items-center justify-center border border-white/80 shadow-xs">
+                    <Scale className="w-4 h-4" />
+                  </div>
+                  <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
+                    {t.architecture.card2Badge}
+                  </span>
                 </div>
-                <span className="text-[10px] font-mono uppercase bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">
-                  {t.architecture.card2Badge}
-                </span>
-                <h3 className="text-base font-bold text-zinc-950 mt-2 mb-2">
+
+                <h3 className="text-base font-bold text-zinc-950 mb-2">
                   {t.architecture.card2Title}
                 </h3>
                 <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
@@ -616,15 +749,26 @@ export default function Home() {
             </div>
 
             {/* Card 3 */}
-            <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-xs flex flex-col justify-between">
+            <div className="group bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs hover:border-zinc-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
               <div>
-                <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-900 flex items-center justify-center mb-3">
-                  <ThermometerSnowflake className="w-4 h-4" />
+                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100">
+                  <Image
+                    src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80"
+                    alt={t.architecture.card3Title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white/90 text-zinc-900 flex items-center justify-center border border-white/80 shadow-xs">
+                    <ThermometerSnowflake className="w-4 h-4" />
+                  </div>
+                  <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
+                    {t.architecture.card3Badge}
+                  </span>
                 </div>
-                <span className="text-[10px] font-mono uppercase bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">
-                  {t.architecture.card3Badge}
-                </span>
-                <h3 className="text-base font-bold text-zinc-950 mt-2 mb-2">
+
+                <h3 className="text-base font-bold text-zinc-950 mb-2">
                   {t.architecture.card3Title}
                 </h3>
                 <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
@@ -637,15 +781,26 @@ export default function Home() {
             </div>
 
             {/* Card 4 */}
-            <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-xs flex flex-col justify-between">
+            <div className="group bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs hover:border-zinc-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
               <div>
-                <div className="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-900 flex items-center justify-center mb-3">
-                  <PhoneCall className="w-4 h-4" />
+                <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4 bg-zinc-100">
+                  <Image
+                    src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=800&q=80"
+                    alt={t.architecture.card4Title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white/90 text-zinc-900 flex items-center justify-center border border-white/80 shadow-xs">
+                    <PhoneCall className="w-4 h-4" />
+                  </div>
+                  <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
+                    {t.architecture.card4Badge}
+                  </span>
                 </div>
-                <span className="text-[10px] font-mono uppercase bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">
-                  {t.architecture.card4Badge}
-                </span>
-                <h3 className="text-base font-bold text-zinc-950 mt-2 mb-2">
+
+                <h3 className="text-base font-bold text-zinc-950 mb-2">
                   {t.architecture.card4Title}
                 </h3>
                 <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
