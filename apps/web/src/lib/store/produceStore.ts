@@ -104,30 +104,36 @@ export const INITIAL_PRODUCE_SEED: ProduceLotItem[] = [
 
 const STORAGE_KEY = 'farmlink_produce_listings';
 let memoryStore: ProduceLotItem[] = [...INITIAL_PRODUCE_SEED];
+let isInitialized = false;
 const listeners = new Set<() => void>();
 
-function safeGetLocalStorage(): ProduceLotItem[] {
-  if (typeof window === 'undefined') {
-    return memoryStore;
-  }
+function syncFromStorage(): void {
+  if (typeof window === 'undefined') return;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_PRODUCE_SEED));
       memoryStore = [...INITIAL_PRODUCE_SEED];
-      return memoryStore;
+      return;
     }
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed) && parsed.length > 0) {
       memoryStore = parsed;
-      return parsed;
+    } else {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_PRODUCE_SEED));
+      memoryStore = [...INITIAL_PRODUCE_SEED];
     }
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_PRODUCE_SEED));
-    memoryStore = [...INITIAL_PRODUCE_SEED];
-    return memoryStore;
   } catch {
-    return memoryStore;
+    // preserve existing memoryStore
   }
+}
+
+function safeGetLocalStorage(): ProduceLotItem[] {
+  if (!isInitialized && typeof window !== 'undefined') {
+    isInitialized = true;
+    syncFromStorage();
+  }
+  return memoryStore;
 }
 
 function safeSetLocalStorage(items: ProduceLotItem[]): void {
@@ -161,7 +167,7 @@ function notify(): void {
 if (typeof window !== 'undefined') {
   window.addEventListener('storage', (e) => {
     if (e.key === STORAGE_KEY || e.key === null) {
-      safeGetLocalStorage();
+      syncFromStorage();
       notify();
     }
   });

@@ -53,30 +53,36 @@ export const INITIAL_RFQ_SEED: RfqItem[] = [
 
 const STORAGE_KEY = 'farmlink_buyer_rfqs';
 let memoryStore: RfqItem[] = [...INITIAL_RFQ_SEED];
+let isInitialized = false;
 const listeners = new Set<() => void>();
 
-function safeGetLocalStorage(): RfqItem[] {
-  if (typeof window === 'undefined') {
-    return memoryStore;
-  }
+function syncFromStorage(): void {
+  if (typeof window === 'undefined') return;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_RFQ_SEED));
       memoryStore = [...INITIAL_RFQ_SEED];
-      return memoryStore;
+      return;
     }
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed) && parsed.length > 0) {
       memoryStore = parsed;
-      return parsed;
+    } else {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_RFQ_SEED));
+      memoryStore = [...INITIAL_RFQ_SEED];
     }
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_RFQ_SEED));
-    memoryStore = [...INITIAL_RFQ_SEED];
-    return memoryStore;
   } catch {
-    return memoryStore;
+    // preserve existing memoryStore
   }
+}
+
+function safeGetLocalStorage(): RfqItem[] {
+  if (!isInitialized && typeof window !== 'undefined') {
+    isInitialized = true;
+    syncFromStorage();
+  }
+  return memoryStore;
 }
 
 function safeSetLocalStorage(items: RfqItem[]): void {
@@ -109,7 +115,7 @@ function notify(): void {
 if (typeof window !== 'undefined') {
   window.addEventListener('storage', (e) => {
     if (e.key === STORAGE_KEY || e.key === null) {
-      safeGetLocalStorage();
+      syncFromStorage();
       notify();
     }
   });

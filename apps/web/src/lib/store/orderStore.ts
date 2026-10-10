@@ -83,30 +83,36 @@ export const INITIAL_ORDER_SEED: OrderItem[] = [
 
 const STORAGE_KEY = 'farmlink_orders';
 let memoryStore: OrderItem[] = [...INITIAL_ORDER_SEED];
+let isInitialized = false;
 const listeners = new Set<() => void>();
 
-function safeGetLocalStorage(): OrderItem[] {
-  if (typeof window === 'undefined') {
-    return memoryStore;
-  }
+function syncFromStorage(): void {
+  if (typeof window === 'undefined') return;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_ORDER_SEED));
       memoryStore = [...INITIAL_ORDER_SEED];
-      return memoryStore;
+      return;
     }
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed) && parsed.length > 0) {
       memoryStore = parsed;
-      return parsed;
+    } else {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_ORDER_SEED));
+      memoryStore = [...INITIAL_ORDER_SEED];
     }
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_ORDER_SEED));
-    memoryStore = [...INITIAL_ORDER_SEED];
-    return memoryStore;
   } catch {
-    return memoryStore;
+    // preserve existing memoryStore
   }
+}
+
+function safeGetLocalStorage(): OrderItem[] {
+  if (!isInitialized && typeof window !== 'undefined') {
+    isInitialized = true;
+    syncFromStorage();
+  }
+  return memoryStore;
 }
 
 function safeSetLocalStorage(items: OrderItem[]): void {
@@ -139,7 +145,7 @@ function notify(): void {
 if (typeof window !== 'undefined') {
   window.addEventListener('storage', (e) => {
     if (e.key === STORAGE_KEY || e.key === null) {
-      safeGetLocalStorage();
+      syncFromStorage();
       notify();
     }
   });
