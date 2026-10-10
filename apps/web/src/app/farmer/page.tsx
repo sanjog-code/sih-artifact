@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import InquiryModal from '../../components/InquiryModal';
 import { useLanguage } from '../../context/LanguageContext';
 import { useProduceStore, useOrderStore, useRfqStore } from '../../lib/store';
+import RoleGuard from '../../components/RoleGuard';
 import {
   TrendingUp,
   PlusCircle,
@@ -220,7 +221,8 @@ export default function FarmerPortal() {
     <div className="min-h-screen bg-[#fafafa] text-zinc-900 font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-950">
       <Navbar onOpenInquiry={() => setInquiryOpen(true)} />
 
-      <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+      <RoleGuard allowedRoles={['farmer']} portalName="Farmer Hub">
+        <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         {/* Header Breadcrumb & Accreditation Banner */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-zinc-200">
           <div>
@@ -1351,6 +1353,7 @@ export default function FarmerPortal() {
           </div>
         )}
       </main>
+      </RoleGuard>
 
       <Footer />
       <InquiryModal isOpen={inquiryOpen} onClose={() => setInquiryOpen(false)} />

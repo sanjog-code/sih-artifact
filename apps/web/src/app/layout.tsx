@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider, LanguageCode } from '../context/LanguageContext';
 import { ThemeProvider } from '../context/ThemeContext';
+import { AuthProvider } from '../context/AuthContext';
 import AiAssistant from '../components/AiAssistant';
 import { cookies } from 'next/headers';
 
@@ -42,10 +43,12 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[#fafafa] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">
         <ThemeProvider>
-          <LanguageProvider initialLanguage={validLang}>
-            {children}
-            <AiAssistant />
-          </LanguageProvider>
+          <AuthProvider>
+            <LanguageProvider initialLanguage={validLang}>
+              {children}
+              <AiAssistant />
+            </LanguageProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

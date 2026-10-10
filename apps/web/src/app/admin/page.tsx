@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import LogisticsPortal from '../logistics/page';
+import RoleGuard from '../../components/RoleGuard';
 import { useLanguage } from '../../context/LanguageContext';
 import { useProduceStore, useOrderStore, useRfqStore } from '../../lib/store';
 import {
@@ -34,7 +35,8 @@ export default function AdminConsolePage() {
     <div className="min-h-screen bg-[#fafafa] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans flex flex-col transition-colors duration-200">
       <Navbar />
 
-      <main className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+      <RoleGuard allowedRoles={['admin']} portalName="Admin Command & Fleet Console">
+        <main className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         {/* Admin Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-zinc-200 dark:border-zinc-800">
           <div>
@@ -226,7 +228,8 @@ export default function AdminConsolePage() {
             </div>
           </div>
         )}
-      </main>
+        </main>
+      </RoleGuard>
 
       <Footer />
     </div>

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAuth } from '../../context/AuthContext';
 import {
   Sprout,
   Building2,
@@ -24,6 +25,7 @@ export type UserRole = 'farmer' | 'buyer' | 'consumer' | 'admin';
 export default function LoginPage() {
   const router = useRouter();
   const { t } = useLanguage();
+  const { login } = useAuth();
   const [selectedRole, setSelectedRole] = useState<UserRole>('farmer');
   const [phone, setPhone] = useState('+91 98290 14820');
   const [otp, setOtp] = useState('');
@@ -68,6 +70,16 @@ export default function LoginPage() {
     },
   };
 
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const roleParam = params.get('role') as UserRole | null;
+      if (roleParam && ['farmer', 'buyer', 'consumer', 'admin'].includes(roleParam)) {
+        handleRoleSelect(roleParam);
+      }
+    }
+  }, []);
+
   const handleRoleSelect = (role: UserRole) => {
     setSelectedRole(role);
     setPhone(roleDetails[role].defaultPhone);
@@ -105,12 +117,7 @@ export default function LoginPage() {
 
     setAuthSuccess(true);
     setErrorMsg(null);
-    try {
-      localStorage.setItem('farmlink_authenticated_role', selectedRole);
-      localStorage.setItem('farmlink_authenticated_user', phone);
-    } catch {
-      // ignore
-    }
+    login(selectedRole, phone);
 
     setTimeout(() => {
       router.push(roleDetails[selectedRole].destination);
