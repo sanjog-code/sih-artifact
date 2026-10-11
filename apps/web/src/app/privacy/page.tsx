@@ -109,7 +109,16 @@ export default function PrivacyPolicyPage() {
               <div><strong>Name:</strong> Officer Rajesh V. Meena</div>
               <div><strong>Designation:</strong> Statutory Grievance Redressal Officer</div>
               <div><strong>Address:</strong> Fasal Matrix Agrarian Technologies Pvt. Ltd., Muhana Mandi Terminal, Jaipur, RJ 302029</div>
-              <div><strong>Email:</strong> privacy@fasalmatrix.in / grievance@fasalmatrix.in</div>
+              <div>
+                <strong>Email:</strong>{' '}
+                <a href="mailto:privacy@fasalmatrix.in" className="text-emerald-700 dark:text-emerald-400 hover:underline">
+                  privacy@fasalmatrix.in
+                </a>{' '}
+                /{' '}
+                <a href="mailto:grievance@fasalmatrix.in" className="text-emerald-700 dark:text-emerald-400 hover:underline">
+                  grievance@fasalmatrix.in
+                </a>
+              </div>
             </div>
           </section>
         </div>

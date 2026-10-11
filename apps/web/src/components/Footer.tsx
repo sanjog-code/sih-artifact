@@ -57,19 +57,19 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* Brand Info (col-span-4) */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-zinc-950 font-bold shadow-md">
+            <Link href="/" className="flex items-center gap-2.5 group hover:opacity-90 transition">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-zinc-950 font-bold shadow-md group-hover:scale-105 transition-transform">
                 <Sprout className="w-4 h-4 text-zinc-950" />
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-black text-white tracking-tight leading-tight">
+                <span className="text-lg font-black text-white tracking-tight leading-tight group-hover:text-emerald-400 transition-colors">
                   {t.nav.brand}
                 </span>
                 <span className="text-[10px] font-mono uppercase text-emerald-400 font-semibold tracking-wider">
                   {t.nav.tagline}
                 </span>
               </div>
-            </div>
+            </Link>
 
             <p className="text-zinc-400 leading-relaxed text-xs max-w-sm">
               {t.footer.description}
@@ -328,8 +328,17 @@ export default function Footer() {
           </div>
           <div>
             <strong className="text-white block font-semibold">Nodal Grievance Officer:</strong>
-            <span className="text-zinc-400">Rajesh V. Meena (grievance@fasalmatrix.in)</span>
+            <span className="text-zinc-400">Rajesh V. Meena (</span>
+            <a href="mailto:grievance@fasalmatrix.in" className="text-emerald-400 hover:underline">
+              grievance@fasalmatrix.in
+            </a>
+            <span className="text-zinc-400">)</span>
             <span className="block text-zinc-400">Response SLA: Within 48 hours</span>
+            <div className="mt-1">
+              <a href="tel:18008892603" className="text-emerald-400 hover:underline font-mono text-[10px]">
+                📞 Toll-Free Helpline: 1800-889-2603
+              </a>
+            </div>
           </div>
         </div>
 

@@ -74,6 +74,13 @@ export const metadata: Metadata = {
   description:
     'Direct farm-to-doorstep trade across India. Real-time mandi price intelligence, verified crop quality grading, and guaranteed T+1 escrow settlement with zero middleman deductions.',
   manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: '/icon.svg',
+  },
   alternates: {
     canonical: '/',
   },
@@ -107,6 +114,9 @@ export const metadata: Metadata = {
 
 export const viewport = {
   themeColor: '#16a34a',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default async function RootLayout({

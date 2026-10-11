@@ -129,7 +129,10 @@ export default function RefundPolicyPage() {
               <Link href="/about#contact" className="underline font-semibold hover:text-emerald-700">
                 Nodal Grievance Desk
               </Link>{' '}
-              or email us directly at <span className="font-mono font-semibold">grievance@fasalmatrix.in</span>.
+              or email us directly at{' '}
+              <a href="mailto:grievance@fasalmatrix.in" className="font-mono font-semibold text-emerald-700 dark:text-emerald-400 hover:underline">
+                grievance@fasalmatrix.in
+              </a>.
             </p>
           </section>
         </div>

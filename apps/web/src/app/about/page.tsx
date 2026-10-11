@@ -88,6 +88,7 @@ export default function AboutPage() {
 
   // Direct Contact Form State
   const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [contactError, setContactError] = useState<string | null>(null);
   const [contactForm, setContactForm] = useState({
     name: '',
     phone: '',
@@ -99,7 +100,15 @@ export default function AboutPage() {
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!contactForm.name || !contactForm.phone) return;
+    if (!contactForm.name.trim() || !contactForm.phone.trim()) {
+      setContactError('Please provide your full name and a valid 10-digit mobile number.');
+      return;
+    }
+    if (contactForm.phone.trim().replace(/\D/g, '').length < 10) {
+      setContactError('Please enter a valid 10-digit mobile phone number.');
+      return;
+    }
+    setContactError(null);
     setContactSubmitted(true);
   };
 
@@ -926,7 +935,10 @@ export default function AboutPage() {
                   <Phone className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <div>
                     <strong className="text-zinc-900 dark:text-zinc-200 block font-semibold">Toll-Free Kisan Desk:</strong>
-                    <span>1800-889-2603 (22 Indian Languages Supported)</span>
+                    <a href="tel:18008892603" className="text-emerald-700 dark:text-emerald-400 font-bold hover:underline">
+                      1800-889-2603
+                    </a>
+                    <span className="text-zinc-500 text-[11px] ml-1.5">(22 Indian Languages Supported)</span>
                   </div>
                 </div>
 
@@ -934,7 +946,9 @@ export default function AboutPage() {
                   <Mail className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <div>
                     <strong className="text-zinc-900 dark:text-zinc-200 block font-semibold">Institutional Escrow Desk:</strong>
-                    <span>escrow.desk@farmlink-matrix.gov.in</span>
+                    <a href="mailto:escrow.desk@farmlink-matrix.gov.in" className="text-emerald-700 dark:text-emerald-400 font-semibold hover:underline">
+                      escrow.desk@farmlink-matrix.gov.in
+                    </a>
                   </div>
                 </div>
               </div>
@@ -953,6 +967,12 @@ export default function AboutPage() {
 
             {/* Right Contact Form */}
             <div className="lg:col-span-3 bg-zinc-50/80 dark:bg-zinc-950/60 p-6 sm:p-8 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80">
+              {contactError && (
+                <div className="mb-4 p-3 rounded-xl bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-900 text-xs font-semibold text-red-700 dark:text-red-400">
+                  {contactError}
+                </div>
+              )}
+
               {contactSubmitted ? (
                 <div className="text-center py-10 space-y-3">
                   <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center mx-auto">
