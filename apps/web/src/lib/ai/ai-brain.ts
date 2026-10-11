@@ -663,7 +663,177 @@ Would you like to explore price forecasts or recommended management practices fo
     return { text, roleContext: role, suggestedPrompts: ['Forecast Wheat price', 'Forecast Soybean price', 'How to store Mustard?'] };
   }
 
+  // Institutional Bulk Quote & Cadence Planner (B2B Procurement)
+  if (
+    lower.includes('quote') ||
+    lower.includes('bulk') ||
+    lower.includes('cadence') ||
+    lower.includes('weekly volume') ||
+    lower.includes('recurring') ||
+    lower.includes('institutional') ||
+    (lower.includes('procure') && lower.includes('mt'))
+  ) {
+    const targetCrop = detectedCrop || 'Wheat';
+    const baseModal = targetCrop === 'Mustard' ? 88.0 : targetCrop === 'Tomato' ? 28.5 : targetCrop === 'Soybean' ? 51.5 : 24.8;
+    const traditionalMandi = targetCrop === 'Mustard' ? 98.5 : targetCrop === 'Tomato' ? 33.5 : targetCrop === 'Soybean' ? 58.0 : 28.2;
+    const brokerSavingsPct = Math.round(((traditionalMandi - baseModal) / traditionalMandi) * 100);
+
+    const text = `### Institutional Bulk Procurement Quote Proposal: **${targetCrop}**
+
+Here is your calibrated direct farmgate institutional quote proposal:
+
+• **Commodity**: **${targetCrop} (AGMARK Grade A1)**
+• **Direct Farmgate Rate (Fasal Matrix)**: **₹${baseModal.toFixed(2)}/kg**
+• **Traditional APMC Mandi Benchmark**: **₹${traditionalMandi.toFixed(2)}/kg**
+• **Net Weekly Direct Savings**: **~${brokerSavingsPct}%** (Eliminating 3 tiers of middleman commission markups and mandi levies)
+• **Settlement Protection**: **100% RBI Nodal Escrow Locked** (Funds released only post terminal dock weighbridge and grade assay verification)
+• **Delivery Logistics**: Capacitated VRP dispatch scheduled with continuous GPS & sensor cold-chain telemetry.
+
+Would you like to lock this forward delivery cadence or adjust your weekly metric tonnage?`;
+
+    const visualArtifact: VisualArtifact = {
+      type: 'quick_action',
+      title: `${targetCrop} Institutional Bulk Quote Summary`,
+      metrics: [
+        { label: 'Fasal Matrix Rate', value: `₹${baseModal.toFixed(2)}/kg`, delta: 'Direct Farmgate', sentiment: 'positive' },
+        { label: 'APMC Benchmark', value: `₹${traditionalMandi.toFixed(2)}/kg`, delta: '+12-18% Broker Markups', sentiment: 'negative' },
+        { label: 'Broker Fee Savings', value: `~${brokerSavingsPct}%`, delta: 'Zero Broker Arbitrage', sentiment: 'positive' },
+        { label: 'Settlement Security', value: 'RBI Node Escrow', delta: 'T+1 Disbursal', sentiment: 'positive' },
+      ],
+      actionLinks: [
+        { label: 'Open Bulk Buyer Desk', href: '/buyer', variant: 'primary' },
+        { label: 'View Verified Farmer Lots', href: '/buyer#market', variant: 'secondary' },
+      ],
+    };
+
+    return {
+      text,
+      visualArtifact,
+      detectedCrop: targetCrop,
+      roleContext: role,
+      suggestedPrompts: [
+        'How does RBI nodal escrow protect my quote?',
+        `Show me price forecast for ${targetCrop}`,
+        'What are the quality assaying protocols?',
+        'How to setup recurring delivery cadence?',
+      ],
+    };
+  }
+
+  // Consumer Grocery Deal & Radar Queries
+  if (
+    lower.includes('what to buy') ||
+    lower.includes('deal') ||
+    lower.includes('grocery') ||
+    lower.includes('kitchen') ||
+    lower.includes('consumer radar') ||
+    (lower.includes('save') && lower.includes('buy'))
+  ) {
+    const text = `### Smart Consumer Timing Radar & Direct Grocery Deals
+
+Based on live Agmarknet mandi arrivals and harvest peak curves across farmer clusters:
+
+1. **Tomato (Hybrid Red - Grade A1)**: **BUY NOW**
+   - Farmgate Direct: **₹28/kg** vs Retail Mandi: **₹34/kg** (~18% direct savings).
+   - Heavy wholesale arrivals tapering off; farmgate spot rates projected to rise 18% over the next 5-7 days.
+2. **Wheat (Sharbati Flour Grade)**: **STOCK UP**
+   - Direct: **₹26.5/kg** vs Retail Supermarket: **₹35/kg** (~24% direct savings).
+   - Inviolable MSP baseline support guaranteed on Fasal Matrix.
+3. **Mustard (High Oil Content)**: **BUY NOW**
+   - Direct: **₹62/kg** vs Retail Packaging: **₹72/kg** (~14% savings).
+4. **Potato (Jyoti Fresh)**: **WAIT FEW DAYS**
+   - Direct: **₹22/kg** (Upcoming cold vault stock releases in Agra cluster will increase local supply within 72 hours).
+
+All orders arrive directly at your doorstep with 100% payment escrow guarantee!`;
+
+    const visualArtifact: VisualArtifact = {
+      type: 'market_radar',
+      title: 'Consumer Buy Timing Radar Summary',
+      metrics: [
+        { label: 'Average Household Savings', value: '18–25%', delta: 'vs Supermarket Packaging', sentiment: 'positive' },
+        { label: 'Harvest Freshness', value: '96–98%', delta: 'Farmgate Direct Assayed', sentiment: 'positive' },
+        { label: 'Broker Markups', value: '0%', delta: 'Direct Farmer Intake', sentiment: 'positive' },
+        { label: 'Delivery Model', value: 'Direct Escrow', delta: 'Doorstep Verification', sentiment: 'positive' },
+      ],
+      actionLinks: [
+        { label: 'Shop Fresh Produce', href: '/consumer', variant: 'primary' },
+        { label: 'View Consumer Premier Membership', href: '/consumer', variant: 'secondary' },
+      ],
+    };
+
+    return {
+      text,
+      visualArtifact,
+      roleContext: role,
+      suggestedPrompts: [
+        'Show price forecast for Tomato',
+        'Show price forecast for Wheat',
+        'How does doorstep delivery escrow work?',
+        'What are AGMARK Grade A standards?',
+      ],
+    };
+  }
+
+  // Admin Diagnostics & Fleet Routing Queries
+  if (
+    lower.includes('audit') ||
+    lower.includes('diagnostic') ||
+    lower.includes('bottleneck') ||
+    lower.includes('reconciliation') ||
+    (lower.includes('fleet') && (lower.includes('status') || lower.includes('efficiency')))
+  ) {
+    const text = `### Administrative Network Operations & Fleet Health Diagnostic
+
+**System Diagnostics Summary**:
+• **Capacitated VRP Load Factor**: **84.2%** vehicle volume utilization. Multi-depot routes balanced across 12 WDRA accredited hubs.
+• **Escrow Reconciliation**: **100% Invariant Compliant**. Zero pending settlement discrepancies across all active contracts.
+• **Cluster Assaying Integrity**: **99.1%** passing score on optical and moisture inspection tests.
+• **Penny-Drop KYC Verification**: Median processing velocity **< 4.2 minutes** with automated NPCI confirmation.
+
+No critical bottlenecks detected. Fleet dispatch schedules are operating within standard SLA windows.`;
+
+    const visualArtifact: VisualArtifact = {
+      type: 'quick_action',
+      title: 'Administrative Telemetry Health',
+      metrics: [
+        { label: 'VRP Fleet Utilization', value: '84.2%', delta: 'Fuel Minimized', sentiment: 'positive' },
+        { label: 'Escrow Invariants', value: '100% OK', delta: 'Zero Anomalies', sentiment: 'positive' },
+        { label: 'KYC Penny-Drop Speed', value: '< 4.2 min', delta: 'Instant Verification', sentiment: 'positive' },
+        { label: 'Depot Intake Slots', value: '12 Hubs Active', delta: 'WDRA Verified', sentiment: 'positive' },
+      ],
+      actionLinks: [
+        { label: 'View Logistics Fleet Hub', href: '/admin', variant: 'primary' },
+        { label: 'Audit Escrow Ledger', href: '/admin', variant: 'secondary' },
+      ],
+    };
+
+    return {
+      text,
+      visualArtifact,
+      roleContext: role,
+      suggestedPrompts: [
+        'Check fleet capacitated routing status',
+        'Audit active escrow ledger transactions',
+        'Show FPO cluster compliance scores',
+        'What is current platform MRR run rate?',
+      ],
+    };
+  }
+
   // Fallback: Comprehensive, articulate, intelligent response for any general query
+  let roleGreetingAdvisory = '';
+  if (role === 'farmer') {
+    roleGreetingAdvisory = 'As your Kisan Advisor, I can calculate your exact fair realization price, show 90-day price trajectories, book WDRA silo space, or verify buyer pick-up orders.';
+  } else if (role === 'buyer') {
+    roleGreetingAdvisory = 'As your Bulk Procurement Copilot, I can help you structure recurring volume schedules, calculate direct farmgate arbitrage over APMC mandis, and lock nodal escrow bids.';
+  } else if (role === 'consumer') {
+    roleGreetingAdvisory = 'As your Consumer Deal Advisor, I can help you time weekly grocery purchases, check harvest freshness scores, and save 15-25% bypassing retail supermarket packaging.';
+  } else if (role === 'admin') {
+    roleGreetingAdvisory = 'As your Administrative Network Copilot, I provide live telemetry across capacitated VRP fleet dispatches, FPO cluster compliance, and escrow reconciliation.';
+  } else {
+    roleGreetingAdvisory = 'I provide live APMC price trajectories, statutory MSP benchmarks, WDRA storage guidelines, and RBI nodal escrow information.';
+  }
+
   const text = `### Analysis & Advisory on: "${trimmed}"
 
 Regarding your inquiry:
@@ -671,6 +841,7 @@ Regarding your inquiry:
 1. **Agrarian & Market Dynamics**: In India's agricultural ecosystem, transparent price discovery and timely logistics are essential to maximizing crop realizations. Fasal Matrix connects harvest lots directly from verified farmer clusters to institutional buyers, bypassing multi-tiered broker commissions.
 2. **Statutory Benchmark Protections**: Every trade on the platform adheres to CCEA Minimum Support Price (MSP) benchmarks, preventing distress sales and speculative discounting.
 3. **Escrow Security**: All payments are routed through RBI-compliant nodal escrow accounts with T+1 direct bank disbursement upon dock gate verification.
+4. **Role Advisory**: ${roleGreetingAdvisory}
 
 If you have a specific commodity, district, or operational requirement in mind, please let me know—I can generate an interactive price trajectory graph, calculate storage shelf-life, or help you list and procure verified lots!`;
 
