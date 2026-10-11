@@ -3,15 +3,22 @@
 import React from 'react';
 import Link from 'next/link';
 import { useLanguage, LANGUAGES, LanguageCode } from '../context/LanguageContext';
-import { ShieldCheck, CheckCircle2, Lock, Scale, Sprout } from 'lucide-react';
+import { useAuth, UserRole } from '../context/AuthContext';
+import { ShieldCheck, CheckCircle2, Lock, Scale, Sprout, ArrowRight } from 'lucide-react';
 
 export default function Footer() {
   const { language, setLanguage, t } = useLanguage();
+  const { role, isAuthenticated } = useAuth();
   const [showAllLanguages, setShowAllLanguages] = React.useState(false);
 
   // Group languages: top primary 6 first, remainder toggleable
   const primaryLanguages = LANGUAGES.slice(0, 6);
   const additionalLanguages = LANGUAGES.slice(6);
+
+  // Helper for role access check
+  const hasAccess = (requiredRole: UserRole) => {
+    return isAuthenticated && role === requiredRole;
+  };
 
   return (
     <footer className="relative z-20 bg-zinc-950 text-zinc-300 border-t border-zinc-800 text-xs selection:bg-emerald-500/20 shadow-2xl">
@@ -82,40 +89,125 @@ export default function Footer() {
 
           {/* Quick Navigation (col-span-2) */}
           <div className="space-y-3.5 lg:col-span-2">
-            <h4 className="text-white font-bold uppercase tracking-wider text-xs border-b border-zinc-800 pb-2">
-              {t.footer.quickLinks}
+            <h4 className="text-white font-bold uppercase tracking-wider text-xs border-b border-zinc-800 pb-2 flex items-center justify-between">
+              <span>{t.footer.quickLinks}</span>
+              {isAuthenticated && role && (
+                <span className="text-[9px] font-mono font-bold uppercase text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-800">
+                  {role}
+                </span>
+              )}
             </h4>
             <ul className="space-y-2.5 text-xs text-zinc-400">
+              {/* Universal: Home / Overview */}
               <li>
                 <Link href="/" className="hover:text-emerald-400 transition flex items-center gap-1">
                   {t.nav.home}
                 </Link>
               </li>
+
+              {/* Universal: Marketplace */}
               <li>
                 <Link href="/#marketplace" className="hover:text-emerald-400 transition flex items-center gap-1">
                   {t.nav.market}
                 </Link>
               </li>
+
+              {/* Role Restricted: Farmer Hub */}
               <li>
-                <Link href="/farmer" className="hover:text-emerald-400 transition flex items-center gap-1">
-                  {t.nav.farmer}
-                </Link>
+                {hasAccess('farmer') ? (
+                  <Link href="/farmer" className="hover:text-emerald-400 text-emerald-300 font-semibold transition flex items-center justify-between group">
+                    <span>{t.nav.farmer}</span>
+                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-emerald-500/20 text-emerald-300">Active</span>
+                  </Link>
+                ) : (
+                  <Link
+                    href="/login?role=farmer"
+                    className="hover:text-white transition flex items-center justify-between text-zinc-500 group"
+                    title="Farmer credentials required. Click to sign in."
+                  >
+                    <span className="group-hover:text-zinc-300 transition">{t.nav.farmer}</span>
+                    <span className="text-[10px] flex items-center gap-1 text-zinc-500 group-hover:text-amber-400 transition font-mono">
+                      <Lock className="w-3 h-3" />
+                      <span>Login</span>
+                    </span>
+                  </Link>
+                )}
               </li>
+
+              {/* Role Restricted: Buyer Desk */}
               <li>
-                <Link href="/buyer" className="hover:text-emerald-400 transition flex items-center gap-1">
-                  {t.nav.buyer}
-                </Link>
+                {hasAccess('buyer') ? (
+                  <Link href="/buyer" className="hover:text-blue-400 text-blue-300 font-semibold transition flex items-center justify-between group">
+                    <span>{t.nav.buyer}</span>
+                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-blue-500/20 text-blue-300">Active</span>
+                  </Link>
+                ) : (
+                  <Link
+                    href="/login?role=buyer"
+                    className="hover:text-white transition flex items-center justify-between text-zinc-500 group"
+                    title="Bulk Buyer credentials required. Click to sign in."
+                  >
+                    <span className="group-hover:text-zinc-300 transition">{t.nav.buyer}</span>
+                    <span className="text-[10px] flex items-center gap-1 text-zinc-500 group-hover:text-amber-400 transition font-mono">
+                      <Lock className="w-3 h-3" />
+                      <span>Login</span>
+                    </span>
+                  </Link>
+                )}
               </li>
+
+              {/* Role Restricted: Direct Consumer */}
               <li>
-                <Link href="/logistics" className="hover:text-emerald-400 transition flex items-center gap-1">
-                  {t.nav.logistics}
-                </Link>
+                {hasAccess('consumer') ? (
+                  <Link href="/consumer" className="hover:text-amber-400 text-amber-300 font-semibold transition flex items-center justify-between group">
+                    <span>{(t.nav as Record<string, string>)?.consumer || 'Consumer Hub'}</span>
+                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-amber-500/20 text-amber-300">Active</span>
+                  </Link>
+                ) : (
+                  <Link
+                    href="/login?role=consumer"
+                    className="hover:text-white transition flex items-center justify-between text-zinc-500 group"
+                    title="Consumer credentials required. Click to sign in."
+                  >
+                    <span className="group-hover:text-zinc-300 transition">{(t.nav as Record<string, string>)?.consumer || 'Consumer Hub'}</span>
+                    <span className="text-[10px] flex items-center gap-1 text-zinc-500 group-hover:text-amber-400 transition font-mono">
+                      <Lock className="w-3 h-3" />
+                      <span>Login</span>
+                    </span>
+                  </Link>
+                )}
               </li>
+
+              {/* Role Restricted: Logistics & Fleet / Admin */}
+              <li>
+                {hasAccess('admin') ? (
+                  <Link href="/logistics" className="hover:text-purple-400 text-purple-300 font-semibold transition flex items-center justify-between group">
+                    <span>{t.nav.logistics}</span>
+                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-purple-500/20 text-purple-300">Active</span>
+                  </Link>
+                ) : (
+                  <Link
+                    href="/login?role=admin"
+                    className="hover:text-white transition flex items-center justify-between text-zinc-500 group"
+                    title="Administrator / Logistics credentials required. Click to sign in."
+                  >
+                    <span className="group-hover:text-zinc-300 transition">{t.nav.logistics}</span>
+                    <span className="text-[10px] flex items-center gap-1 text-zinc-500 group-hover:text-amber-400 transition font-mono">
+                      <Lock className="w-3 h-3" />
+                      <span>Login</span>
+                    </span>
+                  </Link>
+                )}
+              </li>
+
+              {/* Universal: Warehousing & Architecture */}
               <li>
                 <Link href="/#architecture" className="hover:text-emerald-400 transition flex items-center gap-1">
                   {t.nav.warehouse}
                 </Link>
               </li>
+
+              {/* Universal: About Us & Cause */}
               <li>
                 <Link href="/about" className="hover:text-white text-emerald-400 font-bold transition flex items-center gap-1">
                   {t.nav.about}
