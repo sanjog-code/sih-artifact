@@ -48,7 +48,10 @@ export class AuthController {
   async requestOtp(@Body() body: unknown) {
     const parsed = otpRequestSchema.safeParse(body);
     if (!parsed.success) return { ok: false, code: 'validation_error', issues: parsed.error.issues };
-    return this.auth.requestOtp(parsed.data);
+    return this.auth.requestOtp({
+      ...parsed.data,
+      lang: parsed.data.lang === 'hi' ? 'hi' : 'en',
+    });
   }
 
   @Public()
@@ -80,7 +83,10 @@ export class AuthController {
   async demoLogin(@Body() body: unknown) {
     const parsed = demoLoginSchema.safeParse(body);
     if (!parsed.success) return { ok: false, code: 'validation_error', issues: parsed.error.issues };
-    return this.auth.loginDemo(parsed.data);
+    return this.auth.loginDemo({
+      ...parsed.data,
+      lang: parsed.data.lang === 'hi' ? 'hi' : 'en',
+    });
   }
 
   @Public()

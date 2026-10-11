@@ -204,17 +204,17 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* Floating Spatial Card 2: AI Price Radar (Top-Right) */}
+                {/* Floating Spatial Card 2: Escrow Payout Guarantee (Top-Right) */}
                 <div className="absolute top-4 right-4 sm:top-6 sm:right-6 max-w-[260px] backdrop-blur-xl bg-white/95 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:hover:bg-zinc-900 text-right hidden sm:block">
                   <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100/90 dark:bg-emerald-950/90 text-emerald-900 dark:text-emerald-300 text-[10px] font-mono font-bold uppercase mb-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
                     {t.hero.telemetry.mspGuarded}
                   </div>
-                  <div className="text-base font-extrabold text-zinc-950 dark:text-zinc-50 font-mono">
-                    ₹24.41 <span className="text-xs font-normal text-zinc-600 dark:text-zinc-400">/ kg</span>
-                  </div>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-0.5">
+                  <div className="text-xs sm:text-sm font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
                     {t.hero.telemetry.wheatBaseline}
+                  </div>
+                  <p className="text-[11px] text-zinc-600 dark:text-zinc-300 mt-0.5 leading-snug">
+                    {t.hero.telemetry.escrowDetails || "100% RBI regulated nodal escrow with zero commission surprises."}
                   </p>
                 </div>
               </div>

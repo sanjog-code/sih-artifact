@@ -434,3 +434,5 @@ export type OtpVerify = z.infer<typeof otpVerifySchema>;
 export type DemoLoginInput = z.infer<typeof demoLoginSchema>;
 export type GradeConfirmation = z.infer<typeof gradeConfirmationSchema>;
 export type WebhookEvent = z.infer<typeof webhookEventSchema>;
+
+export * from './gemini';
