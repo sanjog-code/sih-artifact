@@ -51,20 +51,7 @@ export default function Home() {
   const { orders, placeOrder } = useOrderStore();
   const { submitRfq } = useRfqStore();
 
-  // Real-Time Dynamic Telemetry Computed from Live Monorepo Stores
-  const totalEscrowVolume = useMemo(() => {
-    const sum = orders.reduce((acc, o) => acc + (o.totalPrice || 0), 0);
-    return sum > 0 ? `₹${sum.toLocaleString('en-IN')}` : '₹4,82,500';
-  }, [orders]);
 
-  const totalAvailableProduceTonnes = useMemo(() => {
-    const kg = listings.reduce((acc, l) => acc + (l.quantityKg || 0), 0);
-    return (kg / 1000).toFixed(1);
-  }, [listings]);
-
-  const activeLotsCount = useMemo(() => {
-    return listings.filter((l) => l.status === 'ACTIVE').length;
-  }, [listings]);
 
   // Price Advisory Section State
   const [selectedCrop, setSelectedCrop] = useState<'Tomato' | 'Mustard' | 'Wheat' | 'Soybean'>('Wheat');
@@ -286,66 +273,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Real-Time Live Telemetry Trust Metrics Ribbon */}
-            <div className="pt-10 max-w-4xl mx-auto border-t border-zinc-200 dark:border-zinc-800">
-              <div className="flex items-center justify-between pb-3 px-1 text-xs text-zinc-500 font-mono">
-                <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-bold uppercase tracking-wider text-[11px]">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  Live Network Telemetry
-                </span>
-                <span className="text-[11px]">Updated in real-time from active monorepo ledger</span>
-              </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div className="p-3.5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-zinc-800 text-center shadow-xs">
-                  <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-white font-mono">
-                    {totalEscrowVolume}
-                  </span>
-                  <span className="text-xs text-zinc-600 dark:text-zinc-400 font-semibold block mt-1">
-                    Direct Escrow Protected
-                  </span>
-                  <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-mono font-bold mt-0.5 block">
-                    RBI Nodal Clearing
-                  </span>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-zinc-800 text-center shadow-xs">
-                  <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-white font-mono">
-                    {totalAvailableProduceTonnes} T
-                  </span>
-                  <span className="text-xs text-zinc-600 dark:text-zinc-400 font-semibold block mt-1">
-                    Physical Stock Listed
-                  </span>
-                  <span className="text-[10px] text-zinc-500 font-mono font-medium mt-0.5 block">
-                    {activeLotsCount} Certified Lots
-                  </span>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-zinc-800 text-center shadow-xs">
-                  <span className="block text-2xl sm:text-3xl font-extrabold text-emerald-700 dark:text-emerald-400 font-mono">
-                    100% MSP
-                  </span>
-                  <span className="text-xs text-zinc-600 dark:text-zinc-400 font-semibold block mt-1">
-                    Statutory Floor Adherence
-                  </span>
-                  <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-mono font-bold mt-0.5 block">
-                    CACP Mandate Zero-Discount
-                  </span>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-zinc-800 text-center shadow-xs">
-                  <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-white font-mono">
-                    T+1 Clearing
-                  </span>
-                  <span className="text-xs text-zinc-600 dark:text-zinc-400 font-semibold block mt-1">
-                    Direct Farmer Bank Payout
-                  </span>
-                  <span className="text-[10px] text-zinc-500 font-mono font-medium mt-0.5 block">
-                    Zero Arhtiya Commission
-                  </span>
-                </div>
-              </div>
-            </div>
 
             {/* Operational Portals Grid */}
             <div className="pt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
