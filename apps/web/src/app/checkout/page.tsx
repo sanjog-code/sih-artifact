@@ -298,10 +298,11 @@ export default function CheckoutPage() {
 
             <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
               <Link
-                href="/consumer"
-                className="px-5 py-2.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-bold transition shadow-md flex items-center justify-center gap-2"
+                href="/escrow/voucher"
+                className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-md flex items-center justify-center gap-1.5"
               >
-                <span>Back to Marketplace</span>
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>View Escrow Voucher</span>
               </Link>
               <button
                 onClick={() => {
@@ -333,6 +334,12 @@ export default function CheckoutPage() {
                 <FileText className="w-3.5 h-3.5" />
                 <span>Download GST Tax Invoice</span>
               </button>
+              <Link
+                href="/consumer"
+                className="px-5 py-2.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-bold transition shadow-md flex items-center justify-center gap-2"
+              >
+                <span>Back to Marketplace</span>
+              </Link>
             </div>
           </div>
         ) : (

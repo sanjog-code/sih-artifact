@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { OrderItem, OrderStatus } from '../lib/store/orderStore';
 import {
   CheckCircle2,
@@ -8,6 +9,7 @@ import {
   Truck,
   PackageCheck,
   ShieldAlert,
+  ShieldCheck,
   FileText,
 } from 'lucide-react';
 import { triggerInvoicePrintOrDownload } from '../lib/invoiceGenerator';
@@ -117,6 +119,14 @@ export default function OrderTrackingTimeline({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href="/escrow/voucher"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900 border border-emerald-200 dark:border-emerald-800 text-xs font-semibold text-emerald-900 dark:text-emerald-300 transition-colors"
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            <span>Escrow Voucher</span>
+          </Link>
+
           <button
             onClick={() => triggerInvoicePrintOrDownload(order)}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-xs font-semibold text-zinc-900 dark:text-zinc-100 transition-colors"
