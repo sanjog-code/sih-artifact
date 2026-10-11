@@ -114,7 +114,7 @@ export default function OrderTrackingTimeline({
             </span>
             {order.currentTemperature !== undefined && (
               <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 flex items-center gap-1">
-                <span>❄️</span>
+                <span>️</span>
                 <span>{order.currentTemperature}°C Reefer</span>
               </span>
             )}
@@ -149,7 +149,7 @@ export default function OrderTrackingTimeline({
               className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-xs active:scale-95"
               title="Manually advance to the next delivery milestone"
             >
-              <span>⚡</span>
+              <span></span>
               <span>
                 {currentIndex === 0 && 'Schedule Pickup'}
                 {currentIndex === 1 && 'Dispatch Reefer'}

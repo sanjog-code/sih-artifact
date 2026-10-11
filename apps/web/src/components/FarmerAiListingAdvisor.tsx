@@ -334,7 +334,7 @@ Would you like to publish this lot directly to the verified marketplace now?`,
     const doneMsg: ChatMessage = {
       id: createMsgId('ai-done'),
       sender: 'ai',
-      text: `🎉 Congratulations! Your lot #${newId} (${quantityKg.toLocaleString('en-IN')} kg of ${crop} at ₹${cropData.defaultPrice}/kg) has been published successfully to the Fasal Matrix marketplace! 
+      text: ` Congratulations! Your lot #${newId} (${quantityKg.toLocaleString('en-IN')} kg of ${crop} at ₹${cropData.defaultPrice}/kg) has been published successfully to the Fasal Matrix marketplace! 
 
 Verified buyers can now place purchase orders or bid with guaranteed T+1 escrow settlement.`,
       timestamp: 'Just now',
@@ -396,17 +396,17 @@ Verified buyers can now place purchase orders or bid with guaranteed T+1 escrow 
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 px-4 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-2xl transition-all duration-300 hover:scale-105 group border border-emerald-400/40"
+          className="flex items-center gap-2 px-4 py-3 bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 rounded-2xl shadow-xl transition-all duration-200 group border border-zinc-700/50 dark:border-zinc-300"
           aria-label="Open Farmer AI Listing Advisor"
         >
-          <div className="w-6 h-6 rounded-full bg-white text-emerald-700 flex items-center justify-center font-bold text-xs shadow-xs">
+          <div className="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
             <Sprout className="w-3.5 h-3.5" />
           </div>
           <div className="text-left">
             <span className="block text-xs font-extrabold tracking-tight">Kisan AI Advisor</span>
-            <span className="block text-[9px] text-emerald-100 font-mono">List Produce & Practices</span>
+            <span className="block text-[9px] text-zinc-300 dark:text-zinc-600 font-mono">List Produce & Practices</span>
           </div>
-          <span className="w-2 h-2 rounded-full bg-emerald-300 animate-ping"></span>
+          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
         </button>
       </div>
     );

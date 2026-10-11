@@ -403,7 +403,7 @@ export default function ConsumerPortal() {
           </div>
 
           <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center gap-3 shadow-2xs">
-            <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 flex items-center justify-center shrink-0">
               <Truck className="w-4 h-4" />
             </div>
             <div>
@@ -1040,7 +1040,7 @@ export default function ConsumerPortal() {
             <div className="text-center max-w-2xl mx-auto space-y-2 mb-8">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 dark:bg-emerald-400/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20">
                 <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                <span>FarmLink Consumer Premier — Simple & Affordable Memberships</span>
+                <span>FarmLink Consumer Premier  -  Simple & Affordable Memberships</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
                 Farm-to-Fork Freshness Privileges

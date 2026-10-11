@@ -5,7 +5,7 @@ import { ArrowLeft, Home, Search, Compass } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Page Not Found — 404 | Fasal Matrix',
+  title: 'Page Not Found  -  404 | Fasal Matrix',
   description: 'The requested route or agrarian resource could not be found.',
 };
 

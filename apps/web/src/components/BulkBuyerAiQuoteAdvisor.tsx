@@ -196,7 +196,7 @@ export default function BulkBuyerAiQuoteAdvisor({ onNavigateToRfq }: BulkBuyerAi
 
 • Weekly Volume: ${weeklyVolume.toLocaleString('en-IN')} kg (${volumePerDelivery.toLocaleString('en-IN')} kg × ${frequencyPerWeek} deliveries/wk)
 • Fasal Matrix Direct Rate: ₹${cropData.currentModalPrice.toFixed(2)}/kg vs Traditional Mandi: ₹${cropData.mandiBenchmark.toFixed(2)}/kg
-• Weekly Cost: ₹${weeklySpendFasal.toLocaleString('en-IN')} (Saves ₹${weeklySavings.toLocaleString('en-IN')} every week — ~${savingsPercent}% lower spend)
+• Weekly Cost: ₹${weeklySpendFasal.toLocaleString('en-IN')} (Saves ₹${weeklySavings.toLocaleString('en-IN')} every week  -  ~${savingsPercent}% lower spend)
 • Projected Annual Savings: ₹${annualSavings.toLocaleString('en-IN')}
 
 How Fasal Matrix delivers this:
@@ -239,7 +239,7 @@ How Fasal Matrix delivers this:
     const confirmationMsg: ChatMessage = {
       id: createMsgId('ai-quote-confirmed'),
       sender: 'ai',
-      text: `🎉 Quote #${createdRfq.id} registered!
+      text: ` Quote #${createdRfq.id} registered!
 
 Your procurement requirement (${selectedCrop}, ${weeklyVolume.toLocaleString('en-IN')} kg/week) has been logged into the Fasal Matrix settlement ledger. 
 

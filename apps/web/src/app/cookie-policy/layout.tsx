@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy — Zero Ad Tracking Architecture',
+  title: 'Cookie Policy  -  Zero Ad Tracking Architecture',
   description:
     'Full registry of functional and security cookies used by Fasal Matrix. We do not use third-party behavioral advertising or cross-site tracking pixels.',
   alternates: {

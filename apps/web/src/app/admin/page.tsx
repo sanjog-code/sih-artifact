@@ -54,7 +54,7 @@ export default function AdminConsolePage() {
         {/* Admin Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-zinc-200 dark:border-zinc-800">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-300 text-xs font-semibold mb-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900/60 border border-zinc-300 dark:border-zinc-800 dark:text-zinc-200 text-zinc-800 dark:text-zinc-200 dark:text-zinc-400 text-xs font-semibold mb-2">
               <ShieldAlert className="w-3.5 h-3.5" />
               <span>Network Operations & Administrator Profile</span>
             </div>
@@ -96,7 +96,7 @@ export default function AdminConsolePage() {
           <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
             <span className="text-[11px] font-mono uppercase text-zinc-500 font-semibold block">Accredited Nodes</span>
             <span className="text-2xl font-black text-zinc-950 dark:text-white font-mono mt-1 block">12 Depots</span>
-            <span className="text-[11px] text-purple-600 font-medium">WDRA verified</span>
+            <span className="text-[11px] text-zinc-700 dark:text-zinc-300 font-medium">WDRA verified</span>
           </div>
         </div>
 
@@ -170,7 +170,7 @@ export default function AdminConsolePage() {
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
             }`}
           >
-            <Warehouse className="w-3.5 h-3.5 text-purple-600" />
+            <Warehouse className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
             <span>Depot Capacity Intake ({slots.length})</span>
           </button>
 
@@ -178,13 +178,13 @@ export default function AdminConsolePage() {
             onClick={() => setActiveTab('ai_operations')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
               activeTab === 'ai_operations'
-                ? 'bg-white dark:bg-zinc-800 text-purple-600 dark:text-purple-400 shadow-xs border border-zinc-200 dark:border-zinc-700'
+                ? 'bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 dark:text-zinc-300 shadow-xs border border-zinc-200 dark:border-zinc-700'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+            <Sparkles className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
             <span>AI Operations Copilot</span>
-            <span className="px-1.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300 text-[10px] font-bold">
+            <span className="px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-900/80 text-zinc-800 dark:text-zinc-200 dark:text-zinc-400 text-[10px] font-bold">
               Gemini
             </span>
           </button>
@@ -303,7 +303,7 @@ export default function AdminConsolePage() {
                 <span>Executive Financial Telemetry & Monetization Engine</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-950 dark:text-white tracking-tight">
-                FarmLink Premier — Operating Revenue & Unit Economics
+                FarmLink Premier  -  Operating Revenue & Unit Economics
               </h2>
               <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
                 Real-time tracking of single-digit farmer commissions (2–5%), B2B enterprise procurement subscriptions, and consumer memberships.
@@ -354,12 +354,12 @@ export default function AdminConsolePage() {
               <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
                 <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-1">
                   <span>Annualized Run-Rate (ARR)</span>
-                  <BarChart3 className="w-4 h-4 text-purple-600" />
+                  <BarChart3 className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
                 </div>
-                <div className="text-2xl font-black text-purple-700 dark:text-purple-400 font-mono">
+                <div className="text-2xl font-black text-zinc-900 dark:text-zinc-100 dark:text-zinc-300 font-mono">
                   ₹{(annualizedRunRate / 100000).toFixed(2)} Lakh
                 </div>
-                <div className="text-[11px] text-purple-600 font-medium mt-1">
+                <div className="text-[11px] text-zinc-700 dark:text-zinc-300 font-medium mt-1">
                   Projected 12-month recurring trajectory
                 </div>
               </div>
@@ -408,7 +408,7 @@ export default function AdminConsolePage() {
                       <td className="py-3 px-3 font-sans font-medium text-zinc-900 dark:text-zinc-100">Consumer Premier Memberships</td>
                       <td className="py-3 px-3 text-zinc-600 dark:text-zinc-400 font-sans">1,000 consumers × ₹99 / month</td>
                       <td className="py-3 px-3 text-right font-bold text-zinc-950 dark:text-zinc-50">₹99,000</td>
-                      <td className="py-3 px-3 text-right text-purple-600">12.4%</td>
+                      <td className="py-3 px-3 text-right text-zinc-700 dark:text-zinc-300">12.4%</td>
                     </tr>
                     <tr className="bg-zinc-50 dark:bg-zinc-800/50 font-bold">
                       <td className="py-3 px-3 font-sans text-zinc-950 dark:text-white">Total Blended Monthly Revenue</td>
@@ -432,7 +432,7 @@ export default function AdminConsolePage() {
             </div>
 
             {/* Operating Principles & Governance Compliance Strip */}
-            <div className="p-5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-transparent border border-emerald-500/20 text-xs space-y-2">
+            <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 border border-emerald-500/20 text-xs space-y-2">
               <span className="font-bold text-emerald-950 dark:text-emerald-200 uppercase tracking-wider text-[10px]">
                 Transparent Operating Principles
               </span>
@@ -541,14 +541,14 @@ export default function AdminConsolePage() {
             <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 mb-4 flex items-center justify-between">
               <div>
                 <h3 className="text-base font-bold text-zinc-950 dark:text-white flex items-center gap-2">
-                  <Warehouse className="w-4 h-4 text-purple-600" />
+                  <Warehouse className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
                   <span>Depot Unloading Slots & Vault Storage</span>
                 </h3>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">
                   Scheduled tractor/truck dock appointments across WDRA accredited hubs.
                 </p>
               </div>
-              <span className="text-xs font-mono font-bold px-3 py-1 bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 rounded-full">
+              <span className="text-xs font-mono font-bold px-3 py-1 bg-zinc-200 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 dark:text-zinc-400 rounded-full">
                 {slots.length} Reserved Appointments
               </span>
             </div>
@@ -562,7 +562,7 @@ export default function AdminConsolePage() {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-sm text-zinc-900 dark:text-zinc-100">{slot.depotName}</span>
-                      <span className="text-xs px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-semibold border border-purple-200">
+                      <span className="text-xs px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-900 dark:text-zinc-100 font-semibold border border-zinc-300">
                         {slot.dockNumber}
                       </span>
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
@@ -610,8 +610,8 @@ export default function AdminConsolePage() {
             <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800 pb-4">
                 <div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-300 text-xs font-semibold mb-2">
-                    <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900/60 border border-zinc-300 dark:border-zinc-800 dark:text-zinc-200 text-zinc-800 dark:text-zinc-200 dark:text-zinc-400 text-xs font-semibold mb-2">
+                    <Sparkles className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
                     <span>Gemini 3.8 Flash • Operational Reasoning Oracle</span>
                   </div>
                   <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-950 dark:text-white tracking-tight">
@@ -636,7 +636,7 @@ export default function AdminConsolePage() {
                       );
                     }
                   }}
-                  className="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs self-start"
+                  className="px-4 py-2.5 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-white hover:from-zinc-900 dark:text-zinc-100 hover:to-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs self-start"
                 >
                   <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
                   <span>Launch Gemini Admin Copilot</span>
@@ -663,7 +663,7 @@ export default function AdminConsolePage() {
                 <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800">
                   <span className="text-[10px] font-mono uppercase text-zinc-500 font-bold block">Penny-Drop KYC Velocity</span>
                   <span className="text-xl font-extrabold text-zinc-950 dark:text-white font-mono mt-1 block">&lt; 4.2 min</span>
-                  <span className="text-[10px] text-purple-600 font-medium">NPCI instant verification</span>
+                  <span className="text-[10px] text-zinc-700 dark:text-zinc-300 font-medium">NPCI instant verification</span>
                 </div>
               </div>
 
@@ -683,10 +683,10 @@ export default function AdminConsolePage() {
                       );
                     }
                   }}
-                  className="p-4 text-left rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-purple-300 dark:hover:border-purple-700 bg-white dark:bg-zinc-950 transition group"
+                  className="p-4 text-left rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-950 transition group"
                 >
-                  <div className="text-xs font-bold text-zinc-950 dark:text-white group-hover:text-purple-600 transition">
-                    🚛 Fleet VRP Capacity Optimization
+                  <div className="text-xs font-bold text-zinc-950 dark:text-white group-hover:text-zinc-700 dark:text-zinc-300 transition">
+                     Fleet VRP Capacity Optimization
                   </div>
                   <div className="text-[11px] text-zinc-500 mt-1">
                     Review simulated payloads, fuel minimization, and depot dispatch sequences.
@@ -707,10 +707,10 @@ export default function AdminConsolePage() {
                       );
                     }
                   }}
-                  className="p-4 text-left rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-purple-300 dark:hover:border-purple-700 bg-white dark:bg-zinc-950 transition group"
+                  className="p-4 text-left rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-950 transition group"
                 >
-                  <div className="text-xs font-bold text-zinc-950 dark:text-white group-hover:text-purple-600 transition">
-                    💰 Escrow Ledger Audit & Settlement
+                  <div className="text-xs font-bold text-zinc-950 dark:text-white group-hover:text-zinc-700 dark:text-zinc-300 transition">
+                     Escrow Ledger Audit & Settlement
                   </div>
                   <div className="text-[11px] text-zinc-500 mt-1">
                     Audit gate-pass releases, bank confirmations, and platform fee splits.
@@ -731,10 +731,10 @@ export default function AdminConsolePage() {
                       );
                     }
                   }}
-                  className="p-4 text-left rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-purple-300 dark:hover:border-purple-700 bg-white dark:bg-zinc-950 transition group"
+                  className="p-4 text-left rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-950 transition group"
                 >
-                  <div className="text-xs font-bold text-zinc-950 dark:text-white group-hover:text-purple-600 transition">
-                    🌱 Cluster Compliance & Silo Health
+                  <div className="text-xs font-bold text-zinc-950 dark:text-white group-hover:text-zinc-700 dark:text-zinc-300 transition">
+                     Cluster Compliance & Silo Health
                   </div>
                   <div className="text-[11px] text-zinc-500 mt-1">
                     Assess WDRA grain intake slots, quality grading distributions, and member KYC.

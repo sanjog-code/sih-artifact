@@ -170,8 +170,35 @@ import('crypto').then((crypto) => {
   assert.strictEqual(parts.length, 3, 'Token must have header, payload, signature');
   const expectedSig = crypto.createHmac('sha256', sessionSecret).update(`${parts[0]}.${parts[1]}`).digest('base64url');
   assert.strictEqual(parts[2], expectedSig, 'HMAC signature must verify');
-  console.log('  ✅ Zero session tokens in localStorage verified; httpOnly SameSite=strict session signing verified.\n');
+  // 8. Anti-Vibe & Institutional Cleanliness Verification
+  console.log('🏛️ Test 8: Verifying Zero Anti-Vibe Patterns (0 Em Dashes, 0 Purple Gradients, 0 Made-with-AI)...');
+  const srcRoot = path.resolve(__dirname, '../src');
+  function walkFiles(dir) {
+    let list = [];
+    for (const f of fs.readdirSync(dir)) {
+      const full = path.join(dir, f);
+      if (fs.statSync(full).isDirectory()) list.push(...walkFiles(full));
+      else if (/\.(tsx?|jsx?|md)$/.test(f)) list.push(full);
+    }
+    return list;
+  }
+  const allWebFiles = walkFiles(srcRoot);
+  let emDashFound = 0;
+  let purpleGradFound = 0;
+  let madeWithAiFound = 0;
 
-  console.log('🎉 ALL 7 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
+  for (const f of allWebFiles) {
+    const content = fs.readFileSync(f, 'utf8');
+    if (content.includes('—') || content.includes('&mdash;')) emDashFound++;
+    if (content.includes('from-purple') || content.includes('to-purple') || content.includes('via-purple')) purpleGradFound++;
+    if (content.toLowerCase().includes('made with ai')) madeWithAiFound++;
+  }
+
+  assert.strictEqual(emDashFound, 0, `Found ${emDashFound} files with em dashes! Must use hyphens/colons.`);
+  assert.strictEqual(purpleGradFound, 0, `Found ${purpleGradFound} files with purple gradients! Must use clean zinc/emerald.`);
+  assert.strictEqual(madeWithAiFound, 0, `Found ${madeWithAiFound} files with "Made with AI"!`);
+  console.log('  ✅ 0 em dashes, 0 purple gradients, 0 "Made with AI" tags across all src files.\n');
+
+  console.log('🎉 ALL 8 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
 });
 

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     canonical: '/about',
   },
   openGraph: {
-    title: 'About Fasal Matrix — Agrarian Transparency & Mandi Economics',
+    title: 'About Fasal Matrix  -  Agrarian Transparency & Mandi Economics',
     description:
       'Learn about our field infrastructure across Kota, Jaipur, Bhopal, and Ludhiana, our scientific advisory board, and our zero middleman mission.',
     url: 'https://fasalmatrix.in/about',

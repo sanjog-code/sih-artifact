@@ -41,7 +41,7 @@ interface ChatMessage {
   suggestedPrompts?: string[];
 }
 
-const WELCOME_TEXT = `Namaste! 🙏 I am **Fasal Matrix AI**, your fast agricultural copilot.\n\n• **Price Forecasts**: Real-time mandi modal rates & price trajectory charts\n• **MSP Guardrails**: Zero-deduction CCEA price protection & RBI escrow\n• **Agronomy & Storage**: WDRA storage guidance & crop science\n\nAsk any question or tap the microphone to speak!`;
+const WELCOME_TEXT = `Namaste!  I am **Fasal Matrix AI**, your fast agricultural copilot.\n\n• **Price Forecasts**: Real-time mandi modal rates & price trajectory charts\n• **MSP Guardrails**: Zero-deduction CCEA price protection & RBI escrow\n• **Agronomy & Storage**: WDRA storage guidance & crop science\n\nAsk any question or tap the microphone to speak!`;
 
 function FormattedMessage({ text, isUser }: { text: string; isUser?: boolean }) {
   if (isUser) {
@@ -198,7 +198,7 @@ function AiAssistantWidget() {
   const getRoleWelcome = (userRole?: string | null) => {
     if (userRole === 'farmer') {
       return {
-        text: `Namaste! 🙏 I am your **Kisan Agronomy & Price Advisor**.\n\n• **Price Forecasts**: Live APMC modal rates & 14-to-90-day price curves\n• **MSP Protection**: Guaranteed legal floor with 0% broker cuts\n• **Warehouse Silos**: Safe WDRA storage to prevent distress sales\n\nAsk any question or tap a prompt below!`,
+        text: `Namaste!  I am your **Kisan Agronomy & Price Advisor**.\n\n• **Price Forecasts**: Live APMC modal rates & 14-to-90-day price curves\n• **MSP Protection**: Guaranteed legal floor with 0% broker cuts\n• **Warehouse Silos**: Safe WDRA storage to prevent distress sales\n\nAsk any question or tap a prompt below!`,
         prompts: [
           'Price forecast & graph for Wheat',
           'How does statutory MSP protect me?',
@@ -208,7 +208,7 @@ function AiAssistantWidget() {
       };
     } else if (userRole === 'buyer') {
       return {
-        text: `Welcome! 🏢 I am your **Bulk Procurement Advisor**.\n\n• **Direct FPO Contracts**: 12–18% net savings bypassing broker cuts\n• **RBI Nodal Escrow**: 100% protected settlement till gate inspection\n• **Quality Assurance**: AGMARK Grade A certified lots\n\nAsk about commodity quotes, delivery, or forecasts!`,
+        text: `Welcome!  I am your **Bulk Procurement Advisor**.\n\n• **Direct FPO Contracts**: 12–18% net savings bypassing broker cuts\n• **RBI Nodal Escrow**: 100% protected settlement till gate inspection\n• **Quality Assurance**: AGMARK Grade A certified lots\n\nAsk about commodity quotes, delivery, or forecasts!`,
         prompts: [
           'Bulk quote for 5 MT Wheat weekly',
           'Price prediction in next 3 months for Mustard',
@@ -218,7 +218,7 @@ function AiAssistantWidget() {
       };
     } else if (userRole === 'consumer') {
       return {
-        text: `Hello! 🛒 I am your **Smart Deal & Grocery Advisor**.\n\n• **Direct Farmgate**: Save 15-25% over retail supermarket prices\n• **Timing Radar**: Buy when wholesale mandi arrivals peak\n• **Grade A Produce**: Freshly harvested direct from farmers\n\nAsk what to buy this week or check a commodity rate!`,
+        text: `Hello!  I am your **Smart Deal & Grocery Advisor**.\n\n• **Direct Farmgate**: Save 15-25% over retail supermarket prices\n• **Timing Radar**: Buy when wholesale mandi arrivals peak\n• **Grade A Produce**: Freshly harvested direct from farmers\n\nAsk what to buy this week or check a commodity rate!`,
         prompts: [
           'Best vegetable to buy right now',
           'Tomato prices and next week forecast',
@@ -228,7 +228,7 @@ function AiAssistantWidget() {
       };
     } else if (userRole === 'admin') {
       return {
-        text: `Greetings! 🛡️ I am your **Network & Fleet Operations Copilot**.\n\n• **Capacitated VRP**: Live fleet routes & vehicle load optimization\n• **Mandi Oracles**: Ridge regression across 737,000+ clearing records\n• **Escrow Audit**: Live T+1 disbursement reconciliation\n\nAsk for fleet status, revenue projections, or audit metrics!`,
+        text: `Greetings! ️ I am your **Network & Fleet Operations Copilot**.\n\n• **Capacitated VRP**: Live fleet routes & vehicle load optimization\n• **Mandi Oracles**: Ridge regression across 737,000+ clearing records\n• **Escrow Audit**: Live T+1 disbursement reconciliation\n\nAsk for fleet status, revenue projections, or audit metrics!`,
         prompts: [
           'Audit active escrow transactions',
           'Check fleet capacitated routing status',

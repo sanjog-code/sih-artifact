@@ -249,11 +249,11 @@ How much quantity (kg) would you like to buy?`,
         sender: 'ai',
         text: `Here is the top-rated direct deal for ${qty} kg ${lot.cropName}!
 
-🌾 **Farmer & Origin**: Grown by **${lot.farmerName || 'Verified Member'}** in **${lot.cluster}** (${lot.location}).
-✨ **Quality**: **${deal.qualityBadge}** with optical color uniformity and zero chemical spray residues.
+ **Farmer & Origin**: Grown by **${lot.farmerName || 'Verified Member'}** in **${lot.cluster}** (${lot.location}).
+ **Quality**: **${deal.qualityBadge}** with optical color uniformity and zero chemical spray residues.
 ⏱️ **Freshness**: **${deal.freshnessHours}**.
-💰 **Fair Pricing**: **₹${lot.price}/kg** (Total: **₹${totalCost}** for ${qty} kg).
-🎯 **Why It's a Great Deal**: ${deal.reasonText}`,
+ **Fair Pricing**: **₹${lot.price}/kg** (Total: **₹${totalCost}** for ${qty} kg).
+ **Why It's a Great Deal**: ${deal.reasonText}`,
         timestamp: 'Just now',
         suggestedLot: lot,
         dealHighlights: deal,
@@ -306,12 +306,12 @@ How much quantity (kg) would you like to buy?`,
           sender: 'ai',
           text: `Found a verified direct harvest match for your request:
 
-🌱 **Crop**: ${lot.cropName} (Lot #${lot.id})
-👨‍🌾 **Origin & Farm**: Harvested by **${lot.farmerName}** at **${lot.cluster}**.
-🏆 **Assayed Grade**: **${deal.qualityBadge}** (${lot.category}).
-⚡ **Freshness**: ${deal.freshnessHours}.
-🏷️ **Direct Price**: **₹${lot.price}/kg** (Total ₹${total} for ${extractedQty} kg).
-💡 **Why this is a premier deal**: ${deal.reasonText}`,
+ **Crop**: ${lot.cropName} (Lot #${lot.id})
+‍ **Origin & Farm**: Harvested by **${lot.farmerName}** at **${lot.cluster}**.
+ **Assayed Grade**: **${deal.qualityBadge}** (${lot.category}).
+ **Freshness**: ${deal.freshnessHours}.
+️ **Direct Price**: **₹${lot.price}/kg** (Total ₹${total} for ${extractedQty} kg).
+ **Why this is a premier deal**: ${deal.reasonText}`,
           timestamp: 'Just now',
           suggestedLot: lot,
           dealHighlights: deal,
@@ -353,18 +353,18 @@ How much quantity (kg) would you like to buy?`,
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2.5 px-5 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-2xl transition-all duration-300 hover:scale-105 group border border-emerald-400/40 ring-4 ring-emerald-500/20"
+          className="flex items-center gap-2.5 px-4.5 py-3 bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 rounded-2xl shadow-xl transition-all duration-200 group border border-zinc-700/50 dark:border-zinc-300"
           aria-label="Open Consumer AI Shopping & Deal Advisor"
         >
-          <div className="w-7 h-7 rounded-full bg-white text-emerald-900 flex items-center justify-center font-bold text-xs shadow-xs">
-            <ShoppingBag className="w-4 h-4 text-emerald-700" />
+          <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+            <ShoppingBag className="w-4 h-4 text-white" />
           </div>
           <div className="text-left">
             <div className="text-xs font-extrabold tracking-tight flex items-center gap-1.5">
               <span>AI Shopping Advisor</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-300 animate-ping"></span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
             </div>
-            <div className="text-[10px] text-emerald-100 font-medium">Find Best Farmer Deals</div>
+            <div className="text-[10px] text-zinc-300 dark:text-zinc-600 font-medium">Find Best Farmer Deals</div>
           </div>
         </button>
       </div>
@@ -571,11 +571,11 @@ How much quantity (kg) would you like to buy?`,
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {[
-                    { name: 'Tomato', label: '🍅 Fresh Tomatoes' },
-                    { name: 'Potato', label: '🥔 Agra Potatoes' },
-                    { name: 'Wheat', label: '🌾 Sharbati Wheat' },
-                    { name: 'Soybean', label: '🌱 Vidarbha Soybean' },
-                    { name: 'Mustard', label: '🌻 Mustard Seed' },
+                    { name: 'Tomato', label: ' Fresh Tomatoes' },
+                    { name: 'Potato', label: ' Agra Potatoes' },
+                    { name: 'Wheat', label: ' Sharbati Wheat' },
+                    { name: 'Soybean', label: ' Vidarbha Soybean' },
+                    { name: 'Mustard', label: ' Mustard Seed' },
                   ].map((c) => (
                     <button
                       key={c.name}

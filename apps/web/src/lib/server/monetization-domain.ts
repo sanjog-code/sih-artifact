@@ -1,5 +1,5 @@
 /**
- * FarmLink Premier — Server-side Monetization Domain & AI Contract
+ * FarmLink Premier  -  Server-side Monetization Domain & AI Contract
  * Self-contained for clean, zero-external-dependency deployment on Next.js/Vercel.
  */
 

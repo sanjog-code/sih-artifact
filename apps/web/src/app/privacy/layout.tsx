@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — DPDP Act 2023 Compliance',
+  title: 'Privacy Policy  -  DPDP Act 2023 Compliance',
   description:
     'Comprehensive data protection policy explaining purpose-limited processing of farmer KYC, bank details, geolocation, and order histories pursuant to the DPDP Act 2023.',
   alternates: {

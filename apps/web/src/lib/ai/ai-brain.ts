@@ -292,11 +292,11 @@ export async function processAiQuery(params: {
       const p90 = forecast.trajectory?.find(p => p.dayOffset === 90)?.price ?? (forecast.predictedModalPrice);
 
       text += `• **Trajectory**: Month 1: ~₹${p30.toFixed(2)}/kg | Month 2: ~₹${p60.toFixed(2)}/kg | Month 3: ~₹${p90.toFixed(2)}/kg\n` +
-        `💡 *Recommendation: Lock forward buyer delivery or store in accredited silos to avoid spot volatility.*`;
+        ` *Recommendation: Lock forward buyer delivery or store in accredited silos to avoid spot volatility.*`;
     } else {
       text += forecast.predictedChangePercent > 2
-        ? `💡 *Recommendation: Demand is rising. Warehousing storable lots or locking direct farmgate sale maximizes realization.*`
-        : `💡 *Recommendation: Supply is in equilibrium. Direct farmgate trading via Fasal Matrix eliminates middleman broker cuts.*`;
+        ? ` *Recommendation: Demand is rising. Warehousing storable lots or locking direct farmgate sale maximizes realization.*`
+        : ` *Recommendation: Supply is in equilibrium. Direct farmgate trading via Fasal Matrix eliminates middleman broker cuts.*`;
     }
 
     return {
@@ -591,9 +591,9 @@ Fasal Matrix is India's direct farmgate trading and demand intelligence platform
     lower.includes('who are you') ||
     lower.includes('what can you do')
   ) {
-    const text = `Namaste! 🙏 I am **Fasal Matrix AI**, your advanced agrarian procurement and market intelligence copilot.
+    const text = `Namaste!  I am **Fasal Matrix AI**, your advanced agrarian procurement and market intelligence copilot.
 
-I function as an intelligent conversational advisor—similar to ChatGPT or Google Gemini—with specialized grounding in Indian agriculture, APMC mandi economics, and supply chain logistics.
+I function as an intelligent conversational advisor - similar to ChatGPT or Google Gemini - with specialized grounding in Indian agriculture, APMC mandi economics, and supply chain logistics.
 
 Here are some things you can ask me right now:
 • **Real-Time Price & Demand Forecasts**: *"Show me price forecast and graph for Wheat"*, *"What will tomato rates be next week?"*
@@ -623,10 +623,10 @@ How may I assist you today?`;
   }
 
   if (lower.includes('joke') || lower.includes('chutkula')) {
-    const text = `Here is a farmer's favorite joke for you: 😄
+    const text = `Here is a farmer's favorite joke for you: 
 
 *Why did the scarecrow win a national agricultural award?*  
-**Because he was outstanding in his field!** 🌾
+**Because he was outstanding in his field!** 
 
 On a serious note, if you want your harvest to be truly outstanding in the market, ask me for a live price forecast or listing optimization!`;
     return { text, roleContext: role, suggestedPrompts: ['Show me price forecast for Wheat', 'Explain MSP floor'] };
@@ -839,7 +839,7 @@ Regarding your inquiry:
 3. **Escrow Security**: All payments are routed through RBI-compliant nodal escrow accounts with T+1 direct bank disbursement upon dock gate verification.
 4. **Role Advisory**: ${roleGreetingAdvisory}
 
-If you have a specific commodity, district, or operational requirement in mind, please let me know—I can generate an interactive price trajectory graph, calculate storage shelf-life, or help you list and procure verified lots!`;
+If you have a specific commodity, district, or operational requirement in mind, please let me know - I can generate an interactive price trajectory graph, calculate storage shelf-life, or help you list and procure verified lots!`;
 
   return {
     text,

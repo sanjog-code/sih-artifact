@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useLanguage, LANGUAGES, LanguageCode } from '../context/LanguageContext';
 import { useAuth, UserRole } from '../context/AuthContext';
-import { ShieldCheck, CheckCircle2, Lock, Scale, Sprout, ArrowRight } from 'lucide-react';
+import { ShieldCheck, CheckCircle2, Lock, Scale, Sprout, ArrowRight, Phone } from 'lucide-react';
 
 export default function Footer() {
   const { language, setLanguage, t } = useLanguage();
@@ -81,7 +81,7 @@ export default function Footer() {
                 {t.common.zeroSpeculation}
               </span>
               <span className="inline-flex items-center gap-1.5 text-[10px] uppercase font-mono px-2.5 py-1 rounded-full bg-zinc-900 text-zinc-300 border border-zinc-800 font-semibold">
-                <Lock className="w-3 h-3 text-purple-400" />
+                <Lock className="w-3 h-3 text-zinc-400" />
                 RBI Nodal Escrow T+1
               </span>
             </div>
@@ -181,9 +181,9 @@ export default function Footer() {
               {/* Role Restricted: Logistics & Fleet / Admin */}
               <li>
                 {hasAccess('admin') ? (
-                  <Link href="/logistics" className="hover:text-purple-400 text-purple-300 font-semibold transition flex items-center justify-between group">
+                  <Link href="/logistics" className="hover:text-zinc-400 text-zinc-300 font-semibold transition flex items-center justify-between group">
                     <span>{t.nav.logistics}</span>
-                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-purple-500/20 text-purple-300">Active</span>
+                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-zinc-800 text-zinc-300">Active</span>
                   </Link>
                 ) : (
                   <Link
@@ -335,8 +335,9 @@ export default function Footer() {
             <span className="text-zinc-400">)</span>
             <span className="block text-zinc-400">Response SLA: Within 48 hours</span>
             <div className="mt-1">
-              <a href="tel:18008892603" className="text-emerald-400 hover:underline font-mono text-[10px]">
-                📞 Toll-Free Helpline: 1800-889-2603
+              <a href="tel:18008892603" className="text-emerald-400 hover:underline font-mono text-[10px] inline-flex items-center gap-1.5">
+                <Phone className="w-3 h-3 text-emerald-400" />
+                <span>Toll-Free Helpline: 1800-889-2603</span>
               </a>
             </div>
           </div>

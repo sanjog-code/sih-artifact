@@ -252,7 +252,7 @@ export default function AboutPage() {
                   </span>
                 </div>
                 <span className="absolute bottom-3 left-3 text-[11px] font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
-                  📍 Sanganer, Jaipur (Rajasthan)
+                   Sanganer, Jaipur (Rajasthan)
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -287,7 +287,7 @@ export default function AboutPage() {
                   </span>
                 </div>
                 <span className="absolute bottom-3 left-3 text-[11px] font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
-                  📍 Phulera Cold Silo Terminal
+                   Phulera Cold Silo Terminal
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -317,12 +317,12 @@ export default function AboutPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
                 <div className="absolute top-3 left-3 flex gap-2">
-                  <span className="text-[10px] font-mono font-bold uppercase text-purple-300 bg-purple-950/90 backdrop-blur-md border border-purple-700/60 px-2.5 py-0.5 rounded-full">
+                  <span className="text-[10px] font-mono font-bold uppercase text-zinc-300 bg-zinc-900/90 backdrop-blur-md border border-zinc-700 px-2.5 py-0.5 rounded-full">
                     Bulk Nodal Clearance
                   </span>
                 </div>
                 <span className="absolute bottom-3 left-3 text-[11px] font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
-                  📍 Muhana Institutional Terminal
+                   Muhana Institutional Terminal
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -334,7 +334,7 @@ export default function AboutPage() {
                     Automated multi-depot vehicle manifests and delivery to verified bulk processors and consumers with guaranteed T+1 escrow payout.
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-purple-700 dark:text-purple-400 font-mono font-semibold">
+                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-zinc-700 dark:text-zinc-300 font-mono font-semibold">
                   <span>RBI Escrow Vault</span>
                   <span>T+1 Bank Settlement</span>
                 </div>
@@ -567,10 +567,10 @@ export default function AboutPage() {
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
-                <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-purple-500/20 backdrop-blur-md border border-purple-500/40 text-purple-300 flex items-center justify-center">
+                <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-zinc-800 backdrop-blur-md border border-zinc-700 text-zinc-300 flex items-center justify-center">
                   <Lock className="w-4 h-4" />
                 </div>
-                <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-purple-300 bg-purple-950/80 border border-purple-700/50 px-2 py-0.5 rounded">
+                <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-zinc-300 bg-zinc-900/80 border border-zinc-700 px-2 py-0.5 rounded">
                   Pillar 04 • Nodal Escrow
                 </span>
               </div>
@@ -583,7 +583,7 @@ export default function AboutPage() {
                     {t.about.pillar4Desc}
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-purple-700 dark:text-purple-400 font-semibold font-mono">
+                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-zinc-700 dark:text-zinc-300 font-semibold font-mono">
                   <CheckCircle className="w-3.5 h-3.5" />
                   <span>{t.about.rbiRegulatedEscrow}</span>
                 </div>

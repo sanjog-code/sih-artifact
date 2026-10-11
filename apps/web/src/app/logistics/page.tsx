@@ -441,7 +441,7 @@ export default function LogisticsPortal() {
                                     : 'bg-teal-50 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-800'
                                 }`}
                               >
-                                {isPickup ? '🌱 Farm Pickup' : '📦 Doorstep Delivery'}
+                                {isPickup ? ' Farm Pickup' : ' Doorstep Delivery'}
                               </span>
                             </div>
                             <span className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100">

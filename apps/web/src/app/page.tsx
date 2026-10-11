@@ -120,7 +120,7 @@ export default function Home() {
       <Navbar onOpenInquiry={() => setInquiryOpen(true)} />
 
       <main className="flex-1 bg-zinc-50 dark:bg-zinc-950 transition-colors">
-        {/* Hero Section — landing-01 Inspired Agrarian Techno-Minimalist Canvas */}
+        {/* Hero Section  -  landing-01 Inspired Agrarian Techno-Minimalist Canvas */}
         <section className="relative pt-16 sm:pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0c0d0e] border-b border-zinc-200/80 dark:border-zinc-800 transition-colors overflow-hidden">
           {/* landing-01 Ambient Glow & Technical Background Grid */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(22,163,74,0.04)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.06)_1px,transparent_1px)] bg-size-[28px_28px] pointer-events-none" />

@@ -418,7 +418,7 @@ export function generateInvoiceHtml(order: OrderItem): string {
     <div class="totals-container">
       <!-- Escrow Record -->
       <div class="escrow-record">
-        <strong>🔒 RBI Nodal Tri-Party Escrow Certificate</strong>
+        <strong> RBI Nodal Tri-Party Escrow Certificate</strong>
         <p style="margin-top: 4px;">
           Funds deposited via <strong>${inv.escrowDetails.bankNodalAccount}</strong> (IFSC: ${inv.escrowDetails.ifscCode}).<br>
           Inspection Status: <strong>${inv.escrowDetails.inspectionClearance}</strong>.<br>

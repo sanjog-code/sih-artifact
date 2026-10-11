@@ -1015,7 +1015,7 @@ export default function BuyerPortal() {
             <div className="text-center max-w-3xl mx-auto space-y-2 mb-8">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 dark:bg-emerald-400/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                <span>FarmLink Business Premier — B2B Procurement Subscriptions</span>
+                <span>FarmLink Business Premier  -  B2B Procurement Subscriptions</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
                 Institutional Sourcing & Supply Chain Ladder

@@ -356,7 +356,7 @@ export default function LoginPage() {
               {selectedRole === 'admin' && (
                 <button
                   type="submit"
-                  className="w-full py-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-purple-600 dark:hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                  className="w-full py-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                 >
                   <ShieldCheck className="w-4 h-4" />
                   <span>Verify Administrator Access</span>

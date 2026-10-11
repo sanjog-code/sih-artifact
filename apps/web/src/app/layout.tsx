@@ -68,7 +68,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://fasalmatrix.in'),
   title: {
-    default: 'Fasal Matrix — Direct Agrarian Marketplace & Mandi MSP Intelligence',
+    default: 'Fasal Matrix  -  Direct Agrarian Marketplace & Mandi MSP Intelligence',
     template: '%s | Fasal Matrix',
   },
   description:
@@ -96,7 +96,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Fasal Matrix — Direct Agrarian Marketplace & Mandi Intelligence',
+    title: 'Fasal Matrix  -  Direct Agrarian Marketplace & Mandi Intelligence',
     description:
       'Direct farm-to-doorstep agricultural commerce in India with real-time APMC/e-NAM price discovery and T+1 bank escrows.',
     url: 'https://fasalmatrix.in',
@@ -106,7 +106,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Fasal Matrix — Direct Agrarian Marketplace',
+    title: 'Fasal Matrix  -  Direct Agrarian Marketplace',
     description:
       'Direct farm-to-doorstep agricultural commerce in India with real-time APMC/e-NAM price discovery and T+1 bank escrows.',
   },
