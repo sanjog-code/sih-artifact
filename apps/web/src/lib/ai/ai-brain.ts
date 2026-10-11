@@ -280,27 +280,23 @@ export async function processAiQuery(params: {
     };
 
     const deltaSign = forecast.predictedChangePercent >= 0 ? '+' : '';
-    let text = `Here is the comprehensive AI price forecast and trajectory analysis for **${targetCrop}**:\n\n` +
-      `• **Current Mandi Modal Rate**: **₹${forecast.currentModalPrice.toFixed(2)}/kg**\n` +
-      `• **AI Projected Next Target**: **₹${forecast.predictedModalPrice.toFixed(2)}/kg** (${deltaSign}${forecast.predictedChangePercent.toFixed(1)}% expected trajectory)\n` +
-      `• **Benchmark Protection**: ${mspFloor > 0 ? `**₹${mspFloor.toFixed(2)}/kg** statutory MSP floor guaranteed on Fasal Matrix` : `Commercial commodity standard with zero broker deductions`}\n` +
-      `• **Market Demand State**: **${forecast.demandSignal.replace('_', ' ')}**\n` +
-      `• **Model Calibration**: Calibrated using auto-regressive clearing regression with an error margin of **±₹${forecast.testMaeKg.toFixed(2)}/kg**.\n\n`;
+    let text = `**${targetCrop} Price Outlook**:\n` +
+      `• **Current Rate**: **₹${forecast.currentModalPrice.toFixed(2)}/kg**\n` +
+      `• **AI Target (${isQuarterHorizon ? '3-Month' : '14-Day'})**: **₹${forecast.predictedModalPrice.toFixed(2)}/kg** (${deltaSign}${forecast.predictedChangePercent.toFixed(1)}% expected trajectory)\n` +
+      `• **Benchmark**: ${mspFloor > 0 ? `₹${mspFloor.toFixed(2)}/kg statutory CCEA MSP floor` : `Commercial commodity standard`}\n` +
+      `• **Demand State**: **${forecast.demandSignal.replace('_', ' ')}** (±₹${forecast.testMaeKg.toFixed(2)}/kg accuracy)\n\n`;
 
     if (isQuarterHorizon) {
       const p30 = forecast.trajectory?.find(p => p.dayOffset === 30)?.price ?? (forecast.currentModalPrice * 1.02);
       const p60 = forecast.trajectory?.find(p => p.dayOffset === 60)?.price ?? (forecast.currentModalPrice * 1.04);
       const p90 = forecast.trajectory?.find(p => p.dayOffset === 90)?.price ?? (forecast.predictedModalPrice);
 
-      text += `📅 **3-Month Quarterly Price Projection Breakdown**:\n` +
-        `• **Month 1 (+30 Days)**: Projected around **₹${p30.toFixed(2)}/kg** as initial seasonal lots clear.\n` +
-        `• **Month 2 (+60 Days)**: Projected around **₹${p60.toFixed(2)}/kg** driven by commercial processing demand.\n` +
-        `• **Month 3 (+90 Days)**: Projected around **₹${p90.toFixed(2)}/kg** at peak post-harvest clearing.\n\n` +
-        `📈 **Strategic Recommendation**: For **${targetCrop}**, holding inventory in accredited warehouses or locking forward delivery cadences on Fasal Matrix ensures price retention and shields against spot mandi volatility.`;
+      text += `• **Trajectory**: Month 1: ~₹${p30.toFixed(2)}/kg | Month 2: ~₹${p60.toFixed(2)}/kg | Month 3: ~₹${p90.toFixed(2)}/kg\n` +
+        `💡 *Recommendation: Lock forward buyer delivery or store in accredited silos to avoid spot volatility.*`;
     } else {
       text += forecast.predictedChangePercent > 2
-        ? `📈 **Strategic Recommendation**: Regional demand is tightening and prices are trending upward. If you have storable lots, storing in an accredited WDRA warehouse or listing with high grading certificates will maximize realization.`
-        : `⚖️ **Strategic Recommendation**: Supply and regional arrivals remain in equilibrium. Direct farmgate trading via Fasal Matrix eliminates traditional 12-18% middleman commission deductions.`;
+        ? `💡 *Recommendation: Demand is rising. Warehousing storable lots or locking direct farmgate sale maximizes realization.*`
+        : `💡 *Recommendation: Supply is in equilibrium. Direct farmgate trading via Fasal Matrix eliminates middleman broker cuts.*`;
     }
 
     return {

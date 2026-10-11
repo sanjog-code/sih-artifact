@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage, LANGUAGES, LanguageCode } from '../context/LanguageContext';
 import {
   Sparkles,
   X,
@@ -24,6 +24,7 @@ import {
   ArrowRight,
   RotateCcw,
   ExternalLink,
+  Globe,
 } from 'lucide-react';
 
 import { useAuth } from '../context/AuthContext';
@@ -40,15 +41,7 @@ interface ChatMessage {
   suggestedPrompts?: string[];
 }
 
-const WELCOME_TEXT = `Namaste! I am **Fasal Matrix AI**, your intelligent agrarian advisor and conversational copilot.
-
-I can help you with:
-• **Real-time Price & Demand Forecasts** with interactive charts
-• **Crop Agronomy & Storage Protocols** under WDRA standards
-• **Statutory CCEA MSP Guardrails** & RBI Nodal Escrow settlement
-• **Agricultural Inquiries**, farming science, or platform guidance!
-
-Ask me anything below or tap the microphone to speak!`;
+const WELCOME_TEXT = `Namaste! 🙏 I am **Fasal Matrix AI**, your fast agricultural copilot.\n\n• **Price Forecasts**: Real-time mandi modal rates & price trajectory charts\n• **MSP Guardrails**: Zero-deduction CCEA price protection & RBI escrow\n• **Agronomy & Storage**: WDRA storage guidance & crop science\n\nAsk any question or tap the microphone to speak!`;
 
 function FormattedMessage({ text, isUser }: { text: string; isUser?: boolean }) {
   if (isUser) {
@@ -159,7 +152,7 @@ export default function AiAssistant() {
 }
 
 function AiAssistantWidget() {
-  const { language } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const { role, userIdentifier } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -174,39 +167,50 @@ function AiAssistantWidget() {
   const [sttSupported, setSttSupported] = useState(true);
   const [liveTranscript, setLiveTranscript] = useState('');
 
+  // 22 Scheduled Indian Languages + English Speech Recognition Locales
+  const BCP47_LOCALES: Record<string, string> = {
+    hi: 'hi-IN',
+    bn: 'bn-IN',
+    te: 'te-IN',
+    mr: 'mr-IN',
+    ta: 'ta-IN',
+    ur: 'ur-IN',
+    gu: 'gu-IN',
+    kn: 'kn-IN',
+    ml: 'ml-IN',
+    or: 'or-IN',
+    pa: 'pa-IN',
+    as: 'as-IN',
+    mai: 'mai-IN',
+    sat: 'sat-IN',
+    ks: 'ks-IN',
+    ne: 'ne-NP',
+    kok: 'kok-IN',
+    sd: 'sd-IN',
+    doi: 'doi-IN',
+    mni: 'mni-IN',
+    brx: 'brx-IN',
+    sa: 'sa-IN',
+    en: 'en-IN',
+  };
+
   // Dynamically resolve role-tailored welcome text and suggested prompts
   const getRoleWelcome = (userRole?: string | null) => {
     if (userRole === 'farmer') {
       return {
-        text: `Namaste Kisan Bhai! 🙏 I am your **Kisan Agronomy & Price Advisor**, powered by Google Gemini and live APMC mandi models.
-
-I can assist you with:
-• **Fair Harvest Valuation & Price Curves**: Live modal rates and 14-day to 90-day trajectory forecasts
-• **CCEA Statutory MSP Floor Protection**: Guaranteeing legal price floors with 0% broker deductions
-• **WDRA Accredited Warehouse Storage**: Safe scientific storage protocols to avoid distress selling
-• **Direct Buyer Connections**: Review active institutional buyer demand and schedule pick-ups
-
-Tap any prompt below or speak into the microphone!`,
+        text: `Namaste! 🙏 I am your **Kisan Agronomy & Price Advisor**.\n\n• **Price Forecasts**: Live APMC modal rates & 14-to-90-day price curves\n• **MSP Protection**: Guaranteed legal floor with 0% broker cuts\n• **Warehouse Silos**: Safe WDRA storage to prevent distress sales\n\nAsk any question or tap a prompt below!`,
         prompts: [
-          'Show price forecast & graph for Wheat',
-          'How does statutory MSP protect my harvest?',
-          'What are optimal cold storage rules for Potato?',
+          'Price forecast & graph for Wheat',
+          'How does statutory MSP protect me?',
+          'Optimal cold storage rules for Potato',
           'How do I list my harvest lot?',
         ],
       };
     } else if (userRole === 'buyer') {
       return {
-        text: `Welcome! 🏢 I am your **Enterprise Bulk Procurement Advisor**, powered by Google Gemini.
-
-I can help optimize your supply chain with:
-• **Recurring Volume & Delivery Cadence**: Multi-delivery weekly cadence planning with automated logistics
-• **Direct FPO Farmgate Contracts**: Bypass multi-tiered APMC broker commissions (12–18% net savings)
-• **RBI Nodal Escrow Protection**: Capital remains safe in regulated accounts until dock inspection
-• **Quality Assaying**: AGMARK Grade A certification and moisture thresholds
-
-Ask about commodity quotes, delivery logistics, or price forecasting!`,
+        text: `Welcome! 🏢 I am your **Bulk Procurement Advisor**.\n\n• **Direct FPO Contracts**: 12–18% net savings bypassing broker cuts\n• **RBI Nodal Escrow**: 100% protected settlement till gate inspection\n• **Quality Assurance**: AGMARK Grade A certified lots\n\nAsk about commodity quotes, delivery, or forecasts!`,
         prompts: [
-          'Calculate bulk quote for 5 MT Wheat weekly',
+          'Bulk quote for 5 MT Wheat weekly',
           'Price prediction in next 3 months for Mustard',
           'How does RBI nodal escrow work?',
           'Show verified farmer clusters for Soybean',
@@ -214,35 +218,19 @@ Ask about commodity quotes, delivery logistics, or price forecasting!`,
       };
     } else if (userRole === 'consumer') {
       return {
-        text: `Hello! 🛒 I am your **Smart Consumer Deal & Timing Advisor**, powered by Google Gemini.
-
-I help you get maximum value for your weekly household kitchen grocery:
-• **Consumer Timing Radar**: Algorithmic buy signals calibrated against peak harvest curves
-• **Farmgate Direct Savings**: Save up to 25% over retail supermarket packaging markups
-• **AGMARK Grade A Freshness**: High-uniformity lots harvested directly from verified clusters
-• **Doorstep Escrow Tracking**: Guaranteed delivery or instant refund via nodal escrow
-
-Ask what to buy this week or check a commodity rate!`,
+        text: `Hello! 🛒 I am your **Smart Deal & Grocery Advisor**.\n\n• **Direct Farmgate**: Save 15-25% over retail supermarket prices\n• **Timing Radar**: Buy when wholesale mandi arrivals peak\n• **Grade A Produce**: Freshly harvested direct from farmers\n\nAsk what to buy this week or check a commodity rate!`,
         prompts: [
-          'What is the best vegetable to buy right now?',
-          'Show me tomato prices and next week forecast',
+          'Best vegetable to buy right now',
+          'Tomato prices and next week forecast',
           'How much do I save buying direct from farmers?',
           'How does doorstep delivery escrow work?',
         ],
       };
     } else if (userRole === 'admin') {
       return {
-        text: `Greetings, Administrator! 🛡️ I am your **Network & Fleet Operations Copilot**, powered by Google Gemini.
-
-I provide live telemetry and network oversight across:
-• **Capacitated VRP Logistics**: Fleet utilization, multi-depot routing, and transit time efficiency
-• **Mandi Price Intelligence Oracles**: Multi-lag ridge regression tracking across 737,000+ clearing records
-• **RBI Nodal Escrow Reconciliation**: Audit ledger verification and T+1 payout disbursement health
-• **FPO Cluster & KYC Compliance**: Automated risk scoring and penny-drop bank verification audits
-
-Ask for fleet status, revenue projections, or system metrics!`,
+        text: `Greetings! 🛡️ I am your **Network & Fleet Operations Copilot**.\n\n• **Capacitated VRP**: Live fleet routes & vehicle load optimization\n• **Mandi Oracles**: Ridge regression across 737,000+ clearing records\n• **Escrow Audit**: Live T+1 disbursement reconciliation\n\nAsk for fleet status, revenue projections, or audit metrics!`,
         prompts: [
-          'Audit active escrow ledger transactions',
+          'Audit active escrow transactions',
           'Check fleet capacitated routing status',
           'Show FPO cluster compliance scores',
           'What is current platform MRR run rate?',
@@ -340,7 +328,7 @@ Ask for fleet status, revenue projections, or system metrics!`,
       const SpeechRec =
         (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       const rec = new SpeechRec();
-      rec.lang = language === 'hi' ? 'hi-IN' : 'en-IN';
+      rec.lang = BCP47_LOCALES[language] || (language === 'hi' ? 'hi-IN' : 'en-IN');
       rec.interimResults = true;
       rec.maxAlternatives = 1;
 
@@ -580,6 +568,23 @@ Ask for fleet status, revenue projections, or system metrics!`,
           </div>
 
           <div className="flex items-center gap-1">
+            {/* Language Switcher Pill for 22 Languages */}
+            <div className="relative flex items-center bg-zinc-900 border border-zinc-700 rounded-lg px-2 py-1 text-[11px] text-zinc-300">
+              <Globe className="w-3 h-3 text-emerald-400 mr-1.5 shrink-0" />
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as LanguageCode)}
+                className="bg-transparent text-zinc-200 text-[11px] font-medium focus:outline-none cursor-pointer pr-1"
+                title="Select from 22 Regional Languages"
+              >
+                {LANGUAGES.map((lang) => (
+                  <option key={lang.code} value={lang.code} className="bg-zinc-900 text-white">
+                    {lang.native} ({lang.label})
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Clear Chat */}
             <button
               type="button"
