@@ -7,7 +7,6 @@ import { useLanguage, LANGUAGES, LanguageCode } from '../context/LanguageContext
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import {
-  Globe,
   Languages,
   Menu,
   X,

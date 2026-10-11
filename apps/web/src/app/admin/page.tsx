@@ -1,28 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import LogisticsPortal from '../logistics/page';
 import RoleGuard from '../../components/RoleGuard';
-import { useLanguage } from '../../context/LanguageContext';
 import { useProduceStore, useOrderStore, useRfqStore } from '../../lib/store';
 import {
   ShieldAlert,
   Truck,
   Users,
   Coins,
-  Cpu,
-  BarChart3,
-  Server,
-  Layers,
-  CheckCircle2,
-  Lock,
 } from 'lucide-react';
 
 export default function AdminConsolePage() {
-  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'logistics' | 'mandi' | 'escrow' | 'clusters'>('logistics');
 
   const { listings } = useProduceStore();

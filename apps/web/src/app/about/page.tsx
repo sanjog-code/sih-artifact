@@ -17,7 +17,6 @@ import {
   FileCheck2,
   BadgeCheck,
   Sparkles,
-  Layers,
   Cpu,
 } from 'lucide-react';
 

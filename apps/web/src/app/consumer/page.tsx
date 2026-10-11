@@ -54,17 +54,19 @@ export default function ConsumerPortal() {
   const [orderNotice, setOrderNotice] = useState<string | null>(null);
 
   React.useEffect(() => {
-    try {
-      const saved = localStorage.getItem('farmlink_cart');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed && typeof parsed === 'object') {
-          setCart(parsed);
+    queueMicrotask(() => {
+      try {
+        const saved = localStorage.getItem('farmlink_cart');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && typeof parsed === 'object') {
+            setCart(parsed);
+          }
         }
+      } catch {
+        // ignore
       }
-    } catch {
-      // ignore
-    }
+    });
   }, []);
 
   const syncCartToStorage = (updatedCart: Record<string, number>) => {

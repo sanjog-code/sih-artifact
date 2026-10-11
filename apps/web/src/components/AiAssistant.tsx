@@ -13,7 +13,6 @@ import {
   Maximize2,
   Bot,
   User,
-  HelpCircle,
 } from 'lucide-react';
 
 import { useAuth } from '../context/AuthContext';
@@ -27,13 +26,17 @@ interface ChatMessage {
 
 export default function AiAssistant() {
   const { role } = useAuth();
-  const { language, t } = useLanguage();
 
   // If consumer is logged in, their exclusive ConsumerAiShoppingAdvisor handles consumer guidance
   if (role === 'consumer') {
     return null;
   }
 
+  return <AiAssistantWidget />;
+}
+
+function AiAssistantWidget() {
+  const { language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([

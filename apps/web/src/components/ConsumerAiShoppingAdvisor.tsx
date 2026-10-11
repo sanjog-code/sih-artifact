@@ -6,7 +6,6 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { useProduceStore, ProduceLotItem } from '../lib/store/produceStore';
 import {
-  Sparkles,
   X,
   Volume2,
   VolumeX,
@@ -18,7 +17,6 @@ import {
   User,
   ShoppingBag,
   ShoppingCart,
-  ShieldCheck,
   CheckCircle2,
   ArrowRight,
   TrendingDown,
@@ -26,6 +24,12 @@ import {
   MapPin,
   Award,
 } from 'lucide-react';
+
+let messageCounter = 0;
+function createMsgId(prefix: string): string {
+  messageCounter += 1;
+  return `${prefix}-${messageCounter}`;
+}
 
 interface ChatMessage {
   id: string;
@@ -46,7 +50,7 @@ interface ChatMessage {
 
 export default function ConsumerAiShoppingAdvisor() {
   const { role, userIdentifier } = useAuth();
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   const { listings } = useProduceStore();
 
   // ONLY render when user is authenticated as 'consumer'
@@ -234,14 +238,14 @@ I connect you directly with local farmers with 0% middleman markups. To find the
     setStep('SELECT_QTY');
 
     const userMsg: ChatMessage = {
-      id: `user-${Date.now()}`,
+      id: createMsgId('user'),
       sender: 'user',
       text: `Looking for ${crop}`,
       timestamp: 'Just now',
     };
 
     const aiMsg: ChatMessage = {
-      id: `ai-${Date.now()}`,
+      id: createMsgId('ai'),
       sender: 'ai',
       text: `Excellent choice! Fresh farm ${crop} is available right now directly from our accredited FPO clusters.
 
@@ -259,7 +263,7 @@ How much quantity (kg) would you like to buy?`,
 
     const crop = selectedCrop || 'Tomato';
     const userMsg: ChatMessage = {
-      id: `user-${Date.now()}`,
+      id: createMsgId('user'),
       sender: 'user',
       text: `I need ${qty} kg`,
       timestamp: 'Just now',
@@ -273,7 +277,7 @@ How much quantity (kg) would you like to buy?`,
         setMessages((prev) => [
           ...prev,
           {
-            id: `ai-${Date.now()}`,
+            id: createMsgId('ai'),
             sender: 'ai',
             text: `We currently have high demand for ${crop}. Please browse our active catalogue or check back in a few minutes as new farmer lots are verified continuously.`,
             timestamp: 'Just now',
@@ -287,7 +291,7 @@ How much quantity (kg) would you like to buy?`,
       const totalCost = lot.price * qty;
 
       const aiMsg: ChatMessage = {
-        id: `ai-${Date.now()}`,
+        id: createMsgId('ai'),
         sender: 'ai',
         text: `Here is the top-rated direct deal for ${qty} kg ${lot.cropName}!
 
@@ -313,7 +317,7 @@ How much quantity (kg) would you like to buy?`,
 
     const userText = inputText.trim();
     const userMsg: ChatMessage = {
-      id: `user-${Date.now()}`,
+      id: createMsgId('user'),
       sender: 'user',
       text: userText,
       timestamp: 'Just now',
@@ -344,7 +348,7 @@ How much quantity (kg) would you like to buy?`,
         const total = lot.price * extractedQty;
 
         const aiMsg: ChatMessage = {
-          id: `ai-${Date.now()}`,
+          id: createMsgId('ai'),
           sender: 'ai',
           text: `Found a verified direct harvest match for your request:
 
@@ -363,7 +367,7 @@ How much quantity (kg) would you like to buy?`,
         setMessages((prev) => [
           ...prev,
           {
-            id: `ai-${Date.now()}`,
+            id: createMsgId('ai'),
             sender: 'ai',
             text: `I've checked our live FPO cluster manifests for "${userText}". Our verified farmers are currently loading new harvests into regional depots. What quantity or crop would you like me to reserve for you?`,
             timestamp: 'Just now',
@@ -381,7 +385,7 @@ How much quantity (kg) would you like to buy?`,
     setSelectedQty(null);
     setMessages([
       {
-        id: `welcome-${Date.now()}`,
+        id: createMsgId('welcome'),
         sender: 'ai',
         text: 'Starting a fresh shopping inquiry! What farm produce would you like to explore next?',
         timestamp: 'Just now',

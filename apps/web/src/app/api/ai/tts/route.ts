@@ -24,7 +24,9 @@ const SARVAM_LANG_MAP: Record<string, string> = {
 export async function POST(request: NextRequest) {
   try {
     const body: SarvamTtsRequest = await request.json();
-    const { text, languageCode = 'hi-IN', speaker = 'meera' } = body;
+    const rawLang = body.languageCode || 'hi-IN';
+    const normalizedLang = SARVAM_LANG_MAP[rawLang] || rawLang;
+    const { text, languageCode = normalizedLang, speaker = 'meera' } = body;
 
     if (!text || text.trim().length === 0) {
       return NextResponse.json(

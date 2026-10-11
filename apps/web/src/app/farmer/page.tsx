@@ -106,8 +106,8 @@ export default function FarmerPortal() {
   const [quantity, setQuantity] = useState(2500);
   const [grade, setGrade] = useState<'A1' | 'A2' | 'B'>('A1');
   const [price, setPrice] = useState(28);
-  const [depot, setDepot] = useState('Jaipur WDRA Terminal Hub');
-  const [deliveryMode, setDeliveryMode] = useState<'buyer_pickup' | 'platform_logistics' | 'self_delivery'>('platform_logistics');
+  const depot = 'Jaipur WDRA Terminal Hub';
+  const deliveryMode = 'platform_logistics';
 
   // AI Prediction State
   const [aiData, setAiData] = useState<AiForecastData | null>(null);

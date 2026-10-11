@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import InquiryModal from '../../components/InquiryModal';
-import { useLanguage } from '../../context/LanguageContext';
 import { useProduceStore, ProduceLotItem } from '../../lib/store/produceStore';
 import { useOrderStore } from '../../lib/store/orderStore';
 import {
@@ -25,17 +24,14 @@ import {
   BadgeCheck,
   Sparkles,
   RefreshCw,
-  ExternalLink,
 } from 'lucide-react';
 
 export default function CheckoutPage() {
-  const { t } = useLanguage();
   const { listings, decrementQuantity } = useProduceStore();
   const { placeOrder } = useOrderStore();
 
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const [cartState, setCartState] = useState<Record<string, number>>({});
-  const [mounted, setMounted] = useState(false);
 
   // Delivery Form State
   const [fullName, setFullName] = useState('Ananya Sen');
@@ -54,25 +50,26 @@ export default function CheckoutPage() {
 
   // Load cart from localStorage or populate default for seamless testing
   useEffect(() => {
-    setMounted(true);
-    try {
-      const raw = localStorage.getItem('farmlink_cart');
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
-          setCartState(parsed);
-          return;
+    queueMicrotask(() => {
+      try {
+        const raw = localStorage.getItem('farmlink_cart');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
+            setCartState(parsed);
+            return;
+          }
         }
+      } catch {
+        // ignore
       }
-    } catch {
-      // ignore
-    }
 
-    // Default sample item if cart was empty so the user can experience the checkout flow directly
-    if (listings.length > 0) {
-      const initialItem = listings[0];
-      setCartState({ [initialItem.id]: 10 });
-    }
+      // Default sample item if cart was empty so the user can experience the checkout flow directly
+      if (listings.length > 0) {
+        const initialItem = listings[0];
+        setCartState({ [initialItem.id]: 10 });
+      }
+    });
   }, [listings]);
 
   // Save cart changes to localStorage
@@ -137,7 +134,6 @@ export default function CheckoutPage() {
   }, [cartItems]);
 
   const deliveryFee = cartItems.length > 0 ? 35 : 0;
-  const platformFee = 0; // 0% middleman markup
   const totalPayable = rawSubtotal + deliveryFee;
 
   // Handle final escrow lock

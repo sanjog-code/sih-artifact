@@ -16,34 +16,37 @@ const ThemeContext = createContext<ThemeContextType>({
   setTheme: () => {},
 });
 
+function applyThemeClass(t: Theme) {
+  if (typeof document === 'undefined') return;
+  const root = document.documentElement;
+  if (t === 'dark') {
+    root.classList.add('dark');
+    root.setAttribute('data-theme', 'dark');
+  } else {
+    root.classList.remove('dark');
+    root.setAttribute('data-theme', 'light');
+  }
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('light');
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem('farmlink_theme') as Theme | null;
-      if (saved === 'dark' || saved === 'light') {
-        setThemeState(saved);
-        applyThemeClass(saved);
-      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setThemeState('dark');
-        applyThemeClass('dark');
+    queueMicrotask(() => {
+      try {
+        const saved = localStorage.getItem('farmlink_theme') as Theme | null;
+        if (saved === 'dark' || saved === 'light') {
+          setThemeState(saved);
+          applyThemeClass(saved);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          setThemeState('dark');
+          applyThemeClass('dark');
+        }
+      } catch {
+        // ignore
       }
-    } catch {
-      // ignore
-    }
+    });
   }, []);
-
-  const applyThemeClass = (t: Theme) => {
-    const root = document.documentElement;
-    if (t === 'dark') {
-      root.classList.add('dark');
-      root.setAttribute('data-theme', 'dark');
-    } else {
-      root.classList.remove('dark');
-      root.setAttribute('data-theme', 'light');
-    }
-  };
 
   const setTheme = (t: Theme) => {
     setThemeState(t);

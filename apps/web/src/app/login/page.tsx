@@ -1,11 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import {
   Sprout,
@@ -24,18 +22,16 @@ export type UserRole = 'farmer' | 'buyer' | 'consumer' | 'admin';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { t } = useLanguage();
   const { login } = useAuth();
   const [selectedRole, setSelectedRole] = useState<UserRole>('farmer');
   const [phone, setPhone] = useState('+91 98290 14820');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
-  const [pin, setPin] = useState('');
   const [adminKey, setAdminKey] = useState('');
   const [authSuccess, setAuthSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const roleDetails = {
+  const roleDetails = React.useMemo(() => ({
     farmer: {
       title: 'Farmer & FPO Producer Portal',
       subtitle: 'PM-KISAN & WDRA Registered Producer Access',
@@ -68,27 +64,28 @@ export default function LoginPage() {
       destination: '/admin',
       defaultPhone: '+91 99000 00001',
     },
-  };
+  }), []);
 
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const roleParam = params.get('role') as UserRole | null;
-      if (roleParam && ['farmer', 'buyer', 'consumer', 'admin'].includes(roleParam)) {
-        handleRoleSelect(roleParam);
-      }
-    }
-  }, []);
-
-  const handleRoleSelect = (role: UserRole) => {
+  const handleRoleSelect = React.useCallback((role: UserRole) => {
     setSelectedRole(role);
     setPhone(roleDetails[role].defaultPhone);
     setOtpSent(false);
     setOtp('');
-    setPin('');
     setAdminKey('');
     setErrorMsg(null);
-  };
+  }, [roleDetails]);
+
+  React.useEffect(() => {
+    queueMicrotask(() => {
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const roleParam = params.get('role') as UserRole | null;
+        if (roleParam && ['farmer', 'buyer', 'consumer', 'admin'].includes(roleParam)) {
+          handleRoleSelect(roleParam);
+        }
+      }
+    });
+  }, [handleRoleSelect]);
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();

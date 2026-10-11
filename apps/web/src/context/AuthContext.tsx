@@ -28,17 +28,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    try {
-      const storedRole = localStorage.getItem('farmlink_authenticated_role') as UserRole | null;
-      const storedUser = localStorage.getItem('farmlink_authenticated_user');
-      if (storedRole && ['farmer', 'buyer', 'consumer', 'admin'].includes(storedRole)) {
-        setRole(storedRole);
-        setUserIdentifier(storedUser || ROLE_USER_DEFAULTS[storedRole]);
+    queueMicrotask(() => {
+      setMounted(true);
+      try {
+        const storedRole = localStorage.getItem('farmlink_authenticated_role') as UserRole | null;
+        const storedUser = localStorage.getItem('farmlink_authenticated_user');
+        if (storedRole && ['farmer', 'buyer', 'consumer', 'admin'].includes(storedRole)) {
+          setRole(storedRole);
+          setUserIdentifier(storedUser || ROLE_USER_DEFAULTS[storedRole]);
+        }
+      } catch {
+        // localStorage may fail in restricted browser contexts
       }
-    } catch {
-      // localStorage may fail in restricted browser contexts
-    }
+    });
   }, []);
 
   const login = (newRole: UserRole, identifier?: string) => {
