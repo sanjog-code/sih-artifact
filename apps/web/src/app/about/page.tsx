@@ -12,13 +12,11 @@ import {
   CheckCircle,
   Building2,
   Lock,
-  Search,
   Scale,
   ArrowRight,
   FileCheck2,
   BadgeCheck,
   Sparkles,
-  Cpu,
   Layers,
   TrendingUp,
   Activity,
@@ -36,8 +34,6 @@ import {
 export default function AboutPage() {
   const { t } = useLanguage();
   const [inquiryOpen, setInquiryOpen] = useState(false);
-  const [licenseQuery, setLicenseQuery] = useState('FL-RJ-0482');
-  const [verifiedResult, setVerifiedResult] = useState<string | null>(null);
 
   // Direct Contact Form State
   const [contactSubmitted, setContactSubmitted] = useState(false);
@@ -49,14 +45,6 @@ export default function AboutPage() {
     organization: '',
     message: '',
   });
-
-  const handleVerify = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!licenseQuery.trim()) return;
-    setVerifiedResult(
-      `✓ Verified: Depot #${licenseQuery.trim()} is officially accredited with active automated grade assaying and cold-chain vault storage.`
-    );
-  };
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -630,53 +618,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* =================================================================== */}
-        {/* PUBLIC TRUST REGISTRY & DEPOT LICENSE VERIFIER                     */}
-        {/* =================================================================== */}
-        <section id="compliance" className="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto scroll-mt-24">
-          <div className="backdrop-blur-2xl bg-zinc-900/90 dark:bg-zinc-950/90 text-white rounded-3xl p-6 sm:p-8 border border-zinc-800 shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
-            <div className="max-w-2xl relative z-10">
-              <span className="text-[11px] font-mono uppercase text-emerald-400 font-bold tracking-wider flex items-center gap-1.5">
-                <Cpu className="w-3.5 h-3.5" />
-                <span>{t.about.publicTrustRegistry}</span>
-              </span>
-              <h3 className="text-xl sm:text-2xl font-bold tracking-tight mt-1 mb-2">
-                {t.about.verificationWidgetTitle}
-              </h3>
-              <p className="text-xs sm:text-sm text-zinc-400 mb-6">
-                {t.about.verificationWidgetDesc}
-              </p>
-
-              <form onSubmit={handleVerify} className="flex flex-col sm:flex-row gap-2 max-w-xl">
-                <div className="relative flex-1">
-                  <Search className="w-4 h-4 text-zinc-500 absolute left-3 top-3" />
-                  <input
-                    type="text"
-                    value={licenseQuery}
-                    onChange={(e) => setLicenseQuery(e.target.value)}
-                    placeholder={t.about.depotSearchPlaceholder}
-                    className="w-full bg-zinc-950/80 border border-zinc-700 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold transition shrink-0 shadow-md cursor-pointer"
-                >
-                  {t.about.checkButton}
-                </button>
-              </form>
-
-              {verifiedResult && (
-                <div className="mt-4 p-3 bg-zinc-950/90 border border-emerald-500/50 rounded-xl text-xs text-emerald-300 font-mono flex items-start gap-2 animate-in fade-in">
-                  <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>{verifiedResult}</span>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
 
         {/* =================================================================== */}
         {/* PLATFORM PLEDGE & ZERO COMMISSION ARCHITECTURE                     */}
