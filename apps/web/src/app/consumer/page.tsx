@@ -23,6 +23,7 @@ import {
   ChevronRight,
   ShoppingBag,
 } from 'lucide-react';
+import OrderTrackingTimeline from '../../components/OrderTrackingTimeline';
 
 interface CartItem {
   lotId: string;
@@ -985,95 +986,13 @@ export default function ConsumerPortal() {
                   </button>
                 </div>
               ) : (
-                <div className="divide-y divide-zinc-100 dark:divide-zinc-800 mt-2">
-                  {orders.map((order) => {
-                    const isDelivered = order.status === 'DELIVERED';
-                    const isDispatched = order.status === 'DISPATCHED';
-                    return (
-                      <div key={order.id} className="py-4 space-y-3">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                          <div className="flex items-center gap-2.5">
-                            <span className="text-xs font-mono font-extrabold text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded">
-                              {order.id}
-                            </span>
-                            <span
-                              className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${
-                                isDelivered
-                                  ? 'bg-emerald-100 text-emerald-900'
-                                  : isDispatched
-                                  ? 'bg-blue-100 text-blue-900'
-                                  : 'bg-amber-100 text-amber-900'
-                              }`}
-                            >
-                              {order.status.replace('_', ' ')}
-                            </span>
-                            {order.escrowLocked && (
-                              <span className="text-[10px] font-mono text-emerald-800 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full flex items-center gap-1">
-                                <Lock className="w-3 h-3" /> {t.consumer.escrowProtected}
-                              </span>
-                            )}
-                          </div>
-
-                          <div className="text-right">
-                            <div className="text-sm font-mono font-extrabold text-zinc-900 dark:text-zinc-100">
-                              ₹{order.totalPrice.toLocaleString('en-IN')}
-                            </div>
-                            <div className="text-[10px] text-zinc-500">{order.createdAt}</div>
-                          </div>
-                        </div>
-
-                        {/* Order Description & Delivery Info */}
-                        <div className="bg-zinc-50 dark:bg-zinc-900/60 rounded-lg p-3 text-xs text-zinc-700 dark:text-zinc-300 flex flex-col md:flex-row md:items-center justify-between gap-3">
-                          <div>
-                            <div className="font-semibold text-zinc-900 dark:text-zinc-100">{order.items}</div>
-                            <div className="text-[11px] text-zinc-500 mt-0.5">
-                              {t.consumer.deliverTo.replace('{address}', order.shippingAddress || 'Direct Doorstep')}
-                            </div>
-                          </div>
-
-                          {order.trackingId && (
-                            <div className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-2.5 py-1 rounded-md self-start md:self-auto">
-                              {t.consumer.trackingId.replace('{id}', order.trackingId)}
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Visual Transit Stepper */}
-                        <div className="pt-1">
-                          <div className="grid grid-cols-4 text-center text-[11px] font-medium text-zinc-500 mb-1">
-                            <div className="text-emerald-800 font-bold">{t.consumer.stepHarvest}</div>
-                            <div className={isDispatched || isDelivered ? 'text-emerald-800 font-bold' : ''}>
-                              {t.consumer.stepIntake}
-                            </div>
-                            <div className={isDispatched || isDelivered ? 'text-emerald-800 font-bold' : ''}>
-                              {t.consumer.stepTransit}
-                            </div>
-                            <div className={isDelivered ? 'text-emerald-800 font-bold' : ''}>
-                              {t.consumer.stepDelivered}
-                            </div>
-                          </div>
-                          <div className="w-full bg-zinc-200 h-1.5 rounded-full overflow-hidden flex">
-                            <div className="bg-emerald-600 h-full w-1/4" />
-                            <div
-                              className={`h-full w-1/4 ${
-                                isDispatched || isDelivered ? 'bg-emerald-600' : 'bg-transparent'
-                              }`}
-                            />
-                            <div
-                              className={`h-full w-1/4 ${
-                                isDispatched || isDelivered ? 'bg-emerald-600' : 'bg-transparent'
-                              }`}
-                            />
-                            <div
-                              className={`h-full w-1/4 ${
-                                isDelivered ? 'bg-emerald-600' : 'bg-transparent'
-                              }`}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
+                <div className="space-y-6 mt-4">
+                  {orders.map((order) => (
+                    <OrderTrackingTimeline
+                      key={order.id}
+                      order={order}
+                    />
+                  ))}
                 </div>
               )}
             </div>

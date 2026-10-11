@@ -27,6 +27,12 @@ export interface ForecastResult {
   predictedModalPrice: number;
   predictedChangePercent: number;
   confidenceScore: number;
+  confidenceInterval?: {
+    ciPercent: number; // e.g. 80
+    min: number;
+    max: number;
+    notation: string; // e.g. "₹23.50 – ₹25.20 / kg (80% CI)"
+  };
   testMaeQuintal: number;
   testMaeKg: number;
   mspFloor: number;
@@ -301,6 +307,12 @@ export function generateForecast(params: ForecastParams): ForecastResult {
     predictedModalPrice: finalPredicted,
     predictedChangePercent,
     confidenceScore,
+    confidenceInterval: {
+      ciPercent: 80,
+      min: Number(Math.max(mspFloor, finalPredicted - testMaeKg * 1.28).toFixed(2)),
+      max: Number((finalPredicted + testMaeKg * 1.28).toFixed(2)),
+      notation: `₹${Number(Math.max(mspFloor, finalPredicted - testMaeKg * 1.28).toFixed(2))} – ₹${Number((finalPredicted + testMaeKg * 1.28).toFixed(2))} / kg (80% CI)`,
+    },
     testMaeQuintal,
     testMaeKg,
     mspFloor,

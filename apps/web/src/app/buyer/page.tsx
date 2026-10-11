@@ -25,6 +25,7 @@ import {
   MapPin,
   ArrowUpRight,
 } from 'lucide-react';
+import { triggerInvoicePrintOrDownload } from '../../lib/invoiceGenerator';
 
 export default function BuyerPortal() {
   const { t } = useLanguage();
@@ -691,31 +692,42 @@ export default function BuyerPortal() {
                       <strong className="text-base font-bold text-zinc-950 dark:text-zinc-50 font-mono">₹{ord.totalPrice.toLocaleString()}</strong>
                     </div>
 
-                    {ord.status === 'ESCROW_LOCKED' && (
+                    <div className="flex items-center gap-2">
                       <button
-                        onClick={() => {
-                          updateOrderStatus(ord.id, 'DISPATCHED');
-                          setRfqNotice(`Order ${ord.id} marked as Dispatched! Logistics carrier notified.`);
-                          setTimeout(() => setRfqNotice(null), 4000);
-                        }}
-                        className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-semibold rounded-lg transition"
+                        onClick={() => triggerInvoicePrintOrDownload(ord)}
+                        className="px-3 py-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 text-xs font-semibold rounded-lg transition flex items-center gap-1.5"
+                        title="Download GST Compliant Tax Invoice"
                       >
-                        Acknowledge Dispatch
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>GST Invoice</span>
                       </button>
-                    )}
 
-                    {ord.status === 'DISPATCHED' && (
-                      <button
-                        onClick={() => {
-                          updateOrderStatus(ord.id, 'DELIVERED');
-                          setRfqNotice(`Order ${ord.id} verified at gate pass! Escrow payment released to farmer bank account.`);
-                          setTimeout(() => setRfqNotice(null), 4000);
-                        }}
-                        className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg transition"
-                      >
-                        Verify & Release Escrow
-                      </button>
-                    )}
+                      {ord.status === 'ESCROW_LOCKED' && (
+                        <button
+                          onClick={() => {
+                            updateOrderStatus(ord.id, 'DISPATCHED');
+                            setRfqNotice(`Order ${ord.id} marked as Dispatched! Logistics carrier notified.`);
+                            setTimeout(() => setRfqNotice(null), 4000);
+                          }}
+                          className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-semibold rounded-lg transition"
+                        >
+                          Acknowledge Dispatch
+                        </button>
+                      )}
+
+                      {ord.status === 'DISPATCHED' && (
+                        <button
+                          onClick={() => {
+                            updateOrderStatus(ord.id, 'DELIVERED');
+                            setRfqNotice(`Order ${ord.id} verified at gate pass! Escrow payment released to farmer bank account.`);
+                            setTimeout(() => setRfqNotice(null), 4000);
+                          }}
+                          className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg transition"
+                        >
+                          Verify & Release Escrow
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}

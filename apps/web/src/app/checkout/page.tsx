@@ -28,6 +28,7 @@ import {
   MapPin,
 } from 'lucide-react';
 import { geocodeAddress } from '../../lib/ai/geocoding';
+import { triggerInvoicePrintOrDownload } from '../../lib/invoiceGenerator';
 
 export default function CheckoutPage() {
   const { listings, decrementQuantity } = useProduceStore();
@@ -280,11 +281,34 @@ export default function CheckoutPage() {
                 <span>Back to Marketplace</span>
               </Link>
               <button
-                onClick={() => window.print()}
+                onClick={() => {
+                  if (confirmedOrderId) {
+                    const primaryLot = cartItems[0]?.lot;
+                    triggerInvoicePrintOrDownload({
+                      id: confirmedOrderId,
+                      commodity: primaryLot?.cropName || 'Fresh Produce',
+                      quantityKg: cartItems.reduce((acc, c) => acc + c.qty, 0),
+                      unitPrice: primaryLot?.price || 0,
+                      totalPrice: totalPayable,
+                      buyerType: 'CONSUMER',
+                      buyerName: fullName,
+                      buyerPhone: phone,
+                      shippingAddress: address,
+                      pincode,
+                      status: 'ESCROW_LOCKED',
+                      escrowLocked: true,
+                      escrowTxHash: confirmedHash || undefined,
+                      createdAt: 'Just now',
+                      items: cartItems.map((c) => `${c.qty}kg ${c.lot.cropName}`).join(', '),
+                    });
+                  } else {
+                    window.print();
+                  }
+                }}
                 className="px-5 py-2.5 rounded-xl border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-semibold transition flex items-center justify-center gap-1.5"
               >
                 <FileText className="w-3.5 h-3.5" />
-                <span>Print Escrow Voucher</span>
+                <span>Download GST Tax Invoice</span>
               </button>
             </div>
           </div>

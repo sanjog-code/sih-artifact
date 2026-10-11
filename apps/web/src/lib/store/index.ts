@@ -5,12 +5,16 @@ export * from './orderStore';
 export * from './rfqStore';
 export * from './warehouseStore';
 export * from './subscriptionStore';
+export * from './alertStore';
+export * from './kycStore';
 
 import { produceStore } from './produceStore';
 import { orderStore } from './orderStore';
 import { rfqStore } from './rfqStore';
 import { warehouseStore } from './warehouseStore';
 import { subscriptionStore } from './subscriptionStore';
+import { alertStore } from './alertStore';
+import { kycStore } from './kycStore';
 
 // Named aliases conforming to PROJECT.md interface contract
 export const ProduceStore = produceStore;
@@ -18,6 +22,8 @@ export const OrderStore = orderStore;
 export const RfqStore = rfqStore;
 export const WarehouseStore = warehouseStore;
 export const SubscriptionStore = subscriptionStore;
+export const AlertStore = alertStore;
+export const KycStore = kycStore;
 
 // ---------------------------------------------------------------------------
 // Logistics Fleet Persistent Store
@@ -119,6 +125,8 @@ export function resetAllStoresToSeed(): void {
   rfqStore.resetToSeed();
   warehouseStore.resetToSeed();
   subscriptionStore.resetToSeed();
+  alertStore.reset();
+  kycStore.reset();
   safeSetLogistics([
     {
       id: 'DISP-VAN-7401',

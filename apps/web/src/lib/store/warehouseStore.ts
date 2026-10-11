@@ -4,6 +4,55 @@ import { useSyncExternalStore } from 'react';
 
 export type WarehouseReceiptStatus = 'DEPOSITED' | 'PLEDGED' | 'RELEASED';
 
+export interface WarehouseSlotBooking {
+  id: string; // e.g. "SLOT-WDRA-8801"
+  depotName: string;
+  depotLocation: string;
+  dockNumber: string;
+  farmerName: string;
+  farmerPhone: string;
+  commodity: string;
+  estimatedVolumeKg: number;
+  scheduledDate: string; // e.g. "2026-10-12"
+  timeSlot: string; // e.g. "08:00 AM - 10:00 AM"
+  status: 'CONFIRMED' | 'UNLOADING' | 'COMPLETED' | 'CANCELLED';
+  eNwrPledgeEligible: boolean;
+  createdAt: string;
+}
+
+export const INITIAL_SLOT_SEED: WarehouseSlotBooking[] = [
+  {
+    id: 'SLOT-WDRA-8801',
+    depotName: 'Jaipur North WDRA Hub',
+    depotLocation: 'Chomu Road, Jaipur',
+    dockNumber: 'Dock Bay 2',
+    farmerName: 'Rameshwar Lal Jat',
+    farmerPhone: '+91 98290 44102',
+    commodity: 'Wheat (Sharbati)',
+    estimatedVolumeKg: 5000,
+    scheduledDate: 'Tomorrow, Oct 12',
+    timeSlot: '08:00 AM - 10:00 AM',
+    status: 'CONFIRMED',
+    eNwrPledgeEligible: true,
+    createdAt: 'Today, 09:30 AM',
+  },
+  {
+    id: 'SLOT-WDRA-8802',
+    depotName: 'Phulera Depot #3',
+    depotLocation: 'Sambhar Lake Agrarian Corridor',
+    dockNumber: 'Cold Bay 1',
+    farmerName: 'Baldev Singh',
+    farmerPhone: '+91 98140 88219',
+    commodity: 'Mustard Bold',
+    estimatedVolumeKg: 8500,
+    scheduledDate: 'Oct 13, 2026',
+    timeSlot: '11:00 AM - 01:00 PM',
+    status: 'CONFIRMED',
+    eNwrPledgeEligible: true,
+    createdAt: 'Yesterday',
+  },
+];
+
 export interface WarehouseReceipt {
   id: string; // e.g. "ENWR-RJ-901"
   lotId: string;
@@ -187,8 +236,66 @@ export const warehouseStore = {
     return found;
   },
 
+  bookSlot(slot: Omit<WarehouseSlotBooking, 'id' | 'createdAt' | 'status'>): WarehouseSlotBooking {
+    const newSlot: WarehouseSlotBooking = {
+      ...slot,
+      id: `SLOT-WDRA-${Math.floor(1000 + Math.random() * 9000)}`,
+      status: 'CONFIRMED',
+      createdAt: 'Just now',
+    };
+    if (typeof window !== 'undefined') {
+      try {
+        const raw = window.localStorage.getItem('farmlink_warehouse_slots');
+        const slots: WarehouseSlotBooking[] = raw ? JSON.parse(raw) : [...INITIAL_SLOT_SEED];
+        const updated = [newSlot, ...slots];
+        window.localStorage.setItem('farmlink_warehouse_slots', JSON.stringify(updated));
+        window.dispatchEvent(new CustomEvent('farmlink_store_updated', { detail: { store: 'warehouse' } }));
+      } catch {
+        // ignore
+      }
+    }
+    notify();
+    return newSlot;
+  },
+
+  getSlots(): WarehouseSlotBooking[] {
+    if (typeof window === 'undefined') return INITIAL_SLOT_SEED;
+    try {
+      const raw = window.localStorage.getItem('farmlink_warehouse_slots');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {
+      // ignore
+    }
+    return INITIAL_SLOT_SEED;
+  },
+
+  updateSlotStatus(id: string, status: WarehouseSlotBooking['status']): void {
+    if (typeof window !== 'undefined') {
+      try {
+        const raw = window.localStorage.getItem('farmlink_warehouse_slots');
+        const slots: WarehouseSlotBooking[] = raw ? JSON.parse(raw) : [...INITIAL_SLOT_SEED];
+        const updated = slots.map((s) => (s.id === id ? { ...s, status } : s));
+        window.localStorage.setItem('farmlink_warehouse_slots', JSON.stringify(updated));
+        window.dispatchEvent(new CustomEvent('farmlink_store_updated', { detail: { store: 'warehouse' } }));
+      } catch {
+        // ignore
+      }
+    }
+    notify();
+  },
+
   resetToSeed(): void {
     safeSetLocalStorage([...INITIAL_WAREHOUSE_SEED]);
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem('farmlink_warehouse_slots', JSON.stringify(INITIAL_SLOT_SEED));
+      } catch {
+        // ignore
+      }
+    }
   },
 
   subscribe(listener: () => void): () => void {
@@ -206,12 +313,22 @@ export function useWarehouseStore() {
     () => INITIAL_WAREHOUSE_SEED
   );
 
+  const slots = useSyncExternalStore(
+    warehouseStore.subscribe,
+    warehouseStore.getSlots,
+    () => INITIAL_SLOT_SEED
+  );
+
   return {
     receipts,
+    slots,
     getReceipts: warehouseStore.getReceipts,
     getReceiptById: warehouseStore.getReceiptById,
     recordIntake: warehouseStore.recordIntake,
     pledgeReceipt: warehouseStore.pledgeReceipt,
+    bookSlot: warehouseStore.bookSlot,
+    getSlots: warehouseStore.getSlots,
+    updateSlotStatus: warehouseStore.updateSlotStatus,
     resetToSeed: warehouseStore.resetToSeed,
   };
 }

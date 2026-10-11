@@ -2,7 +2,17 @@
 
 import { useSyncExternalStore } from 'react';
 
-export type OrderStatus = 'CONFIRMED' | 'PENDING' | 'ESCROW_LOCKED' | 'DISPATCHED' | 'IN_TRANSIT' | 'DELIVERED';
+export type OrderStatus =
+  | 'ORDER_PLACED'
+  | 'PICKUP_SCHEDULED'
+  | 'IN_TRANSIT'
+  | 'DELIVERED'
+  | 'ESCROW_RELEASED'
+  | 'DISPUTED'
+  | 'CONFIRMED'
+  | 'PENDING'
+  | 'ESCROW_LOCKED'
+  | 'DISPATCHED';
 
 export interface OrderItem {
   id: string; // e.g. "ORD-FL-2841"

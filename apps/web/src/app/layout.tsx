@@ -7,6 +7,7 @@ import { AuthProvider } from '../context/AuthContext';
 import AiAssistant from '../components/AiAssistant';
 import ConsumerAiShoppingAdvisor from '../components/ConsumerAiShoppingAdvisor';
 import FarmerAiListingAdvisor from '../components/FarmerAiListingAdvisor';
+import PwaRegister from '../components/PwaRegister';
 import { cookies } from 'next/headers';
 
 const geistSans = Geist({
@@ -23,6 +24,8 @@ export const metadata: Metadata = {
   title: 'Fasal Matrix — Direct Agrarian Marketplace & Demand Intelligence',
   description:
     'Institutional produce trading infrastructure connecting verified farmers, WDRA-accredited warehouses, and bulk buyers with explainable AI pricing and T+1 escrow settlement.',
+  manifest: '/manifest.json',
+  themeColor: '#16a34a',
 };
 
 export default async function RootLayout({
@@ -51,6 +54,7 @@ export default async function RootLayout({
               <AiAssistant />
               <ConsumerAiShoppingAdvisor />
               <FarmerAiListingAdvisor />
+              <PwaRegister />
             </LanguageProvider>
           </AuthProvider>
         </ThemeProvider>
