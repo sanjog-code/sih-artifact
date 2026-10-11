@@ -183,19 +183,36 @@ export default function Home() {
       <Navbar onOpenInquiry={() => setInquiryOpen(true)} />
 
       <main className="flex-1 bg-zinc-50 dark:bg-zinc-950 transition-colors">
-        {/* Hero Section */}
-        <section className="relative pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-zinc-950 border-b border-zinc-200/80 dark:border-zinc-800 transition-colors">
-          <div className="max-w-5xl mx-auto text-center space-y-6">
-            {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800 text-emerald-900 dark:text-emerald-300 text-xs font-semibold tracking-wide uppercase">
+        {/* Hero Section — landing-01 Inspired Agrarian Techno-Minimalist Canvas */}
+        <section className="relative pt-16 sm:pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0c0d0e] border-b border-zinc-200/80 dark:border-zinc-800 transition-colors overflow-hidden">
+          {/* landing-01 Ambient Glow & Technical Background Grid */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(22,163,74,0.04)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.06)_1px,transparent_1px)] bg-size-[28px_28px] pointer-events-none" />
+          <div className="pointer-events-none absolute top-1/3 left-1/2 h-[380px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial from-emerald-500/10 dark:from-emerald-500/15 via-emerald-500/3 to-transparent blur-3xl" />
+
+          {/* landing-01 Technical Crosshairs & Corner Borders */}
+          <div className="absolute top-10 left-6 hidden lg:block h-4 w-4 pointer-events-none">
+            <div className="absolute top-1/2 left-0 right-0 h-px bg-emerald-600/30" />
+            <div className="absolute top-0 bottom-0 left-1/2 w-px bg-emerald-600/30" />
+          </div>
+          <div className="absolute top-10 right-6 hidden lg:block h-4 w-4 pointer-events-none">
+            <div className="absolute top-1/2 left-0 right-0 h-px bg-emerald-600/30" />
+            <div className="absolute top-0 bottom-0 left-1/2 w-px bg-emerald-600/30" />
+          </div>
+
+          <div className="max-w-5xl mx-auto text-center space-y-6 relative z-10">
+            {/* landing-01 Pill Badge with Tech Monospace Accent */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200/80 dark:border-emerald-800/80 text-emerald-900 dark:text-emerald-300 text-xs font-semibold tracking-wide uppercase font-mono shadow-xs">
+              <span className="text-emerald-600 dark:text-emerald-400 opacity-70">{'//'}</span>
               <Shield className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
               <span>{t.hero.badge}</span>
             </div>
 
-            {/* Headline */}
-            <h1 className="text-4xl sm:text-6xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight leading-tight">
+            {/* Headline with dynamic agrarian emphasis */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight leading-[1.08]">
               {t.hero.titleLine1} <br />
-              <span className="text-zinc-500 dark:text-zinc-400 font-semibold">{t.hero.titleLine2}</span>
+              <span className="text-emerald-700 dark:text-emerald-400 font-bold underline decoration-emerald-500/30 underline-offset-8">
+                {t.hero.titleLine2}
+              </span>
             </h1>
 
             {/* Subtext */}
@@ -203,27 +220,53 @@ export default function Home() {
               {t.hero.description}
             </p>
 
-            {/* CTAs */}
-            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            {/* CTAs with landing-01 corner accent subtle button styling */}
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3.5">
               <a
                 href="#marketplace"
-                className="px-6 py-3 bg-zinc-950 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 shadow-sm"
+                className="group relative px-7 py-3.5 bg-zinc-950 hover:bg-zinc-800 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 shadow-sm active:scale-[0.98]"
               >
                 <span>{t.hero.exploreMarket}</span>
-                <ArrowRight className="w-4 h-4 text-zinc-400 dark:text-zinc-300" />
+                <ArrowRight className="w-4 h-4 text-zinc-400 dark:text-zinc-950 group-hover:translate-x-0.5 transition-transform" />
               </a>
 
               <a
                 href="#advisory"
-                className="px-6 py-3 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-zinc-300 dark:border-zinc-700 rounded-xl text-xs sm:text-sm font-bold transition shadow-xs"
+                className="px-7 py-3.5 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-zinc-300 dark:border-zinc-700 rounded-xl text-xs sm:text-sm font-bold transition shadow-xs active:scale-[0.98]"
               >
                 {t.hero.calculatePrice}
               </a>
             </div>
 
-            {/* Spatial UI Live Command Deck */}
-            <div className="pt-8 max-w-5xl mx-auto">
-              <div className="relative rounded-3xl overflow-hidden border border-zinc-200/90 dark:border-zinc-800 shadow-[0_30px_90px_rgba(0,0,0,0.09)] dark:shadow-[0_30px_90px_rgba(0,0,0,0.4)] bg-zinc-950">
+            {/* landing-01 Strip: Key Pillars of Trust Tags */}
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+              <span className="px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Statutory MSP Floors</span>
+              </span>
+              <span className="px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>WDRA Warehouses</span>
+              </span>
+              <span className="px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>T+1 Bank Escrow</span>
+              </span>
+              <span className="px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>0% Hidden Commission</span>
+              </span>
+            </div>
+
+            {/* Spatial UI Command Deck with landing-01 Corner Accents */}
+            <div className="pt-6 max-w-5xl mx-auto">
+              <div className="relative rounded-3xl overflow-hidden border border-zinc-200/90 dark:border-zinc-800 shadow-[0_30px_90px_rgba(0,0,0,0.09)] dark:shadow-[0_30px_90px_rgba(0,0,0,0.4)] bg-zinc-950 group">
+                {/* Corner Accents from landing-01 design */}
+                <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-emerald-400/80 z-20 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-emerald-400/80 z-20 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-emerald-400/80 z-20 pointer-events-none"></div>
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-emerald-400/80 z-20 pointer-events-none"></div>
+
                 {/* Live Atmospheric Background Photograph */}
                 <div className="relative h-72 sm:h-96 w-full overflow-hidden">
                   <Image
@@ -232,14 +275,14 @@ export default function Home() {
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 1024px"
-                    className="object-cover object-center filter brightness-[0.88] contrast-[1.05] transform scale-105 hover:scale-100 transition-transform duration-1000 ease-out"
+                    className="object-cover object-center filter brightness-[0.88] contrast-[1.05] transform scale-105 group-hover:scale-100 transition-transform duration-1000 ease-out"
                   />
                   {/* Spatial Vignette & Gradient Overlays */}
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/35 to-transparent pointer-events-none" />
                 </div>
 
                 {/* Floating Spatial Card 1: Optical Quality HUD (Top-Left) */}
-                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-xs backdrop-blur-xl bg-white dark:bg-zinc-900/85 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:hover:bg-zinc-900/95 text-left">
+                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-xs backdrop-blur-xl bg-white/95 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:hover:bg-zinc-900 text-left">
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="relative flex h-2.5 w-2.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -258,7 +301,7 @@ export default function Home() {
                 </div>
 
                 {/* Floating Spatial Card 2: AI Price Radar (Top-Right) */}
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 max-w-[260px] backdrop-blur-xl bg-white dark:bg-zinc-900/85 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:hover:bg-zinc-900/95 text-right hidden sm:block">
+                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 max-w-[260px] backdrop-blur-xl bg-white/95 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:hover:bg-zinc-900 text-right hidden sm:block">
                   <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100/90 dark:bg-emerald-950/90 text-emerald-900 dark:text-emerald-300 text-[10px] font-mono font-bold uppercase mb-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
                     {t.hero.telemetry.mspGuarded}
@@ -275,67 +318,88 @@ export default function Home() {
 
 
 
-            {/* Operational Portals Grid */}
+            {/* Operational Portals Grid with landing-01 Corner Accents & Micro-Interactions */}
             <div className="pt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
               <Link
                 href="/farmer"
-                className="group p-4 bg-white dark:bg-zinc-900 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition text-left shadow-xs flex flex-col justify-between"
+                className="group relative p-5 bg-white dark:bg-zinc-900/90 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all text-left shadow-xs flex flex-col justify-between overflow-hidden"
               >
+                {/* landing-01 Corner Accents */}
+                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-emerald-500/60 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-emerald-500/60 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-emerald-500/60 pointer-events-none"></div>
+                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-emerald-500/60 pointer-events-none"></div>
+
                 <div>
-                  <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 flex items-center justify-center mb-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                     <Sprout className="w-4 h-4" />
                   </div>
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 group-hover:text-emerald-900 dark:group-hover:text-emerald-300 transition flex items-center justify-between">
                     <span>{t.nav.farmer}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-1" />
                   </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">
                     {t.portal.farmerDeskDesc}
                   </p>
                 </div>
-                <div className="mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
+                <div className="mt-4 pt-2.5 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
+                  <span className="opacity-70">{'//'}</span>
                   <span>{t.portal.openFarmerDesk}</span>
                 </div>
               </Link>
 
               <Link
                 href="/buyer"
-                className="group p-4 bg-white dark:bg-zinc-900 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition text-left shadow-xs flex flex-col justify-between"
+                className="group relative p-5 bg-white dark:bg-zinc-900/90 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all text-left shadow-xs flex flex-col justify-between overflow-hidden"
               >
+                {/* landing-01 Corner Accents */}
+                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-emerald-500/60 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-emerald-500/60 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-emerald-500/60 pointer-events-none"></div>
+                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-emerald-500/60 pointer-events-none"></div>
+
                 <div>
-                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 flex items-center justify-center mb-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                     <Building2 className="w-4 h-4" />
                   </div>
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 group-hover:text-emerald-900 dark:group-hover:text-emerald-300 transition flex items-center justify-between">
                     <span>{t.nav.buyer}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-1" />
                   </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">
                     {t.portal.buyerDeskDesc}
                   </p>
                 </div>
-                <div className="mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
+                <div className="mt-4 pt-2.5 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
+                  <span className="opacity-70">{'//'}</span>
                   <span>{t.portal.openBuyerDesk}</span>
                 </div>
               </Link>
 
               <Link
                 href="/logistics"
-                className="group p-4 bg-white dark:bg-zinc-900 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition text-left shadow-xs flex flex-col justify-between"
+                className="group relative p-5 bg-white dark:bg-zinc-900/90 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all text-left shadow-xs flex flex-col justify-between overflow-hidden"
               >
+                {/* landing-01 Corner Accents */}
+                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-emerald-500/60 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-emerald-500/60 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-emerald-500/60 pointer-events-none"></div>
+                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-emerald-500/60 pointer-events-none"></div>
+
                 <div>
-                  <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 flex items-center justify-center mb-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                     <Truck className="w-4 h-4" />
                   </div>
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 group-hover:text-emerald-900 dark:group-hover:text-emerald-300 transition flex items-center justify-between">
                     <span>{t.nav.logistics}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-1" />
                   </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5 leading-relaxed">
                     {t.portal.logisticsDeskDesc}
                   </p>
                 </div>
-                <div className="mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
+                <div className="mt-4 pt-2.5 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
+                  <span className="opacity-70">{'//'}</span>
                   <span>{t.portal.openLogisticsDesk}</span>
                 </div>
               </Link>
