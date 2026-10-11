@@ -403,57 +403,7 @@ export default function FarmerPortal() {
         {/* ============================================================== */}
         {activeTab === 'overview' && (
           <div className="space-y-6">
-            {/* Impact & Metric Tiles */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-semibold block">
-                  Direct Sales Settled
-                </span>
-                <span className="text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-1 block">
-                  ₹3,42,800
-                </span>
-                <span className="text-xs text-emerald-700 font-medium mt-1 inline-flex items-center gap-1">
-                  <span>+18.4% vs APMC mandi avg</span>
-                </span>
-              </div>
 
-              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-semibold block">
-                  Active Buyer Demands
-                </span>
-                <span className="text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-1 block">
-                  38 Institutional
-                </span>
-                <span className="text-xs text-zinc-500 font-medium mt-1 inline-flex items-center gap-1">
-                  <span>4 direct matches for your lots</span>
-                </span>
-              </div>
-
-              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-semibold block">
-                  Intermediary Savings
-                </span>
-                <span className="text-2xl font-extrabold text-emerald-800 font-mono mt-1 block">
-                  24.8% Retained
-                </span>
-                <span className="text-xs text-zinc-500 font-medium mt-1">
-                  Zero commission infrastructure
-                </span>
-              </div>
-
-              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-semibold block">
-                  Escrow Lock State
-                </span>
-                <span className="text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-1 block">
-                  100% Protected
-                </span>
-                <span className="text-xs text-emerald-700 font-medium mt-1 inline-flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>T+1 Direct bank clearing</span>
-                </span>
-              </div>
-            </div>
 
             {/* Quick Actions & AI Barometer Banner */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
