@@ -32,6 +32,7 @@ import {
   Bell,
   Warehouse,
   UserCheck,
+  Search,
 } from 'lucide-react';
 import { geocodeAddress } from '../../lib/ai/geocoding';
 import NetIncomeCalculator from '../../components/NetIncomeCalculator';
@@ -41,7 +42,7 @@ import WarehouseSlotModal from '../../components/WarehouseSlotModal';
 import VoiceListingButton from '../../components/VoiceListingButton';
 import OpticalGradingChecklist from '../../components/OpticalGradingChecklist';
 import { useAlertStore, useKycStore, useWarehouseStore } from '../../lib/store';
-import { getCropMspFloor, getCropCategory } from '../../lib/cropTaxonomy';
+import { getCropMspFloor, getCropCategory, ICAR_CROPS, ALL_CROP_CATEGORIES } from '../../lib/cropTaxonomy';
 import SmartListingGuide from '../../components/SmartListingGuide';
 import PriceTrajectoryChart, { TrajectoryPoint } from '../../components/PriceTrajectoryChart';
 
@@ -155,6 +156,8 @@ export default function FarmerPortal() {
   const [quantity, setQuantity] = useState(2500);
   const [grade, setGrade] = useState<'A1' | 'A2' | 'B'>('A1');
   const [price, setPrice] = useState(28);
+  const [cropCategoryFilter, setCropCategoryFilter] = useState<string>('all');
+  const [cropSearchTerm, setCropSearchTerm] = useState<string>('');
   const [farmAddress, setFarmAddress] = useState('Khasra 412, Jaitpura Farm, Phulera Tehsil');
   const [pincode, setPincode] = useState('303338');
   const [farmCoordinates, setFarmCoordinates] = useState<{ lat: number; lng: number }>({ lat: 26.8722, lng: 75.2415 });
@@ -632,44 +635,109 @@ export default function FarmerPortal() {
 
               <form onSubmit={handleCreateListing} className="space-y-5">
                 {/* 1. Quick Crop Selector */}
+                {/* 1. Official Government of India Registered Crop Selector */}
                 <div>
-                  <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
-                    1. Select Crop / Commodity
-                  </label>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
-                    {[
-                      { name: 'Tomato', label: 'Tomato (टमाटर)', cat: 'Vegetables' },
-                      { name: 'Wheat', label: 'Wheat (गेहूं)', cat: 'Grains' },
-                      { name: 'Mustard', label: 'Mustard (सरसों)', cat: 'Oilseeds' },
-                      { name: 'Soybean', label: 'Soybean (सोयाबीन)', cat: 'Pulses' },
-                      { name: 'Potato', label: 'Potato (आलू)', cat: 'Vegetables' },
-                      { name: 'Onion', label: 'Onion (प्याज़)', cat: 'Vegetables' },
-                      { name: 'Chana', label: 'Chana (चना)', cat: 'Pulses' },
-                      { name: 'Paddy / Rice', label: 'Rice (धान)', cat: 'Grains' },
-                      { name: 'Groundnut', label: 'Groundnut (मूंगफली)', cat: 'Oilseeds' },
-                      { name: 'Apple', label: 'Apple (सेब)', cat: 'Fruits' },
-                      { name: 'Mango', label: 'Mango (आम)', cat: 'Fruits' },
-                      { name: 'Maize', label: 'Maize (मक्का)', cat: 'Grains' },
-                    ].map((c) => (
-                      <button
-                        key={c.name}
-                        type="button"
-                        onClick={() => {
-                          setCommodity(c.name);
-                          setVariety(`Standard ${c.name} Hybrid`);
-                        }}
-                        className={`p-2 rounded-xl border text-xs font-bold transition text-left flex flex-col justify-between ${
-                          commodity === c.name
-                            ? 'bg-emerald-900 text-white border-emerald-900 shadow-sm'
-                            : 'bg-zinc-50 dark:bg-zinc-800/60 border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800'
-                        }`}
-                      >
-                        <span className="truncate">{c.name}</span>
-                        <span className={`text-[9px] font-normal block ${commodity === c.name ? 'text-emerald-200' : 'text-zinc-400'}`}>
-                          {c.cat}
-                        </span>
-                      </button>
-                    ))}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                    <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
+                      1. Select Crop / Commodity (Official ICAR / CCEA Registered)
+                    </label>
+                    <span className="text-[11px] font-mono text-emerald-800 dark:text-emerald-400 font-semibold">
+                      Selected: <strong>{commodity}</strong> {getCropMspFloor(commodity) ? `• MSP: ₹${getCropMspFloor(commodity)}/kg` : ''}
+                    </span>
+                  </div>
+
+                  {/* Category Filter Pills & Search Bar */}
+                  <div className="space-y-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="relative flex-1">
+                        <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-2.5" />
+                        <input
+                          type="text"
+                          value={cropSearchTerm}
+                          onChange={(e) => setCropSearchTerm(e.target.value)}
+                          placeholder="Search any registered crop (e.g. Cotton, Ragi, Turmeric, Ginger, Apple, Chana, Mustard)..."
+                          className="w-full text-xs pl-8 pr-3 py-2 bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                        />
+                      </div>
+                      {cropSearchTerm && (
+                        <button
+                          type="button"
+                          onClick={() => setCropSearchTerm('')}
+                          className="text-xs text-zinc-400 hover:text-zinc-700 px-2 py-1"
+                        >
+                          Clear
+                        </button>
+                      )}
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5">
+                      {[
+                        { id: 'all', label: 'All Crops' },
+                        { id: 'cereals', label: 'Grains & Cereals' },
+                        { id: 'pulses', label: 'Pulses' },
+                        { id: 'oilseeds', label: 'Oilseeds' },
+                        { id: 'vegetables', label: 'Vegetables' },
+                        { id: 'fruits', label: 'Fruits' },
+                        { id: 'spices', label: 'Spices' },
+                        { id: 'commercial', label: 'Commercial' },
+                      ].map((tab) => (
+                        <button
+                          key={tab.id}
+                          type="button"
+                          onClick={() => setCropCategoryFilter(tab.id)}
+                          className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition ${
+                            cropCategoryFilter === tab.id
+                              ? 'bg-zinc-900 text-white dark:bg-emerald-500 dark:text-zinc-950 shadow-xs'
+                              : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+                          }`}
+                        >
+                          {tab.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Scrollable Registered Crops Grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 max-h-56 overflow-y-auto p-1 border border-zinc-100 dark:border-zinc-800/80 rounded-xl bg-zinc-50/50 dark:bg-zinc-900/40">
+                    {ICAR_CROPS.filter((c) => {
+                      const matchesCategory =
+                        cropCategoryFilter === 'all' || c.category === cropCategoryFilter;
+                      const matchesSearch =
+                        cropSearchTerm.trim() === '' ||
+                        c.name.toLowerCase().includes(cropSearchTerm.toLowerCase()) ||
+                        c.hindiName.toLowerCase().includes(cropSearchTerm.toLowerCase()) ||
+                        c.categoryLabel.toLowerCase().includes(cropSearchTerm.toLowerCase());
+                      return matchesCategory && matchesSearch;
+                    }).map((c) => {
+                      const isSelected = commodity.toLowerCase() === c.name.toLowerCase();
+                      return (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => {
+                            setCommodity(c.name);
+                            setVariety(`Certified ${c.name} (ICAR / AGMARK Standard)`);
+                            if (c.mspFloorKg && price < c.mspFloorKg) {
+                              setPrice(c.mspFloorKg);
+                            }
+                          }}
+                          className={`p-2 rounded-xl border text-xs font-bold transition text-left flex flex-col justify-between ${
+                            isSelected
+                              ? 'bg-emerald-900 text-white border-emerald-900 shadow-sm'
+                              : 'bg-white dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                          }`}
+                        >
+                          <span className="truncate">{c.name}</span>
+                          <span
+                            className={`text-[9px] font-normal block truncate mt-0.5 ${
+                              isSelected ? 'text-emerald-200' : 'text-zinc-400'
+                            }`}
+                          >
+                            {c.hindiName.split(' ')[0]} • {c.categoryLabel.split(' ')[0]}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
