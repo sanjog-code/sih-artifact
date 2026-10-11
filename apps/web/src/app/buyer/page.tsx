@@ -42,7 +42,7 @@ export default function BuyerPortal() {
   // Persistence Stores
   const { rfqs, submitRfq, lockEscrow } = useRfqStore();
   const { listings } = useProduceStore();
-  const { orders, placeOrder, updateOrderStatus } = useOrderStore();
+  const { orders, placeOrder, updateOrderStatus, advanceOrderStage, advanceAllOrders } = useOrderStore();
   const {
     businessTier,
     businessConfig,
@@ -750,8 +750,12 @@ export default function BuyerPortal() {
                       {ord.status === 'ESCROW_LOCKED' && (
                         <button
                           onClick={() => {
-                            updateOrderStatus(ord.id, 'DISPATCHED');
-                            setRfqNotice(`Order ${ord.id} marked as Dispatched! Logistics carrier notified.`);
+                            if (advanceOrderStage) {
+                              advanceOrderStage(ord.id);
+                            } else {
+                              updateOrderStatus(ord.id, 'IN_TRANSIT');
+                            }
+                            setRfqNotice(`Order ${ord.id} milestone advanced! Logistics node updated.`);
                             setTimeout(() => setRfqNotice(null), 4000);
                           }}
                           className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-semibold rounded-lg transition"
@@ -760,16 +764,37 @@ export default function BuyerPortal() {
                         </button>
                       )}
 
-                      {ord.status === 'DISPATCHED' && (
+                      {ord.status === 'IN_TRANSIT' && (
                         <button
                           onClick={() => {
-                            updateOrderStatus(ord.id, 'DELIVERED');
-                            setRfqNotice(`Order ${ord.id} verified at gate pass! Escrow payment released to farmer bank account.`);
+                            if (advanceOrderStage) {
+                              advanceOrderStage(ord.id);
+                            } else {
+                              updateOrderStatus(ord.id, 'DELIVERED');
+                            }
+                            setRfqNotice(`Order ${ord.id} verified at gate pass! AGMARK verified.`);
+                            setTimeout(() => setRfqNotice(null), 4000);
+                          }}
+                          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition"
+                        >
+                          Confirm Gate Inward
+                        </button>
+                      )}
+
+                      {ord.status === 'DELIVERED' && (
+                        <button
+                          onClick={() => {
+                            if (advanceOrderStage) {
+                              advanceOrderStage(ord.id);
+                            } else {
+                              updateOrderStatus(ord.id, 'ESCROW_RELEASED');
+                            }
+                            setRfqNotice(`Order ${ord.id} escrow payment released to farmer bank account!`);
                             setTimeout(() => setRfqNotice(null), 4000);
                           }}
                           className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg transition"
                         >
-                          Verify & Release Escrow
+                          Release Escrow Payout
                         </button>
                       )}
                     </div>

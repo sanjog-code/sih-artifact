@@ -129,7 +129,7 @@ export default function FarmerPortal() {
 
   // Persistence Stores
   const { listings: produceListings, addListing, deleteListing, togglePauseListing } = useProduceStore();
-  const { orders, updateOrderStatus } = useOrderStore();
+  const { orders, updateOrderStatus, advanceOrderStage, advanceAllOrders } = useOrderStore();
   const { submitRfq } = useRfqStore();
   const {
     farmerTier,
@@ -306,8 +306,12 @@ export default function FarmerPortal() {
   };
 
   const handleAcceptOrder = (orderId: string) => {
-    updateOrderStatus(orderId, 'IN_TRANSIT');
-    setNotice(`Order #${orderId} accepted and assigned to regional fleet manifest. Tracking active!`);
+    if (advanceOrderStage) {
+      advanceOrderStage(orderId);
+    } else {
+      updateOrderStatus(orderId, 'IN_TRANSIT');
+    }
+    setNotice(`Order #${orderId} accepted & scheduled! Telemetry node updated.`);
     setTimeout(() => setNotice(null), 4500);
   };
 

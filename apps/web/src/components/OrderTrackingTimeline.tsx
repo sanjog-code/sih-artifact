@@ -99,7 +99,7 @@ export default function OrderTrackingTimeline({
               Order #{order.id}
             </span>
             <span
-              className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${
+              className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold border flex items-center gap-1.5 ${
                 isDisputed
                   ? 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950 dark:text-rose-300 dark:border-rose-800'
                   : currentIndex === 4
@@ -107,8 +107,17 @@ export default function OrderTrackingTimeline({
                   : 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800'
               }`}
             >
-              {order.status}
+              <span className={`w-1.5 h-1.5 rounded-full ${
+                currentIndex === 4 ? 'bg-emerald-500' : 'bg-blue-500 animate-pulse'
+              }`} />
+              <span>{order.status}</span>
             </span>
+            {order.currentTemperature !== undefined && (
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 flex items-center gap-1">
+                <span>❄️</span>
+                <span>{order.currentTemperature}°C Reefer</span>
+              </span>
+            )}
           </div>
           <h3 className="text-lg sm:text-xl font-bold text-zinc-950 dark:text-white">
             {order.items || `${order.quantityKg} kg ${order.commodity}`}
@@ -116,9 +125,40 @@ export default function OrderTrackingTimeline({
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
             Placed: {order.createdAt} • Delivery: {order.deliveryDate || 'Within 24-48 hours'}
           </p>
+          {order.currentLocationText && (
+            <p className="text-[11px] font-medium text-blue-600 dark:text-blue-400 mt-1 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+              <span>{order.currentLocationText}</span>
+            </p>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          {currentIndex < 4 && onUpdateStatus && (
+            <button
+              onClick={() => {
+                const nextStages: OrderStatus[] = [
+                  'PICKUP_SCHEDULED',
+                  'IN_TRANSIT',
+                  'DELIVERED',
+                  'ESCROW_RELEASED',
+                ];
+                const next = nextStages[currentIndex] || 'ESCROW_RELEASED';
+                onUpdateStatus(next);
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-xs active:scale-95"
+              title="Manually advance to the next delivery milestone"
+            >
+              <span>⚡</span>
+              <span>
+                {currentIndex === 0 && 'Schedule Pickup'}
+                {currentIndex === 1 && 'Dispatch Reefer'}
+                {currentIndex === 2 && 'Confirm Dock Inward'}
+                {currentIndex === 3 && 'Release Escrow'}
+              </span>
+            </button>
+          )}
+
           <Link
             href="/escrow/voucher"
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900 border border-emerald-200 dark:border-emerald-800 text-xs font-semibold text-emerald-900 dark:text-emerald-300 transition-colors"
@@ -211,6 +251,32 @@ export default function OrderTrackingTimeline({
         </div>
       </div>
 
+      {/* Transit Telemetry Bar */}
+      {currentIndex > 0 && currentIndex < 4 && (
+        <div className="mb-6 p-4 rounded-2xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50">
+          <div className="flex items-center justify-between text-xs font-semibold text-blue-900 dark:text-blue-200 mb-2">
+            <span className="flex items-center gap-1.5">
+              <Truck className="w-4 h-4 text-blue-600 animate-pulse" />
+              <span>Live Transit Telemetry</span>
+              {order.vehicleNumber && (
+                <span className="font-mono text-[11px] text-zinc-500 font-normal">
+                  • {order.vehicleNumber}
+                </span>
+              )}
+            </span>
+            <span className="font-mono font-bold text-blue-700 dark:text-blue-300">
+              {order.transitProgress || (currentIndex === 1 ? 30 : 65)}% Complete
+            </span>
+          </div>
+          <div className="w-full h-2 bg-blue-200/60 dark:bg-blue-900/60 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-blue-600 rounded-full transition-all duration-700 ease-out"
+              style={{ width: `${order.transitProgress || (currentIndex === 1 ? 30 : 65)}%` }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Escrow Hash & Settlement Details Strip */}
       <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
         <div>
@@ -218,6 +284,11 @@ export default function OrderTrackingTimeline({
           <span className="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
             {order.escrowTxHash || `ESCROW-${order.id}-SETTLED`}
           </span>
+          {order.utrNumber && (
+            <span className="block text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">
+              Disbursal UTR: {order.utrNumber}
+            </span>
+          )}
         </div>
 
         <div className="sm:text-right">
@@ -225,6 +296,11 @@ export default function OrderTrackingTimeline({
           <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
             ₹{(order.farmerPayoutAmount || order.totalPrice * 0.96).toLocaleString('en-IN')}
           </span>
+          {order.settledAt && (
+            <span className="block text-[11px] text-zinc-400 mt-0.5">
+              Settled: {order.settledAt}
+            </span>
+          )}
         </div>
       </div>
 

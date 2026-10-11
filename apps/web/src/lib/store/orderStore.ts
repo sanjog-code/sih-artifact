@@ -39,6 +39,12 @@ export interface OrderItem {
   createdAt: string;
   deliveryDate?: string;
   trackingId?: string;
+  transitProgress?: number; // 0 - 100%
+  currentTemperature?: number; // e.g. 4.2 °C
+  vehicleNumber?: string; // e.g. "RJ-14-GA-9021 (Reefer 14ft)"
+  currentLocationText?: string; // e.g. "NH-48 Corridor • Cold-chain reefer en route"
+  utrNumber?: string; // e.g. "UTR-RBI-20261011-8841"
+  settledAt?: string;
 }
 
 export const INITIAL_ORDER_SEED: OrderItem[] = [
@@ -57,15 +63,19 @@ export const INITIAL_ORDER_SEED: OrderItem[] = [
     deliveryCoordinates: { lat: 26.9048, lng: 75.7483 },
     farmAddress: 'Khasra 412, Jaitpura Farm, Phulera Tehsil',
     farmCoordinates: { lat: 26.8722, lng: 75.2415 },
-    status: 'DISPATCHED',
+    status: 'IN_TRANSIT',
     escrowLocked: true,
     escrowTxHash: 'ESCROW-TX-99410-LOCKED',
     platformCommissionRate: 0.04,
     platformCommissionAmount: 280,
     farmerPayoutAmount: 6720,
     createdAt: 'Today, 09:15 AM',
-    deliveryDate: 'Tomorrow Morning',
+    deliveryDate: 'Scheduled within 4h',
     trackingId: 'TRK-RJ-4412',
+    transitProgress: 64,
+    currentTemperature: 4.1,
+    vehicleNumber: 'RJ-14-GA-9021 (Reefer 14ft)',
+    currentLocationText: 'NH-48 Jaipur Bypass • 18 km to consignee doorstep',
   },
   {
     id: 'ORD-FL-2839',
@@ -82,8 +92,8 @@ export const INITIAL_ORDER_SEED: OrderItem[] = [
     deliveryCoordinates: { lat: 22.7196, lng: 75.8577 },
     farmAddress: 'Dewas Highway Agrarian Locus, Ujjain',
     farmCoordinates: { lat: 23.1765, lng: 75.7885 },
-    status: 'DELIVERED',
-    escrowLocked: true,
+    status: 'ESCROW_RELEASED',
+    escrowLocked: false,
     escrowTxHash: 'ESCROW-TX-99388-SETTLED',
     platformCommissionRate: 0.03,
     platformCommissionAmount: 780,
@@ -91,6 +101,12 @@ export const INITIAL_ORDER_SEED: OrderItem[] = [
     createdAt: '2 days ago',
     deliveryDate: 'Yesterday, 04:00 PM',
     trackingId: 'TRK-MP-8109',
+    transitProgress: 100,
+    currentTemperature: 18.2,
+    vehicleNumber: 'MP-09-KA-5512 (WDRA Bulk Liner)',
+    currentLocationText: 'Terminal Dock Inward Assayed • Consignee Signed',
+    utrNumber: 'UTR-RBI-20261010-99388',
+    settledAt: 'Yesterday, 04:15 PM',
   },
   {
     id: 'ORD-FL-2830',
@@ -112,6 +128,12 @@ export const INITIAL_ORDER_SEED: OrderItem[] = [
     createdAt: '5 days ago',
     deliveryDate: '4 days ago',
     trackingId: 'TRK-MH-1205',
+    transitProgress: 100,
+    currentTemperature: 21.0,
+    vehicleNumber: 'MH-31-TR-8819 (Flatbed 20ft)',
+    currentLocationText: 'Delivered at Agro Retail Mart • Gate assay confirmed',
+    utrNumber: 'UTR-RBI-20261007-99212',
+    settledAt: '4 days ago',
   },
 ];
 
@@ -237,6 +259,10 @@ export const orderStore = {
       createdAt: order.createdAt || 'Just now',
       deliveryDate: order.deliveryDate || 'Scheduled within 24h',
       trackingId: order.trackingId || `TRK-FL-${Math.floor(1000 + Math.random() * 9000)}`,
+      transitProgress: 10,
+      currentTemperature: 4.2,
+      vehicleNumber: 'RJ-14-GA-9021 (Reefer 14ft)',
+      currentLocationText: 'Consignment booked & escrow secured in RBI nodal account',
     };
 
     const updated = [newOrder, ...current];
@@ -258,6 +284,80 @@ export const orderStore = {
       safeSetLocalStorage(updated);
     }
     return found;
+  },
+
+  advanceOrderStage(orderId: string): OrderItem | null {
+    const current = safeGetLocalStorage();
+    let updatedItem: OrderItem | null = null;
+    const nowStamp = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+    const updated = current.map((order) => {
+      if (order.id.toLowerCase() !== orderId.toLowerCase()) return order;
+
+      const norm = (order.status || '').toUpperCase();
+      let nextStatus: OrderStatus = order.status;
+      let nextProgress = order.transitProgress ?? 10;
+      let nextTemp = order.currentTemperature ?? 4.2;
+      let nextLocation = order.currentLocationText ?? 'En route';
+      let nextEscrow = order.escrowLocked;
+      let nextTxHash = order.escrowTxHash;
+      let nextUtr = order.utrNumber;
+      let nextSettled = order.settledAt;
+
+      if (norm === 'ORDER_PLACED' || norm === 'PENDING' || norm === 'ESCROW_LOCKED') {
+        nextStatus = 'PICKUP_SCHEDULED';
+        nextProgress = 30;
+        nextLocation = 'Farm Gate Collection • Reefer dispatched to loading bay';
+      } else if (norm === 'PICKUP_SCHEDULED' || norm === 'CONFIRMED') {
+        nextStatus = 'IN_TRANSIT';
+        nextProgress = 65;
+        nextTemp = +(3.8 + Math.random() * 0.8).toFixed(1);
+        nextLocation = 'NH-48 Logistics Corridor • Reefer Active (4.2°C)';
+      } else if (norm === 'IN_TRANSIT' || norm === 'DISPATCHED') {
+        nextStatus = 'DELIVERED';
+        nextProgress = 100;
+        nextLocation = 'Consignee Gate Assayed • AGMARK Quality Certified';
+        nextEscrow = true;
+      } else if (norm === 'DELIVERED') {
+        nextStatus = 'ESCROW_RELEASED';
+        nextProgress = 100;
+        nextEscrow = false;
+        nextTxHash = `ESCROW-TX-${Date.now().toString().slice(-5)}-SETTLED`;
+        nextUtr = `UTR-RBI-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`;
+        nextSettled = `Today, ${nowStamp}`;
+        nextLocation = `Funds Disbursed to Farmer Bank Account (${nextUtr})`;
+      } else {
+        // Already settled or in final state; simulate subtle temperature/location drift
+        nextTemp = +(3.8 + Math.random() * 0.8).toFixed(1);
+      }
+
+      updatedItem = {
+        ...order,
+        status: nextStatus,
+        transitProgress: nextProgress,
+        currentTemperature: nextTemp,
+        currentLocationText: nextLocation,
+        escrowLocked: nextEscrow,
+        escrowTxHash: nextTxHash,
+        utrNumber: nextUtr,
+        settledAt: nextSettled,
+      };
+      return updatedItem;
+    });
+
+    if (updatedItem) {
+      safeSetLocalStorage(updated);
+    }
+    return updatedItem;
+  },
+
+  advanceAllOrders(): void {
+    const current = safeGetLocalStorage();
+    const active = current.filter(o => o.status !== 'ESCROW_RELEASED');
+    if (active.length === 0) return;
+    active.forEach(o => {
+      this.advanceOrderStage(o.id);
+    });
   },
 
   resetToSeed(): void {
@@ -285,6 +385,8 @@ export function useOrderStore() {
     getOrderById: orderStore.getOrderById,
     placeOrder: orderStore.placeOrder,
     updateOrderStatus: orderStore.updateOrderStatus,
+    advanceOrderStage: orderStore.advanceOrderStage.bind(orderStore),
+    advanceAllOrders: orderStore.advanceAllOrders.bind(orderStore),
     resetToSeed: orderStore.resetToSeed,
   };
 }
