@@ -1327,7 +1327,7 @@ export default function FarmerPortal() {
                     {t.farmer.aiForecastTitle}
                   </h2>
                   <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-                    {aiData?.market ? `${aiData.market}, ${aiData.district}, ${aiData.state}` : 'Jaipur APMC (Muhana Mandi), Rajasthan'} • Calibrated multi-lag auto-regressive model trained on 737,392 APMC clearing records.
+                    {aiData?.market ? `${aiData.market}, ${aiData.district}, ${aiData.state}` : 'Jaipur APMC (Muhana Mandi), Rajasthan'} • Historical mandi modal price trends & season harvest forecast for your selected commodity.
                   </p>
                 </div>
 
@@ -1625,11 +1625,11 @@ export default function FarmerPortal() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-700 dark:text-zinc-300">
                 <div>
                   <span className="text-zinc-500 block">Cold-Chain Temperature:</span>
-                  <strong className="text-zinc-950 dark:text-zinc-50 font-mono">5.2°C (Optimal Range 4-8°C)</strong>
+                  <strong className="text-zinc-950 dark:text-zinc-50 font-mono">5.2°C (Optimal Range: 4-8°C)</strong>
                 </div>
                 <div>
                   <span className="text-zinc-500 block">Relative Humidity:</span>
-                  <strong className="text-zinc-950 dark:text-zinc-50 font-mono">88% (Arrhenius Safe)</strong>
+                  <strong className="text-zinc-950 dark:text-zinc-50 font-mono">88% (Optimal for Fresh Produce)</strong>
                 </div>
                 <div>
                   <span className="text-zinc-500 block">Driver Contact:</span>

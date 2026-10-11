@@ -283,10 +283,6 @@ export default function CheckoutPage() {
                 <span className="font-bold text-emerald-700 dark:text-emerald-400">{confirmedOrderId}</span>
               </div>
               <div className="flex justify-between items-center pb-2 border-b border-zinc-200 dark:border-zinc-800">
-                <span className="text-zinc-500">Escrow Batch Telemetry</span>
-                <span className="text-[10px] text-zinc-700 dark:text-zinc-300 truncate max-w-[200px] sm:max-w-xs">{confirmedHash}</span>
-              </div>
-              <div className="flex justify-between items-center pb-2 border-b border-zinc-200 dark:border-zinc-800">
                 <span className="text-zinc-500">Delivery Address</span>
                 <span className="text-zinc-800 dark:text-zinc-200 text-right truncate max-w-xs">{address}</span>
               </div>
@@ -556,14 +552,14 @@ export default function CheckoutPage() {
                   />
                 </div>
 
-                {/* Real-time Delivery Geocoding Telemetry */}
+                {/* Verified Delivery Destination */}
                 <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
                   <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-bold">
                     <MapPin className="w-3.5 h-3.5" />
-                    <span>Delivery Waypoint:</span>
+                    <span>Destination Zone:</span>
                   </span>
-                  <span>
-                    {geocodeAddress(address, pincode).lat.toFixed(4)}° N, {geocodeAddress(address, pincode).lng.toFixed(4)}° E
+                  <span className="text-zinc-700 dark:text-zinc-300">
+                    PIN {pincode} • Direct Route Dispatch
                   </span>
                 </div>
               </div>

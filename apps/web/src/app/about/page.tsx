@@ -113,60 +113,6 @@ export default function AboutPage() {
               </a>
             </div>
 
-            {/* Live Finance Dashboard Cards (Fintech Template Hero Feature) */}
-            <div className="pt-8 grid grid-cols-2 lg:grid-cols-4 gap-3.5 max-w-4xl mx-auto text-left">
-              <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md p-4 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs">
-                <div className="flex items-center justify-between text-zinc-500 text-[10px] font-mono uppercase font-bold">
-                  <span>Farmer Gain</span>
-                  <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
-                </div>
-                <div className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-zinc-50 font-mono mt-1">
-                  +18.4%
-                </div>
-                <span className="text-[11px] text-emerald-700 dark:text-emerald-400 font-medium">
-                  {t.about.statIncomeGain}
-                </span>
-              </div>
-
-              <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md p-4 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs">
-                <div className="flex items-center justify-between text-zinc-500 text-[10px] font-mono uppercase font-bold">
-                  <span>MSP Compliance</span>
-                  <Scale className="w-3.5 h-3.5 text-emerald-600" />
-                </div>
-                <div className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-zinc-50 font-mono mt-1">
-                  100%
-                </div>
-                <span className="text-[11px] text-zinc-600 dark:text-zinc-400 font-medium">
-                  {t.about.statMspAdherence}
-                </span>
-              </div>
-
-              <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md p-4 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs">
-                <div className="flex items-center justify-between text-zinc-500 text-[10px] font-mono uppercase font-bold">
-                  <span>Escrow Clearing</span>
-                  <Lock className="w-3.5 h-3.5 text-purple-600" />
-                </div>
-                <div className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-zinc-50 font-mono mt-1">
-                  T+1
-                </div>
-                <span className="text-[11px] text-zinc-600 dark:text-zinc-400 font-medium">
-                  {t.about.statEscrowSettlement}
-                </span>
-              </div>
-
-              <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md p-4 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs">
-                <div className="flex items-center justify-between text-zinc-500 text-[10px] font-mono uppercase font-bold">
-                  <span>Commission Cut</span>
-                  <Coins className="w-3.5 h-3.5 text-emerald-600" />
-                </div>
-                <div className="text-xl sm:text-2xl font-black text-emerald-700 dark:text-emerald-400 font-mono mt-1">
-                  0%
-                </div>
-                <span className="text-[11px] text-zinc-600 dark:text-zinc-400 font-medium">
-                  {t.about.statBrokerCut}
-                </span>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -355,14 +301,14 @@ export default function AboutPage() {
 
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/70 dark:border-zinc-800/70">
-                    <span className="block text-[10px] font-mono uppercase text-zinc-500 font-bold">Post-Harvest Loss</span>
-                    <span className="text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono">&lt; 1.8%</span>
-                    <span className="text-[11px] text-zinc-500 block">vs. 15-25% in legacy mandis</span>
+                    <span className="block text-[10px] font-mono uppercase text-zinc-500 font-bold">Cold Chain Dispatch</span>
+                    <span className="text-sm font-bold text-emerald-700 dark:text-emerald-400 block mt-0.5">Direct Farm-to-Buyer</span>
+                    <span className="text-[11px] text-zinc-500 block">Minimizing transit decay</span>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/70 dark:border-zinc-800/70">
-                    <span className="block text-[10px] font-mono uppercase text-zinc-500 font-bold">Transit Turnaround</span>
-                    <span className="text-lg font-black text-zinc-900 dark:text-zinc-100 font-mono">Under 18 Hrs</span>
-                    <span className="text-[11px] text-zinc-500 block">Temperature tracked GPS</span>
+                    <span className="block text-[10px] font-mono uppercase text-zinc-500 font-bold">Transit Logistics</span>
+                    <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 block mt-0.5">Scheduled Dispatch</span>
+                    <span className="text-[11px] text-zinc-500 block">Route-monitored vehicles</span>
                   </div>
                 </div>
               </div>
@@ -597,7 +543,7 @@ export default function AboutPage() {
                   <BadgeCheck className="w-4 h-4" />
                 </div>
                 <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-teal-300 bg-teal-950/80 border border-teal-700/50 px-2 py-0.5 rounded">
-                  Pillar 05 • Immutable Telemetry Hash
+                  Pillar 05 • Batch Origin & Farm Traceability
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">

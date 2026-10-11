@@ -982,38 +982,6 @@ export default function ConsumerPortal() {
         {/* TAB 3: ORDERS & ESCROW TRACKING */}
         {activeTab === 'orders' && (
           <div className="space-y-6">
-            {/* Live Telemetry Node Sync Strip */}
-            <div className="p-4 rounded-2xl bg-zinc-900 text-white flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm border border-zinc-800">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-white uppercase tracking-wider">
-                      Real-Time Node Telemetry
-                    </span>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                      LIVE STREAM ACTIVE
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-zinc-400 mt-0.5">
-                    Synced across platform nodes with live cold-chain sensors, GPS route coordinates & RBI nodal escrow status.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 self-start md:self-auto">
-                <button
-                  type="button"
-                  onClick={() => advanceAllOrders()}
-                  className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 active:scale-95 shadow-xs"
-                >
-                  <span>⚡</span>
-                  <span>Advance All Active Lots</span>
-                </button>
-              </div>
-            </div>
 
             <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-2xs">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-zinc-100 dark:border-zinc-800">
