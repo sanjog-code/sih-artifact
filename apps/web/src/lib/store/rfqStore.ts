@@ -196,6 +196,29 @@ export const rfqStore = {
     return this.updateStatus(id, 'ESCROW_LOCKED', 'Funds locked into verified tri-party escrow contract');
   },
 
+  counterOffer(id: string, counterRate: number, note?: string): boolean {
+    const current = safeGetLocalStorage();
+    let found = false;
+    const updated = current.map((rfq) => {
+      if (rfq.id.toLowerCase() === id.toLowerCase()) {
+        found = true;
+        return {
+          ...rfq,
+          bidRate: counterRate,
+          status: 'COUNTERED' as RfqStatus,
+          escrowAmount: rfq.volumeKg * counterRate,
+          notes: note || `Counter-offer of ₹${counterRate}/kg submitted`,
+          updatedAt: 'Just now',
+        };
+      }
+      return rfq;
+    });
+    if (found) {
+      safeSetLocalStorage(updated);
+    }
+    return found;
+  },
+
   resetToSeed(): void {
     safeSetLocalStorage([...INITIAL_RFQ_SEED]);
   },
@@ -222,6 +245,7 @@ export function useRfqStore() {
     submitRfq: rfqStore.submitRfq,
     updateStatus: rfqStore.updateStatus,
     lockEscrow: rfqStore.lockEscrow,
+    counterOffer: rfqStore.counterOffer.bind(rfqStore),
     resetToSeed: rfqStore.resetToSeed,
   };
 }

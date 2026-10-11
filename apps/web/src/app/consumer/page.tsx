@@ -1074,10 +1074,10 @@ export default function ConsumerPortal() {
                   target: 'Regular fresh grocery buyers',
                   popular: true,
                   features: [
-                    'Flat 50% discount on cold-chain delivery',
-                    'Personalized harvest arrival alerts',
-                    'Full AGMARK lot quality & assay passport',
-                    'Convenient 1-click repeat replenishment',
+                    'Flat ₹40 delivery discount on eligible orders',
+                    'Personalized harvest arrival alerts & recommendations',
+                    'Access to lot quality & traceability passport',
+                    'Convenient repeat ordering & premier offers',
                     'Priority morning delivery slots (6 AM - 8 AM)',
                   ],
                 },
@@ -1089,10 +1089,10 @@ export default function ConsumerPortal() {
                   target: 'Healthy families & farm-to-table enthusiasts',
                   features: [
                     'Everything in Premier',
-                    'Unlimited 100% free delivery on orders > ₹299',
+                    '100% free delivery on all orders over ₹399',
                     'Early-access harvest drops (reserve lots early)',
-                    'Dedicated farm-to-table consumer concierge',
-                    'Exclusive seasonal farmer harvest boxes',
+                    'Priority customer care & dedicated concierge',
+                    'Enhanced promotional offers & seasonal harvest boxes',
                   ],
                 },
               ].map((tier) => {

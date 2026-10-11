@@ -166,9 +166,10 @@ export const CONSUMER_PLANS: Record<ConsumerTier, ConsumerPlanConfig> = {
     monthlyPrice: 99,
     annualPrice: 999,
     perks: [
-      'Flat 50% discount on cold-chain doorstep delivery',
-      'Personalized harvest arrival alerts & farm freshness scores',
+      'Flat ₹40 delivery discount on eligible orders',
+      'Personalized harvest arrival alerts & recommendations',
       'Full AGMARK lot quality passport & nutritional assay download',
+      'Convenient repeat ordering & premier offers',
       'Priority dispatch slot selection (morning 6 AM - 8 AM)',
     ],
   },
@@ -178,10 +179,11 @@ export const CONSUMER_PLANS: Record<ConsumerTier, ConsumerPlanConfig> = {
     monthlyPrice: 199,
     annualPrice: 1999,
     perks: [
-      'Unlimited 100% free delivery on all orders above ₹299',
+      'Everything in Premier',
+      '100% free delivery on all orders over ₹399',
       'VIP early-access harvest drops (reserve lots before open market)',
-      'Dedicated farm-to-table consumer concierge & instant replacements',
-      'Exclusive seasonal farmer harvest boxes with zero delivery fees',
+      'Dedicated farm-to-table consumer concierge & priority support',
+      'Enhanced promotional offers & seasonal farmer harvest boxes',
     ],
   },
 };
@@ -465,23 +467,32 @@ export const subscriptionStore = {
     const tier = consumerTier || safeGetLocalStorage().consumer.activeTier;
 
     if (tier === 'plus') {
-      // Plus: Free delivery on orders > ₹299 or flat free
+      // Plus: 100% Free delivery on orders > ₹399
+      if (subtotal >= 399) {
+        return {
+          finalFee: 0,
+          discountApplied: baseDeliveryFee,
+          isFree: true,
+          benefitNote: 'Consumer Plus Benefit: 100% Free Delivery on orders over ₹399',
+        };
+      }
+      const discount = Math.min(baseDeliveryFee, 40);
       return {
-        finalFee: 0,
-        discountApplied: baseDeliveryFee,
-        isFree: true,
-        benefitNote: 'Consumer Plus Benefit: 100% Free Eco Cold-Chain Delivery',
+        finalFee: Math.max(0, baseDeliveryFee - discount),
+        discountApplied: discount,
+        isFree: baseDeliveryFee <= discount,
+        benefitNote: 'Consumer Plus Benefit: ₹40 Delivery Discount Applied',
       };
     }
 
     if (tier === 'premier') {
-      // Premier: 50% discount on delivery
-      const discount = Math.round(baseDeliveryFee * 0.5);
+      // Premier: Flat ₹40 discount on delivery
+      const discount = Math.min(baseDeliveryFee, 40);
       return {
-        finalFee: baseDeliveryFee - discount,
+        finalFee: Math.max(0, baseDeliveryFee - discount),
         discountApplied: discount,
-        isFree: false,
-        benefitNote: 'Consumer Premier Benefit: 50% Cold-Chain Discount Applied',
+        isFree: baseDeliveryFee <= discount,
+        benefitNote: 'Consumer Premier Benefit: ₹40 Delivery Discount Applied',
       };
     }
 

@@ -8,6 +8,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import InquiryModal from '../../components/InquiryModal';
 import JsonLd from '../../components/JsonLd';
+import UnitEconomicsSimulator from '../../components/UnitEconomicsSimulator';
 
 const aboutBreadcrumbSchema = {
   '@context': 'https://schema.org',
@@ -627,6 +628,13 @@ export default function AboutPage() {
         </section>
 
 
+
+        {/* =================================================================== */}
+        {/* INTERACTIVE UNIT ECONOMICS & EMPIRICAL CITATIONS SIMULATOR          */}
+        {/* =================================================================== */}
+        <section id="pilot-economics" className="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto scroll-mt-24">
+          <UnitEconomicsSimulator />
+        </section>
 
         {/* =================================================================== */}
         {/* PLATFORM PLEDGE & ZERO COMMISSION ARCHITECTURE                     */}

@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { OrderItem, OrderStatus } from '../lib/store/orderStore';
+import ReturnRefundModal from './ReturnRefundModal';
 import {
   CheckCircle2,
   Clock,
@@ -11,6 +12,7 @@ import {
   ShieldAlert,
   ShieldCheck,
   FileText,
+  RefreshCcw,
 } from 'lucide-react';
 import { triggerInvoicePrintOrDownload } from '../lib/invoiceGenerator';
 
@@ -88,9 +90,20 @@ export default function OrderTrackingTimeline({
 
   const currentIndex = getStageIndex(order.status);
   const isDisputed = order.status === 'DISPUTED';
+  const [refundModalOpen, setRefundModalOpen] = useState(false);
 
   return (
     <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-xs">
+      <ReturnRefundModal
+        isOpen={refundModalOpen}
+        onClose={() => setRefundModalOpen(false)}
+        order={order}
+        onClaimSubmitted={() => {
+          if (onUpdateStatus) {
+            onUpdateStatus('DISPUTED');
+          }
+        }}
+      />
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-zinc-200 dark:border-zinc-800">
         <div>
@@ -174,6 +187,16 @@ export default function OrderTrackingTimeline({
             <FileText className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>GST Tax Invoice</span>
           </Link>
+
+          <button
+            type="button"
+            onClick={() => setRefundModalOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900 border border-rose-200 dark:border-rose-800 text-xs font-semibold text-rose-800 dark:text-rose-300 transition-colors cursor-pointer"
+            title="File statutory 2-hour vegetable quality claim"
+          >
+            <RefreshCcw className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
+            <span>Return & Refund Claim</span>
+          </button>
 
           <button
             onClick={() => triggerInvoicePrintOrDownload(order)}

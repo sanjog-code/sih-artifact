@@ -52,50 +52,131 @@ export default function RefundPolicyPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xs">
                 <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block font-mono">
-                  Perishable Commodities
+                  Fresh Vegetables & Perishables
                 </span>
                 <span className="text-xl font-black text-zinc-950 dark:text-zinc-50 block mt-1">
-                  Within 24 Hours
+                  Within 2 Hours
                 </span>
                 <p className="text-xs text-zinc-500 mt-1">
-                  Vegetables, leafy greens, and fresh fruits must be inspected upon delivery dock receipt. Moisture degradation or transit spoilage claims must be filed with photographic proof within 24 hours.
+                  Per the <em>Vegetable Quality, Return and Refund Policy</em>, quality claims on fresh produce must be reported within 2 hours of delivery with photographic or video evidence of the batch condition and packaging.
                 </p>
               </div>
 
               <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xs">
                 <span className="text-xs font-bold text-blue-700 dark:text-blue-400 uppercase tracking-wider block font-mono">
-                  Storable Agri-Commodities
+                  Storable Agri-Commodities & Silos
                 </span>
                 <span className="text-xl font-black text-zinc-950 dark:text-zinc-50 block mt-1">
                   Within 48 Hours
                 </span>
                 <p className="text-xs text-zinc-500 mt-1">
-                  Grains, pulses, oilseeds, and WDRA warehouse-stored produce lots have a 48-hour window from delivery ticket confirmation for moisture analysis, foreign matter, and weighbridge verification.
+                  Grains, pulses, and oilseeds have a 48-hour window from delivery ticket confirmation for moisture analysis, foreign matter, and weighbridge verification.
                 </p>
               </div>
             </div>
           </section>
 
-          {/* Section 3 */}
-          <section className="space-y-3">
+          {/* Section 3: Statutory Vegetable Quality & Refund Rules */}
+          {/* Section 3: Statutory Vegetable Quality, Return & Refund Policy (9-Point Standard) */}
+          <section className="space-y-4">
             <h2 className="text-lg font-bold text-zinc-950 dark:text-zinc-50 flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-              <span>3. Eligible Grounds for Refund & Return</span>
+              <span>3. Statutory 9-Point Fresh Vegetable Quality, Return & Refund Policy</span>
             </h2>
-            <ul className="list-disc pl-5 space-y-2">
-              <li>
-                <strong>Quality Discrepancy:</strong> Produce grade fails to meet certified AGMARK assay specifications declared in the producer manifest (e.g., foreign matter exceeding statutory limits, high moisture content).
-              </li>
-              <li>
-                <strong>Weight Shortfall:</strong> Certified weighbridge ticket shows a negative net discrepancy exceeding the allowable statutory moisture loss tolerance (0.5%).
-              </li>
-              <li>
-                <strong>Transit Spoilage:</strong> Temperature excursion during cold-chain dispatch exceeding agreed transit preservation standards.
-              </li>
-              <li>
-                <strong>Non-Fulfilment:</strong> Producer or transport carrier fails to dispatch cargo within the committed transit window.
-              </li>
-            </ul>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400">
+              In strict accordance with the <em>Vegetable Quality, Return and Refund Policy</em> standards for fresh perishables, the following 9 statutory rules govern all fresh produce procurement across Fasal Matrix:
+            </p>
+            <div className="grid grid-cols-1 gap-3 pt-1">
+              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1.5">
+                <h3 className="font-bold text-zinc-950 dark:text-zinc-100 text-xs sm:text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center text-xs font-mono">1</span>
+                  <span>The 50% Rotten Produce Rule</span>
+                </h3>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 pl-7">
+                  A buyer can request a full return or refund if more than 50% of the delivered vegetables are found to be rotten, spoiled, or unfit for human consumption upon dock inspection.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1.5">
+                <h3 className="font-bold text-zinc-950 dark:text-zinc-100 text-xs sm:text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center text-xs font-mono">2</span>
+                  <span>Full Delivery Cost Coverage</span>
+                </h3>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 pl-7">
+                  If the claim is verified under the 50% Rotten Produce Rule, the buyer receives a 100% refund for the eligible order, including all delivery, shipping, and freight charges paid for that order.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1.5">
+                <h3 className="font-bold text-zinc-950 dark:text-zinc-100 text-xs sm:text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center text-xs font-mono">3</span>
+                  <span>Two-Hour Reporting Window</span>
+                </h3>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 pl-7">
+                  To qualify for a return or refund, the issue must be reported within 2 hours of delivery receipt. Claims submitted after this 2-hour window cannot be accepted due to rapid natural perishable degradation.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1.5">
+                <h3 className="font-bold text-zinc-950 dark:text-zinc-100 text-xs sm:text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center text-xs font-mono">4</span>
+                  <span>Mandatory Photographic Evidence</span>
+                </h3>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 pl-7">
+                  Clear photographic or video evidence showing the full batch condition, package labels, and rotten produce must be submitted alongside the claim ticket for prompt validation.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1.5">
+                <h3 className="font-bold text-zinc-950 dark:text-zinc-100 text-xs sm:text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center text-xs font-mono">5</span>
+                  <span>Minor Quality Issues & Proportionate Credits (&le;50% Rule)</span>
+                </h3>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 pl-7">
+                  If 50% or less of the vegetables are defective or bruised, the order does not automatically qualify for a full refund. Our assessment team will review the evidence and issue a proportional partial refund or store credit based on measured defect weight.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1.5">
+                <h3 className="font-bold text-zinc-950 dark:text-zinc-100 text-xs sm:text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center text-xs font-mono">6</span>
+                  <span>Wrong Items Delivered</span>
+                </h3>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 pl-7">
+                  If incorrect vegetables are delivered, report it within 2 hours with photographs. We will arrange a replacement at no additional cost or process a full refund for the affected items.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1.5">
+                <h3 className="font-bold text-zinc-950 dark:text-zinc-100 text-xs sm:text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center text-xs font-mono">7</span>
+                  <span>Quantity Shortages</span>
+                </h3>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 pl-7">
+                  Any weight shortfall or missing packages must be reported within 2 hours with weighbridge or electronic scale photos. A proportional refund or credit will be issued immediately.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1.5">
+                <h3 className="font-bold text-zinc-950 dark:text-zinc-100 text-xs sm:text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center text-xs font-mono">8</span>
+                  <span>Refund Processing & Bank Reversal Timeline</span>
+                </h3>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 pl-7">
+                  Approved refunds are processed within 24 to 48 hours. Funds will be credited back to the original payment method or issued as store credit based on buyer preference.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1.5">
+                <h3 className="font-bold text-zinc-950 dark:text-zinc-100 text-xs sm:text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center text-xs font-mono">9</span>
+                  <span>Produce Disposal</span>
+                </h3>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 pl-7">
+                  Once a claim is approved, you are not required to return rotten vegetables. Please dispose of them responsibly or route them to regional composting facilities.
+                </p>
+              </div>
+            </div>
           </section>
 
           {/* Section 4 */}

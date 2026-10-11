@@ -40,7 +40,7 @@ export default function BuyerPortal() {
   const [activeTab, setActiveTab] = useState<'overview' | 'copilot' | 'market' | 'rfqs' | 'orders' | 'tender' | 'subscriptions' | 'recurring'>('overview');
 
   // Persistence Stores
-  const { rfqs, submitRfq, lockEscrow } = useRfqStore();
+  const { rfqs, submitRfq, lockEscrow, counterOffer } = useRfqStore();
   const { listings } = useProduceStore();
   const { orders, placeOrder, updateOrderStatus, advanceOrderStage, advanceAllOrders } = useOrderStore();
   const {
@@ -659,29 +659,55 @@ export default function BuyerPortal() {
                         <span>{t.buyer.volumeLabel} <strong className="font-mono">{rfq.volumeKg.toLocaleString()} {t.common.kg}</strong></span>
                       </div>
 
-                      <div className="flex justify-between items-center text-xs pt-1 border-t border-zinc-100 dark:border-zinc-800">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs pt-2 border-t border-zinc-100 dark:border-zinc-800">
                         <span className="text-zinc-500">
                           {t.buyer.askingRateLabel.replace('{asking}', String(rfq.askingRate))} <strong className="text-zinc-900 dark:text-zinc-100 font-mono">₹{rfq.bidRate}{t.common.perKg}</strong>
                         </span>
-                        {rfq.status === 'ACCEPTED' ? (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              lockEscrow(rfq.id);
-                              setRfqNotice(t.buyer.escrowReleasedNotice.replace('{id}', rfq.id));
-                              setTimeout(() => setRfqNotice(null), 4500);
-                            }}
-                            className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-md text-[11px] font-semibold transition"
-                          >
-                            {t.buyer.releaseEscrowBtn}
-                          </button>
-                        ) : rfq.status === 'ESCROW_LOCKED' ? (
-                          <span className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
-                            <Lock className="w-3 h-3" /> {t.buyer.escrowLocked}
-                          </span>
-                        ) : (
-                          <span className="text-[11px] text-zinc-400 font-mono">{t.buyer.awaitingConsensus}</span>
-                        )}
+                        <div className="flex items-center gap-2">
+                          {rfq.status !== 'ESCROW_LOCKED' && rfq.status !== 'SETTLED' && (
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-[10px] font-mono text-zinc-500 uppercase font-semibold">Counter: ₹</span>
+                              <input
+                                type="number"
+                                step={0.25}
+                                min={10}
+                                placeholder="Rate"
+                                defaultValue={rfq.bidRate}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    const val = Number((e.target as HTMLInputElement).value);
+                                    if (val > 0) {
+                                      counterOffer(rfq.id, val);
+                                      setRfqNotice(`Counter-bid of ₹${val}/kg transmitted to seller for ${rfq.id}!`);
+                                      setTimeout(() => setRfqNotice(null), 4000);
+                                    }
+                                  }
+                                }}
+                                className="w-16 px-1.5 py-1 text-[11px] font-mono font-bold rounded border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                              />
+                            </div>
+                          )}
+
+                          {rfq.status === 'ACCEPTED' ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                lockEscrow(rfq.id);
+                                setRfqNotice(t.buyer.escrowReleasedNotice.replace('{id}', rfq.id));
+                                setTimeout(() => setRfqNotice(null), 4500);
+                              }}
+                              className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-md text-[11px] font-semibold transition"
+                            >
+                              {t.buyer.releaseEscrowBtn}
+                            </button>
+                          ) : rfq.status === 'ESCROW_LOCKED' ? (
+                            <span className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
+                              <Lock className="w-3 h-3" /> {t.buyer.escrowLocked}
+                            </span>
+                          ) : (
+                            <span className="text-[11px] text-zinc-400 font-mono">{t.buyer.awaitingConsensus}</span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   ))}
