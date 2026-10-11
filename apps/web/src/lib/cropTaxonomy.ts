@@ -383,3 +383,25 @@ export function getCropDefinition(cropName: string): IcarCropDefinition | undefi
       norm.includes(c.name.toLowerCase())
   );
 }
+
+export const ALL_CROP_CATEGORIES = ['vegetables', 'grains', 'pulses', 'oilseeds', 'fruits'] as const;
+
+export function getCropCategory(cropName: string): 'vegetables' | 'grains' | 'pulses' | 'oilseeds' | 'fruits' {
+  const norm = cropName.trim().toLowerCase();
+  if (norm.includes('tomato') || norm.includes('potato') || norm.includes('onion') || norm.includes('chilli') || norm.includes('cauliflower') || norm.includes('vegetable')) {
+    return 'vegetables';
+  }
+  if (norm.includes('wheat') || norm.includes('rice') || norm.includes('paddy') || norm.includes('maize') || norm.includes('barley') || norm.includes('bajra') || norm.includes('jowar') || norm.includes('grain') || norm.includes('cereal')) {
+    return 'grains';
+  }
+  if (norm.includes('chana') || norm.includes('soybean') || norm.includes('moong') || norm.includes('tur') || norm.includes('arhar') || norm.includes('urad') || norm.includes('masoor') || norm.includes('pulse') || norm.includes('gram')) {
+    return 'pulses';
+  }
+  if (norm.includes('mustard') || norm.includes('sarson') || norm.includes('groundnut') || norm.includes('peanut') || norm.includes('sunflower') || norm.includes('sesame') || norm.includes('oilseed')) {
+    return 'oilseeds';
+  }
+  if (norm.includes('apple') || norm.includes('mango') || norm.includes('banana') || norm.includes('orange') || norm.includes('citrus') || norm.includes('fruit')) {
+    return 'fruits';
+  }
+  return 'vegetables';
+}

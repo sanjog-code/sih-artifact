@@ -54,7 +54,7 @@ export default function Home() {
 
 
   // Marketplace State
-  const [marketFilter, setMarketFilter] = useState<'all' | 'grains' | 'vegetables' | 'oilseeds' | 'pulses'>('all');
+  const [marketFilter, setMarketFilter] = useState<'all' | 'grains' | 'vegetables' | 'oilseeds' | 'pulses' | 'fruits'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [cartSuccessNotice, setCartSuccessNotice] = useState<string | null>(null);
 
@@ -368,7 +368,7 @@ export default function Home() {
 
             {/* Category Filter Pills */}
             <div className="flex flex-wrap gap-1.5">
-              {(['all', 'grains', 'vegetables', 'oilseeds', 'pulses'] as const).map((cat) => (
+              {(['all', 'vegetables', 'grains', 'pulses', 'oilseeds', 'fruits'] as const).map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setMarketFilter(cat)}
@@ -386,7 +386,9 @@ export default function Home() {
                     ? t.market.vegetables
                     : cat === 'oilseeds'
                     ? t.market.oilseeds
-                    : t.market.pulses}
+                    : cat === 'pulses'
+                    ? t.market.pulses
+                    : 'Fruits'}
                 </button>
               ))}
             </div>

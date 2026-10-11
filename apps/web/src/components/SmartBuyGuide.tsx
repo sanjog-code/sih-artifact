@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Sparkles, TrendingDown, Clock, ShieldCheck, ShoppingCart, ArrowRight } from 'lucide-react';
+import { Sparkles, TrendingDown, Clock, ShieldCheck, ShoppingCart, ArrowRight, X } from 'lucide-react';
 import Link from 'next/link';
 
 interface SmartBuyItem {
@@ -61,9 +61,35 @@ const SMART_BUY_INSIGHTS: SmartBuyItem[] = [
     freshnessScore: 97,
     reason: 'High domestic processing demand and tight regional mandis indicate an imminent price surge.',
   },
+  {
+    crop: 'Chana (Desi Bold)',
+    category: 'Pulses',
+    currentPrice: 62,
+    expectedPriceNextWeek: 67,
+    recommendation: 'BUY_NOW',
+    urgency: 'HIGH',
+    savingsPercent: 15,
+    freshnessScore: 97,
+    reason: 'Festive buffer stocking in state depots tightening open-market wholesale availability.',
+  },
+  {
+    crop: 'Apple (Royal Delicious)',
+    category: 'Fruits',
+    currentPrice: 85,
+    expectedPriceNextWeek: 92,
+    recommendation: 'STOCK_UP',
+    urgency: 'MEDIUM',
+    savingsPercent: 20,
+    freshnessScore: 99,
+    reason: 'Direct orchard CA-vault dispatch bypassing Delhi Azadpur mandi terminal margins.',
+  },
 ];
 
-export default function SmartBuyGuide() {
+interface SmartBuyGuideProps {
+  onClose?: () => void;
+}
+
+export default function SmartBuyGuide({ onClose }: SmartBuyGuideProps = {}) {
   const [filterCat, setFilterCat] = useState<string>('all');
 
   const filtered = SMART_BUY_INSIGHTS.filter(
@@ -86,8 +112,8 @@ export default function SmartBuyGuide() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          {['all', 'Vegetables', 'Cereals', 'Oilseeds'].map((cat) => (
+        <div className="flex items-center gap-2 flex-wrap">
+          {['all', 'Vegetables', 'Cereals', 'Pulses', 'Oilseeds', 'Fruits'].map((cat) => (
             <button
               key={cat}
               type="button"
@@ -101,6 +127,16 @@ export default function SmartBuyGuide() {
               {cat === 'all' ? 'All Commodities' : cat}
             </button>
           ))}
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="p-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white transition ml-1"
+              title="Close Timing Radar"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
 

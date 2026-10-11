@@ -51,6 +51,7 @@ export default function ConsumerPortal() {
 
   // Navigation & Tabs
   const [activeTab, setActiveTab] = useState<'shop' | 'cart' | 'orders' | 'membership'>('shop');
+  const [showAiRadar, setShowAiRadar] = useState(false);
 
   // Filters & Search
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
@@ -329,6 +330,26 @@ export default function ConsumerPortal() {
                 {consumerConfig.name.replace('Consumer ', '')}
               </span>
             </button>
+
+            <button
+              onClick={() => {
+                setActiveTab('shop');
+                setShowAiRadar((prev) => !prev);
+              }}
+              className={`px-3.5 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
+                showAiRadar && activeTab === 'shop'
+                  ? 'bg-emerald-600 text-white shadow-xs font-bold'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-zinc-100'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+              <span>AI Timing Radar</span>
+              {showAiRadar && (
+                <span className="px-1.5 py-0.2 rounded-full bg-white text-emerald-900 text-[10px] font-bold">
+                  Active
+                </span>
+              )}
+            </button>
           </div>
         </div>
 
@@ -412,25 +433,26 @@ export default function ConsumerPortal() {
                 </p>
               </div>
 
-              <div className="z-10 shrink-0">
+              <div className="z-10 shrink-0 flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => {
-                    const btn = document.querySelector('button[aria-label="Open Consumer AI Shopping & Deal Advisor"]') as HTMLButtonElement | null;
-                    if (btn) btn.click();
-                  }}
+                  onClick={() => setShowAiRadar((prev) => !prev)}
                   className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-xl text-xs font-black transition flex items-center gap-1.5 shadow-lg shadow-emerald-900/40"
                 >
                   <Sparkles className="w-4 h-4 text-zinc-950" />
-                  <span>Start AI Shopping Guide</span>
+                  <span>{showAiRadar ? 'Hide AI Timing Radar' : 'Explore AI Timing Radar'}</span>
                 </button>
               </div>
 
               <div className="absolute right-0 top-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
             </div>
 
-            {/* Price Intelligence: Smart Way to Buy for Consumers */}
-            <SmartBuyGuide />
+            {/* Price Intelligence: Smart Way to Buy for Consumers - only shown when user clicks on AI */}
+            {showAiRadar && (
+              <div className="transition-all duration-300 animate-in fade-in slide-in-from-top-4">
+                <SmartBuyGuide onClose={() => setShowAiRadar(false)} />
+              </div>
+            )}
 
             {/* Filter & Search Bar */}
             <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
@@ -439,7 +461,7 @@ export default function ConsumerPortal() {
                 <span className="text-xs font-bold text-zinc-500 mr-1 flex items-center gap-1">
                   <Filter className="w-3.5 h-3.5" /> {t.consumer.filterCategory}
                 </span>
-                {['all', 'vegetables', 'grains', 'pulses', 'oilseeds'].map((cat) => (
+                {['all', 'vegetables', 'grains', 'pulses', 'oilseeds', 'fruits'].map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setCategoryFilter(cat)}

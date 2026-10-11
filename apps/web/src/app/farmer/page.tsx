@@ -41,7 +41,7 @@ import WarehouseSlotModal from '../../components/WarehouseSlotModal';
 import VoiceListingButton from '../../components/VoiceListingButton';
 import OpticalGradingChecklist from '../../components/OpticalGradingChecklist';
 import { useAlertStore, useKycStore, useWarehouseStore } from '../../lib/store';
-import { getCropMspFloor } from '../../lib/cropTaxonomy';
+import { getCropMspFloor, getCropCategory } from '../../lib/cropTaxonomy';
 import SmartListingGuide from '../../components/SmartListingGuide';
 import PriceTrajectoryChart, { TrajectoryPoint } from '../../components/PriceTrajectoryChart';
 
@@ -273,11 +273,7 @@ export default function FarmerPortal() {
       return;
     }
 
-    const cat: 'vegetables' | 'oilseeds' | 'grains' | 'pulses' =
-      commodity === 'Tomato' ? 'vegetables' :
-      commodity === 'Mustard' ? 'oilseeds' :
-      commodity === 'Wheat' ? 'grains' :
-      commodity === 'Soybean' ? 'pulses' : 'vegetables';
+    const cat = getCropCategory(commodity);
 
     const coords = farmCoordinates || geocodeAddress(farmAddress, pincode);
 
@@ -636,14 +632,20 @@ export default function FarmerPortal() {
                   <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
                     1. Select Crop / Commodity
                   </label>
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
                     {[
-                      { name: 'Tomato', label: 'Tomato (टमाटर)' },
-                      { name: 'Wheat', label: 'Wheat (गेहूं)' },
-                      { name: 'Mustard', label: 'Mustard (सरसों)' },
-                      { name: 'Soybean', label: 'Soybean (सोयाबीन)' },
-                      { name: 'Potato', label: 'Potato (आलू)' },
-                      { name: 'Onion', label: 'Onion (प्याज़)' },
+                      { name: 'Tomato', label: 'Tomato (टमाटर)', cat: 'Vegetables' },
+                      { name: 'Wheat', label: 'Wheat (गेहूं)', cat: 'Grains' },
+                      { name: 'Mustard', label: 'Mustard (सरसों)', cat: 'Oilseeds' },
+                      { name: 'Soybean', label: 'Soybean (सोयाबीन)', cat: 'Pulses' },
+                      { name: 'Potato', label: 'Potato (आलू)', cat: 'Vegetables' },
+                      { name: 'Onion', label: 'Onion (प्याज़)', cat: 'Vegetables' },
+                      { name: 'Chana', label: 'Chana (चना)', cat: 'Pulses' },
+                      { name: 'Paddy / Rice', label: 'Rice (धान)', cat: 'Grains' },
+                      { name: 'Groundnut', label: 'Groundnut (मूंगफली)', cat: 'Oilseeds' },
+                      { name: 'Apple', label: 'Apple (सेब)', cat: 'Fruits' },
+                      { name: 'Mango', label: 'Mango (आम)', cat: 'Fruits' },
+                      { name: 'Maize', label: 'Maize (मक्का)', cat: 'Grains' },
                     ].map((c) => (
                       <button
                         key={c.name}
@@ -652,13 +654,16 @@ export default function FarmerPortal() {
                           setCommodity(c.name);
                           setVariety(`Standard ${c.name} Hybrid`);
                         }}
-                        className={`p-2.5 rounded-xl border text-xs font-bold transition text-center ${
+                        className={`p-2 rounded-xl border text-xs font-bold transition text-left flex flex-col justify-between ${
                           commodity === c.name
                             ? 'bg-emerald-900 text-white border-emerald-900 shadow-sm'
                             : 'bg-zinc-50 dark:bg-zinc-800/60 border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                         }`}
                       >
-                        {c.name}
+                        <span className="truncate">{c.name}</span>
+                        <span className={`text-[9px] font-normal block ${commodity === c.name ? 'text-emerald-200' : 'text-zinc-400'}`}>
+                          {c.cat}
+                        </span>
                       </button>
                     ))}
                   </div>

@@ -494,7 +494,7 @@ export default function BuyerPortal() {
               </div>
 
               <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
-                {['all', 'vegetables', 'grains', 'oilseeds', 'pulses'].map((cat) => (
+                {['all', 'vegetables', 'grains', 'pulses', 'oilseeds', 'fruits'].map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
