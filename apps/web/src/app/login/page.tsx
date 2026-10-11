@@ -17,6 +17,7 @@ import {
   KeyRound,
   ShieldCheck,
 } from 'lucide-react';
+import BulkBuyerAiQuoteAdvisor from '../../components/BulkBuyerAiQuoteAdvisor';
 
 export type UserRole = 'farmer' | 'buyer' | 'consumer' | 'admin';
 
@@ -311,6 +312,13 @@ export default function LoginPage() {
             </p>
           </div>
         </div>
+
+        {/* Native AI Interface: Only rendered when selectedRole === 'buyer' */}
+        {selectedRole === 'buyer' && (
+          <div className="max-w-4xl mx-auto w-full transition-all duration-300">
+            <BulkBuyerAiQuoteAdvisor />
+          </div>
+        )}
       </main>
 
       <Footer />

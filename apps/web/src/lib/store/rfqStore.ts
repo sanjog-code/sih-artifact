@@ -19,6 +19,8 @@ export interface RfqItem {
   createdAt: string;
   updatedAt?: string;
   buyerName?: string;
+  frequencyPerWeek?: number;
+  cadence?: string;
 }
 
 export const INITIAL_RFQ_SEED: RfqItem[] = [
@@ -158,6 +160,8 @@ export const rfqStore = {
       notes: rfq.notes,
       createdAt: rfq.createdAt || 'Just now',
       buyerName: rfq.buyerName || 'Verified Institutional Buyer',
+      frequencyPerWeek: rfq.frequencyPerWeek,
+      cadence: rfq.cadence,
     };
 
     const updated = [newRfq, ...current];
