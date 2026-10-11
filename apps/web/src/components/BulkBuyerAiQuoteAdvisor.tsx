@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useProduceStore } from '../lib/store/produceStore';
 import { useRfqStore } from '../lib/store/rfqStore';
 import { playSoftFemaleVoice, stopAiVoice } from '../lib/ai/tts-client';
+import { getAdvisorTranslations } from '../lib/ai/multilingual-advisors';
 import {
   Building2,
   Calendar,
@@ -81,6 +82,7 @@ interface ChatMessage {
   sender: 'ai' | 'user';
   text: string;
   timestamp: string;
+  isDynamicWelcome?: boolean;
   quoteProposal?: {
     crop: string;
     volumeKg: number;
@@ -97,6 +99,7 @@ interface ChatMessage {
 
 export default function BulkBuyerAiQuoteAdvisor() {
   const { language } = useLanguage();
+  const t = getAdvisorTranslations(language);
   const { listings } = useProduceStore();
   const { submitRfq, rfqs } = useRfqStore();
 
@@ -112,12 +115,9 @@ export default function BulkBuyerAiQuoteAdvisor() {
     {
       id: 'buyer-ai-welcome',
       sender: 'ai',
-      text: `Namaste Enterprise Buyer! I am your Fasal Matrix Bulk Procurement Copilot.
-
-We eliminate multi-tier APMC broker cartels, guaranteeing verified assaying, WDRA quality checks, and scheduled recurring deliveries backed by RBI-regulated node escrows.
-
-Explore live mandi vs Fasal Matrix benchmarks below or tell me your weekly procurement needs to generate an instant institutional contract quote!`,
+      text: t.buyer.welcome,
       timestamp: 'Just now',
+      isDynamicWelcome: true,
     },
   ]);
 
@@ -129,6 +129,8 @@ Explore live mandi vs Fasal Matrix benchmarks below or tell me your weekly procu
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+
 
   // Pricing calculations
   const cropData = COMMODITIES[selectedCrop] || COMMODITIES.Wheat;

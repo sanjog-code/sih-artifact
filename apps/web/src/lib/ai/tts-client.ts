@@ -54,7 +54,7 @@ export async function playSoftFemaleVoice(
 
   const bcp47 = LANG_BCP47_MAP[languageCode] || 'hi-IN';
 
-  // 1. First attempt: High-fidelity Sarvam AI Neural TTS with soft female speaker 'pavithra'
+  // 1. First attempt: High-fidelity Neural TTS with soft female speaker 'juniper'
   try {
     const res = await fetch('/api/ai/tts', {
       method: 'POST',
@@ -62,7 +62,7 @@ export async function playSoftFemaleVoice(
       body: JSON.stringify({
         text: text.slice(0, 350),
         languageCode: bcp47,
-        speaker: 'pavithra', // Soft, articulate female persona
+        speaker: 'juniper', // Clear, soothing, warm feminine voice persona
       }),
     });
 
@@ -88,7 +88,7 @@ export async function playSoftFemaleVoice(
     // Upstream fallback
   }
 
-  // 2. Browser Web Speech Synthesis Fallback calibrated for Soft Female Tone
+  // 2. Browser Web Speech Synthesis Fallback calibrated for Soft Female Juniper Persona
   speakBrowserSpeech(text, bcp47, onEnd, onError);
 }
 
@@ -107,26 +107,34 @@ function speakBrowserSpeech(
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = bcp47;
 
-  // Parameters calibrated to sound soft, patient, and conversational
-  utterance.pitch = 1.15; // slightly elevated gentle pitch
+  // Parameters calibrated to sound soft, patient, gentle, and conversational (Juniper)
+  utterance.pitch = 1.18; // slightly elevated gentle pitch
   utterance.rate = 0.90;  // unhurried, calm tempo
   utterance.volume = 0.95;
 
-  // Search available browser voices for explicit female profiles
+  // Search available browser voices: Prioritize 'Juniper', then other high-quality female profiles
   const voices = window.speechSynthesis.getVoices();
   if (voices.length > 0) {
     const langPrefix = bcp47.slice(0, 2);
-    // Find female voice matching target language
-    const femaleVoice = voices.find(
+    // 1. Look for explicit 'Juniper' voice
+    const juniperVoice = voices.find(
+      (v) => v.name.toLowerCase().includes('juniper')
+    );
+
+    // 2. Look for female voice matching target language or high-quality female persona
+    const femaleVoice = juniperVoice || voices.find(
       (v) =>
         (v.lang.startsWith(langPrefix) || v.lang.startsWith('en')) &&
         (v.name.toLowerCase().includes('female') ||
+          v.name.toLowerCase().includes('natural') ||
           v.name.includes('Zira') ||
           v.name.includes('Shruti') ||
           v.name.includes('Heera') ||
           v.name.includes('Google') ||
           v.name.includes('Samantha') ||
-          v.name.includes('Victoria'))
+          v.name.includes('Victoria') ||
+          v.name.includes('Jenny') ||
+          v.name.includes('Aria'))
     );
 
     if (femaleVoice) {

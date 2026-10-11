@@ -38,8 +38,8 @@ export async function POST(request: NextRequest) {
     const body: SarvamTtsRequest = await request.json();
     const rawLang = body.languageCode || 'hi-IN';
     const normalizedLang = SARVAM_LANG_MAP[rawLang] || rawLang;
-    // Default to 'pavithra' (clear, soothing soft female voice) rather than harsh male/robotic tones
-    const { text, languageCode = normalizedLang, speaker = 'pavithra' } = body;
+    // Default to 'juniper' (clear, soothing, gentle feminine voice persona)
+    const { text, languageCode = normalizedLang, speaker = 'juniper' } = body;
 
     if (!text || text.trim().length === 0) {
       return NextResponse.json(
@@ -53,6 +53,8 @@ export async function POST(request: NextRequest) {
     // If live Sarvam API key is configured, invoke Sarvam AI API
     if (apiKey) {
       try {
+        // Map juniper to sarvam-supported soothing female speaker if needed
+        const sarvamSpeaker = speaker === 'juniper' ? 'pavithra' : speaker;
         const sarvamRes = await fetch('https://api.sarvam.ai/text-to-speech', {
           method: 'POST',
           headers: {
@@ -62,9 +64,9 @@ export async function POST(request: NextRequest) {
           body: JSON.stringify({
             inputs: [text.slice(0, 500)],
             target_language_code: languageCode,
-            speaker: speaker,
-            pitch: 0.2, // slightly higher gentle feminine pitch
-            pace: 0.92, // calm, articulate pace
+            speaker: sarvamSpeaker,
+            pitch: 0.25, // slightly higher gentle feminine pitch (Juniper tone)
+            pace: 0.90, // calm, articulate pace
             loudness: 0.95, // softened tone
             speech_sample_rate: 22050,
             enable_preprocessing: true,

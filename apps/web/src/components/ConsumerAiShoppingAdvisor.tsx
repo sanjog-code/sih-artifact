@@ -6,6 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { useProduceStore, ProduceLotItem } from '../lib/store/produceStore';
 import { playSoftFemaleVoice, stopAiVoice } from '../lib/ai/tts-client';
+import { getAdvisorTranslations } from '../lib/ai/multilingual-advisors';
 import {
   X,
   Volume2,
@@ -37,6 +38,7 @@ interface ChatMessage {
   sender: 'ai' | 'user';
   text: string;
   timestamp: string;
+  isDynamicWelcome?: boolean;
   suggestedLot?: ProduceLotItem;
   dealHighlights?: {
     retailPrice: number;
@@ -60,18 +62,18 @@ export default function ConsumerAiShoppingAdvisor() {
     return null;
   }
 
-  return <ConsumerChatWidget listings={listings} language={language} userIdentifier={userIdentifier} />;
+  return <ConsumerChatWidget listings={listings} language={language} _userIdentifier={userIdentifier} />;
 }
 
 function ConsumerChatWidget({
   listings,
   language,
-  userIdentifier,
 }: {
   listings: ProduceLotItem[];
   language: string;
-  userIdentifier: string | null;
+  _userIdentifier?: string | null;
 }) {
+  const t = getAdvisorTranslations(language);
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [step, setStep] = useState<'SELECT_CROP' | 'SELECT_QTY' | 'COMPLETED'>('SELECT_CROP');
@@ -82,10 +84,9 @@ function ConsumerChatWidget({
     {
       id: 'welcome',
       sender: 'ai',
-      text: `Namaste ${userIdentifier?.split(' ')[0] || 'Friend'}! I am your Fasal Matrix Personal Shopping & Deal Advisor. 
-
-I connect you directly with local farmers with 0% middleman markups. To find the freshest harvest and the best price deal, what fresh crop or produce are you looking to buy today?`,
+      text: t.consumer.welcome,
       timestamp: 'Just now',
+      isDynamicWelcome: true,
     },
   ]);
 
@@ -98,6 +99,8 @@ I connect you directly with local farmers with 0% middleman markups. To find the
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
+
+
 
   const speakTextWithSarvamTts = async (text: string) => {
     if (isPlayingAudio) {
@@ -381,7 +384,7 @@ How much quantity (kg) would you like to buy?`,
               <div className="text-xs font-extrabold flex items-center gap-1.5">
                 <span>Consumer Deal Advisor</span>
                 <span className="px-1.5 py-0.2 rounded-full bg-emerald-950 text-emerald-400 text-[9px] font-mono border border-emerald-800">
-                  0% Markup AI
+                  Voice: Juniper Active
                 </span>
               </div>
               <div className="text-[10px] text-zinc-400">

@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { useProduceStore } from '../lib/store/produceStore';
 import { playSoftFemaleVoice, stopAiVoice } from '../lib/ai/tts-client';
+import { getAdvisorTranslations } from '../lib/ai/multilingual-advisors';
 import {
   X,
   Volume2,
@@ -31,6 +32,7 @@ interface ChatMessage {
   sender: 'ai' | 'user';
   text: string;
   timestamp: string;
+  isDynamicWelcome?: boolean;
   listingSuggestion?: {
     cropName: string;
     variety: string;
@@ -161,6 +163,8 @@ function FarmerAiListingAdvisorContent({
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
 
+  const t = getAdvisorTranslations(language);
+
   // Guided conversation state
   const [stage, setStage] = useState<'CROP' | 'HARVEST_TIME' | 'QUANTITY' | 'RECOMMENDATION' | 'DONE'>('CROP');
   const [crop, setCrop] = useState<string>('Wheat');
@@ -171,12 +175,9 @@ function FarmerAiListingAdvisorContent({
     {
       id: 'farmer-welcome',
       sender: 'ai',
-      text: `Namaste Kisan Bhai! I am your Fasal Matrix Farming & Listing Advisor. 
-
-I will help you pick the best crop, recommend ideal post-harvest practices and equipment, calculate your benchmark platform price, and list your lot for verified buyers with 0% middleman brokerage.
-
-Which crop are you harvesting or planning to list today?`,
+      text: t.farmer.welcome,
       timestamp: 'Just now',
+      isDynamicWelcome: true,
     },
   ]);
 
@@ -189,6 +190,8 @@ Which crop are you harvesting or planning to list today?`,
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, stage]);
+
+
 
   const speakTextWithSarvamTts = async (text: string) => {
     if (isPlayingAudio) {
@@ -224,9 +227,7 @@ Which crop are you harvesting or planning to list today?`,
       const aiMsg: ChatMessage = {
         id: createMsgId('ai-timing'),
         sender: 'ai',
-        text: `Excellent selection! ${cropName} is in high demand on Fasal Matrix right now. 
-
-When was this crop harvested or when is your expected harvest date?`,
+        text: `${t.farmer.timingPrompt} (${cropName})`,
         timestamp: 'Just now',
       };
       setMessages((prev) => [...prev, aiMsg]);
@@ -251,7 +252,7 @@ When was this crop harvested or when is your expected harvest date?`,
       const aiMsg: ChatMessage = {
         id: createMsgId('ai-qty'),
         sender: 'ai',
-        text: `Got it. How much quantity (in kilograms or quintals) do you want to list for direct buyer purchase?`,
+        text: t.farmer.quantityPrompt,
         timestamp: 'Just now',
       };
       setMessages((prev) => [...prev, aiMsg]);
@@ -285,7 +286,7 @@ When was this crop harvested or when is your expected harvest date?`,
 2. Why you should list right now: ${cropData.urgencyReason}
 3. Recommended Farming Practices:
 ${cropData.practices.map((p) => `• ${p}`).join('\n')}
-4. Recommended Equipment & Implements:
+4. {t.farmer.implementsTitle}:
 ${cropData.implements.map((i) => `• ${i}`).join('\n')}
 
 Would you like to publish this lot directly to the verified marketplace now?`,
@@ -424,7 +425,7 @@ Verified buyers can now place purchase orders or bid with guaranteed T+1 escrow 
               <div className="text-xs font-extrabold flex items-center gap-1.5">
                 <span>Fasal Matrix Kisan Advisor</span>
                 <span className="px-1.5 py-0.2 rounded-full bg-emerald-900 text-emerald-300 text-[9px] font-mono border border-emerald-700">
-                  Sarvam Voice Active
+                  Voice: Juniper Active
                 </span>
               </div>
               <div className="text-[10px] text-emerald-300">
@@ -516,7 +517,7 @@ Verified buyers can now place purchase orders or bid with guaranteed T+1 escrow 
                             className="w-full mt-2 py-2 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold flex items-center justify-center gap-1.5 shadow-xs transition"
                           >
                             <PlusCircle className="w-4 h-4" />
-                            <span>1-Click Publish Lot to Marketplace</span>
+                            <span>1-Click {t.farmer.confirmListingBtn}</span>
                           </button>
                         )}
                       </div>
@@ -570,7 +571,7 @@ Verified buyers can now place purchase orders or bid with guaranteed T+1 escrow 
                   Select harvest timing:
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
-                  {['Harvested Today (Fresh)', '1–2 Days Ago (Cured)', 'Harvest in 24–48 Hours'].map((tVal) => (
+                  {[t.farmer.timings.fresh, t.farmer.timings.days2_3, t.farmer.timings.week1].map((tVal) => (
                     <button
                       key={tVal}
                       type="button"
@@ -653,7 +654,7 @@ Verified buyers can now place purchase orders or bid with guaranteed T+1 escrow 
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder="Ask about practices, implements, MSP, or pricing..."
+                placeholder={t.farmer.inputPlaceholder}
                 className="flex-1 px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-1 focus:ring-emerald-500"
               />
               <button
