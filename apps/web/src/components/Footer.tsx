@@ -6,6 +6,8 @@ import { useLanguage, LANGUAGES, LanguageCode } from '../context/LanguageContext
 import { useAuth, UserRole } from '../context/AuthContext';
 import { Sprout, Phone, Mail, ShieldCheck, Lock } from 'lucide-react';
 
+import BrandLogo from './BrandLogo';
+
 export default function Footer() {
   const { language, setLanguage, t } = useLanguage();
   const { role, isAuthenticated } = useAuth();
@@ -25,18 +27,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Brand & Overview (col-span-4) */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-4">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold shadow-xs">
-                <Sprout className="w-4 h-4 text-white" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-base font-extrabold text-white tracking-tight leading-tight">
-                  {t.nav.brand}
-                </span>
-                <span className="text-[10px] font-mono uppercase text-emerald-400 font-semibold tracking-wider">
-                  {t.nav.tagline}
-                </span>
-              </div>
+            <Link href="/" className="group inline-block">
+              <BrandLogo size="lg" />
             </Link>
 
             <p className="text-zinc-400 leading-relaxed text-xs max-w-sm">

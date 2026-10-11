@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Home, Search, Compass } from 'lucide-react';
 import type { Metadata } from 'next';
+import BrandLogo from '../components/BrandLogo';
 
 export const metadata: Metadata = {
   title: 'Page Not Found  -  404 | Fasal Matrix',
@@ -74,6 +75,10 @@ export default function NotFound() {
         />
 
         <div className="relative z-10 max-w-xl">
+          <div className="mb-6">
+            <BrandLogo size="lg" />
+          </div>
+
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-semibold mb-4">
             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
             <span>Error 404 • Lost in the Fields</span>

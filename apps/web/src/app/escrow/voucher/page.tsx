@@ -17,6 +17,7 @@ import {
   Copy,
   FileText,
 } from 'lucide-react';
+import BrandLogo from '../../../components/BrandLogo';
 
 export default function EscrowVoucherPage() {
   const { orders } = useOrderStore();
@@ -141,15 +142,13 @@ export default function EscrowVoucherPage() {
           {/* Certificate Header */}
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-6 border-b-2 border-emerald-600 dark:border-emerald-500 print:border-emerald-700">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xl sm:text-2xl font-black text-emerald-700 dark:text-emerald-400 print:text-emerald-800 tracking-tight">
-                  FASAL MATRIX
-                </span>
+              <div className="flex items-center gap-3">
+                <BrandLogo size="md" showTagline={false} />
                 <span className="px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 print:border print:border-emerald-700 text-[10px] font-mono font-bold uppercase">
                   Nodal Escrow Depository
                 </span>
               </div>
-              <p className="text-xs text-zinc-500 print:text-zinc-600 mt-1 font-mono">
+              <p className="text-xs text-zinc-500 print:text-zinc-600 mt-1.5 font-mono">
                 Reserve Bank of India (RBI) Section 23A Nodal Account Regulatory Clearing
               </p>
             </div>

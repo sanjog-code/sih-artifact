@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, RotateCcw, Home, Compass, ShieldAlert } from 'lucide-react';
+import BrandLogo from '../components/BrandLogo';
 
 export default function ErrorBoundary({
   error,
@@ -81,6 +82,10 @@ export default function ErrorBoundary({
         />
 
         <div className="relative z-10 max-w-xl">
+          <div className="mb-6">
+            <BrandLogo size="lg" />
+          </div>
+
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800/80 text-red-800 dark:text-red-300 text-xs font-semibold mb-4">
             <span className="w-2 h-2 rounded-full bg-red-500"></span>
             <span>System Notice • Telemetry Error Guard</span>

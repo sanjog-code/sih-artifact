@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useLanguage, LANGUAGES, LanguageCode } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
+import BrandLogo from './BrandLogo';
 import {
   Languages,
   Menu,
@@ -58,18 +59,8 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 flex items-center justify-center font-bold text-sm tracking-tighter group-hover:bg-emerald-800 dark:group-hover:bg-emerald-500 transition">
-              <Sprout className="w-4 h-4 text-emerald-400 dark:text-emerald-700" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-900 dark:group-hover:text-emerald-400 transition">
-                {t?.nav?.brand || 'Fasal Matrix'}
-              </span>
-              <span className="text-[10px] text-zinc-600 dark:text-zinc-400 font-mono tracking-wider uppercase -mt-1 hidden sm:block">
-                {t?.nav?.tagline || 'Direct Agrarian Network'}
-              </span>
-            </div>
+          <Link href="/" className="group shrink-0">
+            <BrandLogo size="md" priority />
           </Link>
 
           {/* Desktop Navigation: STRICT ROLE-BASED VISIBILITY */}
