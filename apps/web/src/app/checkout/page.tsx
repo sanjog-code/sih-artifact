@@ -218,7 +218,7 @@ export default function CheckoutPage() {
 
         {/* ORDER CONFIRMED VIEW */}
         {orderConfirmed ? (
-          <div className="max-w-2xl mx-auto backdrop-blur-2xl bg-white dark:bg-zinc-900/80 dark:bg-zinc-900/80 border border-emerald-500/30 dark:border-emerald-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden text-center">
+          <div className="max-w-2xl mx-auto backdrop-blur-2xl bg-white dark:bg-zinc-900/80 border border-emerald-500/30 dark:border-emerald-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden text-center">
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600"></div>
 
             <div className="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-950/70 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 flex items-center justify-center mx-auto mb-4">
@@ -232,7 +232,7 @@ export default function CheckoutPage() {
               Funds are securely locked in nodal escrow. Producer payout releases upon verified gate receipt.
             </p>
 
-            <div className="mt-6 p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900/60/90 dark:bg-zinc-950/70 border border-zinc-200/80 dark:border-zinc-800 text-left font-mono text-xs space-y-2">
+            <div className="mt-6 p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-zinc-800 text-left font-mono text-xs space-y-2">
               <div className="flex justify-between items-center pb-2 border-b border-zinc-200 dark:border-zinc-800">
                 <span className="text-zinc-500">Order Reference</span>
                 <span className="font-bold text-emerald-700 dark:text-emerald-400">{confirmedOrderId}</span>
@@ -254,7 +254,7 @@ export default function CheckoutPage() {
             <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 href="/consumer"
-                className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-white dark:bg-zinc-900 text-white dark:text-zinc-900 text-xs font-bold transition shadow-md flex items-center justify-center gap-2"
+                className="px-5 py-2.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-bold transition shadow-md flex items-center justify-center gap-2"
               >
                 <span>Back to Marketplace</span>
               </Link>
@@ -272,7 +272,7 @@ export default function CheckoutPage() {
             {/* LEFT COLUMN: Cart Breakdown & Delivery Info */}
             <div className="lg:col-span-7 space-y-6">
               {/* Glass Item Breakdown Card */}
-              <div className="backdrop-blur-xl bg-white dark:bg-zinc-900/70 dark:bg-zinc-900/70 border border-white/80 dark:border-zinc-800/80 rounded-2xl p-5 sm:p-6 shadow-xl transition-all">
+              <div className="backdrop-blur-xl bg-white dark:bg-zinc-900/70 border border-white/80 dark:border-zinc-800/80 rounded-2xl p-5 sm:p-6 shadow-xl transition-all">
                 <div className="flex items-center justify-between pb-4 border-b border-zinc-200/60 dark:border-zinc-800/60">
                   <div className="flex items-center gap-2.5">
                     <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
@@ -339,7 +339,7 @@ export default function CheckoutPage() {
 
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-3">
-                          <div className="flex items-center border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900/80 dark:bg-zinc-950/80 backdrop-blur-sm">
+                          <div className="flex items-center border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900/80 backdrop-blur-sm">
                             <button
                               type="button"
                               onClick={() => handleUpdateQty(lot.id, -1)}
@@ -382,7 +382,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Delivery Address & Contact Glass Form */}
-              <div className="backdrop-blur-xl bg-white dark:bg-zinc-900/70 dark:bg-zinc-900/70 border border-white/80 dark:border-zinc-800/80 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
+              <div className="backdrop-blur-xl bg-white dark:bg-zinc-900/70 border border-white/80 dark:border-zinc-800/80 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
                 <div className="flex items-center gap-2.5 pb-3 border-b border-zinc-200/60 dark:border-zinc-800/60">
                   <div className="p-2 rounded-lg bg-teal-500/10 text-teal-700 dark:text-teal-400">
                     <Truck className="w-4 h-4" />
@@ -406,7 +406,7 @@ export default function CheckoutPage() {
                       type="text"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 dark:bg-zinc-950/90 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                       required
                     />
                   </div>
@@ -419,7 +419,7 @@ export default function CheckoutPage() {
                       type="text"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 dark:bg-zinc-950/90 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                       required
                     />
                   </div>
@@ -434,7 +434,7 @@ export default function CheckoutPage() {
                       type="text"
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 dark:bg-zinc-950/90 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                       required
                     />
                   </div>
@@ -447,7 +447,7 @@ export default function CheckoutPage() {
                       type="text"
                       value={pincode}
                       onChange={(e) => setPincode(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 dark:bg-zinc-950/90 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                       required
                     />
                   </div>
@@ -461,13 +461,13 @@ export default function CheckoutPage() {
                     type="text"
                     value={deliveryNotes}
                     onChange={(e) => setDeliveryNotes(e.target.value)}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 dark:bg-zinc-950/90 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                   />
                 </div>
               </div>
 
               {/* Payment Method Selector */}
-              <div className="backdrop-blur-xl bg-white dark:bg-zinc-900/70 dark:bg-zinc-900/70 border border-white/80 dark:border-zinc-800/80 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3.5">
+              <div className="backdrop-blur-xl bg-white dark:bg-zinc-900/70 border border-white/80 dark:border-zinc-800/80 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3.5">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200">
                   Select Nodal Escrow Payment Channel
                 </h3>
@@ -534,7 +534,7 @@ export default function CheckoutPage() {
 
             {/* RIGHT COLUMN: Escrow Financial Summary (Sticky Glass Card) */}
             <div className="lg:col-span-5 sticky top-24 space-y-4">
-              <div className="backdrop-blur-2xl bg-white dark:bg-zinc-900/80 dark:bg-zinc-900/80 border border-white/90 dark:border-zinc-800 rounded-2xl p-6 shadow-2xl space-y-5">
+              <div className="backdrop-blur-2xl bg-white dark:bg-zinc-900/80 border border-white/90 dark:border-zinc-800 rounded-2xl p-6 shadow-2xl space-y-5">
                 <div className="flex items-center justify-between pb-3.5 border-b border-zinc-200/70 dark:border-zinc-800/70">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
@@ -585,7 +585,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Trust Badges */}
-                <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/60/90 dark:bg-zinc-950/60 border border-zinc-200/60 dark:border-zinc-800 text-[11px] text-zinc-600 dark:text-zinc-400 space-y-1.5">
+                <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200/60 dark:border-zinc-800 text-[11px] text-zinc-600 dark:text-zinc-400 space-y-1.5">
                   <div className="flex items-center gap-2">
                     <BadgeCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                     <span>100% of commodity price transfers directly to grower</span>
@@ -605,7 +605,7 @@ export default function CheckoutPage() {
                   type="button"
                   disabled={cartItems.length === 0}
                   onClick={() => setIsConfirming(true)}
-                  className="w-full py-3 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-white dark:bg-zinc-900 text-white dark:text-zinc-900 font-bold text-xs uppercase tracking-wider transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   <Lock className="w-4 h-4 text-emerald-400 dark:text-emerald-600" />
                   <span>Proceed to Escrow Lock</span>

@@ -224,7 +224,7 @@ export default function FarmerPortal() {
       <RoleGuard allowedRoles={['farmer']} portalName="Farmer Hub">
         <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         {/* Header Breadcrumb & Accreditation Banner */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-zinc-200">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-zinc-200 dark:border-zinc-800">
           <div>
             <div className="flex items-center gap-2 text-xs text-zinc-500 mb-1">
               <Link href="/" className="hover:text-zinc-900 dark:text-zinc-100 transition">{t.common.overview}</Link>
@@ -244,7 +244,7 @@ export default function FarmerPortal() {
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
               <span>WDRA & PM-KISAN Verified</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-mono font-medium border border-zinc-200">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-mono font-medium border border-zinc-200 dark:border-zinc-800">
               <IndianRupee className="w-3.5 h-3.5 text-zinc-600 dark:text-zinc-400" />
               <span>Escrow: ₹{walletBalance.toLocaleString('en-IN')}</span>
             </span>
@@ -260,7 +260,7 @@ export default function FarmerPortal() {
         )}
 
         {/* Navigation Tabs Bar */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-2 mb-6 border-b border-zinc-200 scrollbar-none">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-2 mb-6 border-b border-zinc-200 dark:border-zinc-800 scrollbar-none">
           {[
             { id: 'overview', label: 'Overview', icon: LayoutDashboard },
             { id: 'sell', label: 'List Harvest', icon: PlusCircle },
@@ -282,7 +282,7 @@ export default function FarmerPortal() {
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border ${
                   isActive
                     ? 'bg-zinc-900 text-white border-zinc-900 shadow-xs'
-                    : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 hover:text-zinc-900 dark:text-zinc-100'
+                    : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:text-zinc-100'
                 }`}
               >
                 <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-400' : 'text-zinc-500'}`} />
@@ -430,7 +430,7 @@ export default function FarmerPortal() {
                     <button
                       type="button"
                       onClick={() => setActiveTab('sell')}
-                      className="w-full text-left p-3 rounded-xl border border-zinc-200 hover:border-emerald-300 hover:bg-emerald-50/30 transition flex items-center justify-between"
+                      className="w-full text-left p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 hover:bg-emerald-50/30 transition flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2.5">
                         <PlusCircle className="w-4 h-4 text-emerald-700" />
@@ -445,7 +445,7 @@ export default function FarmerPortal() {
                     <button
                       type="button"
                       onClick={() => setActiveTab('orders')}
-                      className="w-full text-left p-3 rounded-xl border border-zinc-200 hover:border-emerald-300 hover:bg-emerald-50/30 transition flex items-center justify-between"
+                      className="w-full text-left p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 hover:bg-emerald-50/30 transition flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2.5">
                         <PackageCheck className="w-4 h-4 text-emerald-700" />
@@ -460,7 +460,7 @@ export default function FarmerPortal() {
                     <button
                       type="button"
                       onClick={() => setActiveTab('forecast')}
-                      className="w-full text-left p-3 rounded-xl border border-zinc-200 hover:border-emerald-300 hover:bg-emerald-50/30 transition flex items-center justify-between"
+                      className="w-full text-left p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 hover:bg-emerald-50/30 transition flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2.5">
                         <TrendingUp className="w-4 h-4 text-emerald-700" />
@@ -475,7 +475,7 @@ export default function FarmerPortal() {
                     <button
                       type="button"
                       onClick={() => setActiveTab('payments')}
-                      className="w-full text-left p-3 rounded-xl border border-zinc-200 hover:border-emerald-300 hover:bg-emerald-50/30 transition flex items-center justify-between"
+                      className="w-full text-left p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 hover:bg-emerald-50/30 transition flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2.5">
                         <IndianRupee className="w-4 h-4 text-emerald-700" />
@@ -540,7 +540,7 @@ export default function FarmerPortal() {
                         className={`p-2.5 rounded-xl border text-xs font-bold transition text-center ${
                           commodity === c.name
                             ? 'bg-emerald-900 text-white border-emerald-900 shadow-sm'
-                            : 'bg-zinc-50 dark:bg-zinc-900/60 border-zinc-200 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800'
+                            : 'bg-zinc-50 dark:bg-zinc-800/60 border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                         }`}
                       >
                         {c.name}
@@ -574,7 +574,7 @@ export default function FarmerPortal() {
                     step={50}
                     value={quantity}
                     onChange={(e) => setQuantity(Number(e.target.value))}
-                    className="w-full text-sm p-3 border border-zinc-200 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 font-mono font-bold text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    className="w-full text-sm p-3 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 font-mono font-bold text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                     required
                   />
                 </div>
@@ -597,7 +597,7 @@ export default function FarmerPortal() {
                         className={`p-3 rounded-xl border text-left transition ${
                           grade === g.id
                             ? 'bg-emerald-50 border-emerald-600 text-emerald-950 ring-1 ring-emerald-600'
-                            : 'bg-zinc-50 dark:bg-zinc-900/60 border-zinc-200 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800'
+                            : 'bg-zinc-50 dark:bg-zinc-800/60 border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                         }`}
                       >
                         <div className="font-extrabold text-xs">{g.title}</div>
@@ -630,7 +630,7 @@ export default function FarmerPortal() {
                     min={5}
                     value={price}
                     onChange={(e) => setPrice(Number(e.target.value))}
-                    className="w-full text-sm p-3 border border-zinc-200 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 font-mono font-bold text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    className="w-full text-sm p-3 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 font-mono font-bold text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                     required
                   />
                   {aiData && (
@@ -688,7 +688,7 @@ export default function FarmerPortal() {
             </div>
 
             {produceListings.length === 0 ? (
-              <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 p-12 text-center text-zinc-500">
+              <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-12 text-center text-zinc-500">
                 <Sprout className="w-8 h-8 mx-auto text-zinc-300 mb-2" />
                 <p className="text-xs">{t.farmer.declareSubtitle}</p>
               </div>
@@ -700,7 +700,7 @@ export default function FarmerPortal() {
                     <div
                       key={lot.id}
                       className={`bg-white dark:bg-zinc-900 rounded-2xl border p-5 shadow-xs transition flex flex-col justify-between ${
-                        isPaused ? 'border-amber-200 bg-amber-50/20 opacity-80' : 'border-zinc-200 hover:border-zinc-300'
+                        isPaused ? 'border-amber-200 dark:border-amber-800/60 bg-amber-50/20 opacity-80' : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700'
                       }`}
                     >
                       <div>
@@ -757,7 +757,7 @@ export default function FarmerPortal() {
                           className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition border ${
                             isPaused
                               ? 'bg-emerald-50 text-emerald-900 border-emerald-200 hover:bg-emerald-100'
-                              : 'bg-zinc-50 dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800'
+                              : 'bg-zinc-50 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                           }`}
                         >
                           {isPaused ? <PlayCircle className="w-3.5 h-3.5 text-emerald-700" /> : <PauseCircle className="w-3.5 h-3.5 text-amber-700" />}
@@ -771,7 +771,7 @@ export default function FarmerPortal() {
                             setNotice(`Listing ${lot.id} removed from active marketplace.`);
                             setTimeout(() => setNotice(null), 3000);
                           }}
-                          className="p-1.5 rounded-lg border border-zinc-200 text-zinc-400 hover:text-red-600 hover:bg-red-50 hover:border-red-200 transition"
+                          className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-red-600 hover:bg-red-50 hover:border-red-200 transition"
                           title="Delete lot declaration"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -839,7 +839,7 @@ export default function FarmerPortal() {
                       </div>
                     </div>
 
-                    <p className="text-[11px] text-zinc-500 mt-3 p-2 bg-zinc-50 dark:bg-zinc-900/60 rounded-lg border border-zinc-100">
+                    <p className="text-[11px] text-zinc-500 mt-3 p-2 bg-zinc-50 dark:bg-zinc-900/60 rounded-lg border border-zinc-200 dark:border-zinc-800">
                       <strong>Specs:</strong> {req.specs}
                     </p>
                   </div>
@@ -864,7 +864,7 @@ export default function FarmerPortal() {
             {/* Submit Offer Modal */}
             {selectedReq && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-                <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 p-6 max-w-md w-full shadow-2xl space-y-4">
+                <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 max-w-md w-full shadow-2xl space-y-4">
                   <div className="flex items-center justify-between pb-2 border-b border-zinc-100 dark:border-zinc-800">
                     <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">
                       Submit Offer to {selectedReq.buyer}
@@ -893,7 +893,7 @@ export default function FarmerPortal() {
                         step={100}
                         value={offerVolume}
                         onChange={(e) => setOfferVolume(Number(e.target.value))}
-                        className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-mono text-zinc-900 dark:text-zinc-100"
+                        className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-mono text-zinc-900 dark:text-zinc-100"
                         required
                       />
                     </div>
@@ -908,7 +908,7 @@ export default function FarmerPortal() {
                         min={10}
                         value={offerRate}
                         onChange={(e) => setOfferRate(Number(e.target.value))}
-                        className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-mono text-zinc-900 dark:text-zinc-100"
+                        className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-mono text-zinc-900 dark:text-zinc-100"
                         required
                       />
                     </div>
@@ -930,7 +930,7 @@ export default function FarmerPortal() {
                       <button
                         type="button"
                         onClick={() => setSelectedReq(null)}
-                        className="py-2.5 px-4 border border-zinc-200 rounded-xl text-xs font-semibold text-zinc-700 dark:text-zinc-300"
+                        className="py-2.5 px-4 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs font-semibold text-zinc-700 dark:text-zinc-300"
                       >
                         Cancel
                       </button>
@@ -957,7 +957,7 @@ export default function FarmerPortal() {
             </div>
 
             {orders.length === 0 ? (
-              <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 p-12 text-center text-zinc-500">
+              <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-12 text-center text-zinc-500">
                 <PackageCheck className="w-8 h-8 mx-auto text-zinc-300 mb-2" />
                 <p className="text-xs">No active orders placed yet.</p>
               </div>
@@ -1042,7 +1042,7 @@ export default function FarmerPortal() {
                 <button
                   type="button"
                   onClick={() => fetchAiAdvisory(commodity)}
-                  className="px-3.5 py-1.5 rounded-xl border border-zinc-200 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 transition text-xs font-semibold flex items-center gap-1.5 self-start"
+                  className="px-3.5 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 transition text-xs font-semibold flex items-center gap-1.5 self-start"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${loadingAi ? 'animate-spin' : ''}`} />
                   <span>Recalibrate Forecast</span>
@@ -1059,7 +1059,7 @@ export default function FarmerPortal() {
                     className={`p-3 rounded-xl border text-xs font-bold transition text-center ${
                       commodity === crop
                         ? 'bg-zinc-900 text-white border-zinc-900 shadow-xs'
-                        : 'bg-zinc-50 dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800'
+                        : 'bg-zinc-50 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                     }`}
                   >
                     {crop}
@@ -1107,7 +1107,7 @@ export default function FarmerPortal() {
                     </h3>
                     <div className="space-y-2">
                       {aiData.factors?.map((f, i) => (
-                        <div key={i} className="p-3 bg-zinc-50 dark:bg-zinc-900/60 rounded-xl border border-zinc-200 text-xs text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <div key={i} className="p-3 bg-zinc-50 dark:bg-zinc-900/60 rounded-xl border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
                           <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                           <span>{f}</span>
                         </div>
@@ -1236,7 +1236,7 @@ export default function FarmerPortal() {
               {/* Linked Bank Account Card */}
               <div className="p-4 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl flex items-center justify-between mb-6 text-xs text-zinc-700 dark:text-zinc-300">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 text-zinc-900 dark:text-zinc-100 flex items-center justify-center font-bold">
+                  <div className="w-9 h-9 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 flex items-center justify-center font-bold">
                     SBI
                   </div>
                   <div>
@@ -1262,7 +1262,7 @@ export default function FarmerPortal() {
                   ].map((tx) => (
                     <div
                       key={tx.id}
-                      className="p-3.5 bg-white dark:bg-zinc-900 border border-zinc-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
+                      className="p-3.5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
                     >
                       <div>
                         <div className="font-bold text-zinc-950 dark:text-zinc-50">{tx.lot}</div>

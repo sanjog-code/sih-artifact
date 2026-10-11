@@ -165,7 +165,7 @@ export default function LogisticsPortal() {
                     className={`w-full p-3 rounded-xl border text-left transition flex items-center justify-between ${
                       vehicle === v.id
                         ? 'bg-zinc-900 text-white border-zinc-900 font-semibold shadow-xs'
-                        : 'bg-zinc-50 text-zinc-700 dark:text-zinc-300 border-zinc-200 hover:bg-zinc-100'
+                        : 'bg-zinc-50 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700'
                     }`}
                   >
                     <div>
@@ -340,7 +340,7 @@ export default function LogisticsPortal() {
                 {dispatches.map((disp) => (
                   <div
                     key={disp.id}
-                    className="p-3.5 rounded-xl border border-zinc-200 bg-zinc-50/70 dark:bg-zinc-900/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                    className="p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-900/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">

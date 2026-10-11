@@ -415,7 +415,7 @@ export default function ConsumerPortal() {
                     className={`text-xs px-3 py-1.5 rounded-lg capitalize transition border ${
                       categoryFilter === cat
                         ? 'bg-zinc-900 text-white border-zinc-900 font-semibold'
-                        : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60'
+                        : 'bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800'
                     }`}
                   >
                     {cat}
@@ -446,7 +446,7 @@ export default function ConsumerPortal() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder={t.consumer.searchPlaceholder}
-                    className="w-full pl-8 pr-3 py-1.5 text-xs border border-zinc-200 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 focus:outline-none focus:ring-1 focus:ring-emerald-600 text-zinc-900 dark:text-zinc-100"
+                    className="w-full pl-8 pr-3 py-1.5 text-xs border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 focus:outline-none focus:ring-1 focus:ring-emerald-600 text-zinc-900 dark:text-zinc-100"
                   />
                 </div>
               </div>
@@ -536,7 +536,7 @@ export default function ConsumerPortal() {
                             <button
                               type="button"
                               onClick={() => handleUpdateCartQty(lot.id, -1)}
-                              className="w-7 h-7 rounded bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800 font-bold"
+                              className="w-7 h-7 rounded bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 font-bold"
                             >
                               <Minus className="w-3.5 h-3.5" />
                             </button>
@@ -547,7 +547,7 @@ export default function ConsumerPortal() {
                               type="button"
                               onClick={() => handleUpdateCartQty(lot.id, 1)}
                               disabled={inCartQty >= lot.quantityKg}
-                              className="w-7 h-7 rounded bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 flex items-center justify-center hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800 font-bold disabled:opacity-50"
+                              className="w-7 h-7 rounded bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 font-bold disabled:opacity-50"
                             >
                               <Plus className="w-3.5 h-3.5" />
                             </button>
@@ -615,7 +615,7 @@ export default function ConsumerPortal() {
                     {cartItems.map((item) => (
                       <div
                         key={item.lotId}
-                        className="flex items-center justify-between p-3 rounded-lg border border-zinc-100 bg-zinc-50 dark:bg-zinc-900/60/70 dark:bg-zinc-900/50"
+                        className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60"
                       >
                         <div className="flex-1 mr-3">
                           <div className="flex items-center gap-2">
@@ -635,7 +635,7 @@ export default function ConsumerPortal() {
                             <button
                               type="button"
                               onClick={() => handleUpdateCartQty(item.lotId, -1)}
-                              className="px-2 py-1 text-xs hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold"
+                              className="px-2 py-1 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400 font-bold"
                             >
                               -
                             </button>
@@ -646,7 +646,7 @@ export default function ConsumerPortal() {
                               type="button"
                               onClick={() => handleUpdateCartQty(item.lotId, 1)}
                               disabled={item.quantityKg >= item.availableKg}
-                              className="px-2 py-1 text-xs hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold disabled:opacity-40"
+                              className="px-2 py-1 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400 font-bold disabled:opacity-40"
                             >
                               +
                             </button>
@@ -756,7 +756,7 @@ export default function ConsumerPortal() {
                         className={`p-2 rounded-lg border text-left font-semibold transition ${
                           paymentMethod === 'ESCROW_UPI'
                             ? 'bg-emerald-50/80 border-emerald-500 text-emerald-950'
-                            : 'bg-zinc-50 dark:bg-zinc-900/60 border-zinc-200 text-zinc-700 dark:text-zinc-300'
+                            : 'bg-zinc-50 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300'
                         }`}
                       >
                         {t.consumer.methodUpi}
@@ -767,7 +767,7 @@ export default function ConsumerPortal() {
                         className={`p-2 rounded-lg border text-left font-semibold transition ${
                           paymentMethod === 'ESCROW_CARD'
                             ? 'bg-emerald-50/80 border-emerald-500 text-emerald-950'
-                            : 'bg-zinc-50 dark:bg-zinc-900/60 border-zinc-200 text-zinc-700 dark:text-zinc-300'
+                            : 'bg-zinc-50 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300'
                         }`}
                       >
                         {t.consumer.methodCard}
@@ -809,7 +809,7 @@ export default function ConsumerPortal() {
                 {/* Step Modal: Confirmation before payment / lock */}
                 {showConfirmModal && (
                   <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/60 backdrop-blur-sm">
-                    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 max-w-lg w-full p-6 shadow-2xl space-y-4">
+                    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 max-w-lg w-full p-6 shadow-2xl space-y-4">
                       <div className="flex items-center justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800">
                         <div className="flex items-center gap-2">
                           <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
@@ -855,7 +855,7 @@ export default function ConsumerPortal() {
                         {cartItems.map((item) => (
                           <div
                             key={item.lotId}
-                            className="flex items-center justify-between p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-100 text-xs"
+                            className="flex items-center justify-between p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-xs"
                           >
                             <div>
                               <span className="font-bold text-zinc-900 dark:text-zinc-100 mr-1.5">{item.cropName}</span>
@@ -889,7 +889,7 @@ export default function ConsumerPortal() {
                           <span>Direct-to-Farmer Middleman Markup:</span>
                           <span className="font-mono font-bold">₹0 (Zero Commission)</span>
                         </div>
-                        <div className="flex justify-between text-base font-extrabold text-zinc-950 dark:text-zinc-50 pt-2 border-t border-zinc-200">
+                        <div className="flex justify-between text-base font-extrabold text-zinc-950 dark:text-zinc-50 pt-2 border-t border-zinc-200 dark:border-zinc-800">
                           <span>Total Escrow Amount:</span>
                           <span className="font-mono text-emerald-900">
                             ₹{totalPayable.toLocaleString('en-IN')}
@@ -997,7 +997,7 @@ export default function ConsumerPortal() {
                         </div>
 
                         {/* Order Description & Delivery Info */}
-                        <div className="bg-zinc-50 dark:bg-zinc-900/60/80 dark:bg-zinc-900/50 rounded-lg p-3 text-xs text-zinc-700 dark:text-zinc-300 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        <div className="bg-zinc-50 dark:bg-zinc-900/60 rounded-lg p-3 text-xs text-zinc-700 dark:text-zinc-300 flex flex-col md:flex-row md:items-center justify-between gap-3">
                           <div>
                             <div className="font-semibold text-zinc-900 dark:text-zinc-100">{order.items}</div>
                             <div className="text-[11px] text-zinc-500 mt-0.5">
@@ -1006,7 +1006,7 @@ export default function ConsumerPortal() {
                           </div>
 
                           {order.trackingId && (
-                            <div className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 bg-white dark:bg-zinc-900 border border-zinc-200 px-2.5 py-1 rounded-md self-start md:self-auto">
+                            <div className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-2.5 py-1 rounded-md self-start md:self-auto">
                               {t.consumer.trackingId.replace('{id}', order.trackingId)}
                             </div>
                           )}

@@ -202,15 +202,15 @@ export default function Home() {
             <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
               <a
                 href="#marketplace"
-                className="px-6 py-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-white dark:bg-zinc-900 text-white dark:text-zinc-900 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 shadow-xs"
+                className="px-6 py-3 bg-zinc-950 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 shadow-sm"
               >
                 <span>{t.hero.exploreMarket}</span>
-                <ArrowRight className="w-4 h-4 text-zinc-400 dark:text-zinc-600" />
+                <ArrowRight className="w-4 h-4 text-zinc-400 dark:text-zinc-300" />
               </a>
 
               <a
                 href="#advisory"
-                className="px-6 py-3 bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 text-zinc-800 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700 rounded-xl text-xs sm:text-sm font-semibold transition"
+                className="px-6 py-3 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-zinc-300 dark:border-zinc-700 rounded-xl text-xs sm:text-sm font-bold transition shadow-xs"
               >
                 {t.hero.calculatePrice}
               </a>
@@ -269,36 +269,36 @@ export default function Home() {
             </div>
 
             {/* Trust Metrics Ribbon */}
-            <div className="pt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto border-t border-zinc-100">
+            <div className="pt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto border-t border-zinc-200 dark:border-zinc-800">
               <div className="p-3 text-center">
-                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 font-mono">
+                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-white font-mono">
                   {t.hero.trustStat1}
                 </span>
-                <span className="text-xs text-zinc-500 font-medium">
+                <span className="text-xs text-zinc-600 dark:text-zinc-400 font-semibold">
                   {t.hero.trustStat1Sub}
                 </span>
               </div>
               <div className="p-3 text-center">
-                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 font-mono">
+                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-white font-mono">
                   {t.hero.trustStat2}
                 </span>
-                <span className="text-xs text-zinc-500 font-medium">
+                <span className="text-xs text-zinc-600 dark:text-zinc-400 font-semibold">
                   {t.hero.trustStat2Sub}
                 </span>
               </div>
               <div className="p-3 text-center">
-                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 font-mono">
+                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-white font-mono">
                   {t.hero.trustStat3}
                 </span>
-                <span className="text-xs text-zinc-500 font-medium">
+                <span className="text-xs text-zinc-600 dark:text-zinc-400 font-semibold">
                   {t.hero.trustStat3Sub}
                 </span>
               </div>
               <div className="p-3 text-center">
-                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 font-mono">
+                <span className="block text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-white font-mono">
                   {t.hero.trustStat4}
                 </span>
-                <span className="text-xs text-zinc-500 font-medium">
+                <span className="text-xs text-zinc-600 dark:text-zinc-400 font-semibold">
                   {t.hero.trustStat4Sub}
                 </span>
               </div>
@@ -316,7 +316,7 @@ export default function Home() {
                   </div>
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 group-hover:text-emerald-900 dark:group-hover:text-emerald-300 transition flex items-center justify-between">
                     <span>{t.nav.farmer}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
                   </h3>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
                     {t.portal.farmerDeskDesc}
@@ -337,7 +337,7 @@ export default function Home() {
                   </div>
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 group-hover:text-emerald-900 dark:group-hover:text-emerald-300 transition flex items-center justify-between">
                     <span>{t.nav.buyer}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
                   </h3>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
                     {t.portal.buyerDeskDesc}
@@ -358,7 +358,7 @@ export default function Home() {
                   </div>
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 group-hover:text-emerald-900 dark:group-hover:text-emerald-300 transition flex items-center justify-between">
                     <span>{t.nav.logistics}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition transform group-hover:translate-x-0.5" />
                   </h3>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
                     {t.portal.logisticsDeskDesc}
@@ -497,7 +497,7 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={handleListAction}
-                  className="w-full py-3 px-4 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-white dark:bg-zinc-900 text-white dark:text-zinc-900 rounded-xl text-xs sm:text-sm font-semibold transition shadow-xs"
+                  className="w-full py-3 px-4 bg-zinc-950 hover:bg-zinc-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-bold transition shadow-sm"
                 >
                   {t.advisory.btnList}
                 </button>
@@ -535,7 +535,7 @@ export default function Home() {
                   onClick={() => setMarketFilter(cat)}
                   className={`text-xs px-3 py-1.5 rounded-lg font-medium transition border ${
                     marketFilter === cat
-                      ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-900 border-zinc-900 dark:border-zinc-100 font-semibold'
+                      ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 border-zinc-900 dark:border-zinc-100 font-semibold'
                       : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800'
                   }`}
                 >
@@ -596,7 +596,7 @@ export default function Home() {
                     <span className="absolute top-2.5 left-2.5 text-[10px] font-mono uppercase backdrop-blur-md bg-zinc-950/75 text-white border border-white/20 px-2 py-0.5 rounded-md font-semibold">
                       {lot.id}
                     </span>
-                    <span className="absolute top-2.5 right-2.5 text-[10px] font-semibold backdrop-blur-md bg-white dark:bg-zinc-900/90 dark:bg-zinc-900/90 text-emerald-900 dark:text-emerald-300 border border-white/70 dark:border-zinc-700 px-2.5 py-0.5 rounded-full shadow-xs">
+                    <span className="absolute top-2.5 right-2.5 text-[10px] font-semibold backdrop-blur-md bg-white dark:bg-zinc-900/90 text-emerald-900 dark:text-emerald-300 border border-white/70 dark:border-zinc-700 px-2.5 py-0.5 rounded-full shadow-xs">
                       {t.common.grade.replace('{grade}', lot.grade)}
                     </span>
                     
@@ -632,7 +632,7 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={() => handleLotOrder(lot.id)}
-                    className="flex-1 py-2 text-center text-xs font-semibold bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-white dark:bg-zinc-900 text-white dark:text-zinc-900 rounded-lg transition"
+                    className="flex-1 py-2 text-center text-xs font-bold bg-zinc-950 hover:bg-zinc-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-lg transition shadow-xs"
                   >
                     {t.market.buyNow}
                   </button>
@@ -650,7 +650,7 @@ export default function Home() {
         </section>
 
         {/* Section 3: Verifiable Infrastructure (4 Pillars) */}
-        <section id="architecture" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-zinc-200">
+        <section id="architecture" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-zinc-200 dark:border-zinc-800">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs uppercase font-mono tracking-wider text-emerald-800 font-bold">
               {t.architecture.sectionBadge}
@@ -676,7 +676,7 @@ export default function Home() {
                     className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
-                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
                     <Camera className="w-4 h-4" />
                   </div>
                   <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
@@ -708,7 +708,7 @@ export default function Home() {
                     className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
-                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
                     <Scale className="w-4 h-4" />
                   </div>
                   <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
@@ -740,7 +740,7 @@ export default function Home() {
                     className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
-                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
                     <ThermometerSnowflake className="w-4 h-4" />
                   </div>
                   <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
@@ -772,7 +772,7 @@ export default function Home() {
                     className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
-                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-lg backdrop-blur-md bg-white dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 flex items-center justify-center border border-white/80 dark:border-zinc-700 shadow-xs">
                     <PhoneCall className="w-4 h-4" />
                   </div>
                   <span className="absolute bottom-3 left-3 text-[10px] font-mono uppercase backdrop-blur-md bg-emerald-950/80 text-emerald-200 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-bold">
@@ -795,7 +795,7 @@ export default function Home() {
         </section>
 
         {/* Section 4: Direct Economic Comparison */}
-        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto border-t border-zinc-200">
+        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto border-t border-zinc-200 dark:border-zinc-800">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 tracking-tight">
               {t.comparison.title}

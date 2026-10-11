@@ -167,12 +167,12 @@ export default function BuyerPortal() {
         )}
 
         {/* Tab Navigation Pill Bar */}
-        <div className="flex flex-wrap gap-2 mb-8 p-1.5 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/80 rounded-2xl w-fit">
+        <div className="flex flex-wrap gap-2 mb-8 p-1.5 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800/80 rounded-2xl w-fit">
           <button
             onClick={() => setActiveTab('overview')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
               activeTab === 'overview'
-                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200'
+                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
@@ -184,7 +184,7 @@ export default function BuyerPortal() {
             onClick={() => setActiveTab('market')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
               activeTab === 'market'
-                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200'
+                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
@@ -199,7 +199,7 @@ export default function BuyerPortal() {
             onClick={() => setActiveTab('rfqs')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
               activeTab === 'rfqs'
-                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200'
+                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
@@ -214,7 +214,7 @@ export default function BuyerPortal() {
             onClick={() => setActiveTab('orders')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
               activeTab === 'orders'
-                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200'
+                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
@@ -229,7 +229,7 @@ export default function BuyerPortal() {
             onClick={() => setActiveTab('tender')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
               activeTab === 'tender'
-                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200'
+                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
@@ -301,7 +301,7 @@ export default function BuyerPortal() {
                 </div>
 
                 <div className="space-y-3">
-                  <div className="p-3.5 rounded-xl border border-zinc-200 bg-zinc-50 dark:bg-zinc-900/60/70 dark:bg-zinc-900/50 flex items-center justify-between">
+                  <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60 flex items-center justify-between">
                     <div>
                       <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100">Tomato (Hybrid Perishable)</div>
                       <div className="text-[11px] text-zinc-500">High procurement velocity • 4 FPO lots in radius</div>
@@ -312,7 +312,7 @@ export default function BuyerPortal() {
                     </div>
                   </div>
 
-                  <div className="p-3.5 rounded-xl border border-zinc-200 bg-zinc-50 dark:bg-zinc-900/60/70 dark:bg-zinc-900/50 flex items-center justify-between">
+                  <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60 flex items-center justify-between">
                     <div>
                       <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100">Soybean (Yellow Oilseed)</div>
                       <div className="text-[11px] text-zinc-500">Bulk crushing demand • 12,000 kg available</div>
@@ -323,7 +323,7 @@ export default function BuyerPortal() {
                     </div>
                   </div>
 
-                  <div className="p-3.5 rounded-xl border border-zinc-200 bg-zinc-50 dark:bg-zinc-900/60/70 dark:bg-zinc-900/50 flex items-center justify-between">
+                  <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60 flex items-center justify-between">
                     <div>
                       <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100">Mustard / Rapeseed</div>
                       <div className="text-[11px] text-zinc-500">WDRA cold store deposit • High oil content</div>
@@ -400,7 +400,7 @@ export default function BuyerPortal() {
                   placeholder="Search produce lots by commodity, cluster, or depot..."
                   value={marketSearch}
                   onChange={(e) => setMarketSearch(e.target.value)}
-                  className="w-full text-xs pl-9 pr-3 py-2 border border-zinc-200 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                  className="w-full text-xs pl-9 pr-3 py-2 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
                 <Store className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
               </div>
@@ -464,7 +464,7 @@ export default function BuyerPortal() {
                         setOfferPrice(lot.price);
                         setActiveTab('rfqs');
                       }}
-                      className="px-3 py-2 border border-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 text-zinc-900 dark:text-zinc-100 rounded-lg text-xs font-semibold transition"
+                      className="px-3 py-2 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 text-zinc-900 dark:text-zinc-100 rounded-lg text-xs font-semibold transition"
                     >
                       Bid RFQ
                     </button>
@@ -491,7 +491,7 @@ export default function BuyerPortal() {
                   <select
                     value={selectedLot}
                     onChange={(e) => setSelectedLot(e.target.value)}
-                    className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                   >
                     {listings.map((l) => (
                       <option key={l.id} value={`${l.id} (${l.cropName} - ${l.quantityKg}kg)`}>
@@ -510,7 +510,7 @@ export default function BuyerPortal() {
                     step={100}
                     value={targetVolume}
                     onChange={(e) => setTargetVolume(Number(e.target.value))}
-                    className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                   />
                 </div>
 
@@ -523,7 +523,7 @@ export default function BuyerPortal() {
                     step={0.25}
                     value={offerPrice}
                     onChange={(e) => setOfferPrice(Number(e.target.value))}
-                    className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                   />
                 </div>
 
@@ -683,7 +683,7 @@ export default function BuyerPortal() {
 
         {/* TAB 5: POST DEMAND TENDER */}
         {activeTab === 'tender' && (
-          <div className="max-w-2xl mx-auto bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 p-8 shadow-xs space-y-6">
+          <div className="max-w-2xl mx-auto bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-8 shadow-xs space-y-6">
             <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4">
               <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">Publish Institutional Demand Tender</h3>
               <p className="text-xs text-zinc-500 mt-0.5">
@@ -697,7 +697,7 @@ export default function BuyerPortal() {
                 <select
                   value={tenderCrop}
                   onChange={(e) => setTenderCrop(e.target.value)}
-                  className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                  className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 >
                   <option value="Tomato">Tomato (Hybrid Perishable)</option>
                   <option value="Wheat">Wheat (Sharbati Storable)</option>
@@ -716,7 +716,7 @@ export default function BuyerPortal() {
                   step={500}
                   value={tenderVolume}
                   onChange={(e) => setTenderVolume(Number(e.target.value))}
-                  className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                  className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
               </div>
 
@@ -729,7 +729,7 @@ export default function BuyerPortal() {
                   step={0.5}
                   value={tenderMaxBudget}
                   onChange={(e) => setTenderMaxBudget(Number(e.target.value))}
-                  className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                  className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
               </div>
 
@@ -740,7 +740,7 @@ export default function BuyerPortal() {
                   required
                   value={tenderDeliveryDistrict}
                   onChange={(e) => setTenderDeliveryDistrict(e.target.value)}
-                  className="w-full text-xs p-2.5 border border-zinc-200 rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                  className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
               </div>
 
