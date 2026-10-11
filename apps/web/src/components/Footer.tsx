@@ -111,27 +111,27 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-[11px]">
               <li>
-                <Link href="/about#standards" className="hover:text-white transition">
+                <Link href="/about#standards-quality" className="hover:text-white transition">
                   {t.about.pillar1Title}
                 </Link>
               </li>
               <li>
-                <Link href="/about#standards" className="hover:text-white transition">
+                <Link href="/about#standards-wdra" className="hover:text-white transition">
                   {t.about.pillar2Title}
                 </Link>
               </li>
               <li>
-                <Link href="/about#standards" className="hover:text-white transition">
+                <Link href="/about#standards-msp" className="hover:text-white transition">
                   {t.about.pillar3Title}
                 </Link>
               </li>
               <li>
-                <Link href="/about#standards" className="hover:text-white transition">
+                <Link href="/about#standards-escrow" className="hover:text-white transition">
                   {t.about.pillar4Title}
                 </Link>
               </li>
               <li>
-                <Link href="/about#standards" className="hover:text-white transition">
+                <Link href="/about#standards-telemetry" className="hover:text-white transition">
                   {t.about.pillar5Title}
                 </Link>
               </li>
@@ -168,13 +168,13 @@ export default function Footer() {
         <div className="mt-12 pt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-400">
           <p>© {new Date().getFullYear()} {t.footer.copyright}</p>
           <div className="flex items-center gap-6">
-            <Link href="/about" className="hover:text-white transition">
+            <Link href="/about#governance" className="hover:text-white transition">
               {t.footer.privacy}
             </Link>
-            <Link href="/about" className="hover:text-white transition">
+            <Link href="/about#governance" className="hover:text-white transition">
               {t.footer.terms}
             </Link>
-            <Link href="/about" className="hover:text-white transition">
+            <Link href="/about#governance" className="hover:text-white transition">
               {t.footer.security}
             </Link>
           </div>

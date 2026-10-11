@@ -223,7 +223,7 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Pillar 1 */}
-            <div className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-white/80 dark:border-zinc-800/80 p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+            <div id="standards-quality" className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-white/80 dark:border-zinc-800/80 p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
               <div>
                 <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 flex items-center justify-center mb-4">
                   <FileCheck2 className="w-5 h-5" />
@@ -242,7 +242,7 @@ export default function AboutPage() {
             </div>
 
             {/* Pillar 2 */}
-            <div className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-white/80 dark:border-zinc-800/80 p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+            <div id="standards-wdra" className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-white/80 dark:border-zinc-800/80 p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
               <div>
                 <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-400 flex items-center justify-center mb-4">
                   <Building2 className="w-5 h-5" />
@@ -261,7 +261,7 @@ export default function AboutPage() {
             </div>
 
             {/* Pillar 3 */}
-            <div className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-white/80 dark:border-zinc-800/80 p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+            <div id="standards-msp" className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-white/80 dark:border-zinc-800/80 p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
               <div>
                 <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 flex items-center justify-center mb-4">
                   <Scale className="w-5 h-5" />
@@ -280,7 +280,7 @@ export default function AboutPage() {
             </div>
 
             {/* Pillar 4 */}
-            <div className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-white/80 dark:border-zinc-800/80 p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+            <div id="standards-escrow" className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-white/80 dark:border-zinc-800/80 p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
               <div>
                 <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-700 dark:text-purple-400 flex items-center justify-center mb-4">
                   <Lock className="w-5 h-5" />
@@ -299,7 +299,7 @@ export default function AboutPage() {
             </div>
 
             {/* Pillar 5 */}
-            <div className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-white/80 dark:border-zinc-800/80 p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between md:col-span-2 lg:col-span-2">
+            <div id="standards-telemetry" className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-white/80 dark:border-zinc-800/80 p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between md:col-span-2 lg:col-span-2 scroll-mt-24">
               <div>
                 <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-700 dark:text-teal-400 flex items-center justify-center mb-4">
                   <BadgeCheck className="w-5 h-5" />
@@ -320,7 +320,7 @@ export default function AboutPage() {
         </section>
 
         {/* Live Accreditation Verification Spatial Terminal */}
-        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <section id="compliance" className="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto scroll-mt-24">
           <div className="backdrop-blur-2xl bg-zinc-900/90 dark:bg-zinc-950/90 text-white rounded-3xl p-6 sm:p-8 border border-zinc-800 shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
@@ -349,7 +349,7 @@ export default function AboutPage() {
                 </div>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold transition shrink-0 shadow-md"
+                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold transition shrink-0 shadow-md cursor-pointer"
                 >
                   {t.about.checkButton}
                 </button>
@@ -366,7 +366,7 @@ export default function AboutPage() {
         </section>
 
         {/* Governance & Zero-Commission Platform Pledge */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <section id="governance" className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto scroll-mt-24">
           <div className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 border border-zinc-200/80 dark:border-zinc-800/80 rounded-3xl p-8 text-center space-y-4 shadow-lg">
             <h3 className="text-xl sm:text-2xl font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">
               {t.about.governanceTitle}
