@@ -5,6 +5,7 @@ import { LanguageProvider, LanguageCode } from '../context/LanguageContext';
 import { ThemeProvider } from '../context/ThemeContext';
 import { AuthProvider } from '../context/AuthContext';
 import AiAssistant from '../components/AiAssistant';
+import ConsumerAiShoppingAdvisor from '../components/ConsumerAiShoppingAdvisor';
 import { cookies } from 'next/headers';
 
 const geistSans = Geist({
@@ -47,6 +48,7 @@ export default async function RootLayout({
             <LanguageProvider initialLanguage={validLang}>
               {children}
               <AiAssistant />
+              <ConsumerAiShoppingAdvisor />
             </LanguageProvider>
           </AuthProvider>
         </ThemeProvider>

@@ -364,6 +364,41 @@ export default function ConsumerPortal() {
         {/* TAB 1: SHOP / BROWSE PRODUCE */}
         {activeTab === 'shop' && (
           <div className="space-y-6">
+            {/* Interactive AI Shopping Advisor Feature Banner */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-950 via-zinc-900 to-zinc-950 border border-emerald-500/30 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl relative overflow-hidden">
+              <div className="space-y-1 z-10">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 text-emerald-400" />
+                    Consumer Exclusive
+                  </span>
+                  <span className="text-zinc-400 text-xs">• 0% Middleman Margin</span>
+                </div>
+                <h3 className="text-base sm:text-lg font-extrabold tracking-tight text-white">
+                  Meet Your AI Farm-Gate Shopping & Deal Advisor
+                </h3>
+                <p className="text-xs text-zinc-300 max-w-xl leading-relaxed">
+                  Tell our interactive AI advisor what crop and quantity you need. It analyzes real farmer listings, AGMARK grades, harvest timestamps, and proves why you get the best deal.
+                </p>
+              </div>
+
+              <div className="z-10 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const btn = document.querySelector('button[aria-label="Open Consumer AI Shopping & Deal Advisor"]') as HTMLButtonElement | null;
+                    if (btn) btn.click();
+                  }}
+                  className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-xl text-xs font-black transition flex items-center gap-1.5 shadow-lg shadow-emerald-900/40"
+                >
+                  <Sparkles className="w-4 h-4 text-zinc-950" />
+                  <span>Start AI Shopping Guide</span>
+                </button>
+              </div>
+
+              <div className="absolute right-0 top-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+            </div>
+
             {/* Filter & Search Bar */}
             <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
               {/* Category Pills */}
