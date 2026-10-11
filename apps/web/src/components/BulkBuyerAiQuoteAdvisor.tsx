@@ -97,7 +97,11 @@ interface ChatMessage {
   };
 }
 
-export default function BulkBuyerAiQuoteAdvisor() {
+interface BulkBuyerAiQuoteAdvisorProps {
+  onNavigateToRfq?: () => void;
+}
+
+export default function BulkBuyerAiQuoteAdvisor({ onNavigateToRfq }: BulkBuyerAiQuoteAdvisorProps = {}) {
   const { language } = useLanguage();
   const t = getAdvisorTranslations(language);
   const { listings } = useProduceStore();
@@ -239,7 +243,7 @@ How Fasal Matrix delivers this:
 
 Your procurement requirement (${selectedCrop}, ${weeklyVolume.toLocaleString('en-IN')} kg/week) has been logged into the Fasal Matrix settlement ledger. 
 
-When you log in with your mobile OTP above, you can review bidder farmer clusters, inspect telemetry certificates, and lock escrow for dispatch!`,
+You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telemetry certificates, and lock escrow for dispatch!`,
       timestamp: 'Just now',
     };
 
@@ -540,9 +544,21 @@ When you log in with your mobile OTP above, you can review bidder farmer cluster
       </div>
 
       {quoteNotice && (
-        <div className="mb-4 p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-xs font-semibold text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 shrink-0" />
-          <span>{quoteNotice}</span>
+        <div className="mb-4 p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-xs font-semibold text-emerald-800 dark:text-emerald-300 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 shrink-0" />
+            <span>{quoteNotice}</span>
+          </div>
+          {onNavigateToRfq && (
+            <button
+              type="button"
+              onClick={onNavigateToRfq}
+              className="px-3 py-1 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg text-xs font-bold transition flex items-center gap-1 shrink-0"
+            >
+              <span>View RFQ Desk</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
       )}
 

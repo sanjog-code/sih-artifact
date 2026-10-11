@@ -25,9 +25,11 @@ import {
   TrendingUp,
   MapPin,
   ArrowUpRight,
+  Sparkles,
 } from 'lucide-react';
 import { triggerInvoicePrintOrDownload } from '../../lib/invoiceGenerator';
 import SmartQuoteGuide from '../../components/SmartQuoteGuide';
+import BulkBuyerAiQuoteAdvisor from '../../components/BulkBuyerAiQuoteAdvisor';
 
 export default function BuyerPortal() {
   const { t } = useLanguage();
@@ -35,7 +37,7 @@ export default function BuyerPortal() {
   const [rfqNotice, setRfqNotice] = useState<string | null>(null);
 
   // Active Tab navigation
-  const [activeTab, setActiveTab] = useState<'overview' | 'market' | 'rfqs' | 'orders' | 'tender' | 'subscriptions' | 'recurring'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'copilot' | 'market' | 'rfqs' | 'orders' | 'tender' | 'subscriptions' | 'recurring'>('overview');
 
   // Persistence Stores
   const { rfqs, submitRfq, lockEscrow } = useRfqStore();
@@ -203,6 +205,21 @@ export default function BuyerPortal() {
           </button>
 
           <button
+            onClick={() => setActiveTab('copilot')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+              activeTab === 'copilot'
+                ? 'bg-white dark:bg-zinc-800 text-blue-600 dark:text-blue-400 shadow-xs border border-zinc-200 dark:border-zinc-800'
+                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            <span>Native Copilot</span>
+            <span className="px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300 text-[10px] font-bold">
+              AI
+            </span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('market')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
               activeTab === 'market'
@@ -338,6 +355,9 @@ export default function BuyerPortal() {
               </div>
             </div>
 
+            {/* Native Bulk Buyer Copilot: Institutional Pricing & Quote Advisor */}
+            <BulkBuyerAiQuoteAdvisor onNavigateToRfq={() => setActiveTab('rfqs')} />
+
             {/* Smart Price Guide to Quote: Volume Pricing Brackets */}
             <SmartQuoteGuide
               onApplyQuote={(_crop, vol, price) => {
@@ -448,6 +468,13 @@ export default function BuyerPortal() {
                 {t.buyer.guaranteedEscrowDesc}
               </p>
             </div>
+          </div>
+        )}
+
+        {/* TAB: NATIVE AI BUYER COPILOT */}
+        {activeTab === 'copilot' && (
+          <div className="space-y-6">
+            <BulkBuyerAiQuoteAdvisor onNavigateToRfq={() => setActiveTab('rfqs')} />
           </div>
         )}
 
