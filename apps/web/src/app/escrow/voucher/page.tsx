@@ -15,6 +15,7 @@ import {
   ArrowLeft,
   BadgeCheck,
   Copy,
+  FileText,
 } from 'lucide-react';
 
 export default function EscrowVoucherPage() {
@@ -110,13 +111,22 @@ export default function EscrowVoucherPage() {
               <span>Print Voucher</span>
             </button>
 
+            <Link
+              href="/invoice"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-xs cursor-pointer"
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>GST Tax Invoice</span>
+            </Link>
+
             <button
               type="button"
               onClick={() => triggerInvoicePrintOrDownload(activeOrder)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold transition cursor-pointer"
+              title="Download or Print PDF directly"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>GST Tax Invoice</span>
+              <span>Export PDF</span>
             </button>
           </div>
         </div>

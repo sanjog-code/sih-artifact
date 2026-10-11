@@ -304,6 +304,13 @@ export default function CheckoutPage() {
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>View Escrow Voucher</span>
               </Link>
+              <Link
+                href="/invoice"
+                className="px-5 py-2.5 rounded-xl border border-emerald-600/60 dark:border-emerald-500/60 bg-emerald-50/50 hover:bg-emerald-100/70 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/60 text-emerald-900 dark:text-emerald-200 text-xs font-semibold transition flex items-center justify-center gap-1.5"
+              >
+                <FileText className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span>View GST Invoice</span>
+              </Link>
               <button
                 onClick={() => {
                   if (confirmedOrderId) {
@@ -332,7 +339,7 @@ export default function CheckoutPage() {
                 className="px-5 py-2.5 rounded-xl border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-semibold transition flex items-center justify-center gap-1.5"
               >
                 <FileText className="w-3.5 h-3.5" />
-                <span>Download GST Tax Invoice</span>
+                <span>Quick Print Invoice</span>
               </button>
               <Link
                 href="/consumer"
