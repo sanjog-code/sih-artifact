@@ -6,6 +6,7 @@ import { ThemeProvider } from '../context/ThemeContext';
 import { AuthProvider } from '../context/AuthContext';
 import AiAssistant from '../components/AiAssistant';
 import ConsumerAiShoppingAdvisor from '../components/ConsumerAiShoppingAdvisor';
+import FarmerAiListingAdvisor from '../components/FarmerAiListingAdvisor';
 import { cookies } from 'next/headers';
 
 const geistSans = Geist({
@@ -19,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'FarmLink — Direct Agrarian Marketplace & Demand Intelligence',
+  title: 'Fasal Matrix — Direct Agrarian Marketplace & Demand Intelligence',
   description:
     'Institutional produce trading infrastructure connecting verified farmers, WDRA-accredited warehouses, and bulk buyers with explainable AI pricing and T+1 escrow settlement.',
 };
@@ -49,6 +50,7 @@ export default async function RootLayout({
               {children}
               <AiAssistant />
               <ConsumerAiShoppingAdvisor />
+              <FarmerAiListingAdvisor />
             </LanguageProvider>
           </AuthProvider>
         </ThemeProvider>

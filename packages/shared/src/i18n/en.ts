@@ -1,5 +1,5 @@
 export const en = {
-  appName: 'FarmLink',
+  appName: 'Fasal Matrix',
   tagline: 'Direct. Fair. For farmers.',
   nav: {
     home: 'Home',

@@ -1328,7 +1328,7 @@ export default function FarmerPortal() {
                 {[
                   {
                     q: 'How does the Minimum Support Price (MSP) protection work?',
-                    a: 'FarmLink strictly verifies government CCEA statutory floors. If bids or market clearing prices drop below the official MSP floor, the platform prohibits sub-floor contracts and offers accredited WDRA storage pledge finance instead.',
+                    a: 'Fasal Matrix strictly verifies government CCEA statutory floors. If bids or market clearing prices drop below the official MSP floor, the platform prohibits sub-floor contracts and offers accredited WDRA storage pledge finance instead.',
                   },
                   {
                     q: 'When do I receive payment for dispatched produce?',

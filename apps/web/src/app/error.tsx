@@ -13,7 +13,7 @@ export default function ErrorBoundary({
 }) {
   useEffect(() => {
     // Log error to console for diagnostic traceability
-    console.error('FarmLink Platform Application Error:', error);
+    console.error('Fasal Matrix Platform Application Error:', error);
   }, [error]);
 
   return (

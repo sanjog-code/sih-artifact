@@ -234,35 +234,35 @@ export default function Home() {
                 </div>
 
                 {/* Floating Spatial Card 1: Optical Quality HUD (Top-Left) */}
-                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-xs backdrop-blur-xl bg-white dark:bg-zinc-900/85 dark:bg-zinc-900/85 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:bg-zinc-900/95 dark:hover:bg-zinc-900/95 text-left">
+                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-xs backdrop-blur-xl bg-white dark:bg-zinc-900/85 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:hover:bg-zinc-900/95 text-left">
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="relative flex h-2.5 w-2.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
                     </span>
                     <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-emerald-950 dark:text-emerald-300">
-                      Live Optical Telemetry
+                      {t.hero.telemetry.opticalTelemetry}
                     </span>
                   </div>
                   <div className="text-xs sm:text-sm font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
-                    AGMARK Grade A1 (98.4%)
+                    {t.hero.telemetry.opticalGrade}
                   </div>
                   <p className="text-[11px] text-zinc-600 dark:text-zinc-300 mt-0.5 leading-snug">
-                    Phulera Depot #3 • 0.8% defect floor • Assayed
+                    {t.hero.telemetry.opticalDetails}
                   </p>
                 </div>
 
                 {/* Floating Spatial Card 2: AI Price Radar (Top-Right) */}
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 max-w-[260px] backdrop-blur-xl bg-white dark:bg-zinc-900/85 dark:bg-zinc-900/85 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:bg-zinc-900/95 dark:hover:bg-zinc-900/95 text-right hidden sm:block">
+                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 max-w-[260px] backdrop-blur-xl bg-white dark:bg-zinc-900/85 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:hover:bg-zinc-900/95 text-right hidden sm:block">
                   <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100/90 dark:bg-emerald-950/90 text-emerald-900 dark:text-emerald-300 text-[10px] font-mono font-bold uppercase mb-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
-                    MSP Guarded
+                    {t.hero.telemetry.mspGuarded}
                   </div>
                   <div className="text-base font-extrabold text-zinc-950 dark:text-zinc-50 font-mono">
                     ₹24.41 <span className="text-xs font-normal text-zinc-600 dark:text-zinc-400">/ kg</span>
                   </div>
                   <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-0.5">
-                    Khanna Mandi • Wheat Baseline
+                    {t.hero.telemetry.wheatBaseline}
                   </p>
                 </div>
               </div>
@@ -830,7 +830,7 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* FarmLink Direct */}
+            {/* Fasal Matrix Direct */}
             <div className="bg-white dark:bg-zinc-900 rounded-xl border border-emerald-300 dark:border-emerald-700/60 p-6 shadow-xs ring-1 ring-emerald-500/10">
               <span className="text-[10px] font-mono uppercase bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded font-bold">
                 {t.portal.directTransparentNetwork}

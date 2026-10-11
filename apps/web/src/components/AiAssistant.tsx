@@ -28,7 +28,8 @@ export default function AiAssistant() {
   const { role } = useAuth();
 
   // If consumer is logged in, their exclusive ConsumerAiShoppingAdvisor handles consumer guidance
-  if (role === 'consumer') {
+  // If farmer is logged in, their exclusive FarmerAiListingAdvisor handles farmer listing guidance
+  if (role === 'consumer' || role === 'farmer') {
     return null;
   }
 
@@ -43,7 +44,7 @@ function AiAssistantWidget() {
     {
       id: 'welcome',
       sender: 'ai',
-      text: 'Namaste! I am FarmLink AI, your agrarian advisor. Ask me about mandi modal prices, MSP statutory floors, FPO cooperatives, AGMARK grading, or cold-storage e-NWR pledges.',
+      text: 'Namaste! I am Fasal Matrix AI, your agrarian advisor. Ask me about mandi modal prices, MSP statutory floors, FPO cooperatives, AGMARK grading, or cold-storage e-NWR pledges.',
       timestamp: 'Just now',
     },
   ]);
@@ -132,11 +133,11 @@ function AiAssistantWidget() {
       } else if (query.includes('mustard') || query.includes('sarson')) {
         reply = 'Mustard / Rapeseed is at peak market demand at ₹88.00/kg across Phulera and Jaipur hubs. Grade A1 certified lots (>40% oil content) trade at an additional ₹2.50/kg premium.';
       } else if (query.includes('escrow') || query.includes('payment') || query.includes('payout')) {
-        reply = 'FarmLink operates under an RBI-regulated node escrow. When buyers confirm a purchase, consideration is locked instantly and disbursed directly into your bank account on T+1 terms within 24 hours of destination gate pass verification.';
+        reply = 'Fasal Matrix operates under an RBI-regulated node escrow. When buyers confirm a purchase, consideration is locked instantly and disbursed directly into your bank account on T+1 terms within 24 hours of destination gate pass verification.';
       } else if (query.includes('msp') || query.includes('minimum')) {
-        reply = 'Every commodity on FarmLink is bound by statutory CCEA Minimum Support Price (MSP) hard guardrails. The platform algorithmically prevents buyers from bidding below official benchmark floors.';
+        reply = 'Every commodity on Fasal Matrix is bound by statutory CCEA Minimum Support Price (MSP) hard guardrails. The platform algorithmically prevents buyers from bidding below official benchmark floors.';
       } else {
-        reply = `I have logged your agrarian query regarding "${userMsg.text}". All trades on FarmLink connect directly to verified FPO cooperatives, APMC mandi arrivals, and WDRA accredited depots with zero broker cuts.`;
+        reply = `I have logged your agrarian query regarding "${userMsg.text}". All trades on Fasal Matrix connect directly to verified FPO cooperatives, APMC mandi arrivals, and WDRA accredited depots with zero broker cuts.`;
       }
 
       const aiMsg: ChatMessage = {
@@ -157,12 +158,12 @@ function AiAssistantWidget() {
           type="button"
           onClick={() => setIsOpen(true)}
           className="flex items-center gap-2 px-4 py-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-full shadow-2xl transition-all duration-300 hover:scale-105 group border border-white/20"
-          aria-label="Open FarmLink AI Voice Assistant"
+          aria-label="Open Fasal Matrix AI Voice Assistant"
         >
           <div className="w-6 h-6 rounded-full bg-emerald-500 dark:bg-emerald-400 text-zinc-950 flex items-center justify-center font-bold text-xs">
             <Sparkles className="w-3.5 h-3.5 text-zinc-950" />
           </div>
-          <span className="text-xs font-bold tracking-tight">FarmLink AI</span>
+          <span className="text-xs font-bold tracking-tight">Fasal Matrix AI</span>
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
         </button>
       </div>
@@ -180,7 +181,7 @@ function AiAssistantWidget() {
             </div>
             <div>
               <div className="text-xs font-extrabold flex items-center gap-1.5">
-                <span>FarmLink AI Agrarian Advisor</span>
+                <span>Fasal Matrix AI Agrarian Advisor</span>
                 <span className="px-1.5 py-0.2 rounded-full bg-emerald-950 text-emerald-400 text-[9px] font-mono border border-emerald-800">
                   Sarvam TTS Active
                 </span>

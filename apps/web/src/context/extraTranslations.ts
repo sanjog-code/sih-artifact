@@ -1,8 +1,8 @@
-// Auto-generated extraTranslations for 17 Eighth Schedule regional languages
+// Auto-generated extraTranslations for 17 Eighth Schedule regional languages with telemetry
 export const extraTranslations = {
   "bn": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "সরাসরি কৃষিজ নেটওয়ার্ক",
       "home": "সংক্ষিপ্ত বিবরণ",
       "market": "বাজার",
@@ -40,7 +40,7 @@ export const extraTranslations = {
       "badge": "প্রাতিষ্ঠানিক কৃষি বাণিজ্য প্ল্যাটফর্ম",
       "titleLine1": "স্বচ্ছ খামার গেট মূল্য নির্ধারণ।",
       "titleLine2": "শূন্য মধ্যস্থতাকারী ক্ষতি।",
-      "description": "FarmLink যাচাইকৃত কৃষক, ডাব্লুডিআরএ অনুমোদিত গুদাম এবং প্রাতিষ্ঠানিক ক্রেতাদের একটি একক স্বচ্ছ নেটওয়ার্কে যুক্ত করে।",
+      "description": "Fasal Matrix যাচাইকৃত কৃষক, ডাব্লুডিআরএ অনুমোদিত গুদাম এবং প্রাতিষ্ঠানিক ক্রেতাদের একটি একক স্বচ্ছ নেটওয়ার্কে যুক্ত করে।",
       "exploreMarket": "বাজার অন্বেষণ করুন",
       "calculatePrice": "মূল্য পরামর্শ দেখুন",
       "trustStat1": "₹১৮.৪ কোটি+",
@@ -50,7 +50,14 @@ export const extraTranslations = {
       "trustStat3": "১০০% এমএসপি",
       "trustStat3Sub": "নূন্যতম মূল্য গ্যারান্টি",
       "trustStat4": "< ২৪ ঘণ্টা",
-      "trustStat4Sub": "সরাসরি ব্যাংক নিষ্পত্তি (T+1)"
+      "trustStat4Sub": "সরাসরি ব্যাংক নিষ্পত্তি (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "লাইভ অপটিক্যাল টেলিমেট্রি",
+        "opticalGrade": "অ্যাগমার্ক গ্রেড A1 (৯৮.৪%)",
+        "opticalDetails": "ফুলেরো ডিপো #৩ • ০.৮% ত্রুটি স্তর • পরীক্ষিত",
+        "mspGuarded": "এমএসপি সংরক্ষিত",
+        "wheatBaseline": "খান্না মান্ডি • গম ভিত্তি মূল্য"
+      }
     },
     "advisory": {
       "sectionBadge": "অ্যালগরিদমিক মূল্য নির্ধারণ",
@@ -60,7 +67,7 @@ export const extraTranslations = {
       "suggestedRange": "ন্যায্য বাজার মূল্যায়ন",
       "confidence": "পূর্বাভাস আত্মবিশ্বাস",
       "dataFreshness": "ফিড আপডেট হয়েছে",
-      "guardrailText": "সুরক্ষা গ্যারান্টি: FarmLink কোনও মধ্যস্থতাকারী মার্জিন নেয় না। আপনি আপনার মজুদের উপর সম্পূর্ণ নিয়ন্ত্রণ বজায় রাখবেন।"
+      "guardrailText": "সুরক্ষা গ্যারান্টি: Fasal Matrix কোনও মধ্যস্থতাকারী মার্জিন নেয় না। আপনি আপনার মজুদের উপর সম্পূর্ণ নিয়ন্ত্রণ বজায় রাখবেন।"
     },
     "market": {
       "sectionBadge": "লাইভ যাচাইকৃত ক্যাটালগ",
@@ -75,9 +82,9 @@ export const extraTranslations = {
     "about": {
       "title": "আমাদের উদ্দেশ্য ও প্রাতিষ্ঠানিক বিশ্বাস",
       "subtitle": "ভারতের কৃষি সরবরাহ ব্যবস্থায় সমতা, স্বচ্ছতা এবং মর্যাদা ফিরিয়ে আনা।",
-      "missionTitle": "কেন FarmLink তৈরি করা হয়েছে",
+      "missionTitle": "কেন Fasal Matrix তৈরি করা হয়েছে",
       "missionText1": "ভারত জুড়ে ৮৫% এরও বেশি ক্ষুদ্র কৃষক অভাবী বিক্রির শিকার হন। ফসল কাটার মৌসুমে মধ্যস্বত্বভোগীদের কারণে তারা ক্ষতির মুখে পড়েন।",
-      "missionText2": "FarmLink মধ্যস্থতাকারীদের দূর করে। অনুমোদিত গুদাম এবং সরাসরি ক্রেতাদের সাথে যুক্ত করে আমরা কৃষকের সঠিক মূল্য নিশ্চিত করি।",
+      "missionText2": "Fasal Matrix মধ্যস্থতাকারীদের দূর করে। অনুমোদিত গুদাম এবং সরাসরি ক্রেতাদের সাথে যুক্ত করে আমরা কৃষকের সঠিক মূল্য নিশ্চিত করি।",
       "publicTrustRegistry": "পাবলিক ট্রাস্ট রেজিস্ট্রি"
     },
     "consumer": {
@@ -94,7 +101,7 @@ export const extraTranslations = {
   },
   "gu": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "સીધું કૃષિ નેટવર્ક",
       "home": "ઝાંખી",
       "market": "બજાર",
@@ -132,7 +139,7 @@ export const extraTranslations = {
       "badge": "સંસ્થાકીય ઉત્પાદન વેપાર પ્લેટફોર્મ",
       "titleLine1": "પારદર્શક ફાર્મ ગેટ ભાવો.",
       "titleLine2": "શૂન્ય મધ્યસ્થી નુકસાન.",
-      "description": "FarmLink પ્રમાણિત ખેડૂતો, WDRA માન્યતા પ્રાપ્ત વેરહાઉસ અને સંસ્થાકીય ખરીદદારોને પારદર્શક નેટવર્ક પર જોડે છે.",
+      "description": "Fasal Matrix પ્રમાણિત ખેડૂતો, WDRA માન્યતા પ્રાપ્ત વેરહાઉસ અને સંસ્થાકીય ખરીદદારોને પારદર્શક નેટવર્ક પર જોડે છે.",
       "exploreMarket": "ઉત્પાદન બજાર શોધો",
       "calculatePrice": "ભાવ સલાહકાર તપાસો",
       "trustStat1": "₹18.4 કરોડ+",
@@ -142,7 +149,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "ન્યૂનતમ કિંમત ગેરંટી",
       "trustStat4": "< 24 કલાક",
-      "trustStat4Sub": "સીધું બેંક સેટલમેન્ટ (T+1)"
+      "trustStat4Sub": "સીધું બેંક સેટલમેન્ટ (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "લાઈવ ઓપ્ટિકલ ટેલિમેટ્રી",
+        "opticalGrade": "એગમાર્ક ગ્રેડ A1 (98.4%)",
+        "opticalDetails": "ફુલેરા ડેપો #3 • 0.8% ખામી મર્યાદા • ચકાસાયેલ",
+        "mspGuarded": "ટેકાના ભાવ (MSP) સુરક્ષित",
+        "wheatBaseline": "ખન્ના મંડી • ઘઉં બેઝલાઇન"
+      }
     },
     "advisory": {
       "sectionBadge": "એલ્ગોરિધમિક પારદર્શક ભાવ",
@@ -152,7 +166,7 @@ export const extraTranslations = {
       "suggestedRange": "વાજબી બજાર મૂલ્યાંકન",
       "confidence": "અનુમાન વિશ્વાસ",
       "dataFreshness": "ડેટા અપડેટ થયો",
-      "guardrailText": "સુરક્ષા ગેરંટી: FarmLink સટ્ટાબાજી કરતું નથી. તમારી પાસે તમારા માલ પર સંપૂર્ણ સ્વાયત્તતા છે."
+      "guardrailText": "સુરક્ષા ગેરંટી: Fasal Matrix સટ્ટાબાજી કરતું નથી. તમારી પાસે તમારા માલ પર સંપૂર્ણ સ્વાયત્તતા છે."
     },
     "market": {
       "sectionBadge": "લાઇવ ચકાસાયેલ કેટલોગ",
@@ -167,9 +181,9 @@ export const extraTranslations = {
     "about": {
       "title": "અમારો હેતુ અને સંસ્થાકીય વિશ્વાસ",
       "subtitle": "ભારતના કૃષિ પુરવઠા તંત્રમાં સમાનતા, પારદર્શિતા અને ગૌરવ પુનઃસ્થાપિત કરવું.",
-      "missionTitle": "શા માટે FarmLink બનાવવામાં આવ્યું",
+      "missionTitle": "શા માટે Fasal Matrix બનાવવામાં આવ્યું",
       "missionText1": "સમગ્ર ભારતમાં 85% થી વધુ નાના ખેડૂતો મુશ્કેલીમાં વેચાણનો ભોગ બને છે. વચેટિયાઓને કારણે તેમને મોટું નુકસાન થાય છે.",
-      "missionText2": "FarmLink વચેટિયાઓને દૂર કરે છે અને ખેડૂતોને સીધા યોગ્ય બજાર ભાવો અપાવે છે.",
+      "missionText2": "Fasal Matrix વચેટિયાઓને દૂર કરે છે અને ખેડૂતોને સીધા યોગ્ય બજાર ભાવો અપાવે છે.",
       "publicTrustRegistry": "જાહેર ટ્રસ્ટ રજિસ્ટ્રી"
     },
     "consumer": {
@@ -186,7 +200,7 @@ export const extraTranslations = {
   },
   "kn": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "ನೇರ ಕೃಷಿ ಜಾಲ",
       "home": "ಅವಲೋಕನ",
       "market": "ಮಾರುಕಟ್ಟೆ",
@@ -224,7 +238,7 @@ export const extraTranslations = {
       "badge": "ಸಾಂಸ್ಥಿಕ ಉತ್ಪನ್ನ ವ್ಯಾಪಾರ ವೇದಿಕೆ",
       "titleLine1": "ಪಾರದರ್ಶಕ ಕೃಷಿ ಗೇಟ್ ಬೆಲೆ.",
       "titleLine2": "ಶೂನ್ಯ ಮಧ್ಯವರ್ತಿ ನಷ್ಟ.",
-      "description": "FarmLink ಪರಿಶೀಲಿಸಿದ ರೈತರು, WDRA ಮಾನ್ಯತೆ ಪಡೆದ ಗೋದಾಮುಗಳು ಮತ್ತು ಸಾಂಸ್ಥಿಕ ಖರೀದಿದಾರರನ್ನು ಒಂದೇ ಪಾರದರ್ಶಕ ನೆಟ್‌ವರ್ಕ್‌ನಲ್ಲಿ ಸಂಪರ್ಕಿಸುತ್ತದೆ.",
+      "description": "Fasal Matrix ಪರಿಶೀಲಿಸಿದ ರೈತರು, WDRA ಮಾನ್ಯತೆ ಪಡೆದ ಗೋದಾಮುಗಳು ಮತ್ತು ಸಾಂಸ್ಥಿಕ ಖರೀದಿದಾರರನ್ನು ಒಂದೇ ಪಾರದರ್ಶಕ ನೆಟ್‌ವರ್ಕ್‌ನಲ್ಲಿ ಸಂಪರ್ಕಿಸುತ್ತದೆ.",
       "exploreMarket": "ಮಾರುಕಟ್ಟೆ ಅನ್ವೇಷಿಸಿ",
       "calculatePrice": "ಬೆಲೆ ಸಲಹೆ ಪರಿಶೀಲಿಸಿ",
       "trustStat1": "₹18.4 ಕೋಟಿ+",
@@ -234,7 +248,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "ಕನಿಷ್ಠ ಬೆಂಬಲ ಬೆಲೆ ಭರವಸೆ",
       "trustStat4": "< 24 ಗಂಟೆ",
-      "trustStat4Sub": "ನೇರ ಬ್ಯಾಂಕ್ ಇತ್ಯರ್ಥ (T+1)"
+      "trustStat4Sub": "ನೇರ ಬ್ಯಾಂಕ್ ಇತ್ಯರ್ಥ (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "ಲೈವ್ ಆಪ್ಟಿಕಲ್ ಟೆಲಿಮೆಟ್ರಿ",
+        "opticalGrade": "ಅಗ್ಮಾರ್ಕ್ ಗ್ರೇಡ್ A1 (98.4%)",
+        "opticalDetails": "ಫುಲೇರಾ ಡಿಪೋ #3 • 0.8% ದೋಷ ಮಿತಿ • ಪರೀಕ್ಷಿಸಲಾಗಿದೆ",
+        "mspGuarded": "ಎಂಎಸ್‌ಪಿ ಸಂರಕ್ಷಿತ",
+        "wheatBaseline": "ಖನ್ನಾ ಮಂಡಿ • ಗೋಧಿ ಮೂಲಬೆಲೆ"
+      }
     },
     "advisory": {
       "sectionBadge": "ಅಲ್ಗಾರಿದಮಿಕ್ ಬೆಲೆ ನಿರ್ಧಾರ",
@@ -244,7 +265,7 @@ export const extraTranslations = {
       "suggestedRange": "ನ್ಯಾಯಯುತ ಮಾರುಕಟ್ಟೆ ಮೌಲ್ಯ",
       "confidence": "ಅಂದಾಜು ವಿಶ್ವಾಸ",
       "dataFreshness": "ಡೇಟಾ ಅಪ್‌ಡೇಟ್ ಆಗಿದೆ",
-      "guardrailText": "ಸುರಕ್ಷತೆ ಭರವಸೆ: FarmLink ಮಧ್ಯವರ್ತಿ ಕಮಿಷನ್ ತೆಗೆದುಕೊಳ್ಳುವುದಿಲ್ಲ. ನಿಮ್ಮ ದಾಸ್ತಾನಿನ ಮೇಲೆ ನಿಮಗೆ ಸಂಪೂರ್ಣ ನಿಯಂತ್ರಣವಿದೆ."
+      "guardrailText": "ಸುರಕ್ಷತೆ ಭರವಸೆ: Fasal Matrix ಮಧ್ಯವರ್ತಿ ಕಮಿಷನ್ ತೆಗೆದುಕೊಳ್ಳುವುದಿಲ್ಲ. ನಿಮ್ಮ ದಾಸ್ತಾನಿನ ಮೇಲೆ ನಿಮಗೆ ಸಂಪೂರ್ಣ ನಿಯಂತ್ರಣವಿದೆ."
     },
     "market": {
       "sectionBadge": "ಲೈವ್ ಪರಿಶೀಲಿತ ಕ್ಯಾಟಲಾಗ್",
@@ -259,9 +280,9 @@ export const extraTranslations = {
     "about": {
       "title": "ನಮ್ಮ ಉದ್ದೇಶ ಮತ್ತು ಸಾಂಸ್ಥಿಕ ವಿಶ್ವಾಸ",
       "subtitle": "ಭಾರತದ ಕೃಷಿ ಪೂರೈಕೆ ಪರಿಸರ ವ್ಯವಸ್ಥೆಗೆ ಸಮಾನತೆ, ಪಾರದರ್ಶಕತೆ ಮತ್ತು ಘನತೆಯನ್ನು ಮರುಸ್ಥಾಪಿಸುವುದು.",
-      "missionTitle": "FarmLink ಏಕೆ ನಿರ್ಮಿಸಲಾಯಿತು",
+      "missionTitle": "Fasal Matrix ಏಕೆ ನಿರ್ಮಿಸಲಾಯಿತು",
       "missionText1": "ಭಾರತದಾದ್ಯಂತ 85% ಕ್ಕಿಂತ ಹೆಚ್ಚು ಸಣ್ಣ ರೈತರು ಬೆಲೆ ಕುಸಿತದಿಂದ ಸಂಕಷ್ಟ ಅನುಭವಿಸುತ್ತಾರೆ. ಮಧ್ಯವರ್ತಿಗಳ ಶೋಷಣೆಯಿಂದ ಅವರಿಗೆ ನಷ್ಟವಾಗುತ್ತದೆ.",
-      "missionText2": "FarmLink ಮಧ್ಯವರ್ತಿಗಳನ್ನು ನಿವಾರಿಸುತ್ತದೆ ಮತ್ತು ಬೆಳೆಗಾರರ ​​ಕೈಯಲ್ಲಿ ಸಂಪೂರ್ಣ ಮೌಲ್ಯವನ್ನು ಉಳಿಸುತ್ತದೆ.",
+      "missionText2": "Fasal Matrix ಮಧ್ಯವರ್ತಿಗಳನ್ನು ನಿವಾರಿಸುತ್ತದೆ ಮತ್ತು ಬೆಳೆಗಾರರ ​​ಕೈಯಲ್ಲಿ ಸಂಪೂರ್ಣ ಮೌಲ್ಯವನ್ನು ಉಳಿಸುತ್ತದೆ.",
       "publicTrustRegistry": "ಸಾರ್ವಜನಿಕ ಟ್ರಸ್ಟ್ ನೋಂದಣಿ"
     },
     "consumer": {
@@ -278,7 +299,7 @@ export const extraTranslations = {
   },
   "ml": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "നേരിട്ടുള്ള കാർഷിക ശൃംഖല",
       "home": "അവലോകനം",
       "market": "വിപണി",
@@ -326,7 +347,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "താങ്ങുവില ഗ്യാരണ്ടി",
       "trustStat4": "< 24 മണിക്കൂർ",
-      "trustStat4Sub": "നേരിട്ടുള്ള ബാങ്ക് സെറ്റിൽമെന്റ് (T+1)"
+      "trustStat4Sub": "നേരിട്ടുള്ള ബാങ്ക് സെറ്റിൽമെന്റ് (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "തത്സമയ ഒപ്റ്റിക്കൽ ടെലിമെട്രി",
+        "opticalGrade": "അഗ്മാർക്ക് ഗ്രേഡ് A1 (98.4%)",
+        "opticalDetails": "ഫുലേര ഡിപ്പോ #3 • 0.8% തകരാറ് പരിധി • പരിശോധിച്ചു",
+        "mspGuarded": "എംഎസ്പി സംരക്ഷിതം",
+        "wheatBaseline": "ഖന്ന മണ്ഡി • ഗോതമ്പ് അടിസ്ഥാനവില"
+      }
     },
     "advisory": {
       "sectionBadge": "സുതാര്യമായ അൽഗോരിതമിക് വിലനിർണ്ണയം",
@@ -336,7 +364,7 @@ export const extraTranslations = {
       "suggestedRange": "ന്യായമായ വിപണി മൂല്യം",
       "confidence": "പ്രവചന കൃത്യത",
       "dataFreshness": "ഡാറ്റ അപ്‌ഡേറ്റുചെയ്‌തു",
-      "guardrailText": "സുരക്ഷാ ഗ്യാരണ്ടി: FarmLink ഇടനില കമ്മീഷൻ എടുക്കുന്നില്ല. നിങ്ങളുടെ വിളകളിൽ നിങ്ങൾക്ക് പൂർണ്ണ നിയന്ത്രണമുണ്ട്."
+      "guardrailText": "സുരക്ഷാ ഗ്യാരണ്ടി: Fasal Matrix ഇടനില കമ്മീഷൻ എടുക്കുന്നില്ല. നിങ്ങളുടെ വിളകളിൽ നിങ്ങൾക്ക് പൂർണ്ണ നിയന്ത്രണമുണ്ട്."
     },
     "market": {
       "sectionBadge": "തത്സമയ പരിശോധിച്ച കാറ്റലോഗ്",
@@ -351,9 +379,9 @@ export const extraTranslations = {
     "about": {
       "title": "ഞങ്ങളുടെ ലക്ഷ്യവും സ്ഥാപനപരമായ വിശ്വാസ്യതയും",
       "subtitle": "ഇന്ത്യയുടെ കാർഷിക വിതരണ ശൃംഖലയിൽ സുതാര്യതയും നീതിയും പുനഃസ്ഥാപിക്കുന്നു.",
-      "missionTitle": "എന്തുകൊണ്ട് FarmLink",
+      "missionTitle": "എന്തുകൊണ്ട് Fasal Matrix",
       "missionText1": "ഇടനിലക്കാരുടെ ചൂഷണം മൂലം കർഷകർ അനുഭവിക്കുന്ന നഷ്ടം ഒഴിവാക്കാൻ വികസിപ്പിച്ചെടുത്ത പ്ലാറ്റ്ഫോം.",
-      "missionText2": "FarmLink നേരിട്ടുള്ള വിപണി ബന്ധം ഉറപ്പാക്കുന്നു.",
+      "missionText2": "Fasal Matrix നേരിട്ടുള്ള വിപണി ബന്ധം ഉറപ്പാക്കുന്നു.",
       "publicTrustRegistry": "പബ്ലിക് ട്രസ്റ്റ് രജിസ്ട്രി"
     },
     "consumer": {
@@ -370,7 +398,7 @@ export const extraTranslations = {
   },
   "or": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "ପ୍ରତ୍ୟକ୍ଷ କୃଷି ନେଟୱାର୍କ",
       "home": "ସମୀକ୍ଷା",
       "market": "ବଜାର",
@@ -408,7 +436,7 @@ export const extraTranslations = {
       "badge": "ସାଂସ୍ଥାଗତ କୃଷି ବାଣିଜ୍ୟ ପ୍ଲାଟଫର୍ମ",
       "titleLine1": "ସ୍ୱଚ୍ଛ ଫାର୍ମ ଗେଟ୍ ମୂଲ୍ୟ ନିର୍ଦ୍ଧାରଣ।",
       "titleLine2": "ଶୂନ୍ୟ ମଧ୍ୟସ୍ଥ କ୍ଷତି।",
-      "description": "FarmLink ପ୍ରମାଣିତ କୃଷକ, ଗୋଦାମ ଏବଂ କ୍ରେତାମାନଙ୍କୁ ଏକ ସ୍ୱଚ୍ଛ ନେଟୱାର୍କରେ ସଂଯୋଗ କରେ।",
+      "description": "Fasal Matrix ପ୍ରମାଣିତ କୃଷକ, ଗୋଦାମ ଏବଂ କ୍ରେତାମାନଙ୍କୁ ଏକ ସ୍ୱଚ୍ଛ ନେଟୱାର୍କରେ ସଂଯୋଗ କରେ।",
       "exploreMarket": "ବଜାର ଦେଖନ୍ତୁ",
       "calculatePrice": "ମୂଲ୍ୟ ଯାଞ୍ଚ କରନ୍ତୁ",
       "trustStat1": "₹18.4 କୋଟି+",
@@ -418,7 +446,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "ସର୍ବନିମ୍ନ ସହାୟକ ମୂଲ୍ୟ ନିଶ୍ଚିତ",
       "trustStat4": "< 24 ଘଣ୍ଟା",
-      "trustStat4Sub": "ସିଧା ବ୍ୟାଙ୍କ ଜମା (T+1)"
+      "trustStat4Sub": "ସିଧା ବ୍ୟାଙ୍କ ଜମା (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "ଲାଇଭ୍ ଅପ୍ଟିକାଲ୍ ଟେଲିମେଟ୍ରି",
+        "opticalGrade": "ଏଗମାର୍କ ଗ୍ରେଡ୍ A1 (୯୮.୪%)",
+        "opticalDetails": "ଫୁଲେରା ଡିପୋ #୩ • ୦.୮% ତ୍ରୁଟି ସୀମା • ପରୀକ୍ଷିତ",
+        "mspGuarded": "ଏମଏସପି ସୁରକ୍ଷିତ",
+        "wheatBaseline": "ଖାନ୍ନା ମଣ୍ଡି • ଗହମ ଭିତ୍ତି ମୂଲ୍ୟ"
+      }
     },
     "advisory": {
       "sectionBadge": "ସ୍ୱଚ୍ଛ ମୂଲ୍ୟ ନିର୍ଦ୍ଧାରଣ",
@@ -428,7 +463,7 @@ export const extraTranslations = {
       "suggestedRange": "ଉଚିତ ବଜାର ମୂଲ୍ୟ",
       "confidence": "ଅନୁମାନ ବିଶ୍ୱାସ",
       "dataFreshness": "ଡାଟା ଅଦ୍ୟତନ ହୋଇଛି",
-      "guardrailText": "ସୁରକ୍ଷା ଗ୍ୟାରେଣ୍ଟି: FarmLink କୌଣସି ଦଲାଲି ନିଏ ନାହିଁ। ଆପଣଙ୍କ ଫସଲ ଉପରେ ଆପଣଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ଅଧିକାର ରହିଛି।"
+      "guardrailText": "ସୁରକ୍ଷା ଗ୍ୟାରେଣ୍ଟି: Fasal Matrix କୌଣସି ଦଲାଲି ନିଏ ନାହିଁ। ଆପଣଙ୍କ ଫସଲ ଉପରେ ଆପଣଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ଅଧିକାର ରହିଛି।"
     },
     "market": {
       "sectionBadge": "ଲାଇଭ୍ ଯାଞ୍ଚ ହୋଇଥିବା କାଟାଲଗ୍",
@@ -443,8 +478,8 @@ export const extraTranslations = {
     "about": {
       "title": "ଆମର ଲକ୍ଷ୍ୟ ଏବଂ ସାଂସ୍ଥାଗତ ବିଶ୍ୱାସ",
       "subtitle": "ଭାରତର କୃଷି ଯୋଗାଣ ଶୃଙ୍ଖଳାରେ ସ୍ୱଚ୍ଛତା ଏବଂ ସମ୍ମାନ ଫେରାଇ ଆଣିବା।",
-      "missionTitle": "କାହିଁକି FarmLink ଗଠନ କରାଗଲା",
-      "missionText1": "ମଧ୍ୟସ୍ଥମାନଙ୍କ ଶୋଷଣରୁ କୃଷକଙ୍କୁ ରକ୍ଷା କରିବା ପାଇଁ FarmLink ପ୍ରସ୍ତୁତ କରାଯାଇଛି।",
+      "missionTitle": "କାହିଁକି Fasal Matrix ଗଠନ କରାଗଲା",
+      "missionText1": "ମଧ୍ୟସ୍ଥମାନଙ୍କ ଶୋଷଣରୁ କୃଷକଙ୍କୁ ରକ୍ଷା କରିବା ପାଇଁ Fasal Matrix ପ୍ରସ୍ତୁତ କରାଯାଇଛି।",
       "missionText2": "କୃଷକଙ୍କ ପରିଶ୍ରମର ଉଚିତ ମୂଲ୍ୟ ସେମାନଙ୍କ ହାତରେ ପହଞ୍ଚାଇବା ଆମର ସଂକଳ୍ପ।",
       "publicTrustRegistry": "ସର୍ବସାଧାରଣ ଟ୍ରଷ୍ଟ ରେଜିଷ୍ଟ୍ରି"
     },
@@ -462,7 +497,7 @@ export const extraTranslations = {
   },
   "as": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "প্ৰত্যক্ষ কৃষি নেটৱৰ্ক",
       "home": "বিৱৰণ",
       "market": "বজাৰ",
@@ -500,7 +535,7 @@ export const extraTranslations = {
       "badge": "কৃষি বাণিজ্য প্লেটফৰ্ম",
       "titleLine1": "স্বচ্ছ পথাৰৰ মূল্য নিৰ্ধাৰণ।",
       "titleLine2": "শূন্য মধ্যভোগী ক্ষতি।",
-      "description": "FarmLink এ প্ৰমাণিত কৃষক, গুদাম আৰু ক্ৰেতাসকলক এটা স্বচ্ছ নেটৱৰ্কত সংযোগ কৰে।",
+      "description": "Fasal Matrix এ প্ৰমাণিত কৃষক, গুদাম আৰু ক্ৰেতাসকলক এটা স্বচ্ছ নেটৱৰ্কত সংযোগ কৰে।",
       "exploreMarket": "বজাৰ চাওক",
       "calculatePrice": "মূল্য পৰীক্ষা কৰক",
       "trustStat1": "₹১৮.৪ কোটি+",
@@ -510,7 +545,14 @@ export const extraTranslations = {
       "trustStat3": "১০০% MSP",
       "trustStat3Sub": "নূন্যতম সমৰ্থন মূল্য",
       "trustStat4": "< ২৪ ঘণ্টা",
-      "trustStat4Sub": "প্ৰত্যক্ষ বেংক জমা (T+1)"
+      "trustStat4Sub": "প্ৰত্যক্ষ বেংক জমা (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "লাইভ অপটিকেল টেলিমেট্ৰি",
+        "opticalGrade": "এগমাৰ্ক গ্ৰেড A1 (৯৮.৪%)",
+        "opticalDetails": "ফুলেৰা ডিপো #৩ • ০.৮% আসোঁৱাহ সীমা • পৰীক্ষিত",
+        "mspGuarded": "এমএছপি সুৰক্ষিত",
+        "wheatBaseline": "খান্না মাণ্ডি • ঘেঁহু ভিত্তি মূল্য"
+      }
     },
     "advisory": {
       "sectionBadge": "স্বচ্ছ মূল্য নিৰ্ধাৰণ",
@@ -520,7 +562,7 @@ export const extraTranslations = {
       "suggestedRange": "ন্যায্য বজাৰ মূল্য",
       "confidence": "পূৰ্বাভাস বিশ্বাস",
       "dataFreshness": "তথ্য আপডেট হৈছে",
-      "guardrailText": "সুৰক্ষা নিশ্চয়তা: FarmLink এ কোনো মধ্যভোগী মাচুল নলয়।"
+      "guardrailText": "সুৰক্ষা নিশ্চয়তা: Fasal Matrix এ কোনো মধ্যভোগী মাচুল নলয়।"
     },
     "market": {
       "sectionBadge": "যাচাইকৃত তালিকা",
@@ -535,7 +577,7 @@ export const extraTranslations = {
     "about": {
       "title": "আমাৰ উদ্দেশ্য আৰু বিশ্বাস",
       "subtitle": "কৃষি যোগান শৃংখলত স্বচ্ছতা আৰু মৰ্যাদা ঘূৰাই অনা।",
-      "missionTitle": "FarmLink কিয় সৃষ্টি কৰা হ’ল",
+      "missionTitle": "Fasal Matrix কিয় সৃষ্টি কৰা হ’ল",
       "missionText1": "মধ্যভোগীৰ শোষণৰ পৰা কৃষকক ৰক্ষা কৰি সঠিক মূল্য প্ৰদান কৰাই আমাৰ লক্ষ্য।",
       "missionText2": "কৃষকৰ পৰিশ্ৰমৰ সম্পূৰ্ণ লাভ কৃষকৰ হাতলৈ যোৱাটো আমি নিশ্চিত কৰোঁ।",
       "publicTrustRegistry": "ৰাজহুৱা ট্ৰাষ্ট পঞ্জী"
@@ -554,7 +596,7 @@ export const extraTranslations = {
   },
   "ur": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "براہ راست زرعی نیٹ ورک",
       "home": "جائزہ",
       "market": "منڈی",
@@ -592,7 +634,7 @@ export const extraTranslations = {
       "badge": "ادارہ جاتی زرعی تجارتی پلیٹ فارم",
       "titleLine1": "شفاف فارم گیٹ قیمت کا تعین۔",
       "titleLine2": "درمیانی نقصان سے مکمل نجات۔",
-      "description": "FarmLink تصدیق شدہ کسانوں، گوداموں اور خریداروں کو ایک شفاف نیٹ ورک پر جوڑتا ہے۔",
+      "description": "Fasal Matrix تصدیق شدہ کسانوں، گوداموں اور خریداروں کو ایک شفاف نیٹ ورک پر جوڑتا ہے۔",
       "exploreMarket": "منڈی دیکھیں",
       "calculatePrice": "قیمت چیک کریں",
       "trustStat1": "₹18.4 کروڑ+",
@@ -602,7 +644,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "کم از کم امدادی قیمت کی ضمانت",
       "trustStat4": "< 24 گھنٹے",
-      "trustStat4Sub": "براہ راست بینک تصفیہ (T+1)"
+      "trustStat4Sub": "براہ راست بینک تصفیہ (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "براہ راست آپٹیکل ٹیلی میٹری",
+        "opticalGrade": "ایگ مارک گریڈ A1 (98.4%)",
+        "opticalDetails": "پھلیرا ڈپو #3 • 0.8% نقص کی حد • تصدیق شدہ",
+        "mspGuarded": "ایم ایس پی محفوظ",
+        "wheatBaseline": "کھنہ منڈی • گندم بنیادی قیمت"
+      }
     },
     "advisory": {
       "sectionBadge": "الگورتھمک شفاف قیمتیں",
@@ -612,7 +661,7 @@ export const extraTranslations = {
       "suggestedRange": "منصفانہ مارکیٹ ویلیو",
       "confidence": "پیشین گوئی کا اعتماد",
       "dataFreshness": "ڈیٹا اپ ڈیٹ ہو گیا",
-      "guardrailText": "حفاظتی ضمانت: FarmLink کوئی خفیہ کمیشن نہیں لیتا۔ فصل پر آپ کا پورا اختیار ہے۔"
+      "guardrailText": "حفاظتی ضمانت: Fasal Matrix کوئی خفیہ کمیشن نہیں لیتا۔ فصل پر آپ کا پورا اختیار ہے۔"
     },
     "market": {
       "sectionBadge": "تصدیق شدہ لائیو کیٹلاگ",
@@ -627,7 +676,7 @@ export const extraTranslations = {
     "about": {
       "title": "ہمارا مقصد اور ادارہ جاتی اعتماد",
       "subtitle": "ہندوستان کے زرعی سپلائی کے نظام میں انصاف اور شفافیت کی بحالی۔",
-      "missionTitle": "FarmLink کیوں بنایا گیا",
+      "missionTitle": "Fasal Matrix کیوں بنایا گیا",
       "missionText1": "دلالوں کے استحصال سے کسانوں کو بچانا اور انہیں ان کی محنت کا پورا معاوضہ دلانا۔",
       "missionText2": "ہم کسانوں کو براہ راست منڈی اور خریداروں سے جوڑتے ہیں۔",
       "publicTrustRegistry": "پبلک ٹرسٹ رجسٹری"
@@ -646,7 +695,7 @@ export const extraTranslations = {
   },
   "sa": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "प्रत्यक्ष-कृषि-जालम्",
       "home": "अवलोकनम्",
       "market": "विपणिः",
@@ -684,7 +733,7 @@ export const extraTranslations = {
       "badge": "संस्थागत-कृषि-वाणिज्य-मञ्चः",
       "titleLine1": "पारदर्शकं क्षेत्र-द्वार-मूल्यम्।",
       "titleLine2": "शून्य-मध्यस्थ-हानिः।",
-      "description": "FarmLink प्रमाणित-कृषकान्, कोष्ठागाराणि, संस्थागत-क्रेतॄंश्च एके पारदर्शके जाले संयोजयति।",
+      "description": "Fasal Matrix प्रमाणित-कृषकान्, कोष्ठागाराणि, संस्थागत-क्रेतॄंश्च एके पारदर्शके जाले संयोजयति।",
       "exploreMarket": "विपणिम् अन्विष्यतु",
       "calculatePrice": "मूल्य-परामर्शं पश्यतु",
       "trustStat1": "₹18.4 कोटि+",
@@ -694,7 +743,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "न्यूनतम-समर्थन-मूल्यम्",
       "trustStat4": "< 24 होराः",
-      "trustStat4Sub": "प्रत्यक्ष-कोश-शोधनम् (T+1)"
+      "trustStat4Sub": "प्रत्यक्ष-कोश-शोधनम् (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "प्रत्यक्ष-प्रकाशीय-दूरमितिः",
+        "opticalGrade": "एगमार्क श्रेणी A1 (98.4%)",
+        "opticalDetails": "फुलेरा आगारम् #3 • 0.8% दोषसीमा • परीक्षितम्",
+        "mspGuarded": "न्यूनतमसमर्थनमूल्यं रक्षितम्",
+        "wheatBaseline": "खन्ना मण्डी • गोधूम-मूलमानम्"
+      }
     },
     "advisory": {
       "sectionBadge": "पारदर्शकं मूल्य-निर्धारणम्",
@@ -704,7 +760,7 @@ export const extraTranslations = {
       "suggestedRange": "उचित-विपणि-मूल्यम्",
       "confidence": "अनुमान-विश्वासः",
       "dataFreshness": "दत्तांशः नवीकृतः",
-      "guardrailText": "सुरक्षा-प्रतिज्ञा: FarmLink मध्यस्थ-शुल्कं न स्वीकरोति।"
+      "guardrailText": "सुरक्षा-प्रतिज्ञा: Fasal Matrix मध्यस्थ-शुल्कं न स्वीकरोति।"
     },
     "market": {
       "sectionBadge": "सत्यापिता सूचिः",
@@ -719,8 +775,8 @@ export const extraTranslations = {
     "about": {
       "title": "अस्माकं सङ्कल्पः संस्थागत-विश्वासश्च",
       "subtitle": "भारतस्य कृषि-व्यवस्थायां समतायाः पारदर्शकतायाश्च पुनर्स्थापनम्।",
-      "missionTitle": "किमर्थं FarmLink निर्मितम्",
-      "missionText1": "मध्यस्थानां शोषणात् कृषकान् रक्षितुं FarmLink मञ्चः निर्मितः।",
+      "missionTitle": "किमर्थं Fasal Matrix निर्मितम्",
+      "missionText1": "मध्यस्थानां शोषणात् कृषकान् रक्षितुं Fasal Matrix मञ्चः निर्मितः।",
       "missionText2": "कृषकस्य श्रमेण लब्धं मूल्यं तस्यैव हस्ते भवेत् इति अस्माकं ध्येयम्।",
       "publicTrustRegistry": "सार्वजनिक-न्यास-पञ्जिका"
     },
@@ -738,7 +794,7 @@ export const extraTranslations = {
   },
   "ne": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "प्रत्यक्ष कृषि नेटवर्क",
       "home": "अवलोकन",
       "market": "बजार",
@@ -776,7 +832,7 @@ export const extraTranslations = {
       "badge": "संस्थागत कृषि व्यापार मञ्च",
       "titleLine1": "पारदर्शी फार्म गेट मूल्य निर्धारण।",
       "titleLine2": "शून्य बिचौलिया घाटा।",
-      "description": "FarmLink ले प्रमाणित किसान, गोदाम र संस्थागत खरिदकर्ताहरूलाई एउटै पारदर्शी नेटवर्कमा जोड्छ।",
+      "description": "Fasal Matrix ले प्रमाणित किसान, गोदाम र संस्थागत खरिदकर्ताहरूलाई एउटै पारदर्शी नेटवर्कमा जोड्छ।",
       "exploreMarket": "बजार हेर्नुहोस्",
       "calculatePrice": "मूल्य सल्लाह जाँच्नुहोस्",
       "trustStat1": "₹18.4 करोड+",
@@ -786,7 +842,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "न्यूनतम समर्थन मूल्य",
       "trustStat4": "< 24 घण्टा",
-      "trustStat4Sub": "प्रत्यक्ष बैंक भुक्तानी (T+1)"
+      "trustStat4Sub": "प्रत्यक्ष बैंक भुक्तानी (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "प्रत्यक्ष अप्टिकल टेलिमेट्री",
+        "opticalGrade": "एगमार्क ग्रेड A1 (९८.४%)",
+        "opticalDetails": "फुलेरा डिपो #३ • ०.८% दोष सीमा • परीक्षण गरिएको",
+        "mspGuarded": "एमएसपी सुरक्षित",
+        "wheatBaseline": "खन्ना मन्डी • गहुँ आधार मूल्य"
+      }
     },
     "advisory": {
       "sectionBadge": "पारदर्शी मूल्य निर्धारण",
@@ -796,7 +859,7 @@ export const extraTranslations = {
       "suggestedRange": "उचित बजार मूल्य",
       "confidence": "पूर्वानुमान विश्वास",
       "dataFreshness": "डेटा अपडेट भयो",
-      "guardrailText": "सुरक्षा ग्यारेन्टी: FarmLink ले कुनै बिचौलिया शुल्क लिँदैन।"
+      "guardrailText": "सुरक्षा ग्यारेन्टी: Fasal Matrix ले कुनै बिचौलिया शुल्क लिँदैन।"
     },
     "market": {
       "sectionBadge": "प्रमाणित प्रत्यक्ष सूची",
@@ -811,7 +874,7 @@ export const extraTranslations = {
     "about": {
       "title": "हाम्रो उद्देश्य र संस्थागत विश्वास",
       "subtitle": "कृषि आपूर्ति प्रणालीमा समानता र पारदर्शिता पुनर्स्थापित गर्दै।",
-      "missionTitle": "किन FarmLink बनाइयो",
+      "missionTitle": "किन Fasal Matrix बनाइयो",
       "missionText1": "बिचौलियाको शोषणबाट किसानलाई बचाउन र उचित मूल्य दिलाउन।",
       "missionText2": "किसानको पसिनाको वास्तविक मूल्य किसानकै हातमा पुर्‍याउनु हाम्रो लक्ष्य हो।",
       "publicTrustRegistry": "सार्वजनिक ट्रस्ट दर्ता"
@@ -830,7 +893,7 @@ export const extraTranslations = {
   },
   "sd": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "سڌو زرعي نيٽ ورڪ",
       "home": "خلاصو",
       "market": "مارڪيٽ",
@@ -868,7 +931,7 @@ export const extraTranslations = {
       "badge": "اد ادارتي زرعي واپار پليٽ فارم",
       "titleLine1": "شفاف کيت گيٽ قيمتون.",
       "titleLine2": "وچولين جي نقصان کان نجات.",
-      "description": "FarmLink تصديق ٿيل هارين، گودامن ۽ خريدارن کي هڪ شفاف نيٽ ورڪ تي ڳنڍي ٿو.",
+      "description": "Fasal Matrix تصديق ٿيل هارين، گودامن ۽ خريدارن کي هڪ شفاف نيٽ ورڪ تي ڳنڍي ٿو.",
       "exploreMarket": "مارڪيٽ ڏسو",
       "calculatePrice": "قيمت چيڪ ڪريو",
       "trustStat1": "₹18.4 ڪروڙ+",
@@ -878,7 +941,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "گهٽ ۾ گهٽ امدادي قيمت جي پڪ",
       "trustStat4": "< 24 ڪلاڪ",
-      "trustStat4Sub": "سڌي بئنڪ ادائيگي (T+1)"
+      "trustStat4Sub": "سڌي بئنڪ ادائيگي (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "لائيو آپٽيڪل ٽيلي ميٽري",
+        "opticalGrade": "ايگمارڪ گريڊ A1 (98.4%)",
+        "opticalDetails": "ڦليرا ڊپو #3 • 0.8% نقص جي حد • پرکيل",
+        "mspGuarded": "ايم ايس پي محفوظ",
+        "wheatBaseline": "کنا منڊي • ڪڻڪ جو بنيادي اگهه"
+      }
     },
     "advisory": {
       "sectionBadge": "شفاف الگورتھمڪ قيمتون",
@@ -888,7 +958,7 @@ export const extraTranslations = {
       "suggestedRange": "مناسب مارڪيٽ اگهه",
       "confidence": "اڳڪٿي جو ڀروسو",
       "dataFreshness": "ڊيٽا اپڊيٽ ٿي ويو",
-      "guardrailText": "تحفظ جي پڪ: FarmLink ڪو به ڳجهو ڪميشن نٿو وٺي."
+      "guardrailText": "تحفظ جي پڪ: Fasal Matrix ڪو به ڳجهو ڪميشن نٿو وٺي."
     },
     "market": {
       "sectionBadge": "تصديق ٿيل لائيو فهرست",
@@ -903,7 +973,7 @@ export const extraTranslations = {
     "about": {
       "title": "اسان جو مقصد ۽ ادارتي اعتماد",
       "subtitle": "زرعي سپلائي نظام ۾ برابري ۽ شفافيت جي بحالي.",
-      "missionTitle": "FarmLink ڇو ٺاهيو ويو",
+      "missionTitle": "Fasal Matrix ڇو ٺاهيو ويو",
       "missionText1": "وچولين جي ڦرلٽ کان هارين کي بچائڻ ۽ کين پنهنجي محنت جو پورو ملهه ڏيارڻ لاءِ.",
       "missionText2": "اسان هارين کي سڌو مارڪيٽ سان ڳنڍيون ٿا.",
       "publicTrustRegistry": "پبلڪ ٽرسٽ رجسٽري"
@@ -922,7 +992,7 @@ export const extraTranslations = {
   },
   "ks": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "سۄدو زَرعی نؠٹورک",
       "home": "خُلاصہٕ",
       "market": "مَنڈی",
@@ -960,7 +1030,7 @@ export const extraTranslations = {
       "badge": "زَرعی تِجارَت پِلیٹ فارم",
       "titleLine1": "شفاف کؠتھ گیٹ قِیٖمَت۔",
       "titleLine2": "دَلالَن ہُنٛد نُقصان نؠبَر۔",
-      "description": "FarmLink چھُ کِسانَن، گودامَن تہٕ خٔریٖدارَن اَکِس شفاف نؠٹورکَس پؠٹھ جوڈان۔",
+      "description": "Fasal Matrix چھُ کِسانَن، گودامَن تہٕ خٔریٖدارَن اَکِس شفاف نؠٹورکَس پؠٹھ جوڈان۔",
       "exploreMarket": "مَنڈی وُچھِو",
       "calculatePrice": "قِیٖمَت جانچِو",
       "trustStat1": "₹18.4 کَروڑ+",
@@ -970,7 +1040,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "کم از کم قِیٖمَت ضَمانَت",
       "trustStat4": "< 24 گَنٛٹہٕ",
-      "trustStat4Sub": "بینک اَدایئگی (T+1)"
+      "trustStat4Sub": "بینک اَدایئگی (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "لائیو آپٹِکل ٹیلی میٹری",
+        "opticalGrade": "ایگمارک گریڈ A1 (98.4%)",
+        "opticalDetails": "پُھلیرا ڈِپو #3 • 0.8% نقص حد • پرکھا ہوا",
+        "mspGuarded": "ایم ایس پی مَحفوظ",
+        "wheatBaseline": "کھنہ منڈی • کنک بَنیادی مۄل"
+      }
     },
     "advisory": {
       "sectionBadge": "شفاف قِیٖمَت نِظام",
@@ -980,7 +1057,7 @@ export const extraTranslations = {
       "suggestedRange": "مُناسِب قِیٖمَت",
       "confidence": "پیشن گوئی اِعتبار",
       "dataFreshness": "ڈیٹا اَپڈیٹ",
-      "guardrailText": "حِفاظَتی ضَمانَت: FarmLink چھُنہٕ کانٛہہ کَمیشن ہؠوان۔"
+      "guardrailText": "حِفاظَتی ضَمانَت: Fasal Matrix چھُنہٕ کانٛہہ کَمیشن ہؠوان۔"
     },
     "market": {
       "sectionBadge": "تَصدیٖق شُدٕ فِہرِست",
@@ -995,7 +1072,7 @@ export const extraTranslations = {
     "about": {
       "title": "سون مَقصَد تہٕ اِعتبار",
       "subtitle": "زَرعی نِظامَس مَنٛز اِنصاف تہٕ شفافِیَت واپس انُن۔",
-      "missionTitle": "FarmLink کیازِ بَناوُن آو",
+      "missionTitle": "Fasal Matrix کیازِ بَناوُن آو",
       "missionText1": "دَلالَن ہِنٛزِ لُوٹھہٕ نِش کِسان بَچاوُن تہٕ محنَتُک پُورٕ مۄل دِیاوُن۔",
       "missionText2": "کِسانَس حَق دِیاوُن چھُ سون مَقصَد۔",
       "publicTrustRegistry": "پَبلِک ٹرَسٹ رَجِسٹِری"
@@ -1014,7 +1091,7 @@ export const extraTranslations = {
   },
   "kok": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "थेट शेती जाळें",
       "home": "सादारण म्हायती",
       "market": "बाजार",
@@ -1052,7 +1129,7 @@ export const extraTranslations = {
       "badge": "संस्थात्मक शेतकी वेपार मंच",
       "titleLine1": "पारदर्शक शेता दाराचें मोल.",
       "titleLine2": "शून्य मध्यस्थ लुकसाण.",
-      "description": "FarmLink प्रमाणित शेतकार, गोदाम आनी खरेदीदारांक एकाच पारदर्शक नेटवर्काचेर जोडटा.",
+      "description": "Fasal Matrix प्रमाणित शेतकार, गोदाम आनी खरेदीदारांक एकाच पारदर्शक नेटवर्काचेर जोडटा.",
       "exploreMarket": "बाजार पळयात",
       "calculatePrice": "मोल सल्ला तपासात",
       "trustStat1": "₹18.4 कोटी+",
@@ -1062,7 +1139,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "कनिष्ठ तेंको मोलाची हमी",
       "trustStat4": "< 24 वर",
-      "trustStat4Sub": "थेट बँक खात्यांत जमा (T+1)"
+      "trustStat4Sub": "थेट बँक खात्यांत जमा (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "थेट ऑप्टिकल टेलिमेट्री",
+        "opticalGrade": "एगमार्क श्रेणी A1 (98.4%)",
+        "opticalDetails": "फुलेरा डेपो #3 • 0.8% उणेपण मर्यादा • तपासिल्लें",
+        "mspGuarded": "हमीभाव (MSP) सुरक्षित",
+        "wheatBaseline": "खन्ना मंडी • गंव मूळ दर"
+      }
     },
     "advisory": {
       "sectionBadge": "एल्गोरिदम आधारित मोल",
@@ -1072,7 +1156,7 @@ export const extraTranslations = {
       "suggestedRange": "योग्य बाजार मोल",
       "confidence": "अंदाज विश्वास",
       "dataFreshness": "डेटा नवो केला",
-      "guardrailText": "सुरक्षा हमी: FarmLink कसलोच मदीं कमिशन घेना."
+      "guardrailText": "सुरक्षा हमी: Fasal Matrix कसलोच मदीं कमिशन घेना."
     },
     "market": {
       "sectionBadge": "तपासिल्ली लायव्ह वळेरी",
@@ -1087,7 +1171,7 @@ export const extraTranslations = {
     "about": {
       "title": "आमचो उद्देश आनी संस्थात्मक विस्वास",
       "subtitle": "शेती पुरवण साखळ्येंत समानता आनी पारदर्शकता हाडप.",
-      "missionTitle": "FarmLink कित्याक तयार केलें",
+      "missionTitle": "Fasal Matrix कित्याक तयार केलें",
       "missionText1": "दलालांच्या लुबाडणुके सावन शेतकारांक वाटावंक आनी योग्य मोल मेळोवन दिवंक.",
       "missionText2": "शेतकाराच्या कश्टांचें मोल शेतकाराच्या हातांत उरचें ही आमची नदर.",
       "publicTrustRegistry": "सार्वजनिक ट्रस्ट नोंदणी"
@@ -1106,7 +1190,7 @@ export const extraTranslations = {
   },
   "mni": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "হকথেংনবা লৌ-উশিং-উগী নেত্বার্ক",
       "home": "মমি",
       "market": "কৈথেল",
@@ -1144,7 +1228,7 @@ export const extraTranslations = {
       "badge": "লৌ-উ শিং-উগী ললোন-ইতিক প্লেতফোর্ম",
       "titleLine1": "শেংলবা লৌবুক্কী মমল।",
       "titleLine2": "মরক্তা মী লৈতনা মাংবা লৈতবা।",
-      "description": "FarmLink না লৌমীশিং, গোডাউনশিং অমসুং লৈবা মীওইশিংবু অমত্তা ওইনা শম্নহল্লি।",
+      "description": "Fasal Matrix না লৌমীশিং, গোডাউনশিং অমসুং লৈবা মীওইশিংবু অমত্তা ওইনা শম্নহল্লি।",
       "exploreMarket": "কৈথেল য়েংবীয়ু",
       "calculatePrice": "মমল পাউতাক য়েংবীয়ু",
       "trustStat1": "₹18.4 ক্রোর+",
@@ -1154,7 +1238,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "খ্বাইদগী নেম্বা মমলগী থাজবা",
       "trustStat4": "< 24 পুং",
-      "trustStat4Sub": "বেঙ্কতা হকথেংনবা ডিপোজিৎ (T+1)"
+      "trustStat4Sub": "বেঙ্কতা হকথেংনবা ডিপোজিৎ (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "লাইভ ওপ্টিকল তেলিমেত্রী",
+        "opticalGrade": "এগমাক গ্রেদ A1 (৯৮.৪%)",
+        "opticalDetails": "ফুলেরো দিপো #৩ • ০.৮% অশোইবা মখা • চাং য়েংশিনবা",
+        "mspGuarded": "MSP ঙাকশেল লৈরবা",
+        "wheatBaseline": "খান্না মন্দি • গেহু য়ুম্ফম মল"
+      }
     },
     "advisory": {
       "sectionBadge": "শেংলবা মমল লেপপা",
@@ -1164,7 +1255,7 @@ export const extraTranslations = {
       "suggestedRange": "চুম্বা কৈথেল মমল",
       "confidence": "থাজবা থম্বা",
       "dataFreshness": "অনৌবা পাউ",
-      "guardrailText": "ঙাকশেলগী থাজবা: FarmLink না মরক্তা শেন্থুম লৌজদে।"
+      "guardrailText": "ঙাকশেলগী থাজবা: Fasal Matrix না মরক্তা শেন্থুম লৌজদে।"
     },
     "market": {
       "sectionBadge": "লাইভ যাচাই তৌরবা লিস্ত",
@@ -1179,7 +1270,7 @@ export const extraTranslations = {
     "about": {
       "title": "ঐখোয়গী পান্দম অমসুং থাজবা",
       "subtitle": "লৌ-উ শিং-উগী পোত্থোক ফংহনবদা অচুম্বা অমসুং অচুম্বা লম্বী পুৱাকপা।",
-      "missionTitle": "FarmLink করম্না শেমখিবগে",
+      "missionTitle": "Fasal Matrix করম্না শেমখিবগে",
       "missionText1": "মরক্তগী মীশিংনা লৌমীশিংবু নমথরবা থিংনবা শেমখিবনি।",
       "missionText2": "লৌমীগী কনবা হোৎনবগী মমল লৌমীদা ফংহনবা ঐখোয়গী পান্দমনি।",
       "publicTrustRegistry": "মীয়ামগী ত্রস্ত রেজিস্ত্রি"
@@ -1198,7 +1289,7 @@ export const extraTranslations = {
   },
   "brx": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "थोंजों आबाद नेटवर्क",
       "home": "गुवारै",
       "market": "हाथाय",
@@ -1236,7 +1327,7 @@ export const extraTranslations = {
       "badge": "आबाद फालांगि मञ्च",
       "titleLine1": "रोखा आबाद फान्नाय बेसेन।",
       "titleLine2": "दलाल गैयि खहा गैयै।",
-      "description": "FarmLink आ फोरमान गोनां आबादारी, बाखार आरो बायग्राफोरखौ मोनसे रोखा नेटवर्काव फोनान्जाबो।",
+      "description": "Fasal Matrix आ फोरमान गोनां आबादारी, बाखार आरो बायग्राफोरखौ मोनसे रोखा नेटवर्काव फोनान्जाबो।",
       "exploreMarket": "हाथाय नाय",
       "calculatePrice": "बेसेन बोसोन नाय",
       "trustStat1": "₹18.4 कौटि+",
@@ -1246,7 +1337,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "खम बेसेन थि खालामनाय",
       "trustStat4": "< 24 घन्टा",
-      "trustStat4Sub": "थोंजों बेंक एकाउन्टाव (T+1)"
+      "trustStat4Sub": "थोंजों बेंक एकाउन्टाव (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "लाइभ अप्टिकेल टेलिमेट्रि",
+        "opticalGrade": "एगमाक ग्रेड A1 (98.4%)",
+        "opticalDetails": "फुलेरा दिपो #3 • 0.8% खहा सिमा • आनजाद नायनाय",
+        "mspGuarded": "MSP रैखाथि गोनां",
+        "wheatBaseline": "खान्ना मान्दि • गहं गुदि बेसेन"
+      }
     },
     "advisory": {
       "sectionBadge": "रोखा बेसेन थि खालामनाय",
@@ -1256,7 +1354,7 @@ export const extraTranslations = {
       "suggestedRange": "मोजां हाथाय बेसेन",
       "confidence": "फोथायथाव",
       "dataFreshness": "गोदान खारि",
-      "guardrailText": "रैखाथि थि: FarmLink आ जेबो दलाल फिस लाया।"
+      "guardrailText": "रैखाथि थि: Fasal Matrix आ जेबो दलाल फिस लाया।"
     },
     "market": {
       "sectionBadge": "फोरमान गोनां फारिलाइ",
@@ -1271,7 +1369,7 @@ export const extraTranslations = {
     "about": {
       "title": "जोंनि थांखि आरो फोथायनाय",
       "subtitle": "आबाद फान्नाय-बायनायाव समानथि आरो रोखाथि लाबोनाय।",
-      "missionTitle": "मानो FarmLink सोरजिदों",
+      "missionTitle": "मानो Fasal Matrix सोरजिदों",
       "missionText1": "दलालफोरनिफ्राय आबादारीखौ रैखाथि होनो आरो थार बेसेन मोनहोनो।",
       "missionText2": "आबादारीनि हास्थायनायनि थार बेसेनखौ आबादारीनि आखायाव दोननायानो जोंनि थांखि।",
       "publicTrustRegistry": "गांगोन ट्रान्स्ट रेजिस्ट्रि"
@@ -1290,7 +1388,7 @@ export const extraTranslations = {
   },
   "mai": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "प्रत्यक्ष कृषि नेटवर्क",
       "home": "अवलोकन",
       "market": "हाट / बाजार",
@@ -1328,7 +1426,7 @@ export const extraTranslations = {
       "badge": "संस्थागत कृषि व्यापार मंच",
       "titleLine1": "पारदर्शी खेत गेट मूल्य निर्धारण।",
       "titleLine2": "शून्य बिचौलिया नुकसान।",
-      "description": "FarmLink प्रमाणित किसान, गोदाम आ संस्थागत खरीदार सभकेँ एक्के पारदर्शी नेटवर्क पर जोड़ैत अछि।",
+      "description": "Fasal Matrix प्रमाणित किसान, गोदाम आ संस्थागत खरीदार सभकेँ एक्के पारदर्शी नेटवर्क पर जोड़ैत अछि।",
       "exploreMarket": "हाट देखू",
       "calculatePrice": "मूल्य परामर्श जाँचु",
       "trustStat1": "₹18.4 करोड़+",
@@ -1338,7 +1436,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "न्यूनतम समर्थन मूल्यक गारंटी",
       "trustStat4": "< 24 घंटा",
-      "trustStat4Sub": "सीधा बैंक भुगतान (T+1)"
+      "trustStat4Sub": "सीधा बैंक भुगतान (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "लाइव ऑप्टिकल टेलीमेट्री",
+        "opticalGrade": "एगमार्क ग्रेड A1 (98.4%)",
+        "opticalDetails": "फुलेरा डिपो #3 • 0.8% दोष सीमा • परीक्षित",
+        "mspGuarded": "एमएसपी संरक्षित",
+        "wheatBaseline": "खन्ना मंडी • गेहूँ आधार मूल्य"
+      }
     },
     "advisory": {
       "sectionBadge": "पारदर्शी मूल्य निर्धारण",
@@ -1348,7 +1453,7 @@ export const extraTranslations = {
       "suggestedRange": "उचित बाजार मूल्य",
       "confidence": "पूर्वानुमान विश्वास",
       "dataFreshness": "डेटा अपडेट भेल",
-      "guardrailText": "सुरक्षा गारंटी: FarmLink कोनो बिचौलिया शुल्क नहि लैत अछि।"
+      "guardrailText": "सुरक्षा गारंटी: Fasal Matrix कोनो बिचौलिया शुल्क नहि लैत अछि।"
     },
     "market": {
       "sectionBadge": "प्रमाणित प्रत्यक्ष सूची",
@@ -1363,7 +1468,7 @@ export const extraTranslations = {
     "about": {
       "title": "हमर उद्देश्य आ संस्थागत विश्वास",
       "subtitle": "कृषि आपूर्ति व्यवस्थामे पारदर्शिता आ सम्मान वापस आनब।",
-      "missionTitle": "FarmLink कियाक बनाओल गेल",
+      "missionTitle": "Fasal Matrix कियाक बनाओल गेल",
       "missionText1": "बिचौलियाक शोषणसँ किसान सभकेँ बचाबय आ हुनकर मेहनतक उचित मूल्य दियाबय लेल।",
       "missionText2": "किसानक पसीनाकेँ सही मोल किसानक हाथमे भेटय, से हमर संकल्प अछि।",
       "publicTrustRegistry": "सार्वजनिक ट्रस्ट पंजी"
@@ -1382,7 +1487,7 @@ export const extraTranslations = {
   },
   "sat": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "ᱥᱚᱡᱷᱮ ᱪᱟᱥ ᱱᱮᱴᱣᱟᱨᱠ",
       "home": "ᱧᱮᱞ ᱯᱩᱥᱴᱟᱹᱣ",
       "market": "ᱦᱟᱴ",
@@ -1420,7 +1525,7 @@ export const extraTranslations = {
       "badge": "ᱪᱟᱥ ᱵᱮᱯᱟᱨ ᱢᱟᱸᱪ",
       "titleLine1": "ᱥᱚᱡᱷᱮ ᱪᱟᱥ ᱫᱟᱢ ᱴᱷᱟᱹᱣᱠᱟᱹ᱾",
       "titleLine2": "ᱫᱟᱞᱟᱞ ᱵᱟᱹᱱᱩᱜ ᱠᱷᱤᱛᱤ ᱵᱟᱹᱱᱩᱜ᱾",
-      "description": "FarmLink ᱯᱚᱨᱢᱟᱬ ᱪᱟᱥᱤ, ᱜᱚᱫᱟᱢ ᱟᱨ ᱠᱤᱨᱤᱧᱤᱭᱟᱹ ᱠᱚ ᱢᱤᱫ ᱥᱟᱸᱜᱷᱟᱨ ᱨᱮ ᱡᱚᱲᱟᱣ ᱮᱫᱟᱭ᱾",
+      "description": "Fasal Matrix ᱯᱚᱨᱢᱟᱬ ᱪᱟᱥᱤ, ᱜᱚᱫᱟᱢ ᱟᱨ ᱠᱤᱨᱤᱧᱤᱭᱟᱹ ᱠᱚ ᱢᱤᱫ ᱥᱟᱸᱜᱷᱟᱨ ᱨᱮ ᱡᱚᱲᱟᱣ ᱮᱫᱟᱭ᱾",
       "exploreMarket": "ᱦᱟᱴ ᱧᱮᱞ",
       "calculatePrice": "ᱫᱟᱢ ᱯᱚᱨᱠᱷᱟ",
       "trustStat1": "₹18.4 ᱠᱳᱴᱤ+",
@@ -1430,7 +1535,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "ᱠᱚᱢ ᱫᱟᱢ ᱜᱮᱨᱮᱱᱴᱤ",
       "trustStat4": "< 24 ᱴᱟᱲᱟᱝ",
-      "trustStat4Sub": "ᱥᱚᱡᱷᱮ ᱵᱮᱸᱠ ᱮᱠᱟᱣᱩᱱᱴ (T+1)"
+      "trustStat4Sub": "ᱥᱚᱡᱷᱮ ᱵᱮᱸᱠ ᱮᱠᱟᱣᱩᱱᱴ (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "ᱞᱟᱭᱤᱵᱽ ᱚᱯᱴᱤᱠᱟᱞ ᱴᱮᱞᱤᱢᱮᱴᱨᱤ",
+        "opticalGrade": "ᱮᱜᱽᱢᱟᱨᱠ ᱜᱽᱨᱮᱰ A1 (98.4%)",
+        "opticalDetails": "ᱯᱷᱩᱞᱮᱨᱟ ᱰᱤᱯᱳ #3 • 0.8% ᱠᱷᱟᱹᱢᱤ ᱥᱤᱢᱟᱹ • ᱯᱟᱨᱠᱷᱟᱣ",
+        "mspGuarded": "MSP ᱨᱩᱠᱷᱤᱭᱟᱹ",
+        "wheatBaseline": "ᱠᱷᱟᱱᱱᱟ ᱢᱟᱱᱰᱤ • ᱜᱩᱦᱩᱢ ᱢᱩᱬ ᱫᱟᱢ"
+      }
     },
     "advisory": {
       "sectionBadge": "ᱯᱩᱥᱴᱟᱹᱣ ᱫᱟᱢ ᱴᱷᱟᱹᱣᱠᱟᱹ",
@@ -1440,7 +1552,7 @@ export const extraTranslations = {
       "suggestedRange": "ᱴᱷᱤᱠ ᱦᱟᱴ ᱫᱟᱢ",
       "confidence": "ᱯᱟᱹᱛᱭᱟᱹᱣ",
       "dataFreshness": "ᱱᱟᱣᱟ ᱠᱟᱛᱷᱟ",
-      "guardrailText": "ᱨᱩᱠᱷᱤᱭᱟᱹ ᱜᱮᱨᱮᱱᱴᱤ: FarmLink ᱪᱮᱫ ᱦᱚᱸ ᱫᱟᱞᱟᱞ ᱯᱷᱤ ᱵᱟᱭ ᱦᱟᱛᱟᱣᱟ᱾"
+      "guardrailText": "ᱨᱩᱠᱷᱤᱭᱟᱹ ᱜᱮᱨᱮᱱᱴᱤ: Fasal Matrix ᱪᱮᱫ ᱦᱚᱸ ᱫᱟᱞᱟᱞ ᱯᱷᱤ ᱵᱟᱭ ᱦᱟᱛᱟᱣᱟ᱾"
     },
     "market": {
       "sectionBadge": "ᱯᱚᱨᱢᱟᱬ ᱛᱟᱹᱞᱠᱟᱹ",
@@ -1455,7 +1567,7 @@ export const extraTranslations = {
     "about": {
       "title": "ᱟᱞᱮᱭᱟᱜ ᱡᱚᱥ ᱟᱨ ᱯᱟᱹᱛᱭᱟᱹᱣ",
       "subtitle": "ᱪᱟᱥ ᱥᱟᱨᱵᱷᱟᱨ ᱨᱮ ᱥᱚᱢᱟᱱ ᱟᱨ ᱯᱩᱥᱴᱟᱹᱣ ᱨᱩᱣᱟᱹᱲ ᱟᱹᱜᱩ᱾",
-      "missionTitle": "ᱪᱮᱫᱟᱜ FarmLink ᱵᱮᱱᱟᱣᱮᱱᱟ",
+      "missionTitle": "ᱪᱮᱫᱟᱜ Fasal Matrix ᱵᱮᱱᱟᱣᱮᱱᱟ",
       "missionText1": "ᱫᱟᱞᱟᱞ ᱠᱚᱣᱟᱜ ᱱᱟᱦᱟᱪᱟᱨ ᱠᱷᱚᱱ ᱪᱟᱥᱤ ᱵᱟᱧᱪᱟᱣ ᱟᱨ ᱴᱷᱤᱠ ᱫᱟᱢ ᱮᱢᱟ ᱠᱚ᱾",
       "missionText2": "ᱪᱟᱥᱤᱭᱟᱜ ᱩᱫᱽᱜᱟᱹᱨ ᱫᱟᱜ ᱨᱮᱱᱟᱜ ᱫᱟᱢ ᱪᱟᱥᱤ ᱴᱷᱮᱱ ᱜᱮ ᱛᱟᱦᱮᱸᱱ ᱢᱟ᱾",
       "publicTrustRegistry": "ᱦᱚᱲ ᱴᱨᱟᱥᱴ ᱨᱮᱡᱤᱥᱴᱨᱤ"
@@ -1474,7 +1586,7 @@ export const extraTranslations = {
   },
   "doi": {
     "nav": {
-      "brand": "FarmLink",
+      "brand": "Fasal Matrix",
       "tagline": "सीधा कृषि नेटवर्क",
       "home": "अवलोकन",
       "market": "मंडी / बजार",
@@ -1512,7 +1624,7 @@ export const extraTranslations = {
       "badge": "संस्थागत कृषि व्यापार मंच",
       "titleLine1": "पारदर्शी खेत गेट मुल्ल निर्धारण।",
       "titleLine2": "बिचौलियें दा शून्य नुकसान।",
-      "description": "FarmLink प्रमाणित किसान, गोदाम ते खरीदारें गी इक पारदर्शी नेटवर्क उप्पर जोड़दा ऐ।",
+      "description": "Fasal Matrix प्रमाणित किसान, गोदाम ते खरीदारें गी इक पारदर्शी नेटवर्क उप्पर जोड़दा ऐ।",
       "exploreMarket": "मंडी दिक्खो",
       "calculatePrice": "मुल्ल सलाह जांचो",
       "trustStat1": "₹18.4 करोड़+",
@@ -1522,7 +1634,14 @@ export const extraTranslations = {
       "trustStat3": "100% MSP",
       "trustStat3Sub": "घट्टो-घट्ट सरकारी मुल्ल गारंटी",
       "trustStat4": "< 24 घैंटे",
-      "trustStat4Sub": "सीधा बैंक भुगतान (T+1)"
+      "trustStat4Sub": "सीधा बैंक भुगतान (T+1)",
+      "telemetry": {
+        "opticalTelemetry": "लाइव ऑप्टिकल टेलीमेट्री",
+        "opticalGrade": "एगमार्क ग्रेड A1 (98.4%)",
+        "opticalDetails": "फुलेरा डिपो #3 • 0.8% खोट सीमा • परखे दा",
+        "mspGuarded": "एमएसपी सुरक्षित",
+        "wheatBaseline": "खन्ना मंडी • कनक आधार मुल्ल"
+      }
     },
     "advisory": {
       "sectionBadge": "पारदर्शी मुल्ल निर्धारण",
@@ -1532,7 +1651,7 @@ export const extraTranslations = {
       "suggestedRange": "उचित बाजार मुल्ल",
       "confidence": "अनुमान भरोसा",
       "dataFreshness": "डेटा अपडेट होया",
-      "guardrailText": "सुरक्षा गारंटी: FarmLink कोई बिचौलिया कमीशन नेईं लैंदा।"
+      "guardrailText": "सुरक्षा गारंटी: Fasal Matrix कोई बिचौलिया कमीशन नेईं लैंदा।"
     },
     "market": {
       "sectionBadge": "प्रमाणित सूची",
@@ -1547,7 +1666,7 @@ export const extraTranslations = {
     "about": {
       "title": "साढ़ा मकसद ते संस्थागत विश्वास",
       "subtitle": "कृषि आपूर्ति व्यवस्थे च समानता ते पारदर्शिता वापस लेआना।",
-      "missionTitle": "FarmLink कीं बनाया गेया",
+      "missionTitle": "Fasal Matrix कीं बनाया गेया",
       "missionText1": "बिचौलियें दी लुट शा किसानें गी बचाना ते उंदी मेहनत दा पूरा मुल्ल दवाना।",
       "missionText2": "किसान दी मेहनत दा हक्क किसान दे हत्थ च रौह्ना साढ़ा संकल्प ऐ।",
       "publicTrustRegistry": "जनता ट्रस्ट रजिस्ट्री"

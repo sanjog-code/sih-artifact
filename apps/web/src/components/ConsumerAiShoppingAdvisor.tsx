@@ -81,7 +81,7 @@ function ConsumerChatWidget({
     {
       id: 'welcome',
       sender: 'ai',
-      text: `Namaste ${userIdentifier?.split(' ')[0] || 'Friend'}! I am your FarmLink Personal Shopping & Deal Advisor. 
+      text: `Namaste ${userIdentifier?.split(' ')[0] || 'Friend'}! I am your Fasal Matrix Personal Shopping & Deal Advisor. 
 
 I connect you directly with local farmers with 0% middleman markups. To find the freshest harvest and the best price deal, what fresh crop or produce are you looking to buy today?`,
       timestamp: 'Just now',

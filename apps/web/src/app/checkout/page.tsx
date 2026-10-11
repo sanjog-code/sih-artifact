@@ -638,7 +638,7 @@ export default function CheckoutPage() {
 
               <div className="py-4 space-y-3 text-xs text-zinc-600 dark:text-zinc-300">
                 <p>
-                  You are locking <strong className="text-zinc-950 dark:text-zinc-100 font-mono">₹{totalPayable.toLocaleString('en-IN')}</strong> in the FarmLink regulatory node escrow.
+                  You are locking <strong className="text-zinc-950 dark:text-zinc-100 font-mono">₹{totalPayable.toLocaleString('en-IN')}</strong> in the Fasal Matrix regulatory node escrow.
                 </p>
                 <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 space-y-1 text-[11px] font-mono">
                   <div className="flex justify-between">

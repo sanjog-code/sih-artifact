@@ -62,7 +62,7 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
             </div>
             <div className="flex flex-col">
               <span className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-900 dark:group-hover:text-emerald-400 transition">
-                {t?.nav?.brand || 'FarmLink'}
+                {t?.nav?.brand || 'Fasal Matrix'}
               </span>
               <span className="text-[10px] text-zinc-600 dark:text-zinc-400 font-mono tracking-wider uppercase -mt-1 hidden sm:block">
                 {t?.nav?.tagline || 'Direct Agrarian Network'}

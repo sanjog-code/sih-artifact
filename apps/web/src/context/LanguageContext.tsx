@@ -44,7 +44,7 @@ export const LANGUAGES: LanguageOption[] = [
 export const translations = {
   en: {
     nav: {
-      brand: 'FarmLink',
+      brand: 'Fasal Matrix',
       tagline: 'Direct Agrarian Network',
       home: 'Overview',
       market: 'Marketplace',
@@ -94,10 +94,17 @@ export const translations = {
     },
     hero: {
       badge: 'Institutional Produce Trading Platform',
+      telemetry: {
+        opticalTelemetry: "Live Optical Telemetry",
+        opticalGrade: "AGMARK Grade A1 (98.4%)",
+        opticalDetails: "Phulera Depot #3 • 0.8% defect floor • Assayed",
+        mspGuarded: "MSP Guarded",
+        wheatBaseline: "Khanna Mandi • Wheat Baseline",
+      },
       titleLine1: 'Transparent farm gate pricing.',
       titleLine2: 'Zero intermediary loss.',
       description:
-        'FarmLink unites verified farmers, WDRA-accredited warehouses, and institutional buyers on a single transparent network with explainable AI pricing, quality grading, and guaranteed T+1 settlement.',
+        'Fasal Matrix unites verified farmers, WDRA-accredited warehouses, and institutional buyers on a single transparent network with explainable AI pricing, quality grading, and guaranteed T+1 settlement.',
       exploreMarket: 'Explore Produce Market',
       calculatePrice: 'Check Price Advisory',
       trustStat1: '₹18.4 Cr+',
@@ -132,7 +139,7 @@ export const translations = {
       factorMsp: 'Statutory government MSP floor benchmark applied with 0% downside exposure.',
       factorPledge: 'Eligible for immediate 50% working capital pledge advance under e-NWR.',
       factorStorage: 'Low degradation coefficient recorded in accredited cold storage facility.',
-      guardrailText: 'Guardrail Guarantee: FarmLink does not speculate or mark up margins. You retain full autonomy over your inventory.',
+      guardrailText: 'Guardrail Guarantee: Fasal Matrix does not speculate or mark up margins. You retain full autonomy over your inventory.',
       btnHold: 'Store in Accredited Warehouse',
       btnList: 'List for Verified Buyers',
       holdSuccess: 'Lot allocated to accredited storage partner. e-NWR receipt generated.',
@@ -179,12 +186,12 @@ export const translations = {
     },
     comparison: {
       title: 'The Economic Differential',
-      subtitle: 'Comparing traditional commission agent channels with FarmLink’s direct marketplace model.',
+      subtitle: 'Comparing traditional commission agent channels with Fasal Matrix’s direct marketplace model.',
       middlemanTitle: 'Traditional Middleman Channel',
       middlemanDeduction: '18% to 28% lost to intermediaries, mandi commissions, and weighing cuts.',
       middlemanDelay: 'Delayed payments spanning 15–45 days with significant default risk.',
       middlemanGrading: 'Subjective visual inspection with unfair downgrading during peak harvest.',
-      farmlinkTitle: 'FarmLink Direct Network',
+      farmlinkTitle: 'Fasal Matrix Direct Network',
       farmlinkDirect: '+₹4 to ₹7 per kg net increase in farmer income; 12% lower cost for institutional buyers.',
       farmlinkSettlement: 'Guaranteed T+1 escrow settlement directly into the producer bank account.',
       farmlinkGrading: 'Standardized grading (A1/A2/B/C) with physical inspection certificates.',
@@ -208,11 +215,11 @@ export const translations = {
     about: {
       title: 'Our Cause & Institutional Trust',
       subtitle: 'Restoring equity, transparency, and dignity to India’s agrarian supply ecosystem.',
-      missionTitle: 'Why FarmLink Was Built',
+      missionTitle: 'Why Fasal Matrix Was Built',
       missionText1:
         'Across India, more than 85% of smallholder farmers suffer from distress sales. When peak harvest arrives, fragmented supply chains, lack of accessible accredited cold storage, and non-transparent middleman cartels force producers to sell at catastrophic discounts.',
       missionText2:
-        'FarmLink eliminates extractive intermediaries. By integrating WDRA-accredited warehousing, automated quality appraisal, explainable MSP-compliant price intelligence, and direct institutional buyer auctions, we ensure that value remains where it is generated: in the hands of the cultivator.',
+        'Fasal Matrix eliminates extractive intermediaries. By integrating WDRA-accredited warehousing, automated quality appraisal, explainable MSP-compliant price intelligence, and direct institutional buyer auctions, we ensure that value remains where it is generated: in the hands of the cultivator.',
       trustSectionTitle: 'Why Institutions & Farmers Trust Us',
       trustSectionSubtitle: 'Five structural pillars built for institutional transparency and regulatory safety.',
       pillar1Title: '1. Standardized Quality Assaying',
@@ -226,7 +233,7 @@ export const translations = {
       pillar5Title: '5. Cryptographic Batch Origin Telemetry',
       pillar5Desc: 'From seed bed to buyer delivery, every lot carries an immutable transaction hash guaranteeing traceability, farm location, chemical residue analysis, and harvest date.',
       governanceTitle: 'Our Zero-Commission Platform Pledge',
-      governanceDesc: 'FarmLink does not trade against its producers. We do not operate proprietary trading books, hidden logistics markups, or predatory storage fees.',
+      governanceDesc: 'Fasal Matrix does not trade against its producers. We do not operate proprietary trading books, hidden logistics markups, or predatory storage fees.',
       certificationsTitle: 'Institutional Compliance & Accreditations',
       cert1: 'WDRA Compliant Warehousing Infrastructure',
       cert2: 'FSSAI Food Safety & Standard Adherence',
@@ -258,12 +265,12 @@ export const translations = {
       govPlatformFee: '✓ Transparent 1% platform escrow fee',
     },
     footer: {
-      description: 'FarmLink unites verified farmers, WDRA-accredited warehouses, and institutional buyers on a single transparent network.',
+      description: 'Fasal Matrix unites verified farmers, WDRA-accredited warehouses, and institutional buyers on a single transparent network.',
       quickLinks: 'Navigation',
       trustPillars: 'Pillars of Trust',
       compliance: 'Compliance',
       legalNotice: 'All pricing intelligence is strictly benchmarked against official CACP MSP floors and accredited mandi arrival registries.',
-      copyright: 'FarmLink Technologies Inc. All rights reserved.',
+      copyright: 'Fasal Matrix Technologies Inc. All rights reserved.',
       privacy: 'Privacy Protocol',
       terms: 'Institutional Terms',
       security: 'Information Security',
@@ -428,7 +435,7 @@ export const translations = {
       settlementMethod: 'Escrow Settlement Method',
       methodUpi: 'UPI / QR Escrow',
       methodCard: 'Debit / Credit Card',
-      escrowWorksTitle: 'How FarmLink Escrow Works:',
+      escrowWorksTitle: 'How Fasal Matrix Escrow Works:',
       escrowWorksDesc: 'Your payment of ₹{amount} is held securely in an RBI-compliant nodal account. Funds are released to the farmer cooperative only upon your confirmed physical delivery.',
       lockEscrowBtn: 'Lock Escrow & Place Order (₹{amount})',
       securingEscrow: 'Securing Escrow Lock...',
@@ -507,6 +514,13 @@ export const translations = {
     },
     hero: {
       badge: 'संस्थागत कृषि व्यापार मंच',
+      telemetry: {
+        opticalTelemetry: "लाइव ऑप्टिकल टेलीमेट्री",
+        opticalGrade: "एगमार्क ग्रेड A1 (98.4%)",
+        opticalDetails: "फुलेरा डिपो #3 • 0.8% दोष सीमा • परीक्षित",
+        mspGuarded: "एमएसपी संरक्षित",
+        wheatBaseline: "खन्ना मंडी • गेहूं आधार मूल्य",
+      },
       titleLine1: 'खेत के गेट पर पारदर्शी मूल्य।',
       titleLine2: 'बिचौलियों का शून्य नुकसान।',
       description:
@@ -920,6 +934,13 @@ export const translations = {
     },
     hero: {
       badge: 'ਸੰਸਥਾਗਤ ਖੇਤੀਬਾੜੀ ਵਪਾਰ ਪਲੇਟਫਾਰਮ',
+      telemetry: {
+        opticalTelemetry: "ਲਾਈਵ ਆਪਟੀਕਲ ਟੈਲੀਮੈਟਰੀ",
+        opticalGrade: "ਐਗਮਾਰਕ ਗ੍ਰੇਡ A1 (98.4%)",
+        opticalDetails: "ਫੁਲੇਰਾ ਡਿਪੂ #3 • 0.8% ਖਾਮੀ ਸੀਮਾ • ਪਰਖਿਆ ਗਿਆ",
+        mspGuarded: "ਐਮਐਸਪੀ ਸੁਰੱਖਿਅਤ",
+        wheatBaseline: "ਖੰਨਾ ਮੰਡੀ • ਕਣਕ ਬੇਸਲਾਈਨ",
+      },
       titleLine1: 'ਖੇਤ ਦੇ ਗੇਟ ਤੇ ਪਾਰਦਰਸ਼ੀ ਭਾਅ।',
       titleLine2: 'ਵਿਚੋਲਿਆਂ ਦਾ ਜ਼ੀਰੋ ਨੁਕਸਾਨ।',
       description:
@@ -1333,6 +1354,13 @@ export const translations = {
     },
     hero: {
       badge: 'संस्थात्मक कृषी व्यापार मंच',
+      telemetry: {
+        opticalTelemetry: "थेट ऑप्टिकल टेलिमेट्री",
+        opticalGrade: "एगमार्क ग्रेड A1 (98.4%)",
+        opticalDetails: "फुलेरा डेपो #3 • 0.8% दोष मर्यादा • प्रमाणित",
+        mspGuarded: "हमीभाव (MSP) सुरक्षित",
+        wheatBaseline: "खन्ना मंडी • गहू आधारभूत दर",
+      },
       titleLine1: 'शेतकऱ्यांना बांधावर पारदर्शक भाव.',
       titleLine2: 'मध्यस्थांचे शून्य नुकसान.',
       description:
@@ -1746,6 +1774,13 @@ export const translations = {
     },
     hero: {
       badge: 'సంస్థాగత వ్యవసాయ వాణిజ్య వేదిక',
+      telemetry: {
+        opticalTelemetry: "ప్రత్యక్ష ఆప్టికల్ టెలిమెట్రీ",
+        opticalGrade: "ఆగ్మార్క్ గ్రేడ్ A1 (98.4%)",
+        opticalDetails: "ఫులేరా డిపో #3 • 0.8% లోప పరిమిति • పరీక్షించబడింది",
+        mspGuarded: "MSP రక్షితం",
+        wheatBaseline: "ఖన్నా మండి • గోధుమ మూలధర",
+      },
       titleLine1: 'రైతు ముంగిట పారదర్శక ధరలు.',
       titleLine2: 'దళారుల ప్రమేయం లేని వ్యాపారం.',
       description:
@@ -2159,6 +2194,13 @@ export const translations = {
     },
     hero: {
       badge: 'நிறுவன விளைபொருள் வர்த்தக தளம்',
+      telemetry: {
+        opticalTelemetry: "நேரலை ஆப்டிகல் டெலிமெட்ரி",
+        opticalGrade: "அக்மார்க் தரம் A1 (98.4%)",
+        opticalDetails: "புலேரா கிடங்கு #3 • 0.8% குறைபாடு வரம்பு • சோதிக்கப்பட்டது",
+        mspGuarded: "MSP பாதுகாக்கப்பட்டது",
+        wheatBaseline: "கன்னா மண்டி • கோதுமை அடிப்படை விலை",
+      },
       titleLine1: 'பண்ணை வாயிலில் வெளிப்படையான விலை.',
       titleLine2: 'இடைத்தரகர்கள் இல்லாத நேரடி வர்த்தகம்.',
       description:
