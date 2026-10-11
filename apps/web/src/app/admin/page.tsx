@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminConsolePage() {
-  const [activeTab, setActiveTab] = useState<'logistics' | 'mandi' | 'escrow' | 'clusters' | 'monetization' | 'kyc_approvals' | 'depot_slots'>('monetization');
+  const [activeTab, setActiveTab] = useState<'logistics' | 'mandi' | 'escrow' | 'clusters' | 'monetization' | 'kyc_approvals' | 'depot_slots' | 'ai_operations'>('monetization');
 
   const { listings } = useProduceStore();
   const { orders } = useOrderStore();
@@ -172,6 +172,21 @@ export default function AdminConsolePage() {
           >
             <Warehouse className="w-3.5 h-3.5 text-purple-600" />
             <span>Depot Capacity Intake ({slots.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('ai_operations')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+              activeTab === 'ai_operations'
+                ? 'bg-white dark:bg-zinc-800 text-purple-600 dark:text-purple-400 shadow-xs border border-zinc-200 dark:border-zinc-700'
+                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+            <span>AI Operations Copilot</span>
+            <span className="px-1.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300 text-[10px] font-bold">
+              Gemini
+            </span>
           </button>
         </div>
 
@@ -585,6 +600,147 @@ export default function AdminConsolePage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Tab 8: AI Network & Operations Advisor powered by Gemini */}
+        {activeTab === 'ai_operations' && (
+          <div className="space-y-6">
+            <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800 pb-4">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-300 text-xs font-semibold mb-2">
+                    <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                    <span>Gemini 3.8 Flash • Operational Reasoning Oracle</span>
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-950 dark:text-white tracking-tight">
+                    Network Intelligence & Operations Copilot
+                  </h2>
+                  <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+                    Automated system diagnostics, risk heuristics across FPO clusters, fleet bottleneck resolution, and escrow audit reporting.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(
+                        new CustomEvent('farmlink_open_ai', {
+                          detail: {
+                            query: 'Run administrative audit across active escrow orders and fleet VRP routing bottlenecks',
+                            autoSend: true,
+                          },
+                        })
+                      );
+                    }
+                  }}
+                  className="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs self-start"
+                >
+                  <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
+                  <span>Launch Gemini Admin Copilot</span>
+                </button>
+              </div>
+
+              {/* Quick Operational Telemetry Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800">
+                  <span className="text-[10px] font-mono uppercase text-zinc-500 font-bold block">Capacitated VRP Load</span>
+                  <span className="text-xl font-extrabold text-zinc-950 dark:text-white font-mono mt-1 block">84.2%</span>
+                  <span className="text-[10px] text-emerald-600 font-medium">Optimal vehicle utilization</span>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800">
+                  <span className="text-[10px] font-mono uppercase text-zinc-500 font-bold block">Escrow Lock Integrity</span>
+                  <span className="text-xl font-extrabold text-zinc-950 dark:text-white font-mono mt-1 block">100%</span>
+                  <span className="text-[10px] text-emerald-600 font-medium">0 reconciliation anomalies</span>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800">
+                  <span className="text-[10px] font-mono uppercase text-zinc-500 font-bold block">Cluster Assay Passing</span>
+                  <span className="text-xl font-extrabold text-zinc-950 dark:text-white font-mono mt-1 block">99.1%</span>
+                  <span className="text-[10px] text-blue-600 font-medium">WDRA verified lots</span>
+                </div>
+                <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800">
+                  <span className="text-[10px] font-mono uppercase text-zinc-500 font-bold block">Penny-Drop KYC Velocity</span>
+                  <span className="text-xl font-extrabold text-zinc-950 dark:text-white font-mono mt-1 block">&lt; 4.2 min</span>
+                  <span className="text-[10px] text-purple-600 font-medium">NPCI instant verification</span>
+                </div>
+              </div>
+
+              {/* Actionable Diagnostics Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(
+                        new CustomEvent('farmlink_open_ai', {
+                          detail: {
+                            query: 'Analyze fleet routing efficiency and VRP multi-depot waypoint sequences for today',
+                            autoSend: true,
+                          },
+                        })
+                      );
+                    }
+                  }}
+                  className="p-4 text-left rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-purple-300 dark:hover:border-purple-700 bg-white dark:bg-zinc-950 transition group"
+                >
+                  <div className="text-xs font-bold text-zinc-950 dark:text-white group-hover:text-purple-600 transition">
+                    🚛 Fleet VRP Capacity Optimization
+                  </div>
+                  <div className="text-[11px] text-zinc-500 mt-1">
+                    Review simulated payloads, fuel minimization, and depot dispatch sequences.
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(
+                        new CustomEvent('farmlink_open_ai', {
+                          detail: {
+                            query: 'Check escrow settlement ledger health and T+1 disbursement verification',
+                            autoSend: true,
+                          },
+                        })
+                      );
+                    }
+                  }}
+                  className="p-4 text-left rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-purple-300 dark:hover:border-purple-700 bg-white dark:bg-zinc-950 transition group"
+                >
+                  <div className="text-xs font-bold text-zinc-950 dark:text-white group-hover:text-purple-600 transition">
+                    💰 Escrow Ledger Audit & Settlement
+                  </div>
+                  <div className="text-[11px] text-zinc-500 mt-1">
+                    Audit gate-pass releases, bank confirmations, and platform fee splits.
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(
+                        new CustomEvent('farmlink_open_ai', {
+                          detail: {
+                            query: 'Evaluate active FPO cluster compliance, AGMARK grade distributions, and storage intakes',
+                            autoSend: true,
+                          },
+                        })
+                      );
+                    }
+                  }}
+                  className="p-4 text-left rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-purple-300 dark:hover:border-purple-700 bg-white dark:bg-zinc-950 transition group"
+                >
+                  <div className="text-xs font-bold text-zinc-950 dark:text-white group-hover:text-purple-600 transition">
+                    🌱 Cluster Compliance & Silo Health
+                  </div>
+                  <div className="text-[11px] text-zinc-500 mt-1">
+                    Assess WDRA grain intake slots, quality grading distributions, and member KYC.
+                  </div>
+                </button>
+              </div>
             </div>
           </div>
         )}

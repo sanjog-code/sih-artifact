@@ -205,14 +205,37 @@ export default function SmartBuyGuide({ onClose }: SmartBuyGuideProps = {}) {
                   <span>Harvest Freshness: <strong>{item.freshnessScore}%</strong></span>
                 </span>
 
-                <Link
-                  href="/checkout"
-                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition shadow-xs"
-                >
-                  <ShoppingCart className="w-3 h-3" />
-                  <span>Lock Fresh Lot</span>
-                  <ArrowRight className="w-3 h-3 ml-0.5" />
-                </Link>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof window !== 'undefined') {
+                        window.dispatchEvent(
+                          new CustomEvent('farmlink_open_ai', {
+                            detail: {
+                              query: `Compare farmgate savings and 14-day price trend for ${item.crop} for weekly household groceries`,
+                              autoSend: true,
+                            },
+                          })
+                        );
+                      }
+                    }}
+                    className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 font-bold text-xs transition"
+                    title="Ask Gemini Deal Copilot about this crop"
+                  >
+                    <Sparkles className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                    <span>Ask Gemini</span>
+                  </button>
+
+                  <Link
+                    href="/checkout"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition shadow-xs"
+                  >
+                    <ShoppingCart className="w-3 h-3" />
+                    <span>Lock Fresh Lot</span>
+                    <ArrowRight className="w-3 h-3 ml-0.5" />
+                  </Link>
+                </div>
               </div>
             </div>
           );

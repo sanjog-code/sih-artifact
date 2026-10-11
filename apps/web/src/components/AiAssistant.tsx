@@ -174,20 +174,142 @@ function AiAssistantWidget() {
   const [sttSupported, setSttSupported] = useState(true);
   const [liveTranscript, setLiveTranscript] = useState('');
 
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: 'welcome',
-      sender: 'ai',
+  // Dynamically resolve role-tailored welcome text and suggested prompts
+  const getRoleWelcome = (userRole?: string | null) => {
+    if (userRole === 'farmer') {
+      return {
+        text: `Namaste Kisan Bhai! 🙏 I am your **Kisan Agronomy & Price Advisor**, powered by Google Gemini and live APMC mandi models.
+
+I can assist you with:
+• **Fair Harvest Valuation & Price Curves**: Live modal rates and 14-day to 90-day trajectory forecasts
+• **CCEA Statutory MSP Floor Protection**: Guaranteeing legal price floors with 0% broker deductions
+• **WDRA Accredited Warehouse Storage**: Safe scientific storage protocols to avoid distress selling
+• **Direct Buyer Connections**: Review active institutional buyer demand and schedule pick-ups
+
+Tap any prompt below or speak into the microphone!`,
+        prompts: [
+          'Show price forecast & graph for Wheat',
+          'How does statutory MSP protect my harvest?',
+          'What are optimal cold storage rules for Potato?',
+          'How do I list my harvest lot?',
+        ],
+      };
+    } else if (userRole === 'buyer') {
+      return {
+        text: `Welcome! 🏢 I am your **Enterprise Bulk Procurement Advisor**, powered by Google Gemini.
+
+I can help optimize your supply chain with:
+• **Recurring Volume & Delivery Cadence**: Multi-delivery weekly cadence planning with automated logistics
+• **Direct FPO Farmgate Contracts**: Bypass multi-tiered APMC broker commissions (12–18% net savings)
+• **RBI Nodal Escrow Protection**: Capital remains safe in regulated accounts until dock inspection
+• **Quality Assaying**: AGMARK Grade A certification and moisture thresholds
+
+Ask about commodity quotes, delivery logistics, or price forecasting!`,
+        prompts: [
+          'Calculate bulk quote for 5 MT Wheat weekly',
+          'Price prediction in next 3 months for Mustard',
+          'How does RBI nodal escrow work?',
+          'Show verified farmer clusters for Soybean',
+        ],
+      };
+    } else if (userRole === 'consumer') {
+      return {
+        text: `Hello! 🛒 I am your **Smart Consumer Deal & Timing Advisor**, powered by Google Gemini.
+
+I help you get maximum value for your weekly household kitchen grocery:
+• **Consumer Timing Radar**: Algorithmic buy signals calibrated against peak harvest curves
+• **Farmgate Direct Savings**: Save up to 25% over retail supermarket packaging markups
+• **AGMARK Grade A Freshness**: High-uniformity lots harvested directly from verified clusters
+• **Doorstep Escrow Tracking**: Guaranteed delivery or instant refund via nodal escrow
+
+Ask what to buy this week or check a commodity rate!`,
+        prompts: [
+          'What is the best vegetable to buy right now?',
+          'Show me tomato prices and next week forecast',
+          'How much do I save buying direct from farmers?',
+          'How does doorstep delivery escrow work?',
+        ],
+      };
+    } else if (userRole === 'admin') {
+      return {
+        text: `Greetings, Administrator! 🛡️ I am your **Network & Fleet Operations Copilot**, powered by Google Gemini.
+
+I provide live telemetry and network oversight across:
+• **Capacitated VRP Logistics**: Fleet utilization, multi-depot routing, and transit time efficiency
+• **Mandi Price Intelligence Oracles**: Multi-lag ridge regression tracking across 737,000+ clearing records
+• **RBI Nodal Escrow Reconciliation**: Audit ledger verification and T+1 payout disbursement health
+• **FPO Cluster & KYC Compliance**: Automated risk scoring and penny-drop bank verification audits
+
+Ask for fleet status, revenue projections, or system metrics!`,
+        prompts: [
+          'Audit active escrow ledger transactions',
+          'Check fleet capacitated routing status',
+          'Show FPO cluster compliance scores',
+          'What is current platform MRR run rate?',
+        ],
+      };
+    }
+
+    return {
       text: WELCOME_TEXT,
-      timestamp: 'Just now',
-      suggestedPrompts: [
+      prompts: [
         'Price forecast for Wheat',
         'Tomato price graph & trajectory',
         'How does T+1 escrow protect me?',
         'How to store Mustard in WDRA Silo?',
       ],
+    };
+  };
+
+  const initialRoleData = getRoleWelcome(role);
+
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: 'welcome',
+      sender: 'ai',
+      text: initialRoleData.text,
+      timestamp: 'Just now',
+      suggestedPrompts: initialRoleData.prompts,
     },
   ]);
+
+  // Update welcome text if user logs in or switches role
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length === 1 && prev[0].id === 'welcome') {
+        const updated = getRoleWelcome(role);
+        return [
+          {
+            id: 'welcome',
+            sender: 'ai',
+            text: updated.text,
+            timestamp: 'Just now',
+            suggestedPrompts: updated.prompts,
+          },
+        ];
+      }
+      return prev;
+    });
+  }, [role]);
+
+  // Listen for global window events to open AI with a pre-filled query
+  useEffect(() => {
+    const handleOpenAiEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<{ query?: string; autoSend?: boolean }>;
+      setIsOpen(true);
+      setIsMinimized(false);
+      if (customEvent.detail?.query) {
+        if (customEvent.detail.autoSend) {
+          handleSendMessage(customEvent.detail.query);
+        } else {
+          setInputText(customEvent.detail.query);
+        }
+      }
+    };
+
+    window.addEventListener('farmlink_open_ai', handleOpenAiEvent);
+    return () => window.removeEventListener('farmlink_open_ai', handleOpenAiEvent);
+  }, []);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
@@ -428,9 +550,19 @@ function AiAssistantWidget() {
             </div>
             <div>
               <div className="text-xs font-black flex items-center gap-2">
-                <span>Fasal Matrix AI Assistant</span>
+                <span>
+                  {role === 'farmer'
+                    ? 'Kisan AI Agronomy Copilot'
+                    : role === 'buyer'
+                    ? 'Bulk Buyer Procurement Copilot'
+                    : role === 'consumer'
+                    ? 'Consumer Deal & Radar Copilot'
+                    : role === 'admin'
+                    ? 'Admin Network & Fleet Copilot'
+                    : 'Fasal Matrix AI Assistant'}
+                </span>
                 <span className="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 text-[9px] font-mono border border-emerald-800 font-bold">
-                  Gemini & ML Calibrated
+                  Gemini 3.8 Flash & ML
                 </span>
               </div>
               <div className="text-[10px] text-zinc-400 flex items-center gap-2">

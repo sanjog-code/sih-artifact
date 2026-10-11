@@ -1331,14 +1331,37 @@ export default function FarmerPortal() {
                   </p>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => fetchAiAdvisory(commodity, forecastStorageDays)}
-                  className="px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 transition text-xs font-semibold flex items-center gap-2 self-start active:scale-95 shadow-xs"
-                >
-                  <RefreshCw className={`w-3.5 h-3.5 ${loadingAi ? 'animate-spin text-emerald-600' : ''}`} />
-                  <span>Recalibrate Live Forecast</span>
-                </button>
+                <div className="flex items-center gap-2 self-start flex-wrap">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof window !== 'undefined') {
+                        window.dispatchEvent(
+                          new CustomEvent('farmlink_open_ai', {
+                            detail: {
+                              query: `Price prediction and trajectory forecast for ${commodity} in the next 3 months`,
+                              autoSend: true,
+                            },
+                          })
+                        );
+                      }
+                    }}
+                    className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white transition text-xs font-bold flex items-center gap-2 shadow-xs active:scale-95"
+                    title="Launch real-time Gemini AI Conversational Copilot for this crop"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+                    <span>Talk to Gemini Kisan Copilot</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => fetchAiAdvisory(commodity, forecastStorageDays)}
+                    className="px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 transition text-xs font-semibold flex items-center gap-2 active:scale-95 shadow-xs"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${loadingAi ? 'animate-spin text-emerald-600' : ''}`} />
+                    <span>Recalibrate Live Forecast</span>
+                  </button>
+                </div>
               </div>
 
               {/* Commodity Selector Bar (Extended to 8 crops) */}

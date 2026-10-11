@@ -250,7 +250,7 @@ You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telem
     setMessages((prev) => [...prev, confirmationMsg]);
   };
 
-  const handleCustomQuestion = (e: React.FormEvent) => {
+  const handleCustomQuestion = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputText.trim()) return;
 
@@ -266,6 +266,44 @@ You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telem
     setMessages((prev) => [...prev, userMsg]);
     setLoading(true);
 
+    // Send query to unified Fasal Matrix AI API powered by Gemini & domain models
+    try {
+      const res = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query,
+          role: 'buyer',
+          language,
+          context: {
+            selectedCrop,
+            volumePerDelivery,
+            frequencyPerWeek,
+            destinationHub,
+          },
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const reply = data.response || data.replyText || '';
+        if (reply.trim()) {
+          const aiMsg: ChatMessage = {
+            id: createMsgId('ai-q-reply'),
+            sender: 'ai',
+            text: reply,
+            timestamp: 'Just now',
+          };
+          setMessages((prev) => [...prev, aiMsg]);
+          setLoading(false);
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn('Live API request in quote advisor failed, using fallback:', err);
+    }
+
+    // Local Domain Fallback
     setTimeout(() => {
       setLoading(false);
       const lower = query.toLowerCase();
@@ -294,7 +332,7 @@ You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telem
         timestamp: 'Just now',
       };
       setMessages((prev) => [...prev, aiMsg]);
-    }, 600);
+    }, 400);
   };
 
   return (
