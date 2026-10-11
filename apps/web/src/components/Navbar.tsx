@@ -21,6 +21,7 @@ import {
   Sliders,
   LogOut,
   User,
+  Tag,
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -36,6 +37,7 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
   const pathname = usePathname();
 
   const isAboutPage = pathname === '/about';
+  const isPricingPage = pathname === '/pricing';
   const isFarmerPage = pathname === '/farmer';
   const isBuyerPage = pathname === '/buyer';
   const isConsumerPage = pathname === '/consumer';
@@ -156,6 +158,18 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
               </Link>
             )}
 
+
+            {/* Universal Pricing Link */}
+            <Link
+              href="/pricing"
+              className={`hover:text-zinc-900 dark:hover:text-white transition flex items-center gap-1.5 ${
+                isPricingPage
+                  ? 'text-emerald-800 dark:text-emerald-400 font-semibold underline underline-offset-4 decoration-emerald-600'
+                  : ''
+              }`}
+            >
+              <span>Pricing</span>
+            </Link>
 
             {/* Universal About Us Link */}
             <Link
@@ -450,6 +464,17 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
               )}
 
 
+
+              <Link
+                href="/pricing"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-3 py-2 rounded-lg flex items-center gap-2.5 ${
+                  isPricingPage ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-900 dark:text-emerald-300 font-semibold' : 'hover:bg-zinc-50 dark:hover:bg-zinc-900'
+                }`}
+              >
+                <Tag className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
+                <span>Pricing & Plans</span>
+              </Link>
 
               <Link
                 href="/about"

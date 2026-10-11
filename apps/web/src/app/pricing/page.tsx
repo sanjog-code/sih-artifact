@@ -1,0 +1,592 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import InquiryModal from '../../components/InquiryModal';
+import {
+  FARMER_TIER_CONFIGS,
+  FarmerPlanTier,
+  BUSINESS_TIER_CONFIGS,
+  BusinessPlanTier,
+  CONSUMER_TIER_CONFIGS,
+  ConsumerPlanTier,
+  calculateFarmerPayout,
+} from '../../lib/server/monetization-domain';
+import {
+  Sprout,
+  Building2,
+  ShoppingBag,
+  CheckCircle2,
+  ArrowRight,
+  ShieldCheck,
+  Scale,
+  Sparkles,
+  HelpCircle,
+  Calculator,
+} from 'lucide-react';
+
+export default function PricingPage() {
+  const [roleTab, setRoleTab] = useState<'farmer' | 'business' | 'consumer'>('farmer');
+  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
+  const [saleAmount, setSaleAmount] = useState<number>(10000);
+  const [inquiryOpen, setInquiryOpen] = useState(false);
+
+  const calculatedPayouts = {
+    basic: calculateFarmerPayout(saleAmount, 'basic'),
+    premier: calculateFarmerPayout(saleAmount, 'premier'),
+    premier_pro: calculateFarmerPayout(saleAmount, 'premier_pro'),
+    premier_elite: calculateFarmerPayout(saleAmount, 'premier_elite'),
+  };
+
+  return (
+    <div className="min-h-screen bg-[#fafafa] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-950">
+      <Navbar onOpenInquiry={() => setInquiryOpen(true)} />
+
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="pt-12 pb-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-semibold mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+            <span>FarmLink Premier - Transparent Monetization</span>
+          </div>
+
+          <h1 className="text-3xl sm:text-5xl font-black text-zinc-950 dark:text-zinc-50 tracking-tight leading-tight max-w-4xl mx-auto">
+            Fair, Transparent Pricing Built for India’s Agrarian Supply Chain
+          </h1>
+
+          <p className="mt-4 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+            Zero upfront fees for producers, high-performance procurement coordination for businesses, and affordable shopping benefits for consumers.
+          </p>
+
+          <p className="mt-2 text-xs text-zinc-500 font-mono">
+            * Proposed starting prices for market validation. All basic farmer marketplace access remains 100% free.
+          </p>
+
+          {/* Role Selector Tabs */}
+          <div className="mt-8 flex justify-center">
+            <div className="inline-flex p-1.5 bg-zinc-200 dark:bg-zinc-900 rounded-2xl border border-zinc-300 dark:border-zinc-800 gap-1">
+              <button
+                type="button"
+                onClick={() => setRoleTab('farmer')}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
+                  roleTab === 'farmer'
+                    ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+                }`}
+              >
+                <Sprout className="w-4 h-4 text-emerald-600" />
+                <span>Farmers (2-5% Commission)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setRoleTab('business')}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
+                  roleTab === 'business'
+                    ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+                }`}
+              >
+                <Building2 className="w-4 h-4 text-blue-600" />
+                <span>Businesses & B2B Subscriptions</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setRoleTab('consumer')}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
+                  roleTab === 'consumer'
+                    ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+                }`}
+              >
+                <ShoppingBag className="w-4 h-4 text-amber-600" />
+                <span>Consumers (₹99-₹199/mo)</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* 1. FARMER PLANS & CALCULATOR */}
+        {roleTab === 'farmer' && (
+          <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
+            <div className="text-center max-w-3xl mx-auto">
+              <span className="text-xs uppercase font-mono tracking-wider text-emerald-700 dark:text-emerald-400 font-bold">
+                Commission-Based Model
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-1">
+                Zero Monthly Subscription - Pay Only on Completed Sales
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-2">
+                Rather than charging monthly dues, FarmLink earns a small single-digit fee only after your harvest is successfully delivered and escrow released.
+              </p>
+            </div>
+
+            {/* Farmer Tier Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {(['basic', 'premier', 'premier_pro', 'premier_elite'] as FarmerPlanTier[]).map((tierKey) => {
+                const config = FARMER_TIER_CONFIGS[tierKey];
+                const isPopular = tierKey === 'premier';
+                return (
+                  <div
+                    key={config.id}
+                    className={`rounded-2xl border p-6 flex flex-col justify-between transition-all bg-white dark:bg-zinc-900 ${
+                      isPopular
+                        ? 'border-emerald-500 shadow-md ring-1 ring-emerald-500/20'
+                        : 'border-zinc-200 dark:border-zinc-800 shadow-xs'
+                    }`}
+                  >
+                    <div>
+                      {isPopular && (
+                        <span className="inline-block px-2.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px] font-mono font-bold uppercase mb-3">
+                          Recommended Starting Tier
+                        </span>
+                      )}
+                      <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
+                        {config.name}
+                      </h3>
+                      <div className="mt-3 flex items-baseline gap-1">
+                        <span className="text-3xl font-black text-zinc-950 dark:text-zinc-50 font-mono">
+                          {config.commissionRatePct}%
+                        </span>
+                        <span className="text-xs text-zinc-500 font-medium">per completed sale</span>
+                      </div>
+                      <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1">
+                        Monthly Fee: ₹0 (Always Free)
+                      </div>
+
+                      <div className="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                        <span className="text-[11px] font-mono uppercase text-zinc-500 font-bold block mb-2">
+                          Included Benefits:
+                        </span>
+                        <ul className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400">
+                          {config.features.map((feat, idx) => (
+                            <li key={idx} className="flex items-start gap-2">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                              <span>{feat}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                      <Link
+                        href="/farmer"
+                        className="w-full py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-bold text-center block transition shadow-xs"
+                      >
+                        Access Farmer Desk
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Interactive Commission & Payout Calculator */}
+            <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm max-w-4xl mx-auto">
+              <div className="flex items-center gap-2 mb-4">
+                <Calculator className="w-5 h-5 text-emerald-600" />
+                <h3 className="text-lg font-bold text-zinc-950 dark:text-zinc-50">
+                  Interactive Farmer Payout Calculator
+                </h3>
+              </div>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-6">
+                Test the commission structure on a simulated sale value to see the exact net amount released to your bank account.
+              </p>
+
+              <div className="mb-6 space-y-2">
+                <div className="flex justify-between items-center text-xs font-mono font-bold">
+                  <span>Simulated Sale Value:</span>
+                  <span className="text-base text-emerald-700 dark:text-emerald-400">
+                    ₹{saleAmount.toLocaleString('en-IN')}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="2000"
+                  max="500000"
+                  step="1000"
+                  value={saleAmount}
+                  onChange={(e) => setSaleAmount(Number(e.target.value))}
+                  className="w-full accent-emerald-600 cursor-pointer"
+                />
+                <div className="flex justify-between text-[10px] text-zinc-400 font-mono">
+                  <span>₹2,000 (Local lot)</span>
+                  <span>₹1,00,000</span>
+                  <span>₹5,00,000 (Bulk truckload)</span>
+                </div>
+              </div>
+
+              {/* Calculator Output Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left">
+                  <thead>
+                    <tr className="border-b border-zinc-200 dark:border-zinc-800 text-[11px] font-mono text-zinc-500 uppercase">
+                      <th className="py-2.5 px-3">Plan Tier</th>
+                      <th className="py-2.5 px-3">Rate</th>
+                      <th className="py-2.5 px-3 text-right">FarmLink Commission</th>
+                      <th className="py-2.5 px-3 text-right text-emerald-700 dark:text-emerald-400 font-bold">
+                        Farmer Receives*
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    {(['basic', 'premier', 'premier_pro', 'premier_elite'] as FarmerPlanTier[]).map((tierKey) => {
+                      const res = calculatedPayouts[tierKey];
+                      const config = FARMER_TIER_CONFIGS[tierKey];
+                      return (
+                        <tr key={tierKey} className="hover:bg-zinc-50 dark:hover:bg-zinc-850">
+                          <td className="py-3 px-3 font-semibold text-zinc-900 dark:text-zinc-100">
+                            {config.name}
+                          </td>
+                          <td className="py-3 px-3 font-mono text-zinc-600 dark:text-zinc-400">
+                            {res.commissionRatePct}%
+                          </td>
+                          <td className="py-3 px-3 text-right font-mono text-zinc-600 dark:text-zinc-400">
+                            ₹{res.commissionAmountInr.toLocaleString('en-IN')}
+                          </td>
+                          <td className="py-3 px-3 text-right font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                            ₹{res.netPayoutInr.toLocaleString('en-IN')}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <p className="mt-4 text-[10px] text-zinc-500 italic">
+                * Before any separately disclosed logistics, payment-processing, tax, or other applicable charges.
+              </p>
+            </div>
+          </section>
+        )}
+
+        {/* 2. BUSINESS B2B SUBSCRIPTIONS */}
+        {roleTab === 'business' && (
+          <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
+            <div className="text-center max-w-3xl mx-auto">
+              <span className="text-xs uppercase font-mono tracking-wider text-blue-700 dark:text-blue-400 font-bold">
+                B2B Procurement Suite
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-1">
+                Streamline Commercial Procurement & Multi-Farmer Sourcing
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-2">
+                Designed for restaurants, hotels, supermarket chains, food processors, and large distributors seeking reliable direct-from-farm supplies.
+              </p>
+
+              {/* Monthly / Annual Toggle */}
+              <div className="mt-6 flex justify-center items-center gap-3">
+                <span className={`text-xs font-semibold ${billingPeriod === 'monthly' ? 'text-zinc-950 dark:text-white' : 'text-zinc-500'}`}>
+                  Monthly Billing
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setBillingPeriod(billingPeriod === 'monthly' ? 'annual' : 'monthly')}
+                  className="w-12 h-6 rounded-full bg-zinc-300 dark:bg-zinc-700 p-0.5 transition-colors relative cursor-pointer"
+                  aria-label="Toggle annual billing"
+                >
+                  <div
+                    className={`w-5 h-5 rounded-full bg-blue-600 transition-transform ${
+                      billingPeriod === 'annual' ? 'translate-x-6' : 'translate-x-0'
+                    }`}
+                  />
+                </button>
+                <div className="flex items-center gap-1.5">
+                  <span className={`text-xs font-semibold ${billingPeriod === 'annual' ? 'text-zinc-950 dark:text-white' : 'text-zinc-500'}`}>
+                    Annual Billing
+                  </span>
+                  <span className="text-[10px] font-mono font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/80 px-2 py-0.5 rounded-md border border-emerald-300 dark:border-emerald-800">
+                    ~2 Months Free
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Business Tier Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {(['starter', 'growth', 'pro', 'enterprise'] as BusinessPlanTier[]).map((tierKey) => {
+                const config = BUSINESS_TIER_CONFIGS[tierKey];
+                const isGrowth = tierKey === 'growth';
+                const price = billingPeriod === 'annual' ? config.yearlyFeeInr : config.monthlyFeeInr;
+                const periodLabel = billingPeriod === 'annual' ? '/year' : '/month';
+
+                return (
+                  <div
+                    key={config.id}
+                    className={`rounded-2xl border p-6 flex flex-col justify-between transition-all bg-white dark:bg-zinc-900 ${
+                      isGrowth
+                        ? 'border-blue-500 shadow-md ring-1 ring-blue-500/20'
+                        : 'border-zinc-200 dark:border-zinc-800 shadow-xs'
+                    }`}
+                  >
+                    <div>
+                      {isGrowth && (
+                        <span className="inline-block px-2.5 py-0.5 rounded-md bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 text-[10px] font-mono font-bold uppercase mb-3">
+                          Most Popular
+                        </span>
+                      )}
+                      <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
+                        {config.name}
+                      </h3>
+                      <p className="text-xs text-zinc-500 mt-1 leading-relaxed">
+                        {config.description}
+                      </p>
+
+                      <div className="mt-4 flex items-baseline gap-1">
+                        <span className="text-2xl sm:text-3xl font-black text-zinc-950 dark:text-zinc-50 font-mono">
+                          ₹{price.toLocaleString('en-IN')}
+                        </span>
+                        <span className="text-xs text-zinc-500 font-medium">
+                          {tierKey === 'enterprise' && billingPeriod === 'annual' ? ' custom' : periodLabel}
+                        </span>
+                      </div>
+
+                      <div className="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                        <span className="text-[11px] font-mono uppercase text-zinc-500 font-bold block mb-2">
+                          Capabilities Included:
+                        </span>
+                        <ul className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400">
+                          {Array.from(config.entitlements).map((ent, idx) => (
+                            <li key={idx} className="flex items-start gap-2">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                              <span className="capitalize">
+                                {ent.replace('buyer:', '').replace(/_/g, ' ')}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                      <Link
+                        href="/buyer"
+                        className="w-full py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-bold text-center block transition shadow-xs"
+                      >
+                        {tierKey === 'enterprise' ? 'Inquire Enterprise' : 'Select Plan'}
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* 3. CONSUMER MEMBERSHIPS */}
+        {roleTab === 'consumer' && (
+          <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
+            <div className="text-center max-w-3xl mx-auto">
+              <span className="text-xs uppercase font-mono tracking-wider text-amber-700 dark:text-amber-400 font-bold">
+                Consumer Premier
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-1">
+                Simple, Affordable Memberships with Practical Shopping Benefits
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-2">
+                Enjoy direct-from-farm produce, lower delivery fees, and transparent quality tracking records for your family.
+              </p>
+
+              {/* Monthly / Annual Toggle */}
+              <div className="mt-6 flex justify-center items-center gap-3">
+                <span className={`text-xs font-semibold ${billingPeriod === 'monthly' ? 'text-zinc-950 dark:text-white' : 'text-zinc-500'}`}>
+                  Monthly
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setBillingPeriod(billingPeriod === 'monthly' ? 'annual' : 'monthly')}
+                  className="w-12 h-6 rounded-full bg-zinc-300 dark:bg-zinc-700 p-0.5 transition-colors relative cursor-pointer"
+                  aria-label="Toggle annual consumer billing"
+                >
+                  <div
+                    className={`w-5 h-5 rounded-full bg-amber-600 transition-transform ${
+                      billingPeriod === 'annual' ? 'translate-x-6' : 'translate-x-0'
+                    }`}
+                  />
+                </button>
+                <div className="flex items-center gap-1.5">
+                  <span className={`text-xs font-semibold ${billingPeriod === 'annual' ? 'text-zinc-950 dark:text-white' : 'text-zinc-500'}`}>
+                    Annual
+                  </span>
+                  <span className="text-[10px] font-mono font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/80 px-2 py-0.5 rounded-md border border-amber-300 dark:border-amber-800">
+                    Save ~17%
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Consumer Tier Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              {(['basic', 'premier', 'plus'] as ConsumerPlanTier[]).map((tierKey) => {
+                const config = CONSUMER_TIER_CONFIGS[tierKey];
+                const isPremier = tierKey === 'premier';
+                const price = billingPeriod === 'annual' ? config.yearlyFeeInr : config.monthlyFeeInr;
+                const periodLabel = billingPeriod === 'annual' ? '/year' : '/month';
+
+                return (
+                  <div
+                    key={config.id}
+                    className={`rounded-2xl border p-6 flex flex-col justify-between transition-all bg-white dark:bg-zinc-900 ${
+                      isPremier
+                        ? 'border-amber-500 shadow-md ring-1 ring-amber-500/20'
+                        : 'border-zinc-200 dark:border-zinc-800 shadow-xs'
+                    }`}
+                  >
+                    <div>
+                      {isPremier && (
+                        <span className="inline-block px-2.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-[10px] font-mono font-bold uppercase mb-3">
+                          Best Value
+                        </span>
+                      )}
+                      <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
+                        {config.name}
+                      </h3>
+                      <div className="mt-3 flex items-baseline gap-1">
+                        <span className="text-3xl font-black text-zinc-950 dark:text-zinc-50 font-mono">
+                          ₹{price}
+                        </span>
+                        <span className="text-xs text-zinc-500 font-medium">
+                          {price === 0 ? ' (Free)' : periodLabel}
+                        </span>
+                      </div>
+
+                      <div className="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                        <span className="text-[11px] font-mono uppercase text-zinc-500 font-bold block mb-2">
+                          Member Benefits:
+                        </span>
+                        <ul className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400">
+                          <li className="flex items-start gap-2">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                            <span>Browse direct agricultural produce</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                            <span>
+                              {config.deliveryDiscountInr > 0
+                                ? `₹${config.deliveryDiscountInr} discount on all orders`
+                                : 'Standard delivery rates'}
+                            </span>
+                          </li>
+                          {config.freeDeliveryThresholdInr && (
+                            <li className="flex items-start gap-2 font-semibold text-zinc-900 dark:text-zinc-100">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                              <span>100% Free delivery over ₹{config.freeDeliveryThresholdInr}</span>
+                            </li>
+                          )}
+                          <li className="flex items-start gap-2">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                            <span>
+                              {config.hasTraceabilityPassport
+                                ? 'Full quality & origin traceability records'
+                                : 'Basic lot information'}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                      <Link
+                        href="/consumer"
+                        className="w-full py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-bold text-center block transition shadow-xs"
+                      >
+                        {price === 0 ? 'Start Free' : 'Join Membership'}
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* Operating Principles & Governance Strip */}
+        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto border-t border-zinc-200 dark:border-zinc-800">
+          <div className="p-6 sm:p-8 rounded-2xl bg-zinc-100/70 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 space-y-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-emerald-600" />
+              <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 uppercase tracking-wider">
+                Important Operating Principles
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-zinc-600 dark:text-zinc-400">
+              <div className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+                <span>
+                  <strong>Free Basic Access:</strong> Basic farmer marketplace access remains 100% free with zero upfront fees.
+                </span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+                <span>
+                  <strong>Escrow Settlement:</strong> Platform fees (2-5%) are deducted transparently only upon completed escrow release.
+                </span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+                <span>
+                  <strong>Server Verification:</strong> All subscriptions and payments are verified server-side before activating access.
+                </span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+                <span>
+                  <strong>Bounded Discounts:</strong> Delivery discounts and promotions have sensible limits to preserve positive contribution margins.
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Frequently Asked Questions */}
+        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-zinc-200 dark:border-zinc-800">
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-2 text-xs font-mono font-bold text-zinc-500 uppercase">
+              <HelpCircle className="w-4 h-4" />
+              <span>Questions & Answers</span>
+            </div>
+            <h2 className="text-2xl font-bold text-zinc-950 dark:text-zinc-50 mt-1">
+              Frequently Asked Questions
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+              <h4 className="text-xs font-bold text-zinc-950 dark:text-zinc-100">
+                Are there any hidden costs for farmers?
+              </h4>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+                No. Farmers pay zero upfront fees and zero monthly dues. The 2-5% commission is only deducted when produce is sold and confirmed by the buyer.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+              <h4 className="text-xs font-bold text-zinc-950 dark:text-zinc-100">
+                Can businesses cancel or modify their subscription?
+              </h4>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+                Yes. Monthly subscriptions can be upgraded, downgraded, or canceled at any time from your Business Desk. Annual plans remain active through the prepaid period.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+              <h4 className="text-xs font-bold text-zinc-950 dark:text-zinc-100">
+                How do consumer delivery discounts work?
+              </h4>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+                Consumer Premier members automatically receive ₹40 off retail delivery. Consumer Plus members receive free delivery on all orders over ₹399.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+      <InquiryModal isOpen={inquiryOpen} onClose={() => setInquiryOpen(false)} />
+    </div>
+  );
+}

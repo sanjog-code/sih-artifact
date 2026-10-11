@@ -116,6 +116,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/pricing" className="hover:text-emerald-400 transition">
+                  Pricing & Plans
+                </Link>
+              </li>
+              <li>
                 <Link href="/about" className="hover:text-emerald-400 transition">
                   {t.nav.about}
                 </Link>
