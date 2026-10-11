@@ -224,10 +224,24 @@ export default function AboutPage() {
         {/* =================================================================== */}
         {/* PHOTO GALLERY: Ground Realities & Agrarian Network Assets          */}
         {/* =================================================================== */}
-        <section className="py-6 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6">
+            <div>
+              <span className="text-xs uppercase font-mono tracking-wider text-emerald-700 dark:text-emerald-400 font-bold">
+                Ground Reality & Field Infrastructure
+              </span>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-1 tracking-tight">
+                Operating Directly Across India’s Agricultural Clusters
+              </h2>
+            </div>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-2 sm:mt-0 max-w-sm">
+              Real farmgate checkpoints, assay testing laboratories, and cold storage silos operational in Rajasthan, Madhya Pradesh, and Punjab.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="group rounded-3xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col">
-              <div className="relative h-56 w-full overflow-hidden">
+              <div className="relative h-60 w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80"
                   alt="Verified Direct Harvest"
@@ -235,9 +249,14 @@ export default function AboutPage() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-transparent to-transparent"></div>
-                <span className="absolute bottom-3 left-3 text-[10px] font-mono font-bold uppercase text-emerald-300 bg-emerald-950/80 backdrop-blur-md border border-emerald-700/50 px-2.5 py-0.5 rounded-full">
-                  Farm Gate Assaying
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+                <div className="absolute top-3 left-3 flex gap-2">
+                  <span className="text-[10px] font-mono font-bold uppercase text-emerald-300 bg-emerald-950/90 backdrop-blur-md border border-emerald-700/60 px-2.5 py-0.5 rounded-full">
+                    Kisan Cluster #42
+                  </span>
+                </div>
+                <span className="absolute bottom-3 left-3 text-[11px] font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
+                  📍 Sanganer, Jaipur (Rajasthan)
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -245,15 +264,19 @@ export default function AboutPage() {
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-white">
                     Direct Smallholder Harvests
                   </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
-                    Farmers grading fresh produce lots directly at source, eliminating cartel deductions.
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+                    Farmers grading fresh produce lots directly at source with optical moisture & defect scanning, eliminating middleman cartel deductions.
                   </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-emerald-700 dark:text-emerald-400 font-mono font-semibold">
+                  <span>AGMARK A1 Certified</span>
+                  <span>100% Direct Payout</span>
                 </div>
               </div>
             </div>
 
             <div className="group rounded-3xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col">
-              <div className="relative h-56 w-full overflow-hidden">
+              <div className="relative h-60 w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=80"
                   alt="WDRA Accredited Warehousing"
@@ -261,9 +284,14 @@ export default function AboutPage() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-transparent to-transparent"></div>
-                <span className="absolute bottom-3 left-3 text-[10px] font-mono font-bold uppercase text-blue-300 bg-blue-950/80 backdrop-blur-md border border-blue-700/50 px-2.5 py-0.5 rounded-full">
-                  WDRA Accredited Depots
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+                <div className="absolute top-3 left-3 flex gap-2">
+                  <span className="text-[10px] font-mono font-bold uppercase text-blue-300 bg-blue-950/90 backdrop-blur-md border border-blue-700/60 px-2.5 py-0.5 rounded-full">
+                    WDRA Vault FL-RJ-0482
+                  </span>
+                </div>
+                <span className="absolute bottom-3 left-3 text-[11px] font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
+                  📍 Phulera Cold Silo Terminal
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -271,15 +299,19 @@ export default function AboutPage() {
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-white">
                     Accredited Cold Silos & Vaults
                   </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
-                    State-of-the-art temperature and moisture telemetry protecting storable grain and perishables.
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+                    State-of-the-art temperature and moisture telemetry protecting storable grain, pulses, and perishables with zero post-harvest spoilage.
                   </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-blue-700 dark:text-blue-400 font-mono font-semibold">
+                  <span>e-NWR Fungible</span>
+                  <span>4°C Humidity Controlled</span>
                 </div>
               </div>
             </div>
 
             <div className="group rounded-3xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col">
-              <div className="relative h-56 w-full overflow-hidden">
+              <div className="relative h-60 w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=800&q=80"
                   alt="Institutional Procurement"
@@ -287,9 +319,14 @@ export default function AboutPage() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-transparent to-transparent"></div>
-                <span className="absolute bottom-3 left-3 text-[10px] font-mono font-bold uppercase text-purple-300 bg-purple-950/80 backdrop-blur-md border border-purple-700/50 px-2.5 py-0.5 rounded-full">
-                  T+1 Escrow Settlement
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+                <div className="absolute top-3 left-3 flex gap-2">
+                  <span className="text-[10px] font-mono font-bold uppercase text-purple-300 bg-purple-950/90 backdrop-blur-md border border-purple-700/60 px-2.5 py-0.5 rounded-full">
+                    Bulk Nodal Clearance
+                  </span>
+                </div>
+                <span className="absolute bottom-3 left-3 text-[11px] font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
+                  📍 Muhana Institutional Terminal
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -297,9 +334,13 @@ export default function AboutPage() {
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-white">
                     Direct Institutional Clearance
                   </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
-                    Seamless delivery to bulk processors and consumers with guaranteed automated payments.
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+                    Automated multi-depot vehicle manifests and delivery to verified bulk processors and consumers with guaranteed T+1 escrow payout.
                   </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-purple-700 dark:text-purple-400 font-mono font-semibold">
+                  <span>RBI Escrow Vault</span>
+                  <span>T+1 Bank Settlement</span>
                 </div>
               </div>
             </div>
@@ -307,7 +348,101 @@ export default function AboutPage() {
         </section>
 
         {/* =================================================================== */}
-        {/* 5 PILLARS OF INSTITUTIONAL TRUST: Grid Cards with Badges           */}
+        {/* PHOTO SECTION: High-Fidelity Agrarian Supply Chain in Action      */}
+        {/* =================================================================== */}
+        <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+          <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 p-6 sm:p-10 shadow-sm">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              <div className="space-y-4">
+                <span className="text-xs uppercase font-mono tracking-wider text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1.5">
+                  <BadgeCheck className="w-4 h-4 text-emerald-600" />
+                  <span>Transparent Market Linkages</span>
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight leading-snug">
+                  From Farm Gate Soil to Wholesale Processing Plant
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                  Traditional mandis impose opaque weighing cuts, commission agent margins, and days of holding queue decay. Fasal Matrix deploys cold-chain logistics, algorithmic route dispatch, and digital gate assaying to bridge growers directly with food processing enterprises.
+                </p>
+
+                <div className="grid grid-cols-2 gap-3 pt-2">
+                  <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/70 dark:border-zinc-800/70">
+                    <span className="block text-[10px] font-mono uppercase text-zinc-500 font-bold">Post-Harvest Loss</span>
+                    <span className="text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono">&lt; 1.8%</span>
+                    <span className="text-[11px] text-zinc-500 block">vs. 15-25% in legacy mandis</span>
+                  </div>
+                  <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/70 dark:border-zinc-800/70">
+                    <span className="block text-[10px] font-mono uppercase text-zinc-500 font-bold">Transit Turnaround</span>
+                    <span className="text-lg font-black text-zinc-900 dark:text-zinc-100 font-mono">Under 18 Hrs</span>
+                    <span className="text-[11px] text-zinc-500 block">Temperature tracked GPS</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 2x2 Photo Mosaic of Real Operations */}
+              <div className="grid grid-cols-2 gap-3.5">
+                <div className="relative h-44 sm:h-52 rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 group">
+                  <Image
+                    src="https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=600&q=80"
+                    alt="Onion Sorting and Grading"
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
+                  <span className="absolute bottom-2 left-2 text-[10px] font-semibold text-white px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs">
+                    Automated Lot Sizing
+                  </span>
+                </div>
+
+                <div className="relative h-44 sm:h-52 rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 group">
+                  <Image
+                    src="https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=600&q=80"
+                    alt="Fresh Harvest Crates"
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
+                  <span className="absolute bottom-2 left-2 text-[10px] font-semibold text-white px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs">
+                    Farmgate Crated Intake
+                  </span>
+                </div>
+
+                <div className="relative h-44 sm:h-52 rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 group">
+                  <Image
+                    src="https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=600&q=80"
+                    alt="Seed Quality Testing"
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
+                  <span className="absolute bottom-2 left-2 text-[10px] font-semibold text-white px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs">
+                    Chemical & Purity Lab
+                  </span>
+                </div>
+
+                <div className="relative h-44 sm:h-52 rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 group">
+                  <Image
+                    src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&w=600&q=80"
+                    alt="Field Tractor Dispatch"
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
+                  <span className="absolute bottom-2 left-2 text-[10px] font-semibold text-white px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs">
+                    Direct Fleet Dispatch
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================================== */}
+        {/* 5 PILLARS OF INSTITUTIONAL TRUST: Grid Cards with Real Photos      */}
         {/* =================================================================== */}
         <section id="standards" className="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto scroll-mt-24">
           <div className="text-center max-w-2xl mx-auto mb-12">
@@ -324,97 +459,172 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Pillar 1 */}
-            <div id="standards-quality" className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 p-6 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 flex items-center justify-center mb-4">
-                  <FileCheck2 className="w-5 h-5" />
+            <div id="standards-quality" className="group backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 overflow-hidden shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=700&q=80"
+                  alt="Standardized Quality Assaying"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+                <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-emerald-500/20 backdrop-blur-md border border-emerald-500/40 text-emerald-300 flex items-center justify-center">
+                  <FileCheck2 className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
-                  {t.about.pillar1Title}
-                </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                  {t.about.pillar1Desc}
-                </p>
+                <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-emerald-300 bg-emerald-950/80 border border-emerald-700/50 px-2 py-0.5 rounded">
+                  Pillar 01 • AGMARK Testing
+                </span>
               </div>
-              <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold font-mono">
-                <CheckCircle className="w-3.5 h-3.5" />
-                <span>{t.about.agmarkFssaiCompliant}</span>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
+                    {t.about.pillar1Title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                    {t.about.pillar1Desc}
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold font-mono">
+                  <CheckCircle className="w-3.5 h-3.5" />
+                  <span>{t.about.agmarkFssaiCompliant}</span>
+                </div>
               </div>
             </div>
 
             {/* Pillar 2 */}
-            <div id="standards-wdra" className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 p-6 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-400 flex items-center justify-center mb-4">
-                  <Building2 className="w-5 h-5" />
+            <div id="standards-wdra" className="group backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 overflow-hidden shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=700&q=80"
+                  alt="WDRA-Accredited Warehousing"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+                <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-blue-500/20 backdrop-blur-md border border-blue-500/40 text-blue-300 flex items-center justify-center">
+                  <Building2 className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
-                  {t.about.pillar2Title}
-                </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                  {t.about.pillar2Desc}
-                </p>
+                <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-blue-300 bg-blue-950/80 border border-blue-700/50 px-2 py-0.5 rounded">
+                  Pillar 02 • e-NWR Silos
+                </span>
               </div>
-              <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-blue-700 dark:text-blue-400 font-semibold font-mono">
-                <CheckCircle className="w-3.5 h-3.5" />
-                <span>{t.about.wdraAccreditedDepots}</span>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
+                    {t.about.pillar2Title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                    {t.about.pillar2Desc}
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-blue-700 dark:text-blue-400 font-semibold font-mono">
+                  <CheckCircle className="w-3.5 h-3.5" />
+                  <span>{t.about.wdraAccreditedDepots}</span>
+                </div>
               </div>
             </div>
 
             {/* Pillar 3 */}
-            <div id="standards-msp" className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 p-6 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 flex items-center justify-center mb-4">
-                  <Scale className="w-5 h-5" />
+            <div id="standards-msp" className="group backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 overflow-hidden shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=700&q=80"
+                  alt="Statutory MSP Floor Guardrails"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+                <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-amber-500/20 backdrop-blur-md border border-amber-500/40 text-amber-300 flex items-center justify-center">
+                  <Scale className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
-                  {t.about.pillar3Title}
-                </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                  {t.about.pillar3Desc}
-                </p>
+                <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-amber-300 bg-amber-950/80 border border-amber-700/50 px-2 py-0.5 rounded">
+                  Pillar 03 • Statutory MSP
+                </span>
               </div>
-              <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-amber-700 dark:text-amber-400 font-semibold font-mono">
-                <CheckCircle className="w-3.5 h-3.5" />
-                <span>{t.about.zeroDownsideGuardrail}</span>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
+                    {t.about.pillar3Title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                    {t.about.pillar3Desc}
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-amber-700 dark:text-amber-400 font-semibold font-mono">
+                  <CheckCircle className="w-3.5 h-3.5" />
+                  <span>{t.about.zeroDownsideGuardrail}</span>
+                </div>
               </div>
             </div>
 
             {/* Pillar 4 */}
-            <div id="standards-escrow" className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 p-6 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-700 dark:text-purple-400 flex items-center justify-center mb-4">
-                  <Lock className="w-5 h-5" />
+            <div id="standards-escrow" className="group backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 overflow-hidden shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between scroll-mt-24">
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=700&q=80"
+                  alt="T+1 Regulated Escrow Settlement"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+                <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-purple-500/20 backdrop-blur-md border border-purple-500/40 text-purple-300 flex items-center justify-center">
+                  <Lock className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
-                  {t.about.pillar4Title}
-                </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                  {t.about.pillar4Desc}
-                </p>
+                <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-purple-300 bg-purple-950/80 border border-purple-700/50 px-2 py-0.5 rounded">
+                  Pillar 04 • Nodal Escrow
+                </span>
               </div>
-              <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-purple-700 dark:text-purple-400 font-semibold font-mono">
-                <CheckCircle className="w-3.5 h-3.5" />
-                <span>{t.about.rbiRegulatedEscrow}</span>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
+                    {t.about.pillar4Title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                    {t.about.pillar4Desc}
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-purple-700 dark:text-purple-400 font-semibold font-mono">
+                  <CheckCircle className="w-3.5 h-3.5" />
+                  <span>{t.about.rbiRegulatedEscrow}</span>
+                </div>
               </div>
             </div>
 
             {/* Pillar 5 */}
-            <div id="standards-telemetry" className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 p-6 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between md:col-span-2 lg:col-span-2 scroll-mt-24">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-700 dark:text-teal-400 flex items-center justify-center mb-4">
-                  <BadgeCheck className="w-5 h-5" />
+            <div id="standards-telemetry" className="group backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 overflow-hidden shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between md:col-span-2 lg:col-span-2 scroll-mt-24">
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80"
+                  alt="Cryptographic Batch Origin Telemetry"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 66vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+                <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-teal-500/20 backdrop-blur-md border border-teal-500/40 text-teal-300 flex items-center justify-center">
+                  <BadgeCheck className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
-                  {t.about.pillar5Title}
-                </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                  {t.about.pillar5Desc}
-                </p>
+                <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-teal-300 bg-teal-950/80 border border-teal-700/50 px-2 py-0.5 rounded">
+                  Pillar 05 • Immutable Telemetry Hash
+                </span>
               </div>
-              <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-teal-700 dark:text-teal-400 font-semibold font-mono">
-                <CheckCircle className="w-3.5 h-3.5" />
-                <span>{t.about.cryptoAuditTrail}</span>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mb-2">
+                    {t.about.pillar5Title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                    {t.about.pillar5Desc}
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] text-teal-700 dark:text-teal-400 font-semibold font-mono">
+                  <CheckCircle className="w-3.5 h-3.5" />
+                  <span>{t.about.cryptoAuditTrail}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -502,6 +712,113 @@ export default function AboutPage() {
                 <span className="px-3.5 py-1.5 rounded-full bg-zinc-100/80 dark:bg-zinc-800/80 text-zinc-800 dark:text-zinc-200 text-xs font-medium border border-zinc-200 dark:border-zinc-700 shadow-xs">
                   {t.about.govPlatformFee}
                 </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================================== */}
+        {/* FIELD NETWORK & COOPERATIVE CLUSTERS (Photo-Driven Visual Proof)    */}
+        {/* =================================================================== */}
+        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="text-xs uppercase font-mono tracking-wider text-emerald-700 dark:text-emerald-400 font-bold">
+              Field Deployments & Institutional Partners
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-1 tracking-tight">
+              Verified Physical Infrastructure Across Regional Mandis
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-2">
+              Every depot and cooperative hub on Fasal Matrix operates with active optical assaying hardware, calibrated weighbridges, and e-NWR compliance.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl group hover:-translate-y-1 transition duration-300">
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=600&q=80"
+                  alt="Grain Weighbridge and Mandi Assay"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <span className="absolute bottom-2 left-2 text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded">
+                  HUB #01 • KOTA
+                </span>
+              </div>
+              <div className="p-4">
+                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">Kota Grain Terminal</h4>
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">
+                  12,000 MT capacity with mechanized pneumatic grain intake for soybean and mustard lots.
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl group hover:-translate-y-1 transition duration-300">
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80"
+                  alt="Vegetable Wholesale Grading"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <span className="absolute bottom-2 left-2 text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded">
+                  HUB #02 • JAIPUR
+                </span>
+              </div>
+              <div className="p-4">
+                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">Muhana Fresh Depot</h4>
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">
+                  Sub-zero multi-chamber cold vault serving tomato, onion, and potato grower clusters.
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl group hover:-translate-y-1 transition duration-300">
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1628352081506-83c43123ed6d?auto=format&fit=crop&w=600&q=80"
+                  alt="Agronomist Quality Inspection"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <span className="absolute bottom-2 left-2 text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded">
+                  HUB #03 • BHOPAL
+                </span>
+              </div>
+              <div className="p-4">
+                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">Bhopal Pulses Silo</h4>
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">
+                  Automated nitrogen purges and moisture meters for chana and pigeon pea preservation.
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl group hover:-translate-y-1 transition duration-300">
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80"
+                  alt="Direct Farm Sourcing Punjab"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <span className="absolute bottom-2 left-2 text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded">
+                  HUB #04 • LUDHIANA
+                </span>
+              </div>
+              <div className="p-4">
+                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">Punjab Wheat Gateway</h4>
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">
+                  Sharbati & durum wheat bulk intake terminal with direct rail freight container linkages.
+                </p>
               </div>
             </div>
           </div>
