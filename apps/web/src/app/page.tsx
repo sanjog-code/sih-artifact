@@ -142,26 +142,6 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* landing-01 Strip: Key Pillars of Trust Tags */}
-            <div className="pt-2 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs font-mono text-zinc-600 dark:text-zinc-400">
-              <span className="px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                <span>Statutory MSP Floors</span>
-              </span>
-              <span className="px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                <span>WDRA Warehouses</span>
-              </span>
-              <span className="px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                <span>T+1 Bank Escrow</span>
-              </span>
-              <span className="px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                <span>0% Hidden Commission</span>
-              </span>
-            </div>
-
             {/* Spatial UI Command Deck with landing-01 Corner Accents */}
             <div className="pt-6 max-w-5xl mx-auto">
               <div className="relative rounded-3xl overflow-hidden border border-zinc-200/90 dark:border-zinc-800 shadow-[0_30px_90px_rgba(0,0,0,0.09)] dark:shadow-[0_30px_90px_rgba(0,0,0,0.4)] bg-zinc-950 group">
