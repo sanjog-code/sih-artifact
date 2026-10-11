@@ -167,6 +167,8 @@ export const translations = {
       inStock: 'Available Quantity',
       verifiedLot: 'Assayed & Inspected',
       quoteSentMsg: 'Bulk procurement enquiry successfully submitted to the settlement desk.',
+      fruits: 'Fruits',
+      liveSynced: 'Live Synced'
     },
     architecture: {
       sectionBadge: 'Verifiable Infrastructure',
@@ -212,6 +214,10 @@ export const translations = {
       directTransparentNetwork: 'Direct Transparent Network',
       readMoreCause: 'Read more about our cause and institutional trust pillars',
       rfqBtn: 'RFQ',
+      adminOps: 'Admin Ops',
+      farmerDesk: 'Farmer Desk',
+      exploreTrustPillars: 'Explore Trust Pillars',
+      contactIntegrationDesk: 'Contact Integration Desk'
     },
     about: {
       title: 'Our Cause & Institutional Trust',
@@ -275,6 +281,24 @@ export const translations = {
       privacy: 'Privacy Protocol',
       terms: 'Institutional Terms',
       security: 'Information Security',
+      agmarkStandards: 'AGMARK Quality Standards',
+      directBankSettlement: 'Direct Bank Settlement',
+      platformPortals: 'Platform Portals',
+      pricingPlans: 'Pricing & Plans',
+      supportHelp: 'Support & Help',
+      tollFreeHelpline: 'Toll-Free Helpline',
+      grievanceDesk: 'Grievance Desk',
+      operatingHours: 'Mon - Sat: 9:00 AM - 6:00 PM IST',
+      registeredEntity: 'Registered Entity',
+      registeredOffice: 'Registered Office',
+      nodalGrievanceOfficer: 'Nodal Grievance Officer',
+      refundPolicy: 'Refund Policy',
+      cookiePolicy: 'Cookie Policy',
+      ageRestricted: 'Age Restricted: 18+ Only',
+      allRightsReserved: 'All rights reserved.',
+      active: 'Active',
+      showFewerLanguages: '▲ Show Fewer Languages',
+      moreOfficialLanguages: '▼ +16 More Official Languages ({count})'
     },
     modal: {
       title: 'Procurement & Partnership Inquiry',
@@ -588,6 +612,8 @@ export const translations = {
       inStock: 'उपलब्ध मात्रा',
       verifiedLot: 'परीक्षित एवं निरीक्षण संपन्न',
       quoteSentMsg: 'थोक खरीद पूछताछ निपटान डेस्क को सफलतापूर्वक भेज दी गई है।',
+      fruits: 'फल',
+      liveSynced: 'लाइव सिंक किया गया'
     },
     architecture: {
       sectionBadge: 'सत्यापनीय अवसंरचना',
@@ -633,6 +659,10 @@ export const translations = {
       directTransparentNetwork: 'प्रत्यक्ष पारदर्शी नेटवर्क',
       readMoreCause: 'हमारे उद्देश्य और संस्थागत विश्वास स्तंभों के बारे में पढ़ें',
       rfqBtn: 'आरएफक्यू',
+      adminOps: 'एडमिन ऑप्स',
+      farmerDesk: 'किसान डेस्क',
+      exploreTrustPillars: 'विश्वास के स्तंभ देखें',
+      contactIntegrationDesk: 'एकीकरण डेस्क से संपर्क करें'
     },
     about: {
       title: 'हमारा उद्देश्य और संस्थागत विश्वास',
@@ -696,6 +726,24 @@ export const translations = {
       privacy: 'गोपनीयता नीति',
       terms: 'संस्थागत शर्तें',
       security: 'सूचना सुरक्षा',
+      agmarkStandards: 'AGMARK गुणवत्ता मानक',
+      directBankSettlement: 'डायरेक्ट बैंक सेटलमेंट',
+      platformPortals: 'प्लैटफ़ॉर्म पोर्टल',
+      pricingPlans: 'मूल्य और योजनाएँ',
+      supportHelp: 'सहायता और समर्थन',
+      tollFreeHelpline: 'टोल फ्री हेल्पलाइन।',
+      grievanceDesk: 'शिकायत डेस्क',
+      operatingHours: 'सोम - शनि: सुबह 9:00 बजे से शाम 6:00 बजे तक',
+      registeredEntity: 'रजिस्टर्ड इकाई',
+      registeredOffice: 'पंजीकृत कार्यालय : ',
+      nodalGrievanceOfficer: 'नोडल शिकायत अधिकारी',
+      refundPolicy: 'धनवापसी नीति',
+      cookiePolicy: 'कूकी नीति',
+      ageRestricted: 'आयु प्रतिबंधित: केवल 18+',
+      allRightsReserved: 'सर्वाधिकार सुरक्षित।',
+      active: 'ऐक्टिव',
+      showFewerLanguages: 'कम भाषाएँ ▲ दिखाएँ',
+      moreOfficialLanguages: '▼ अधिक आधिकारिक भाषाएँ ({count})'
     },
     modal: {
       title: 'खरीद एवं साझेदारी पूछताछ',
@@ -1009,6 +1057,8 @@ export const translations = {
       inStock: 'ਉਪਲਬਧ ਮਾਤਰਾ',
       verifiedLot: 'ਪਰਖਿਆ ਅਤੇ ਨਿਰੀਖਣ ਕੀਤਾ ਗਿਆ',
       quoteSentMsg: 'ਥੋਕ ਖਰੀਦ ਪੁੱਛਗਿੱਛ ਸਫਲਤਾਪੂਰਵਕ ਸੈਟਲਮੈਂਟ ਡੈਸਕ ਨੂੰ ਭੇਜ ਦਿੱਤੀ ਗਈ ਹੈ।',
+      fruits: 'ਫਲ',
+      liveSynced: 'ਲਾਈਵ ਸਿੰਕ ਕੀਤਾ'
     },
     architecture: {
       sectionBadge: 'ਪ੍ਰਮਾਣਿਤ ਬੁਨਿਆਦੀ ਢਾਂਚਾ',
@@ -1054,6 +1104,10 @@ export const translations = {
       directTransparentNetwork: 'ਸਿੱਧਾ ਪਾਰਦਰਸ਼ੀ ਨੈੱਟਵਰਕ',
       readMoreCause: 'ਸਾਡੇ ਮਕਸਦ ਅਤੇ ਸੰਸਥਾਗਤ ਵਿਸ਼ਵਾਸ ਥੰਮ੍ਹਾਂ ਬਾਰੇ ਪੜ੍ਹੋ',
       rfqBtn: 'ਆਰਐਫਕਿਊ',
+      adminOps: 'ਐਡਮਿਨ ਓਪਸ',
+      farmerDesk: 'ਕਿਸਾਨ ਡੈਸਕ',
+      exploreTrustPillars: 'ਟਰੱਸਟ ਦੇ ਥੰਮ੍ਹਾਂ ਦੀ ਪੜਚੋਲ ਕਰੋ',
+      contactIntegrationDesk: 'ਇੰਟੀਗ੍ਰੇਸ਼ਨ ਡੈਸਕ ਨਾਲ ਸੰਪਰਕ ਕਰੋ'
     },
     about: {
       title: 'ਸਾਡਾ ਉਦੇਸ਼ ਅਤੇ ਸੰਸਥਾਗਤ ਵਿਸ਼ਵਾਸ',
@@ -1117,6 +1171,24 @@ export const translations = {
       privacy: 'ਗੋਪਨੀਯਤਾ ਨੀਤੀ',
       terms: 'ਸੰਸਥਾਗਤ ਸ਼ਰਤਾਂ',
       security: 'ਸੂਚਨਾ ਸੁਰੱਖਿਆ',
+      agmarkStandards: 'AGMARK ਕੁਆਲਟੀ ਸਟੈਂਡਰਡ',
+      directBankSettlement: 'ਸਿੱਧਾ ਬੈਂਕ ਬੰਦੋਬਸਤ',
+      platformPortals: 'ਪਲੇਟਫਾਰਮ ਪੋਰਟਲ',
+      pricingPlans: 'ਕੀਮਤ ਅਤੇ ਯੋਜਨਾਵਾਂ',
+      supportHelp: 'ਸਹਾਇਤਾ ਅਤੇ ਸਹਾਇਤਾ',
+      tollFreeHelpline: 'ਟੋਲ ਫ੍ਰੀ ਹੈਲਪਲਾਈਨ',
+      grievanceDesk: 'ਸ਼ਿਕਾਇਤ ਡੈਸਕ',
+      operatingHours: 'ਸੋਮ - ਸ਼ਨੀ: 9:00 AM - 6:00 PM IST',
+      registeredEntity: 'ਰਜਿਸਟਰਡ ਇਕਾਈ',
+      registeredOffice: 'ਰਜਿਸਟਰਡ ਦਫਤਰ',
+      nodalGrievanceOfficer: 'ਨੋਡਲ ਸ਼ਿਕਾਇਤ ਅਧਿਕਾਰੀ',
+      refundPolicy: 'ਰਿਫੰਡ ਨੀਤੀ',
+      cookiePolicy: 'ਨਵੀਂ ਕੂਕੀਜ ਪਾਲਸੀ',
+      ageRestricted: 'ਉਮਰ ਪ੍ਰਤੀਬੰਧਿਤਃ 18+ ਸਿਰਫ',
+      allRightsReserved: 'ਸਾਰੇ ਹੱਕ ਰਾਖਵੇਂ ਹਨ। ',
+      active: 'ਸਰਗਰਮ',
+      showFewerLanguages: 'ਘੱਟ ਭਾਸ਼ਾਵਾਂ ▲ ਵੇਖੋ',
+      moreOfficialLanguages: '▼ ਹੋਰ ਸਰਕਾਰੀ ਭਾਸ਼ਾਵਾਂ ({count})'
     },
     modal: {
       title: 'ਖਰੀਦ ਅਤੇ ਭਾਈਵਾਲੀ ਪੁੱਛਗਿੱਛ',
@@ -1430,6 +1502,8 @@ export const translations = {
       inStock: 'उपलब्ध साठा',
       verifiedLot: 'तपासणी पूर्ण झालेला माल',
       quoteSentMsg: 'घाऊक खरेदी चौकशी यशस्वीरीत्या पाठवली गेली आहे.',
+      fruits: 'फळे',
+      liveSynced: 'लाइव्ह समक्रमित'
     },
     architecture: {
       sectionBadge: 'प्रमाणित पायाभूत सुविधा',
@@ -1475,6 +1549,10 @@ export const translations = {
       directTransparentNetwork: 'थेट पारदर्शक नेटवर्क',
       readMoreCause: 'आमचे ध्येय आणि संस्थात्मक विश्वास स्तंभांबद्दल वाचा',
       rfqBtn: 'आरएफक्यू',
+      adminOps: 'प्रशासक कार्यपद्धती',
+      farmerDesk: 'शेतकरी डेस्क',
+      exploreTrustPillars: 'ट्रस्ट स्तंभ एक्सप्लोर करा',
+      contactIntegrationDesk: 'संपर्क एकत्रीकरण डेस्क'
     },
     about: {
       title: 'आमचे ध्येय आणि संस्थात्मक विश्वास',
@@ -1538,6 +1616,24 @@ export const translations = {
       privacy: 'गोपनीयता धोरण',
       terms: 'संस्थात्मक अटी',
       security: 'माहिती सुरक्षा',
+      agmarkStandards: 'AGMARK गुणवत्ता मानके',
+      directBankSettlement: 'थेट बँक सेटलमेंट',
+      platformPortals: 'प्लॅटफॉर्म पोर्टल्स',
+      pricingPlans: 'किंमत आणि योजना',
+      supportHelp: 'समर्थन आणि मदत',
+      tollFreeHelpline: 'टोल फ्री हेल्पलाइन',
+      grievanceDesk: 'तक्रार डेस्क',
+      operatingHours: 'सोम - शनि: 9:00 AM - 6:00 PM IST',
+      registeredEntity: 'नोंदणीकृत संस्था',
+      registeredOffice: '<g id="51">नोंदणीकृत कार्यालय</g>: ',
+      nodalGrievanceOfficer: 'नोडल तक्रार अधिकारी',
+      refundPolicy: 'परतावा धोरण',
+      cookiePolicy: 'कुकी धोरण',
+      ageRestricted: 'वयोमर्यादा: केवळ 18+',
+      allRightsReserved: 'सर्व हक्क राखीव.',
+      active: 'सक्रिय',
+      showFewerLanguages: 'कमी भाषा ▲ दाखवा',
+      moreOfficialLanguages: '▼ अधिक अधिकृत भाषा ({count})'
     },
     modal: {
       title: 'खरेदी आणि भागीदारी चौकशी',
@@ -1851,6 +1947,8 @@ export const translations = {
       inStock: 'అందుబాటులో ఉన్న నిల్వ',
       verifiedLot: 'నాణ్యత తనిఖీ చేయబడింది',
       quoteSentMsg: 'టోకు కొనుగోలు విచారణ సెటిల్మెంట్ డెస్క్‌కు విజయవంతంగా పంపబడింది.',
+      fruits: 'పండ్లు',
+      liveSynced: 'లైవ్ సమకాలీకరించబడింది'
     },
     architecture: {
       sectionBadge: 'ధృవీకరించదగిన మౌలిక సదుపాయాలు',
@@ -1896,6 +1994,10 @@ export const translations = {
       directTransparentNetwork: 'ప్రత్యక్ష పారదర్శక నెట్‌వర్క్',
       readMoreCause: 'మా ఉద్దేశం మరియు సంస్థాగత విశ్వసనీయత గురించి చదవండి',
       rfqBtn: 'ఆర్‌ఎఫ్‌క్యూ',
+      adminOps: 'అడ్మిన్ ఆప్స్',
+      farmerDesk: 'వ్యవసాయదారుడు',
+      exploreTrustPillars: 'ట్రస్ట్ స్తంభాలను అన్వేషించండి',
+      contactIntegrationDesk: 'కాంటాక్ట్ ఇంటిగ్రేషన్ డెస్క్'
     },
     about: {
       title: 'మా లక్ష్యం మరియు సంస్థాగత విశ్వసనీయత',
@@ -1959,6 +2061,24 @@ export const translations = {
       privacy: 'గోప్యతా విధానం',
       terms: 'నిబంధనలు & షరతులు',
       security: 'సమాచార భద్రత',
+      agmarkStandards: 'AGMARK నాణ్యత ప్రమాణాలు',
+      directBankSettlement: 'డైరెక్ట్ బ్యాంక్ సెటిల్మెంట్',
+      platformPortals: 'ప్లాట్ ‌ ఫారమ్ పోర్టల్ ‌ లు',
+      pricingPlans: 'ధర & ప్రణాళికలు',
+      supportHelp: 'మద్దతు & సహాయం',
+      tollFreeHelpline: 'టోల్-ఫ్రీ హెల్ప్ ‌ లైన్',
+      grievanceDesk: 'గ్రీవెన్స్ డెస్క్',
+      operatingHours: 'సోమ - శని: 9:00 AM - 6:00 PM IST',
+      registeredEntity: 'రిజిస్టర్డ్ ఎంటిటీ',
+      registeredOffice: 'రిజిస్టర్డ్ ఆఫీస్:',
+      nodalGrievanceOfficer: 'నోడల్ గ్రీవెన్స్ రిడ్రెసల్ ఆఫీసర్',
+      refundPolicy: 'రీఫండ్ విధానం',
+      cookiePolicy: 'కొత్త కుకీ విధానము',
+      ageRestricted: 'వయస్సు పరిమితం చేయబడింది: 18+ మాత్రమే',
+      allRightsReserved: 'అన్ని హక్కులూ ప్రత్యేకించుకోవడమైనది.',
+      active: 'క్రియాశీల',
+      showFewerLanguages: 'తక్కువ భాషలను ▲ చూపించు',
+      moreOfficialLanguages: '▼ మరిన్ని అధికారిక భాషలు ({count})'
     },
     modal: {
       title: 'కొనుగోలు & భాగస్వామ్య విచారణ',
@@ -2272,6 +2392,8 @@ export const translations = {
       inStock: 'கிடைக்கும் அளவு',
       verifiedLot: 'ஆய்வு செய்யப்பட்டு சான்றளிக்கப்பட்டது',
       quoteSentMsg: 'மொத்த கொள்முதல் விசாரணை பரிவர்த்தனை மையத்திற்கு அனுப்பப்பட்டது.',
+      fruits: 'பழங்கள்',
+      liveSynced: 'நேரடி ஒத்திசைவு'
     },
     architecture: {
       sectionBadge: 'நம்பகமான உள்கட்டமைப்பு',
@@ -2317,6 +2439,10 @@ export const translations = {
       directTransparentNetwork: 'நேரடி வெளிப்படையான நெட்வொர்க்',
       readMoreCause: 'எங்கள் நோக்கம் மற்றும் நிறுவன நம்பிக்கை தூண்கள் பற்றி படிக்கவும்',
       rfqBtn: 'RFQ',
+      adminOps: 'நிர்வாகி விருப்பத்தேர்வுகள்',
+      farmerDesk: 'ஃபார்மர் டெஸ்க்',
+      exploreTrustPillars: 'நம்பிக்கைத் தூண்களை ஆராயுங்கள்',
+      contactIntegrationDesk: 'தொடர்பு ஒருங்கிணைப்பு டெஸ்க்'
     },
     about: {
       title: 'எங்கள் நோக்கம் & நம்பகத்தன்மை',
@@ -2380,6 +2506,24 @@ export const translations = {
       privacy: 'தனியுரிமைக் கொள்கை',
       terms: 'விதிமுறைகள் & நிபந்தனைகள்',
       security: 'தகவல் பாதுகாப்பு',
+      agmarkStandards: 'AGMARK தரத் தரநிலைகள்',
+      directBankSettlement: 'நேரடி வங்கி தீர்வு',
+      platformPortals: 'பிளாட்ஃபார்ம் போர்ட்டல்கள்',
+      pricingPlans: 'விலை & திட்டங்கள்',
+      supportHelp: 'ஆதரவு & உதவி',
+      tollFreeHelpline: 'கட்டணமில்லா ஹெல்ப்லைன்',
+      grievanceDesk: 'குறை தீர்க்கும் மேசை',
+      operatingHours: 'திங்கள் - சனி: 9:00 AM - 6:00 PM IST',
+      registeredEntity: 'பதிவு செய்யப்பட்ட நிறுவனம்',
+      registeredOffice: 'பதிவு அலுவலகம்',
+      nodalGrievanceOfficer: 'நோடல் குறை தீர்க்கும் அதிகாரி',
+      refundPolicy: 'பணத்தைத் திரும்பப்பெறும் கொள்கை',
+      cookiePolicy: 'புது தற்காலிக கொள்கை',
+      ageRestricted: 'வயது வரம்பு: 18+ மட்டும்',
+      allRightsReserved: 'அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டுள்ளன.',
+      active: 'நடப்பில் உள்ள',
+      showFewerLanguages: 'குறைவான மொழிகளைக் ▲ காட்டு',
+      moreOfficialLanguages: '▼ மேலும் அதிகாரப்பூர்வ மொழிகள் ({count})'
     },
     modal: {
       title: 'கொள்முதல் & கூட்டாண்மை விசாரணை',

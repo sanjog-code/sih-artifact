@@ -32,17 +32,17 @@ export default function Footer() {
             </Link>
 
             <p className="text-zinc-400 leading-relaxed text-xs max-w-sm">
-              Direct agricultural trade connecting farmers, wholesale buyers, and consumers. Fair prices benchmarked to live market data with transparent settlement.
+              {t.footer.description}
             </p>
 
             <div className="pt-1 flex flex-wrap gap-2 text-[11px] text-zinc-400">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                <span>AGMARK Quality Standards</span>
+                <span>{(t.footer as Record<string, string>)?.agmarkStandards || 'AGMARK Quality Standards'}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800">
                 <Lock className="w-3.5 h-3.5 text-zinc-400" />
-                <span>Direct Bank Settlement</span>
+                <span>{(t.footer as Record<string, string>)?.directBankSettlement || 'Direct Bank Settlement'}</span>
               </span>
             </div>
           </div>
@@ -50,7 +50,7 @@ export default function Footer() {
           {/* Portals & Navigation (col-span-3) */}
           <div className="space-y-3 lg:col-span-3">
             <h4 className="text-white font-bold uppercase tracking-wider text-xs border-b border-zinc-800 pb-2">
-              Platform Portals
+              {(t.footer as Record<string, string>)?.platformPortals || 'Platform Portals'}
             </h4>
             <ul className="space-y-2 text-xs text-zinc-400">
               <li>
@@ -70,7 +70,9 @@ export default function Footer() {
                 >
                   <span>{t.nav.farmer}</span>
                   {hasAccess('farmer') && (
-                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-emerald-500/20 text-emerald-300">Active</span>
+                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-emerald-500/20 text-emerald-300">
+                      {(t.footer as Record<string, string>)?.active || 'Active'}
+                    </span>
                   )}
                 </Link>
               </li>
@@ -81,7 +83,9 @@ export default function Footer() {
                 >
                   <span>{t.nav.buyer}</span>
                   {hasAccess('buyer') && (
-                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-blue-500/20 text-blue-300">Active</span>
+                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-blue-500/20 text-blue-300">
+                      {(t.footer as Record<string, string>)?.active || 'Active'}
+                    </span>
                   )}
                 </Link>
               </li>
@@ -92,7 +96,9 @@ export default function Footer() {
                 >
                   <span>{(t.nav as Record<string, string>)?.consumer || 'Consumer Hub'}</span>
                   {hasAccess('consumer') && (
-                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-amber-500/20 text-amber-300">Active</span>
+                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-amber-500/20 text-amber-300">
+                      {(t.footer as Record<string, string>)?.active || 'Active'}
+                    </span>
                   )}
                 </Link>
               </li>
@@ -103,13 +109,15 @@ export default function Footer() {
                 >
                   <span>{t.nav.logistics}</span>
                   {hasAccess('admin') && (
-                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-zinc-800 text-zinc-300">Active</span>
+                    <span className="text-[9px] font-mono uppercase px-1 rounded bg-zinc-800 text-zinc-300">
+                      {(t.footer as Record<string, string>)?.active || 'Active'}
+                    </span>
                   )}
                 </Link>
               </li>
               <li>
                 <Link href="/pricing" className="hover:text-emerald-400 transition">
-                  Pricing & Plans
+                  {(t.footer as Record<string, string>)?.pricingPlans || 'Pricing & Plans'}
                 </Link>
               </li>
               <li>
@@ -123,11 +131,13 @@ export default function Footer() {
           {/* Contact & Support (col-span-2) */}
           <div className="space-y-3 lg:col-span-2">
             <h4 className="text-white font-bold uppercase tracking-wider text-xs border-b border-zinc-800 pb-2">
-              Support & Help
+              {(t.footer as Record<string, string>)?.supportHelp || 'Support & Help'}
             </h4>
             <div className="space-y-2.5 text-xs text-zinc-400">
               <div>
-                <span className="block text-zinc-500 text-[11px]">Toll-Free Helpline:</span>
+                <span className="block text-zinc-500 text-[11px]">
+                  {(t.footer as Record<string, string>)?.tollFreeHelpline || 'Toll-Free Helpline'}:
+                </span>
                 <a
                   href="tel:18008892603"
                   className="text-emerald-400 hover:underline font-mono text-xs inline-flex items-center gap-1.5 mt-0.5"
@@ -137,7 +147,9 @@ export default function Footer() {
                 </a>
               </div>
               <div>
-                <span className="block text-zinc-500 text-[11px]">Grievance Desk:</span>
+                <span className="block text-zinc-500 text-[11px]">
+                  {(t.footer as Record<string, string>)?.grievanceDesk || 'Grievance Desk'}:
+                </span>
                 <a
                   href="mailto:grievance@fasalmatrix.in"
                   className="text-zinc-300 hover:text-emerald-400 hover:underline text-xs inline-flex items-center gap-1.5 mt-0.5"
@@ -147,7 +159,7 @@ export default function Footer() {
                 </a>
               </div>
               <p className="text-[11px] text-zinc-500 leading-normal pt-1">
-                Mon - Sat: 9:00 AM - 6:00 PM IST
+                {(t.footer as Record<string, string>)?.operatingHours || 'Mon - Sat: 9:00 AM - 6:00 PM IST'}
               </p>
             </div>
           </div>
@@ -188,7 +200,9 @@ export default function Footer() {
                 onClick={() => setShowAllLanguages(!showAllLanguages)}
                 className="w-full text-center py-1.5 text-[11px] font-mono font-bold text-emerald-400 hover:text-emerald-300 bg-zinc-900 hover:bg-zinc-850 rounded-lg border border-zinc-800 transition cursor-pointer"
               >
-                {showAllLanguages ? '▲ Show Fewer Languages' : `▼ +16 More Official Languages (${additionalLanguages.length})`}
+                {showAllLanguages
+                  ? ((t.footer as Record<string, string>)?.showFewerLanguages || '▲ Show Fewer Languages')
+                  : ((t.footer as Record<string, string>)?.moreOfficialLanguages?.replace('{count}', String(additionalLanguages.length)) || `▼ +16 More Official Languages (${additionalLanguages.length})`)}
               </button>
 
               {showAllLanguages && (
@@ -216,22 +230,28 @@ export default function Footer() {
         {/* Corporate Details */}
         <div className="mt-10 pt-6 border-t border-zinc-800 grid grid-cols-1 md:grid-cols-3 gap-4 text-[11px] text-zinc-400">
           <div>
-            <strong className="text-zinc-200 block font-semibold">Registered Entity:</strong>
+            <strong className="text-zinc-200 block font-semibold">
+              {(t.footer as Record<string, string>)?.registeredEntity || 'Registered Entity'}:
+            </strong>
             <span>Fasal Matrix Agrarian Technologies Pvt. Ltd.</span>
           </div>
           <div>
-            <strong className="text-zinc-200 block font-semibold">Registered Office:</strong>
+            <strong className="text-zinc-200 block font-semibold">
+              {(t.footer as Record<string, string>)?.registeredOffice || 'Registered Office'}:
+            </strong>
             <span>Muhana Mandi Complex, Sanganer, Jaipur, Rajasthan 302029</span>
           </div>
           <div>
-            <strong className="text-zinc-200 block font-semibold">Nodal Grievance Officer:</strong>
+            <strong className="text-zinc-200 block font-semibold">
+              {(t.footer as Record<string, string>)?.nodalGrievanceOfficer || 'Nodal Grievance Officer'}:
+            </strong>
             <span>Grievance Redressal Cell (Response SLA: Within 48 hours)</span>
           </div>
         </div>
 
         {/* Bottom Legal Bar */}
         <div className="mt-8 pt-6 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
-          <p>© {new Date().getFullYear()} Fasal Matrix Agrarian Technologies. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Fasal Matrix Agrarian Technologies. {(t.footer as Record<string, string>)?.allRightsReserved || 'All rights reserved.'}</p>
           <div className="flex flex-wrap items-center gap-4 sm:gap-6 font-medium">
             <Link href="/privacy" className="hover:text-emerald-400 transition">
               {t.footer.privacy}
@@ -240,13 +260,13 @@ export default function Footer() {
               {t.footer.terms}
             </Link>
             <Link href="/refund-policy" className="hover:text-emerald-400 transition">
-              Refund Policy
+              {(t.footer as Record<string, string>)?.refundPolicy || 'Refund Policy'}
             </Link>
             <Link href="/cookie-policy" className="hover:text-emerald-400 transition">
-              Cookie Policy
+              {(t.footer as Record<string, string>)?.cookiePolicy || 'Cookie Policy'}
             </Link>
             <span className="text-[10px] text-zinc-500 font-mono">
-              Age Restricted: 18+ Only
+              {(t.footer as Record<string, string>)?.ageRestricted || 'Age Restricted: 18+ Only'}
             </span>
           </div>
         </div>

@@ -258,7 +258,7 @@ export default function Home() {
                 </span>
                 <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  Live Synced
+                  {(t.market as Record<string, string>)?.liveSynced || 'Live Synced'}
                 </span>
               </div>
               <h2 className="text-2xl sm:text-4xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-1 tracking-tight">
@@ -291,7 +291,7 @@ export default function Home() {
                     ? t.market.oilseeds
                     : cat === 'pulses'
                     ? t.market.pulses
-                    : 'Fruits'}
+                    : ((t.market as Record<string, string>)?.fruits || 'Fruits')}
                 </button>
               ))}
             </div>
@@ -378,14 +378,14 @@ export default function Home() {
                       href="/farmer"
                       className="flex-1 py-2 text-center text-xs font-bold bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 rounded-lg transition"
                     >
-                      Farmer Desk
+                      {(t.portal as Record<string, string>)?.farmerDesk || 'Farmer Desk'}
                     </Link>
                   ) : role === 'admin' ? (
                     <Link
                       href="/admin"
                       className="flex-1 py-2 text-center text-xs font-bold bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 rounded-lg transition"
                     >
-                      Admin Ops
+                      {(t.portal as Record<string, string>)?.adminOps || 'Admin Ops'}
                     </Link>
                   ) : (
                     <button

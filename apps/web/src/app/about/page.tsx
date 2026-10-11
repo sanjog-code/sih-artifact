@@ -164,7 +164,7 @@ export default function AboutPage() {
                 href="#standards"
                 className="px-6 py-3 rounded-xl bg-zinc-950 hover:bg-zinc-800 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 font-bold text-xs sm:text-sm transition shadow-sm inline-flex items-center gap-2"
               >
-                <span>Explore Trust Pillars</span>
+                <span>{(t.portal as Record<string, string>)?.exploreTrustPillars || 'Explore Trust Pillars'}</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a
@@ -172,7 +172,7 @@ export default function AboutPage() {
                 className="px-6 py-3 rounded-xl bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-850 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-800 font-bold text-xs sm:text-sm transition shadow-xs inline-flex items-center gap-2"
               >
                 <MessageSquare className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>Contact Integration Desk</span>
+                <span>{(t.portal as Record<string, string>)?.contactIntegrationDesk || 'Contact Integration Desk'}</span>
               </a>
             </div>
 

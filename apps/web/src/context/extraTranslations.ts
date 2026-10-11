@@ -123,7 +123,9 @@ export const extraTranslations = {
       "vegetables": "তাজা সবজি",
       "farmerLabel": "গ্রোয়ার ক্লাস্টার",
       "verifiedLot": "পরীক্ষা এবং পরিদর্শন",
-      "quoteSentMsg": "বাল্ক প্রকিউরমেন্ট তদন্ত সফলভাবে সেটেলমেন্ট ডেস্কে জমা দেওয়া হয়েছে।"
+      "quoteSentMsg": "বাল্ক প্রকিউরমেন্ট তদন্ত সফলভাবে সেটেলমেন্ট ডেস্কে জমা দেওয়া হয়েছে।",
+      "fruits": "ফল",
+      "liveSynced": "লাইভ সিঙ্ক করা"
     },
     "about": {
       "title": "আমাদের উদ্দেশ্য ও প্রাতিষ্ঠানিক বিশ্বাস",
@@ -275,7 +277,11 @@ export const extraTranslations = {
       "directTransparentNetwork": "সরাসরি স্বচ্ছ নেটওয়ার্ক",
       "accessIvr": "অ্যাক্সেস: টোল-ফ্রি IVR 6টি ভারতীয় ভাষায়",
       "telemetrySensors": "টেলিমেট্রি: কোল্ড স্টোরেজ অ্যাম্বিয়েন্ট সেন্সর",
-      "readMoreCause": "আমাদের কারণ এবং প্রাতিষ্ঠানিক বিশ্বাসের স্তম্ভ সম্পর্কে আরও পড়ুন"
+      "readMoreCause": "আমাদের কারণ এবং প্রাতিষ্ঠানিক বিশ্বাসের স্তম্ভ সম্পর্কে আরও পড়ুন",
+      "adminOps": "অ্যাডমিন অপস",
+      "farmerDesk": "ফার্মার ডেস্ক",
+      "exploreTrustPillars": "ট্রাস্ট স্তম্ভগুলি অন্বেষণ করুন",
+      "contactIntegrationDesk": "যোগাযোগ ইন্টিগ্রেশন ডেস্ক"
     },
     "comparison": {
       "title": "ইকোনমিক ডিফারেনশিয়াল",
@@ -298,7 +304,25 @@ export const extraTranslations = {
       "copyright": "Fasal Matrix Technologies Inc. সর্বস্বত্ব সংরক্ষিত।",
       "terms": "প্রাতিষ্ঠানিক শর্তাবলী",
       "privacy": "গোপনীয়তা প্রোটোকল",
-      "security": "তথ্য নিরাপত্তা"
+      "security": "তথ্য নিরাপত্তা",
+      "agmarkStandards": "AGMARK মানের মান",
+      "directBankSettlement": "ডাইরেক্ট ব্যাংক সেটেলমেন্ট",
+      "platformPortals": "প্ল্যাটফর্ম পোর্টাল",
+      "pricingPlans": "প্রাইসিং এবং প্ল্যান",
+      "supportHelp": "সহায়তা এবং সহায়তা",
+      "tollFreeHelpline": "টোল ফ্রি হেল্পলাইন",
+      "grievanceDesk": "অভিযোগের ডেস্ক",
+      "operatingHours": "সোম - শনি: সকাল ৯: ০০ - সন্ধ্যা ৬: ০০ IST",
+      "registeredEntity": "নিবন্ধিত সত্তা",
+      "registeredOffice": "নিবন্ধিত দপ্তর:",
+      "nodalGrievanceOfficer": "নোডাল অভিযোগ কর্মকর্তা",
+      "refundPolicy": "প্রত্যর্পণ নীতি",
+      "cookiePolicy": "কুকি নীতি",
+      "ageRestricted": "বয়স সীমাবদ্ধ: 18+ শুধুমাত্র",
+      "allRightsReserved": "সর্বস্বত্ব সংরক্ষিত। ",
+      "active": "সক্রিয়",
+      "showFewerLanguages": "কম ভাষা ▲ দেখান",
+      "moreOfficialLanguages": "▼ আরও সরকারী ভাষা ({count})"
     },
     "modal": {
       "closeBtn": "বন্ধ",
@@ -540,7 +564,9 @@ export const extraTranslations = {
       "farmerLabel": "ગ્રોવર ક્લસ્ટર",
       "verifiedLot": "તપાસ અને તપાસ",
       "warehouseLabel": "ડેપો સ્થાન",
-      "quoteSentMsg": "બલ્ક પ્રોક્યોરમેન્ટ ઇન્ક્વાયરી સેટલમેન્ટ ડેસ્ક પર સફળતાપૂર્વક સબમિટ કરવામાં આવી."
+      "quoteSentMsg": "બલ્ક પ્રોક્યોરમેન્ટ ઇન્ક્વાયરી સેટલમેન્ટ ડેસ્ક પર સફળતાપૂર્વક સબમિટ કરવામાં આવી.",
+      "fruits": "ફળો",
+      "liveSynced": "લાઇવ સમન્વયિત"
     },
     "about": {
       "title": "અમારો હેતુ અને સંસ્થાકીય વિશ્વાસ",
@@ -704,7 +730,11 @@ export const extraTranslations = {
       "legacySupplyChain": "લેગસી સપ્લાય ચેઇન",
       "logisticsDeskDesc": "કેપેસીટેડ VRP વાહન રૂટીંગ, વેપોઈન્ટ સિક્વન્સીંગ અને મલ્ટી-ડેપો કોન્સોલિડેશન.",
       "directTransparentNetwork": "ડાયરેક્ટ પારદર્શક નેટવર્ક",
-      "telemetrySensors": "ટેલિમેટ્રી: કોલ્ડ સ્ટોરેજ એમ્બિયન્ટ સેન્સર્સ"
+      "telemetrySensors": "ટેલિમેટ્રી: કોલ્ડ સ્ટોરેજ એમ્બિયન્ટ સેન્સર્સ",
+      "adminOps": "એડમિન ઓપરેશન્સ",
+      "farmerDesk": "ફાર્મર ડેસ્ક",
+      "exploreTrustPillars": "ટ્રસ્ટ સ્તંભોનું અન્વેષણ કરો",
+      "contactIntegrationDesk": "સંપર્ક એકીકરણ ડેસ્ક"
     },
     "footer": {
       "compliance": "અનુપાલન",
@@ -715,7 +745,25 @@ export const extraTranslations = {
       "legalNotice": "તમામ પ્રાઇસિંગ ઇન્ટેલિજન્સ સત્તાવાર CACP MSP માળ અને માન્યતા પ્રાપ્ત મંડી આગમન રજિસ્ટ્રી સામે સખત બેન્ચમાર્ક છે.",
       "description": "સીધો ફાર્મ થી ખરીદનાર વેપાર. લાઇવ મંડી AI દ્વારા ચકાસાયેલ વાજબી કિંમતો, ઝીરો મિડલમેન કટ અને બીજા દિવસે બેંક ટ્રાન્સફરની બાંયધરી આપવામાં આવી છે.",
       "copyright": "Fasal Matrix Technologies Inc. સર્વાધિકાર સુરક્ષિત.",
-      "security": "માહિતી સુરક્ષા"
+      "security": "માહિતી સુરક્ષા",
+      "agmarkStandards": "AGMARK ગુણવત્તા ધોરણો",
+      "directBankSettlement": "ડાયરેક્ટ બેંક સેટલમેન્ટ",
+      "platformPortals": "પ્લેટફોર્મ પોર્ટલ્સ",
+      "pricingPlans": "પ્રાઇસીંગ અને યોજનાઓ",
+      "supportHelp": "સપોર્ટ અને મદદ",
+      "tollFreeHelpline": "ટોલ-ફ્રી હેલ્પલાઇન",
+      "grievanceDesk": "ફરિયાદ ડેસ્ક",
+      "operatingHours": "સોમવાર - શનિ: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "રજિસ્ટર્ડ એન્ટિટી",
+      "registeredOffice": "રજીસ્ટર થયેલ ઓફિસ",
+      "nodalGrievanceOfficer": "નોડલ ફરિયાદ અધિકારી",
+      "refundPolicy": "રિફંડ પોલિસી",
+      "cookiePolicy": "કૂકી પોલિસી",
+      "ageRestricted": "વય પ્રતિબંધિત: ફક્ત 18+",
+      "allRightsReserved": "બધા હક અનામત છે.",
+      "active": "સક્રિય",
+      "showFewerLanguages": "ઓછી ભાષાઓ ▲ બતાવો",
+      "moreOfficialLanguages": "▼ વધુ સત્તાવાર ભાષાઓ ({count})"
     },
     "modal": {
       "phoneLabel": "મોબાઈલ નંબર",
@@ -957,7 +1005,9 @@ export const extraTranslations = {
       "warehouseLabel": "ಡಿಪೋ ಸ್ಥಳ",
       "farmerLabel": "ಬೆಳೆಗಾರರ ​​ಕ್ಲಸ್ಟರ್",
       "verifiedLot": "ಪರೀಕ್ಷಿಸಲಾಗಿದೆ ಮತ್ತು ಪರಿಶೀಲಿಸಲಾಗಿದೆ",
-      "quoteSentMsg": "ಬೃಹತ್ ಸಂಗ್ರಹಣೆಯ ವಿಚಾರಣೆಯನ್ನು ವಸಾಹತು ಡೆಸ್ಕ್‌ಗೆ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ."
+      "quoteSentMsg": "ಬೃಹತ್ ಸಂಗ್ರಹಣೆಯ ವಿಚಾರಣೆಯನ್ನು ವಸಾಹತು ಡೆಸ್ಕ್‌ಗೆ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ.",
+      "fruits": "ಹಣ್ಣುಗಳು",
+      "liveSynced": "ಲೈವ್ ಸಿಂಕ್ ಮಾಡಲಾಗಿದೆ"
     },
     "about": {
       "title": "ನಮ್ಮ ಉದ್ದೇಶ ಮತ್ತು ಸಾಂಸ್ಥಿಕ ವಿಶ್ವಾಸ",
@@ -1121,7 +1171,11 @@ export const extraTranslations = {
       "standardAgmark": "ಪ್ರಮಾಣಿತ: AGMARK ಗ್ರೇಡ್ A1/A2/B/C",
       "legacySupplyChain": "ಪರಂಪರೆಯ ಪೂರೈಕೆ ಸರಪಳಿ",
       "openLogisticsDesk": "ರೂಟ್ ಆಪ್ಟಿಮೈಜರ್ ತೆರೆಯಿರಿ",
-      "guaranteedMsp": "ಖಾತರಿಪಡಿಸಲಾಗಿದೆ: 100% MSP ಮಹಡಿ ಜಾರಿ"
+      "guaranteedMsp": "ಖಾತರಿಪಡಿಸಲಾಗಿದೆ: 100% MSP ಮಹಡಿ ಜಾರಿ",
+      "adminOps": "ನಿರ್ವಾಹಕ ಆಯ್ಕೆಗಳು",
+      "farmerDesk": "ರೈತರ ಡೆಸ್ಕ್",
+      "exploreTrustPillars": "ಟ್ರಸ್ಟ್ ಕಂಬಗಳನ್ನು ಅನ್ವೇಷಿಸಿ",
+      "contactIntegrationDesk": "ಸಂಪರ್ಕ ಇಂಟಿಗ್ರೇಷನ್ ಡೆಸ್ಕ್"
     },
     "footer": {
       "quickLinks": "ನ್ಯಾವಿಗೇಷನ್",
@@ -1132,7 +1186,25 @@ export const extraTranslations = {
       "description": "ಕೃಷಿಯಿಂದ ಖರೀದಿದಾರರಿಗೆ ನೇರ ವ್ಯಾಪಾರ. ಲೈವ್ ಮಂಡಿ AI, ಶೂನ್ಯ ಮಧ್ಯವರ್ತಿ ಕಡಿತ ಮತ್ತು ಖಾತರಿಪಡಿಸಿದ ಮರುದಿನ ಬ್ಯಾಂಕ್ ವರ್ಗಾವಣೆಗಳಿಂದ ನ್ಯಾಯಯುತ ಬೆಲೆಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗಿದೆ.",
       "copyright": "Fasal Matrix Technologies Inc. ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.",
       "terms": "ಸಾಂಸ್ಥಿಕ ನಿಯಮಗಳು",
-      "security": "ಮಾಹಿತಿ ಭದ್ರತೆ"
+      "security": "ಮಾಹಿತಿ ಭದ್ರತೆ",
+      "agmarkStandards": "AGMARK ಗುಣಮಟ್ಟದ ಮಾನದಂಡಗಳು",
+      "directBankSettlement": "ಡೈರೆಕ್ಟ್ ಬ್ಯಾಂಕ್ ಸೆಟಲ್‌ಮೆಂಟ್",
+      "platformPortals": "ಪ್ಲಾಟ್‌ಫಾರ್ಮ್ ಪೋರ್ಟಲ್‌ಗಳು",
+      "pricingPlans": "ಬೆಲೆ ಮತ್ತು ಯೋಜನೆಗಳು",
+      "supportHelp": "ಬೆಂಬಲ ಮತ್ತು ಸಹಾಯ",
+      "tollFreeHelpline": "ಟೋಲ್-ಫ್ರೀ ಸಹಾಯವಾಣಿ",
+      "grievanceDesk": "ಕುಂದುಕೊರತೆ ಡೆಸ್ಕ್",
+      "operatingHours": "ಸೋಮ - ಶನಿ: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "ನೋಂದಾಯಿತ ಘಟಕ",
+      "registeredOffice": "ನೋಂದಾಯಿತ ಕಚೇರಿ",
+      "nodalGrievanceOfficer": "ನೋಡಲ್ ಕುಂದುಕೊರತೆ ಅಧಿಕಾರಿ",
+      "refundPolicy": "ಮರುಪಾವತಿ ನೀತಿ",
+      "cookiePolicy": "ಹೊಸ ಕುಕಿ ಪಾಲಿಸಿ",
+      "ageRestricted": "ವಯಸ್ಸಿನ ನಿರ್ಬಂಧ: 18+ ಮಾತ್ರ",
+      "allRightsReserved": "ಎಲ್ಲ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ. ",
+      "active": "ಸಕ್ರಿಯ",
+      "showFewerLanguages": "ಕಡಿಮೆ ಭಾಷೆಗಳನ್ನು ▲ ತೋರಿಸಿ",
+      "moreOfficialLanguages": "▼ ಇನ್ನಷ್ಟು ಅಧಿಕೃತ ಭಾಷೆಗಳು ({count})"
     },
     "modal": {
       "submitBtn": "ವಿಚಾರಣೆಯನ್ನು ಸಲ್ಲಿಸಿ",
@@ -1374,7 +1446,9 @@ export const extraTranslations = {
       "gradeLabel": "സാക്ഷ്യപ്പെടുത്തിയ ഗ്രേഡ്",
       "farmerLabel": "ഗ്രോവർ ക്ലസ്റ്റർ",
       "verifiedLot": "പരിശോധിച്ചു & പരിശോധിച്ചു",
-      "quoteSentMsg": "ബൾക്ക് പ്രൊക്യുർമെൻ്റ് അന്വേഷണം വിജയകരമായി സെറ്റിൽമെൻ്റ് ഡെസ്‌ക്കിലേക്ക് സമർപ്പിച്ചു."
+      "quoteSentMsg": "ബൾക്ക് പ്രൊക്യുർമെൻ്റ് അന്വേഷണം വിജയകരമായി സെറ്റിൽമെൻ്റ് ഡെസ്‌ക്കിലേക്ക് സമർപ്പിച്ചു.",
+      "fruits": "പഴങ്ങൾ",
+      "liveSynced": "തത്സമയ സമന്വയം"
     },
     "about": {
       "title": "ഞങ്ങളുടെ ലക്ഷ്യവും സ്ഥാപനപരമായ വിശ്വാസ്യതയും",
@@ -1538,7 +1612,11 @@ export const extraTranslations = {
       "logisticsDeskDesc": "കപ്പാസിറ്റേറ്റഡ് VRP വെഹിക്കിൾ റൂട്ടിംഗ്, വേപോയിൻ്റ് സീക്വൻസിംഗ്, മൾട്ടി-ഡിപ്പോ കൺസോളിഡേഷൻ.",
       "readMoreCause": "ഞങ്ങളുടെ കാരണത്തെക്കുറിച്ചും സ്ഥാപനപരമായ ട്രസ്റ്റ് സ്തംഭങ്ങളെക്കുറിച്ചും കൂടുതൽ വായിക്കുക",
       "standardAgmark": "സ്റ്റാൻഡേർഡ്: AGMARK ഗ്രേഡ് A1/A2/B/C",
-      "guaranteedMsp": "ഗ്യാരണ്ടി: 100% MSP ഫ്ലോർ എൻഫോഴ്സ്മെൻ്റ്"
+      "guaranteedMsp": "ഗ്യാരണ്ടി: 100% MSP ഫ്ലോർ എൻഫോഴ്സ്മെൻ്റ്",
+      "adminOps": "അഡ്മിൻ ഓപ്‌സ്",
+      "farmerDesk": "ഫാർമർ ഡെസ്ക്",
+      "exploreTrustPillars": "ട്രസ്റ്റ് പില്ലറുകൾ പര്യവേക്ഷണം ചെയ്യുക",
+      "contactIntegrationDesk": "കോൺടാക്റ്റ് ഇന്റഗ്രേഷൻ ഡെസ്ക്"
     },
     "footer": {
       "compliance": "പാലിക്കൽ",
@@ -1549,7 +1627,25 @@ export const extraTranslations = {
       "trustPillars": "വിശ്വാസത്തിൻ്റെ തൂണുകൾ",
       "description": "നേരിട്ട് ഫാം-ടു-ബൈയർ വ്യാപാരം. തത്സമയ മാൻഡി AI, സീറോ മിഡിൽമാൻ കട്ട്സ്, ഗ്യാരണ്ടിയുള്ള അടുത്ത ദിവസത്തെ ബാങ്ക് ട്രാൻസ്ഫറുകൾ എന്നിവയാൽ പരിശോധിച്ചുറപ്പിച്ച ന്യായവില.",
       "legalNotice": "എല്ലാ വിലനിർണ്ണയ ഇൻ്റലിജൻസും ഔദ്യോഗിക CACP MSP ഫ്ലോറുകൾക്കും അംഗീകൃത മാൻഡി അറൈവൽ രജിസ്ട്രികൾക്കും എതിരായി കർശനമായി മാനദണ്ഡമാക്കിയിരിക്കുന്നു.",
-      "security": "വിവര സുരക്ഷ"
+      "security": "വിവര സുരക്ഷ",
+      "agmarkStandards": "AGMARK ഗുണനിലവാര മാനദണ്ഡങ്ങൾ",
+      "directBankSettlement": "ഡയറക്ട് ബാങ്ക് സെറ്റിൽമെന്റ്",
+      "platformPortals": "പ്ലാറ്റ്ഫോം പോർട്ടലുകൾ",
+      "pricingPlans": "വിലനിർണ്ണയവും പ്ലാനുകളും",
+      "supportHelp": "പിന്തുണയും സഹായവും",
+      "tollFreeHelpline": "ടോൾ ഫ്രീ ഹെൽപ്പ് ലൈൻ",
+      "grievanceDesk": "പരാതി ഡെസ്ക്",
+      "operatingHours": "തിങ്കൾ - ശനി: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "രജിസ്റ്റർ ചെയ്ത എന്റിറ്റി",
+      "registeredOffice": "രജിസ്റ്റർ ചെയ്ത ഓഫീസ്",
+      "nodalGrievanceOfficer": "നോഡൽ ഗ്രീവൻസ് ഓഫീസർ",
+      "refundPolicy": "റീഫണ്ട് നയം",
+      "cookiePolicy": "പുതിയ കുക്കി നയം",
+      "ageRestricted": "പ്രായപരിധി: 18+ മാത്രം",
+      "allRightsReserved": "ALL RIGHTS RESERVED.",
+      "active": "സജീവം",
+      "showFewerLanguages": "കുറച്ച് ഭാഷകള്‍ ▲ കാണിക്കുക",
+      "moreOfficialLanguages": "▼ കൂടുതൽ ഔദ്യോഗിക ഭാഷകൾ ({count})"
     },
     "modal": {
       "detailsLabel": "അന്വേഷണ വിശദാംശങ്ങൾ",
@@ -1791,7 +1887,9 @@ export const extraTranslations = {
       "gradeLabel": "ସାର୍ଟିଫିକେଟ୍ ଗ୍ରେଡ୍",
       "perKg": "କିଲୋଗ୍ରାମ ପ୍ରତି",
       "warehouseLabel": "ଡିପୋ ଅବସ୍ଥାନ",
-      "quoteSentMsg": "ବଲ୍କ କ୍ରୟ ଅନୁସନ୍ଧାନ ସଫଳତାର ସହ ସମାଧାନ ଡେସ୍କରେ ଦାଖଲ ହେଲା |"
+      "quoteSentMsg": "ବଲ୍କ କ୍ରୟ ଅନୁସନ୍ଧାନ ସଫଳତାର ସହ ସମାଧାନ ଡେସ୍କରେ ଦାଖଲ ହେଲା |",
+      "fruits": "ଫଳ",
+      "liveSynced": "ଜୀବନ୍ତ ସମନ୍ୱିତ"
     },
     "about": {
       "title": "ଆମର ଲକ୍ଷ୍ୟ ଏବଂ ସାଂସ୍ଥାଗତ ବିଶ୍ୱାସ",
@@ -1955,7 +2053,11 @@ export const extraTranslations = {
       "telemetrySensors": "ଟେଲିମେଟ୍ରି: କୋଲ୍ଡ ଷ୍ଟୋରେଜ୍ ଆମ୍ବିଏଣ୍ଟ୍ ସେନ୍ସର |",
       "accessIvr": "ପ୍ରବେଶ: Indian ଟି ଭାରତୀୟ ଭାଷାରେ ଟୋଲ୍ ଫ୍ରି IVR |",
       "directTransparentNetwork": "ସିଧାସଳଖ ସ୍ୱଚ୍ଛ ନେଟୱାର୍କ |",
-      "logisticsDeskDesc": "କ୍ଷମତାପ୍ରାପ୍ତ VRP ଯାନ ରାଉଟିଙ୍ଗ୍, ୱେପଏଣ୍ଟ କ୍ରମ, ଏବଂ ମଲ୍ଟି-ଡିପୋ ଏକତ୍ରିକରଣ |"
+      "logisticsDeskDesc": "କ୍ଷମତାପ୍ରାପ୍ତ VRP ଯାନ ରାଉଟିଙ୍ଗ୍, ୱେପଏଣ୍ଟ କ୍ରମ, ଏବଂ ମଲ୍ଟି-ଡିପୋ ଏକତ୍ରିକରଣ |",
+      "adminOps": "Admin OpsName",
+      "farmerDesk": "କୃଷକ ଡେସ୍କ",
+      "exploreTrustPillars": "ବିଶ୍ୱାସ ସ୍ତମ୍ଭଗୁଡ଼ିକୁ ଅନ୍ୱେଷଣ କରନ୍ତୁ",
+      "contactIntegrationDesk": "ସମ୍ପର୍କ ସମନ୍ୱୟ ଡେସ୍କ"
     },
     "footer": {
       "compliance": "ଅନୁକରଣ",
@@ -1966,7 +2068,25 @@ export const extraTranslations = {
       "privacy": "ଗୋପନୀୟତା ପ୍ରୋଟୋକଲ୍ |",
       "terms": "ଅନୁଷ୍ଠାନ ସର୍ତ୍ତାବଳୀ",
       "trustPillars": "ବିଶ୍ୱାସ ସ୍ତମ୍ଭ",
-      "security": "ସୂଚନା ସୁରକ୍ଷା"
+      "security": "ସୂଚନା ସୁରକ୍ଷା",
+      "agmarkStandards": "AGMARK ଗୁଣବତ୍ତା ମାନକ",
+      "directBankSettlement": "ଡାଇରେକ୍ଟ ବ୍ୟାଙ୍କ ସେଟଲମେଣ୍ଟ",
+      "platformPortals": "ପ୍ଲାଟଫର୍ମ ପୋର୍ଟାଲ",
+      "pricingPlans": "ମୂଲ୍ୟ ନିର୍ଦ୍ଧାରଣ ଏବଂ ଯୋଜନା",
+      "supportHelp": "ସହାୟତା ଏବଂ ସହାୟତା",
+      "tollFreeHelpline": "ଟୋଲ ଫ୍ରି ହେଲ୍ପଲାଇନ",
+      "grievanceDesk": "ଅଭିଯୋଗ ଡେସ୍କ",
+      "operatingHours": "ସୋମବାର - ଶନିବାର: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "ପଞ୍ଜିକୃତ ସଂସ୍ଥା",
+      "registeredOffice": "ପଞ୍ଜିକୃତ କାର୍ଯ୍ୟାଳୟ",
+      "nodalGrievanceOfficer": "ନୋଡାଲ ଅଭିଯୋଗ ଅଧିକାରୀ",
+      "refundPolicy": "ରିଫଣ୍ଡ ପଲିସି",
+      "cookiePolicy": "କୁକି ନୀତି",
+      "ageRestricted": "ବୟସ ସୀମା: 18+ କେବଳ",
+      "allRightsReserved": "ସର୍ବ ସ୍ୱତ୍ତ୍ୱ ସଂର‍କ୍ଷିତ",
+      "active": "ସକ୍ରିୟ",
+      "showFewerLanguages": "କମ ଭାଷାଗୁଡ଼ିକୁ ▲ ଦର୍ଶାନ୍ତୁ",
+      "moreOfficialLanguages": "▼ ଅଧିକ ସରକାରୀ ଭାଷା ({count})"
     },
     "modal": {
       "closeBtn": "ବନ୍ଦ",
@@ -2208,7 +2328,9 @@ export const extraTranslations = {
       "gradeLabel": "প্ৰমাণিত গ্ৰেড",
       "grains": "শস্য আৰু শস্য",
       "warehouseLabel": "ডিপোৰ স্থান",
-      "quoteSentMsg": "বাল্ক ক্ৰয়ৰ তদন্ত সফলতাৰে নিষ্পত্তি ডেস্কত দাখিল কৰা হৈছে।"
+      "quoteSentMsg": "বাল্ক ক্ৰয়ৰ তদন্ত সফলতাৰে নিষ্পত্তি ডেস্কত দাখিল কৰা হৈছে।",
+      "fruits": "ফলসমূহ",
+      "liveSynced": "Live Synced"
     },
     "about": {
       "title": "আমাৰ উদ্দেশ্য আৰু বিশ্বাস",
@@ -2360,7 +2482,11 @@ export const extraTranslations = {
       "guaranteedMsp": "নিশ্চিত: ১০০% এম এছ পি ফ্ল’ৰ এনফৰ্চমেণ্ট",
       "accessIvr": "প্ৰৱেশ: ৬টা ভাৰতীয় ভাষাত টোল-ফ্ৰী আইভিআৰ",
       "directTransparentNetwork": "প্ৰত্যক্ষ স্বচ্ছ নেটৱৰ্ক",
-      "telemetrySensors": "টেলিমেট্ৰি: শীতল সংৰক্ষণ পৰিৱেশ চেন্সৰ"
+      "telemetrySensors": "টেলিমেট্ৰি: শীতল সংৰক্ষণ পৰিৱেশ চেন্সৰ",
+      "adminOps": "Admin Ops",
+      "farmerDesk": "কৃষক ডেস্ক",
+      "exploreTrustPillars": "বিশ্বাসৰ স্তম্ভসমূহ অন্বেষণ কৰক",
+      "contactIntegrationDesk": "ইণ্টিগ্ৰেশ্যন ডেস্কৰ সৈতে যোগাযোগ কৰক"
     },
     "comparison": {
       "farmlinkTitle": "Fasal মেট্ৰিক্স প্ৰত্যক্ষ নেটৱৰ্ক",
@@ -2383,7 +2509,25 @@ export const extraTranslations = {
       "copyright": "Fasal Matrix Technologies Inc. সকলো অধিকাৰ সংৰক্ষিত।",
       "legalNotice": "সকলো মূল্য নিৰ্ধাৰণৰ চোৰাংচোৱা তথ্য অফিচিয়েল চিএচিপি এমএছপি ফ্ল’ৰ আৰু স্বীকৃতিপ্ৰাপ্ত মাণ্ডী আগমনৰ পঞ্জীয়নৰ বিপৰীতে কঠোৰভাৱে মাপকাঠী কৰা হয়।",
       "description": "প্ৰত্যক্ষ পামৰ পৰা ক্ৰেতালৈ বাণিজ্য। লাইভ মাণ্ডি এআইৰ দ্বাৰা পৰীক্ষা কৰা উচিত মূল্য, শূন্য মধ্যভোগী কৰ্তন, আৰু পিছদিনা বেংক ট্ৰেন্সফাৰৰ নিশ্চয়তা।",
-      "security": "তথ্য সুৰক্ষা"
+      "security": "তথ্য সুৰক্ষা",
+      "agmarkStandards": "AGMARK গুণগত মানদণ্ড",
+      "directBankSettlement": "ডাইৰেক্ট বেংক চেটেলমেন্ট",
+      "platformPortals": "প্লেটফৰ্ম পৰ্টেলসমূহ",
+      "pricingPlans": "মূল্য নিৰ্ধাৰণ আৰু পৰিকল্পনা",
+      "supportHelp": "সহায় আৰু সহায়",
+      "tollFreeHelpline": "টোল-ফ্ৰী হেল্পলাইন",
+      "grievanceDesk": "অভিযোগৰ ডেস্ক",
+      "operatingHours": "সোম - শনি: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "পঞ্জীকৃত সত্তা",
+      "registeredOffice": "পঞ্জীকৃত কাৰ্যালয়",
+      "nodalGrievanceOfficer": "ন 'ডেল অভিযোগ বিষয়া",
+      "refundPolicy": "ৰিফাণ্ড পলিচী",
+      "cookiePolicy": "কুকিৰ নীতি",
+      "ageRestricted": "বয়সৰ সীমা: 18+ কেৱল",
+      "allRightsReserved": "সকলো স্বত্ব সংৰক্ষিত ।&#10;      &lt;/p&gt;&#10; ",
+      "active": "সক্ৰিয়",
+      "showFewerLanguages": "কম ভাষাসমূহ ▲ দেখুৱাওক",
+      "moreOfficialLanguages": "▼ অধিক চৰকাৰী ভাষা ({count})"
     },
     "modal": {
       "phonePlaceholder": "১০ অংকৰ মোবাইল নম্বৰ",
@@ -2625,7 +2769,9 @@ export const extraTranslations = {
       "grains": "Grains & Cereals",
       "verifiedLot": "Assayed & Inspected",
       "warehouseLabel": "Depot Location",
-      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk."
+      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk.",
+      "fruits": "پھل",
+      "liveSynced": "لائیو مطابقت پذیر"
     },
     "about": {
       "title": "ہمارا مقصد اور ادارہ جاتی اعتماد",
@@ -2789,7 +2935,11 @@ export const extraTranslations = {
       "legacySupplyChain": "Legacy Supply Chain",
       "telemetrySensors": "Telemetry: Cold storage ambient sensors",
       "openLogisticsDesk": "Open Route Optimizer",
-      "directTransparentNetwork": "Direct Transparent Network"
+      "directTransparentNetwork": "Direct Transparent Network",
+      "adminOps": "ایڈمن آپریٹرز",
+      "farmerDesk": "کسان ڈیسک",
+      "exploreTrustPillars": "اعتماد کے ستون دریافت کریں",
+      "contactIntegrationDesk": "انٹیگریشن ڈیسک سے رابطہ کریں"
     },
     "footer": {
       "description": "Direct farm-to-buyer trade. Fair prices verified by live mandi AI, zero middleman cuts, and guaranteed next-day bank transfers.",
@@ -2800,7 +2950,25 @@ export const extraTranslations = {
       "terms": "Institutional Terms",
       "quickLinks": "Navigation",
       "legalNotice": "All pricing intelligence is strictly benchmarked against official CACP MSP floors and accredited mandi arrival registries.",
-      "security": "Information Security"
+      "security": "Information Security",
+      "agmarkStandards": "AGMARK معیار کے معیارات",
+      "directBankSettlement": "براہ راست بینک سیٹلمنٹ",
+      "platformPortals": "پلیٹ فارم پورٹلز",
+      "pricingPlans": "قیمت بندی اور منصوبے",
+      "supportHelp": "سپورٹ اور مدد",
+      "tollFreeHelpline": "ٹول فری ہیلپ لائن",
+      "grievanceDesk": "شکایات ڈیسک",
+      "operatingHours": "پیر سے ہفتہ: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "رجسٹرڈ ادارہ",
+      "registeredOffice": "رجسٹرڈ آفس:",
+      "nodalGrievanceOfficer": "نوڈل شکایت افسر",
+      "refundPolicy": "ریفنڈ کی پالیسی",
+      "cookiePolicy": "کوکی پالیسی،",
+      "ageRestricted": "عمر کی پابندی: صرف 18+",
+      "allRightsReserved": "جملہ حقوق محفوظ ہیں۔",
+      "active": "فعال",
+      "showFewerLanguages": "▲ کم زبانیں دکھائیں",
+      "moreOfficialLanguages": "▼ مزید سرکاری زبانیں ({count})"
     },
     "modal": {
       "roleBuyer": "Bulk Buyer / Vendor",
@@ -3042,7 +3210,9 @@ export const extraTranslations = {
       "perKg": "per kg",
       "gradeLabel": "Certified Grade",
       "warehouseLabel": "Depot Location",
-      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk."
+      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk.",
+      "fruits": "फलानि",
+      "liveSynced": "Live Synced"
     },
     "about": {
       "title": "अस्माकं सङ्कल्पः संस्थागत-विश्वासश्च",
@@ -3206,7 +3376,11 @@ export const extraTranslations = {
       "accessIvr": "Access: Toll-Free IVR in 6 Indian languages",
       "directTransparentNetwork": "Direct Transparent Network",
       "legacySupplyChain": "Legacy Supply Chain",
-      "readMoreCause": "Read more about our cause and institutional trust pillars"
+      "readMoreCause": "Read more about our cause and institutional trust pillars",
+      "adminOps": "प्रशासक OPS",
+      "farmerDesk": "कृषकः - कृषकः",
+      "exploreTrustPillars": "खोजः खोजषब्द न्यास स्तम्भ",
+      "contactIntegrationDesk": "सम्पर्क एकीकरण डेस्क"
     },
     "footer": {
       "compliance": "Compliance",
@@ -3217,7 +3391,25 @@ export const extraTranslations = {
       "description": "Direct farm-to-buyer trade. Fair prices verified by live mandi AI, zero middleman cuts, and guaranteed next-day bank transfers.",
       "copyright": "Fasal Matrix Technologies Inc. All rights reserved.",
       "trustPillars": "Pillars of Trust",
-      "security": "Information Security"
+      "security": "Information Security",
+      "agmarkStandards": "AGMARK गुणवत्ता मानदंड",
+      "directBankSettlement": "प्रत्यक्ष बँक निपटान",
+      "platformPortals": "प्लॅटफॉर्म पोर्टल",
+      "pricingPlans": "मूल्य निर्धारण और योजनाएं",
+      "supportHelp": "समर्थन & सहायता",
+      "tollFreeHelpline": "टोल फ्री हेल्पलाइन",
+      "grievanceDesk": "शिकायत प्रकोष्ठ",
+      "operatingHours": "सोम - शनिः 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "पञ्जीकृतं संस्था",
+      "registeredOffice": "पञ्जीकृतं कार्यालयम्",
+      "nodalGrievanceOfficer": "नोडल शिकायत अधिकारी",
+      "refundPolicy": "धनवापसी नीति",
+      "cookiePolicy": "कुकी-नीतिः",
+      "ageRestricted": "अधिकतम आयुः 18+ केवल",
+      "allRightsReserved": "सर्वाधिकारः आरक्षितः ।",
+      "active": "सक्रियम्",
+      "showFewerLanguages": "▲ न्यूनतरभाषायां दर्शयतु",
+      "moreOfficialLanguages": "▼ अधिक आधिकारिक भाषाएँ [सम्पादन करी]"
     },
     "modal": {
       "desc": "Submit your institutional enquiry directly to our regional dispatch desk.",
@@ -3459,7 +3651,9 @@ export const extraTranslations = {
       "pulses": "Pulses",
       "verifiedLot": "Assayed & Inspected",
       "perKg": "per kg",
-      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk."
+      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk.",
+      "fruits": "फलहरू ",
+      "liveSynced": "प्रत्यक्ष समक्रमण"
     },
     "about": {
       "title": "हाम्रो उद्देश्य र संस्थागत विश्वास",
@@ -3623,7 +3817,11 @@ export const extraTranslations = {
       "rfqBtn": "RFQ",
       "directTransparentNetwork": "Direct Transparent Network",
       "logisticsDeskDesc": "Capacitated VRP vehicle routing, waypoint sequencing, and multi-depot consolidation.",
-      "legacySupplyChain": "Legacy Supply Chain"
+      "legacySupplyChain": "Legacy Supply Chain",
+      "adminOps": "एडमिन अप्स",
+      "farmerDesk": "किसान डेस्क",
+      "exploreTrustPillars": "विश्वास स्तम्भहरू अन्वेषण गर्नुहोस्",
+      "contactIntegrationDesk": "सम्पर्क एकीकरण डेस्क"
     },
     "footer": {
       "description": "Direct farm-to-buyer trade. Fair prices verified by live mandi AI, zero middleman cuts, and guaranteed next-day bank transfers.",
@@ -3634,7 +3832,25 @@ export const extraTranslations = {
       "privacy": "Privacy Protocol",
       "legalNotice": "All pricing intelligence is strictly benchmarked against official CACP MSP floors and accredited mandi arrival registries.",
       "quickLinks": "Navigation",
-      "security": "Information Security"
+      "security": "Information Security",
+      "agmarkStandards": "AGMARK गुणस्तर मापदण्डहरू",
+      "directBankSettlement": "प्रत्यक्ष बैंक निपटान",
+      "platformPortals": "प्लेटफर्म पोर्टलहरू",
+      "pricingPlans": "मूल्य निर्धारण र योजनाहरू",
+      "supportHelp": "सहायता र सहयोग",
+      "tollFreeHelpline": "टोल फ्री हेल्पलाइन",
+      "grievanceDesk": "गुनासो डेस्क",
+      "operatingHours": "सोम - शनि: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "दर्ता गरिएको संस्था",
+      "registeredOffice": "दर्ता कार्यालय",
+      "nodalGrievanceOfficer": "नोडल गुनासो अधिकारी",
+      "refundPolicy": "रिफन्ड नीति",
+      "cookiePolicy": "नयाँ कुकी नीति",
+      "ageRestricted": "उमेर प्रतिबन्धित: 18+ मात्र",
+      "allRightsReserved": "सर्वाधिकार सुरक्षित। All rights reserved. ",
+      "active": "सक्रिय",
+      "showFewerLanguages": "कम भाषाहरू ▲ देखाउनुहोस्",
+      "moreOfficialLanguages": "▼ थप आधिकारिक भाषाहरू ({count})"
     },
     "modal": {
       "title": "Procurement & Partnership Inquiry",
@@ -3876,7 +4092,9 @@ export const extraTranslations = {
       "oilseeds": "Oilseeds",
       "grains": "Grains & Cereals",
       "perKg": "per kg",
-      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk."
+      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk.",
+      "fruits": "ميون",
+      "liveSynced": "لائيو هم وقت سازي"
     },
     "about": {
       "title": "اسان جو مقصد ۽ ادارتي اعتماد",
@@ -4040,7 +4258,11 @@ export const extraTranslations = {
       "directTransparentNetwork": "Direct Transparent Network",
       "guaranteedMsp": "Guaranteed: 100% MSP Floor Enforcement",
       "logisticsDeskDesc": "Capacitated VRP vehicle routing, waypoint sequencing, and multi-depot consolidation.",
-      "standardAgmark": "Standard: AGMARK Grade A1/A2/B/C"
+      "standardAgmark": "Standard: AGMARK Grade A1/A2/B/C",
+      "adminOps": "انتظامي آپشن",
+      "farmerDesk": "فارمر ڊيسڪ",
+      "exploreTrustPillars": "ايڪسپلورر ٽرسٽ ستون",
+      "contactIntegrationDesk": "انضمام ڊيسڪ سان رابطو ڪريو"
     },
     "footer": {
       "compliance": "Compliance",
@@ -4051,7 +4273,25 @@ export const extraTranslations = {
       "terms": "Institutional Terms",
       "description": "Direct farm-to-buyer trade. Fair prices verified by live mandi AI, zero middleman cuts, and guaranteed next-day bank transfers.",
       "privacy": "Privacy Protocol",
-      "security": "Information Security"
+      "security": "Information Security",
+      "agmarkStandards": "AGMARK معيار جا معيار",
+      "directBankSettlement": "سڌي بئنڪ آبادڪاري",
+      "platformPortals": "پليٽ فارم پورٽل",
+      "pricingPlans": "قيمتون ۽ منصوبا",
+      "supportHelp": "پشتيباني & امداد",
+      "tollFreeHelpline": "ٽول فري هيلپ لائن",
+      "grievanceDesk": "جي",
+      "operatingHours": "سومر - ڇنڇر: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "رجسٽرڊ ادارو",
+      "registeredOffice": "رجسٽرڊ آفيس",
+      "nodalGrievanceOfficer": "نوڊل شڪايت آفيسر",
+      "refundPolicy": "واپسي جي پاليسي",
+      "cookiePolicy": "ڪوڪيز جي پاليسي",
+      "ageRestricted": "عمر جي پابندي: 18+ صرف",
+      "allRightsReserved": "سڀ حق محفوظ آهن.",
+      "active": "فعال",
+      "showFewerLanguages": "وڌيڪ ٻوليون ▲ ڏيکاريو",
+      "moreOfficialLanguages": "▼ وڌيڪ سرڪاري ٻوليون ({count})"
     },
     "modal": {
       "detailsPlaceholder": "Specify commodity volume, delivery district, or warehousing inquiry...",
@@ -4293,7 +4533,9 @@ export const extraTranslations = {
       "verifiedLot": "Assayed & Inspected",
       "vegetables": "Fresh Vegetables",
       "pulses": "Pulses",
-      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk."
+      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk.",
+      "fruits": "پھل",
+      "liveSynced": "لائیو مطابقت پذیر"
     },
     "about": {
       "title": "سون مَقصَد تہٕ اِعتبار",
@@ -4457,7 +4699,11 @@ export const extraTranslations = {
       "readMoreCause": "Read more about our cause and institutional trust pillars",
       "openLogisticsDesk": "Open Route Optimizer",
       "rfqBtn": "RFQ",
-      "directTransparentNetwork": "Direct Transparent Network"
+      "directTransparentNetwork": "Direct Transparent Network",
+      "adminOps": "ایڈمن آپریٹرز",
+      "farmerDesk": "کسان ڈیسک",
+      "exploreTrustPillars": "اعتماد کے ستون دریافت کریں",
+      "contactIntegrationDesk": "انٹیگریشن ڈیسک سے رابطہ کریں"
     },
     "footer": {
       "trustPillars": "Pillars of Trust",
@@ -4468,7 +4714,25 @@ export const extraTranslations = {
       "compliance": "Compliance",
       "copyright": "Fasal Matrix Technologies Inc. All rights reserved.",
       "description": "Direct farm-to-buyer trade. Fair prices verified by live mandi AI, zero middleman cuts, and guaranteed next-day bank transfers.",
-      "security": "Information Security"
+      "security": "Information Security",
+      "agmarkStandards": "AGMARK معیار کے معیارات",
+      "directBankSettlement": "براہ راست بینک سیٹلمنٹ",
+      "platformPortals": "پلیٹ فارم پورٹلز",
+      "pricingPlans": "قیمت بندی اور منصوبے",
+      "supportHelp": "سپورٹ اور مدد",
+      "tollFreeHelpline": "ٹول فری ہیلپ لائن",
+      "grievanceDesk": "شکایات ڈیسک",
+      "operatingHours": "پیر سے ہفتہ: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "رجسٹرڈ ادارہ",
+      "registeredOffice": "رجسٹرڈ آفس:",
+      "nodalGrievanceOfficer": "نوڈل شکایت افسر",
+      "refundPolicy": "ریفنڈ کی پالیسی",
+      "cookiePolicy": "کوکی پالیسی،",
+      "ageRestricted": "عمر کی پابندی: صرف 18+",
+      "allRightsReserved": "جملہ حقوق محفوظ ہیں۔",
+      "active": "فعال",
+      "showFewerLanguages": "▲ کم زبانیں دکھائیں",
+      "moreOfficialLanguages": "▼ مزید سرکاری زبانیں ({count})"
     },
     "modal": {
       "roleWarehouse": "Warehouse Operator",
@@ -4710,7 +4974,9 @@ export const extraTranslations = {
       "perKg": "per kg",
       "pulses": "Pulses",
       "warehouseLabel": "Depot Location",
-      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk."
+      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk.",
+      "fruits": "Fruits",
+      "liveSynced": "Live Synced"
     },
     "about": {
       "title": "आमचो उद्देश आनी संस्थात्मक विस्वास",
@@ -4874,7 +5140,11 @@ export const extraTranslations = {
       "directTransparentNetwork": "Direct Transparent Network",
       "readMoreCause": "Read more about our cause and institutional trust pillars",
       "standardAgmark": "Standard: AGMARK Grade A1/A2/B/C",
-      "openLogisticsDesk": "Open Route Optimizer"
+      "openLogisticsDesk": "Open Route Optimizer",
+      "adminOps": "Admin Ops",
+      "farmerDesk": "Farmer Desk",
+      "exploreTrustPillars": "Explore Trust Pillars",
+      "contactIntegrationDesk": "Contact Integration Desk"
     },
     "footer": {
       "copyright": "Fasal Matrix Technologies Inc. All rights reserved.",
@@ -4885,7 +5155,25 @@ export const extraTranslations = {
       "terms": "Institutional Terms",
       "trustPillars": "Pillars of Trust",
       "compliance": "Compliance",
-      "security": "Information Security"
+      "security": "Information Security",
+      "agmarkStandards": "AGMARK Quality Standards",
+      "directBankSettlement": "Direct Bank Settlement",
+      "platformPortals": "Platform Portals",
+      "pricingPlans": "Pricing & Plans",
+      "supportHelp": "Support & Help",
+      "tollFreeHelpline": "Toll-Free Helpline",
+      "grievanceDesk": "Grievance Desk",
+      "operatingHours": "Mon - Sat: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "Registered Entity",
+      "registeredOffice": "Registered Office",
+      "nodalGrievanceOfficer": "Nodal Grievance Officer",
+      "refundPolicy": "Refund Policy",
+      "cookiePolicy": "Cookie Policy",
+      "ageRestricted": "Age Restricted: 18+ Only",
+      "allRightsReserved": "All rights reserved.",
+      "active": "Active",
+      "showFewerLanguages": "▲ Show Fewer Languages",
+      "moreOfficialLanguages": "▼ More Official Languages ({count})"
     },
     "modal": {
       "closeBtn": "Close",
@@ -5127,7 +5415,9 @@ export const extraTranslations = {
       "oilseeds": "Oilseeds",
       "gradeLabel": "Certified Grade",
       "vegetables": "Fresh Vegetables",
-      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk."
+      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk.",
+      "fruits": "মহৈ-মরোং",
+      "liveSynced": "লাইভ সিএনসি"
     },
     "about": {
       "title": "ঐখোয়গী পান্দম অমসুং থাজবা",
@@ -5279,7 +5569,11 @@ export const extraTranslations = {
       "rfqBtn": "RFQ",
       "guaranteedMsp": "Guaranteed: 100% MSP Floor Enforcement",
       "openLogisticsDesk": "Open Route Optimizer",
-      "legacySupplyChain": "Legacy Supply Chain"
+      "legacySupplyChain": "Legacy Supply Chain",
+      "adminOps": "Admin Ops",
+      "farmerDesk": "ফার্মর দেস্ক",
+      "exploreTrustPillars": "ত্রস্তকী মৈতৈশিং থিদোকপা",
+      "contactIntegrationDesk": "কন্টাক্ট ইন্টিগ্রেসন দেস্ক"
     },
     "comparison": {
       "farmlinkGrading": "Standardized grading (A1/A2/B/C) with physical inspection certificates.",
@@ -5302,7 +5596,25 @@ export const extraTranslations = {
       "trustPillars": "Pillars of Trust",
       "compliance": "Compliance",
       "description": "Direct farm-to-buyer trade. Fair prices verified by live mandi AI, zero middleman cuts, and guaranteed next-day bank transfers.",
-      "security": "Information Security"
+      "security": "Information Security",
+      "agmarkStandards": "ক্বালিটিগী ওইবা ৱারোল",
+      "directBankSettlement": "বেঙ্ককী সেতলমেন্ট",
+      "platformPortals": "প্লেটফোর্মশিংগী পোর্তেলশিং",
+      "pricingPlans": "ইনকিবেতর অমসুং এপ্রুভমেন্ট",
+      "supportHelp": "মতেং অমসুং মতেং পাংবা",
+      "tollFreeHelpline": "টোল-ফ্রি হেল্পলাইন",
+      "grievanceDesk": "দেস্ক ওফ দেস্ক",
+      "operatingHours": "মঙ্গলবার, পুং ৯: ০০ - পুং ৬: ০০",
+      "registeredEntity": "রেজিস্ত্রেদ এন্তিতী",
+      "registeredOffice": "রেজিস্ত্রেদ ওফিস",
+      "nodalGrievanceOfficer": "নোদেল ক্লেভেনস ওফিসার",
+      "refundPolicy": "রিফন্দ পোলিসী",
+      "cookiePolicy": "কুকিগী রাজনীতি",
+      "ageRestricted": "চহিগী গ্রুপ: চহি 14দগী 60 ফাউবা ওইগনি",
+      "allRightsReserved": "খুদোংচাবা পুম্নমকপু ঙাক্না লৈ ।",
+      "active": "থবক তৌবা",
+      "showFewerLanguages": "▲ লোলশিং হন্থহনবা",
+      "moreOfficialLanguages": "▼ ওফিসিএল লোলশিং (কন্টাক্ট)"
     },
     "modal": {
       "title": "Procurement & Partnership Inquiry",
@@ -5544,7 +5856,9 @@ export const extraTranslations = {
       "perKg": "per kg",
       "gradeLabel": "Certified Grade",
       "farmerLabel": "Grower Cluster",
-      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk."
+      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk.",
+      "fruits": "ফলসমূহ",
+      "liveSynced": "Live Synced"
     },
     "about": {
       "title": "जोंनि थांखि आरो फोथायनाय",
@@ -5708,7 +6022,11 @@ export const extraTranslations = {
       "directTransparentNetwork": "Direct Transparent Network",
       "standardAgmark": "Standard: AGMARK Grade A1/A2/B/C",
       "readMoreCause": "Read more about our cause and institutional trust pillars",
-      "telemetrySensors": "Telemetry: Cold storage ambient sensors"
+      "telemetrySensors": "Telemetry: Cold storage ambient sensors",
+      "adminOps": "Admin Ops",
+      "farmerDesk": "কৃষক ডেস্ক",
+      "exploreTrustPillars": "বিশ্বাসৰ স্তম্ভসমূহ অন্বেষণ কৰক",
+      "contactIntegrationDesk": "ইণ্টিগ্ৰেশ্যন ডেস্কৰ সৈতে যোগাযোগ কৰক"
     },
     "footer": {
       "description": "Direct farm-to-buyer trade. Fair prices verified by live mandi AI, zero middleman cuts, and guaranteed next-day bank transfers.",
@@ -5719,7 +6037,25 @@ export const extraTranslations = {
       "compliance": "Compliance",
       "legalNotice": "All pricing intelligence is strictly benchmarked against official CACP MSP floors and accredited mandi arrival registries.",
       "copyright": "Fasal Matrix Technologies Inc. All rights reserved.",
-      "security": "Information Security"
+      "security": "Information Security",
+      "agmarkStandards": "AGMARK গুণগত মানদণ্ড",
+      "directBankSettlement": "ডাইৰেক্ট বেংক চেটেলমেন্ট",
+      "platformPortals": "প্লেটফৰ্ম পৰ্টেলসমূহ",
+      "pricingPlans": "মূল্য নিৰ্ধাৰণ আৰু পৰিকল্পনা",
+      "supportHelp": "সহায় আৰু সহায়",
+      "tollFreeHelpline": "টোল-ফ্ৰী হেল্পলাইন",
+      "grievanceDesk": "অভিযোগৰ ডেস্ক",
+      "operatingHours": "সোম - শনি: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "পঞ্জীকৃত সত্তা",
+      "registeredOffice": "পঞ্জীকৃত কাৰ্যালয়",
+      "nodalGrievanceOfficer": "ন 'ডেল অভিযোগ বিষয়া",
+      "refundPolicy": "ৰিফাণ্ড পলিচী",
+      "cookiePolicy": "কুকিৰ নীতি",
+      "ageRestricted": "বয়সৰ সীমা: 18+ কেৱল",
+      "allRightsReserved": "সকলো স্বত্ব সংৰক্ষিত ।&#10;      &lt;/p&gt;&#10; ",
+      "active": "সক্ৰিয়",
+      "showFewerLanguages": "কম ভাষাসমূহ ▲ দেখুৱাওক",
+      "moreOfficialLanguages": "▼ অধিক চৰকাৰী ভাষা ({count})"
     },
     "modal": {
       "phonePlaceholder": "10-digit mobile number",
@@ -5961,7 +6297,9 @@ export const extraTranslations = {
       "warehouseLabel": "Depot Location",
       "oilseeds": "Oilseeds",
       "vegetables": "Fresh Vegetables",
-      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk."
+      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk.",
+      "fruits": "फल",
+      "liveSynced": "लाइव सिंक्रनाइज्ड"
     },
     "about": {
       "title": "हमर उद्देश्य आ संस्थागत विश्वास",
@@ -6113,7 +6451,11 @@ export const extraTranslations = {
       "readMoreCause": "Read more about our cause and institutional trust pillars",
       "directTransparentNetwork": "Direct Transparent Network",
       "logisticsDeskDesc": "Capacitated VRP vehicle routing, waypoint sequencing, and multi-depot consolidation.",
-      "telemetrySensors": "Telemetry: Cold storage ambient sensors"
+      "telemetrySensors": "Telemetry: Cold storage ambient sensors",
+      "adminOps": "प्रशासक ओपीएस",
+      "farmerDesk": "किसान डेस्क",
+      "exploreTrustPillars": "ट्रस्ट स्तंभसभक पता लगाबू",
+      "contactIntegrationDesk": "संपर्क इंटीग्रेशन डेस्क"
     },
     "comparison": {
       "farmlinkGrading": "Standardized grading (A1/A2/B/C) with physical inspection certificates.",
@@ -6136,7 +6478,25 @@ export const extraTranslations = {
       "quickLinks": "Navigation",
       "copyright": "Fasal Matrix Technologies Inc. All rights reserved.",
       "privacy": "Privacy Protocol",
-      "security": "Information Security"
+      "security": "Information Security",
+      "agmarkStandards": "AGMARK क्वालिटी स्टैंडर्ड्स",
+      "directBankSettlement": "प्रत्यक्ष बैंकाक",
+      "platformPortals": "प्लेटफॉर्म पोर्टल",
+      "pricingPlans": "महंगाई आ योजना",
+      "supportHelp": "समर्थन (H)",
+      "tollFreeHelpline": "टोल - फ्री हेल्पलाइन",
+      "grievanceDesk": "आक्रोश डेस्क",
+      "operatingHours": "शनिवार, जेठ ९ः०० बजे - साँझ ६ः०० बजे",
+      "registeredEntity": "पंजीकृत संस्था",
+      "registeredOffice": "पंजीकृत कार्यालय",
+      "nodalGrievanceOfficer": "नोडल शिकायती पदाधिकारी",
+      "refundPolicy": "रिफंड नीति",
+      "cookiePolicy": "कुकी नीति",
+      "ageRestricted": "उम्र सीमाः 18+ बस",
+      "allRightsReserved": "© सभटा अधिकार सुरक्षित राखल गेल अछि ।",
+      "active": "सक्रिय",
+      "showFewerLanguages": "कम भाषा ▲ देखाबू",
+      "moreOfficialLanguages": "▼ अधिक आधिकारिक भाषासभ (परागत) (जडीसभ_सम्पादन करी)"
     },
     "modal": {
       "detailsLabel": "Inquiry Details",
@@ -6378,7 +6738,9 @@ export const extraTranslations = {
       "vegetables": "Fresh Vegetables",
       "pulses": "Pulses",
       "perKg": "per kg",
-      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk."
+      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk.",
+      "fruits": "ᱯᱟᱹᱴᱷᱩᱣᱟ",
+      "liveSynced": "ᱡᱤᱭᱚᱱ ᱥᱭᱝᱠ ᱟᱠᱟᱱᱟ"
     },
     "about": {
       "title": "ᱟᱞᱮᱭᱟᱜ ᱡᱚᱥ ᱟᱨ ᱯᱟᱹᱛᱭᱟᱹᱣ",
@@ -6530,7 +6892,11 @@ export const extraTranslations = {
       "guaranteedMsp": "Guaranteed: 100% MSP Floor Enforcement",
       "standardAgmark": "Standard: AGMARK Grade A1/A2/B/C",
       "logisticsDeskDesc": "Capacitated VRP vehicle routing, waypoint sequencing, and multi-depot consolidation.",
-      "rfqBtn": "RFQ"
+      "rfqBtn": "RFQ",
+      "adminOps": "ᱮᱰᱢᱤᱱ ᱚᱯᱥ",
+      "farmerDesk": "ᱟᱹᱫᱤᱵᱟᱹᱥᱤ ᱰᱮᱥᱠ",
+      "exploreTrustPillars": "मित् रेयाक् सांव",
+      "contactIntegrationDesk": "ᱡᱚᱱᱚᱲ ᱤᱱᱴᱤᱜᱨᱮᱴᱨᱮᱥᱚᱱ ᱰᱮᱥᱠ"
     },
     "comparison": {
       "middlemanDelay": "Delayed payments spanning 15–45 days with significant default risk.",
@@ -6553,7 +6919,25 @@ export const extraTranslations = {
       "legalNotice": "All pricing intelligence is strictly benchmarked against official CACP MSP floors and accredited mandi arrival registries.",
       "trustPillars": "Pillars of Trust",
       "privacy": "Privacy Protocol",
-      "security": "Information Security"
+      "security": "Information Security",
+      "agmarkStandards": "ᱥᱟᱱᱛᱟᱲᱤ ᱱᱤᱩᱡᱽ ᱰᱮᱥᱠ",
+      "directBankSettlement": "ᱥᱚᱨᱠᱟᱨᱤ ᱵᱮᱸᱠᱥᱟᱯᱲᱟᱣ",
+      "platformPortals": "ᱯᱞᱮᱴᱟᱯᱷᱚᱨᱢ ᱯᱚᱨᱴᱟᱞ",
+      "pricingPlans": "ᱪᱷᱟᱸᱪ: Plans/ᱪᱷᱟᱸᱪ: Plans",
+      "supportHelp": "ᱥᱚᱫᱚᱨ & ᱜᱚᱲᱚ",
+      "tollFreeHelpline": "ᱴᱚᱞ-ᱯᱷᱨᱤ ᱦᱮᱞᱞᱟᱭᱤᱱ",
+      "grievanceDesk": "रा़पुत् रा़पुत् ब",
+      "operatingHours": "ᱢᱟᱦᱟᱸ - ᱥᱟᱱᱛᱟᱲᱤ: 9:00 AM - 6:00 PM IST",
+      "registeredEntity": "ᱨᱟᱡᱽᱜᱟᱲ",
+      "registeredOffice": "ᱨᱤᱡᱚᱨᱰ ᱚᱯᱷᱤᱥ",
+      "nodalGrievanceOfficer": "Nodal Grievance Officer",
+      "refundPolicy": "ᱨᱩᱣᱟ. ᱨᱤ ᱯᱚᱨᱤᱥᱚᱫᱽ",
+      "cookiePolicy": "ᱠᱩᱠᱤ ᱯᱟᱞᱤᱠᱟ",
+      "ageRestricted": "ᱭᱚᱜᱟ ᱨᱮᱭᱟᱜ ᱡᱤᱱᱤᱥ: ᱤᱱᱟᱹ ᱥᱟᱶᱛᱮ, ᱤᱱᱟᱹ ᱥᱟᱶᱛᱮ ᱟᱨᱦᱚᱸ",
+      "allRightsReserved": "ᱥᱟᱱᱟᱢ ᱚᱠᱛᱚ ᱫᱚᱦᱚᱭ ᱞᱟ.",
+      "active": "ᱩᱥᱨᱟᱹᱣ",
+      "showFewerLanguages": "ᱠᱚᱢ ᱯᱟᱹᱨᱥᱤ ▲ ᱫᱮᱠᱷᱟᱣ ᱢᱮ",
+      "moreOfficialLanguages": "▼ ᱵᱟᱹᱲᱛᱤ ᱥᱚᱨᱠᱟᱨᱤ ᱯᱟᱹᱨᱥᱤ ᱠᱚ ({count})"
     },
     "modal": {
       "nameLabel": "Full Name / Entity Name",
@@ -6795,7 +7179,9 @@ export const extraTranslations = {
       "vegetables": "Fresh Vegetables",
       "farmerLabel": "Grower Cluster",
       "perKg": "per kg",
-      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk."
+      "quoteSentMsg": "Bulk procurement enquiry successfully submitted to the settlement desk.",
+      "fruits": "फल दे",
+      "liveSynced": "लाइव सिंक कीता गेदा"
     },
     "about": {
       "title": "साढ़ा मकसद ते संस्थागत विश्वास",
@@ -6959,7 +7345,11 @@ export const extraTranslations = {
       "legacySupplyChain": "Legacy Supply Chain",
       "openLogisticsDesk": "Open Route Optimizer",
       "rfqBtn": "RFQ",
-      "telemetrySensors": "Telemetry: Cold storage ambient sensors"
+      "telemetrySensors": "Telemetry: Cold storage ambient sensors",
+      "adminOps": "एडमिन ऑप्स",
+      "farmerDesk": "किसान डेस्क",
+      "exploreTrustPillars": "ट्रस्ट दे खंभे दी खोज करो",
+      "contactIntegrationDesk": "एकीकरण डेस्क कन्नै संपर्क करो"
     },
     "footer": {
       "privacy": "Privacy Protocol",
@@ -6970,7 +7360,25 @@ export const extraTranslations = {
       "trustPillars": "Pillars of Trust",
       "terms": "Institutional Terms",
       "compliance": "Compliance",
-      "security": "Information Security"
+      "security": "Information Security",
+      "agmarkStandards": "एगमार्क गुणवत्ता मानक",
+      "directBankSettlement": "प्रत्यक्ष बैंक निपटान",
+      "platformPortals": "प्लेटफार्म पोर्टल",
+      "pricingPlans": "कीमतें ते योजनाएं",
+      "supportHelp": "समर्थन ते मदद",
+      "tollFreeHelpline": "टोल-फ्री हेल्पलाइन",
+      "grievanceDesk": "शिकायत डेस्क",
+      "operatingHours": "सोम - शनि: सवेरे 9:00 बजे - शाम 6:00 बजे आईएसटी",
+      "registeredEntity": "पंजीकृत इकाई",
+      "registeredOffice": "पंजीकृत दफ्तर",
+      "nodalGrievanceOfficer": "नोडल शिकायत अधिकारी",
+      "refundPolicy": "वापसी नीति",
+      "cookiePolicy": "कुकी नीति",
+      "ageRestricted": "उम्र प्रतिबंधित: 18+ केवल",
+      "allRightsReserved": "सारे अधिकार सुरक्षित।",
+      "active": "सरगर्म",
+      "showFewerLanguages": "▲ कम भाषाएं दिखाओ",
+      "moreOfficialLanguages": "▼ होर राजभाषाएं ({count})"
     },
     "modal": {
       "closeBtn": "Close",
