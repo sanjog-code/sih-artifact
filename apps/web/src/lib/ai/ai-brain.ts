@@ -117,14 +117,43 @@ const CROP_ALIASES: Record<string, string> = {
   banana: 'Banana',
   kela: 'Banana',
   केला: 'Banana',
+  coffee: 'Coffee',
+  arabica: 'Coffee',
+  robusta: 'Coffee',
+  'कॉफ़ी': 'Coffee',
+  'कॉफी': 'Coffee',
+  tea: 'Tea',
+  chai: 'Tea',
+  'चाय': 'Tea',
+  sugarcane: 'Sugarcane',
+  ganna: 'Sugarcane',
+  'गन्ना': 'Sugarcane',
+  rubber: 'Natural Rubber',
+  'natural rubber': 'Natural Rubber',
+  'रबर': 'Natural Rubber',
+  jute: 'Jute',
+  'पटसन': 'Jute',
+  tobacco: 'Tobacco',
+  'तम्बाकू': 'Tobacco',
+  cardamom: 'Cardamom',
+  elaichi: 'Cardamom',
+  cumin: 'Cumin',
+  jeera: 'Cumin',
+  pepper: 'Black Pepper',
 };
+
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 export function extractCropFromText(text: string): string | null {
   const lower = text.toLowerCase();
-  for (const [alias, canonical] of Object.entries(CROP_ALIASES)) {
-    // Match word boundaries or substring
-    const regex = new RegExp(`\\b${alias}\\b`, 'i');
-    if (regex.test(lower) || lower.includes(alias)) {
+  const sortedEntries = Object.entries(CROP_ALIASES).sort((a, b) => b[0].length - a[0].length);
+
+  for (const [alias, canonical] of sortedEntries) {
+    const escaped = escapeRegex(alias);
+    const regex = new RegExp(`(?:^|[^a-zA-Z0-9_\u0900-\u097F])${escaped}(?:$|[^a-zA-Z0-9_\u0900-\u097F])`, 'i');
+    if (regex.test(lower)) {
       return canonical;
     }
   }
@@ -155,31 +184,55 @@ export async function processAiQuery(params: {
     lower.includes('chart') ||
     lower.includes('trajectory') ||
     lower.includes('trend') ||
-    lower.includes('price of') ||
-    lower.includes('rate of') ||
+    lower.includes('price') ||
+    lower.includes('rate') ||
     lower.includes('how much is') ||
     lower.includes('bhav') ||
     lower.includes('kya bhav') ||
     lower.includes('future') ||
     lower.includes('next week') ||
-    lower.includes('tomorrow');
+    lower.includes('tomorrow') ||
+    lower.includes('month');
 
   if (isForecastRequest && (detectedCrop || lower.includes('crop') || lower.includes('commodity'))) {
     const targetCrop = detectedCrop || 'Wheat';
+    const isQuarterHorizon =
+      lower.includes('3 month') ||
+      lower.includes('three month') ||
+      lower.includes('quarter') ||
+      lower.includes('90 day') ||
+      lower.includes('seasonal');
+
+    const horizonDays = isQuarterHorizon ? 90 : 14;
+
+    const lowerTarget = targetCrop.toLowerCase();
+    const isCoffee = lowerTarget.includes('coffee');
+    const isTea = lowerTarget.includes('tea');
+    const isRubber = lowerTarget.includes('rubber');
+    const isSugarcane = lowerTarget.includes('sugarcane');
+    const isCotton = lowerTarget.includes('cotton');
+
+    const state = isCoffee ? 'Karnataka' : isTea ? 'Assam' : isRubber ? 'Kerala' : isSugarcane ? 'Uttar Pradesh' : isCotton ? 'Gujarat' : 'Rajasthan';
+    const district = isCoffee ? 'Chikkamagaluru' : isTea ? 'Jorhat' : isRubber ? 'Kottayam' : isSugarcane ? 'Muzaffarnagar' : isCotton ? 'Rajkot' : 'Jaipur';
+    const market = isCoffee ? 'Chikkamagaluru Mandi' : isTea ? 'Jorhat APMC' : isRubber ? 'Kottayam Mandi' : isSugarcane ? 'Muzaffarnagar Mandi' : isCotton ? 'Rajkot APMC' : 'Jaipur APMC';
+
     const forecast = generateForecast({
       commodity: targetCrop,
-      state: 'Rajasthan',
-      district: 'Jaipur',
-      market: 'Jaipur APMC',
+      state,
+      district,
+      market,
       storageDays: 1,
+      horizonDays,
     });
 
     const msp = getCropMspFloor(targetCrop);
     const mspFloor: number = (forecast.mspFloor && forecast.mspFloor > 0 ? forecast.mspFloor : msp) ?? 0;
 
+    const titleHorizon = isQuarterHorizon ? '3-Month Price Trajectory & Quarterly Forecast' : 'Price Trajectory & Mandi Forecast';
+
     const visualArtifact: VisualArtifact = {
       type: 'price_forecast',
-      title: `${targetCrop} Price Trajectory & Mandi Forecast`,
+      title: `${targetCrop} ${titleHorizon}`,
       commodity: targetCrop,
       forecastData: {
         commodity: targetCrop,
@@ -198,23 +251,23 @@ export async function processAiQuery(params: {
         {
           label: 'Current Modal Rate',
           value: `₹${forecast.currentModalPrice.toFixed(2)}/kg`,
-          delta: 'APMC Benchmarked',
+          delta: 'Live Market Benchmark',
           sentiment: 'neutral',
         },
         {
-          label: 'AI 7-Day Forecast',
+          label: isQuarterHorizon ? 'Quarter Target (+90d)' : 'AI Next Target',
           value: `₹${forecast.predictedModalPrice.toFixed(2)}/kg`,
           delta: `${forecast.predictedChangePercent >= 0 ? '+' : ''}${forecast.predictedChangePercent.toFixed(1)}%`,
           sentiment: forecast.predictedChangePercent >= 0 ? 'positive' : 'negative',
         },
         {
-          label: 'Statutory MSP Floor',
-          value: mspFloor > 0 ? `₹${mspFloor.toFixed(2)}/kg` : 'Horticulture Spot',
-          delta: '0% Downside Risk',
+          label: 'Statutory Benchmark Floor',
+          value: mspFloor > 0 ? `₹${mspFloor.toFixed(2)}/kg` : 'Commercial Benchmark',
+          delta: mspFloor > 0 ? '0% Downside Risk' : 'Zero Broker Cut',
           sentiment: 'positive',
         },
         {
-          label: 'Regional Demand',
+          label: 'Regional Demand State',
           value: forecast.demandSignal.replace('_', ' '),
           sentiment: forecast.demandSignal === 'HIGH_DEMAND' ? 'positive' : 'neutral',
         },
@@ -222,24 +275,33 @@ export async function processAiQuery(params: {
       actionLinks: [
         { label: `Declare ${targetCrop} Lot`, href: '/farmer', variant: 'primary' },
         { label: 'Check Verified Buyers', href: '/buyer', variant: 'secondary' },
-        { label: 'Locate WDRA Silo', href: '/farmer#warehouses', variant: 'outline' },
+        { label: 'Locate Storage Silo', href: '/farmer#warehouses', variant: 'outline' },
       ],
     };
 
     const deltaSign = forecast.predictedChangePercent >= 0 ? '+' : '';
-    const text = `Here is the comprehensive AI price forecast and trajectory analysis for **${targetCrop}**:
+    let text = `Here is the comprehensive AI price forecast and trajectory analysis for **${targetCrop}**:\n\n` +
+      `• **Current Mandi Modal Rate**: **₹${forecast.currentModalPrice.toFixed(2)}/kg**\n` +
+      `• **AI Projected Next Target**: **₹${forecast.predictedModalPrice.toFixed(2)}/kg** (${deltaSign}${forecast.predictedChangePercent.toFixed(1)}% expected trajectory)\n` +
+      `• **Benchmark Protection**: ${mspFloor > 0 ? `**₹${mspFloor.toFixed(2)}/kg** statutory MSP floor guaranteed on Fasal Matrix` : `Commercial commodity standard with zero broker deductions`}\n` +
+      `• **Market Demand State**: **${forecast.demandSignal.replace('_', ' ')}**\n` +
+      `• **Model Calibration**: Calibrated using auto-regressive clearing regression with an error margin of **±₹${forecast.testMaeKg.toFixed(2)}/kg**.\n\n`;
 
-• **Current Mandi Modal Rate**: **₹${forecast.currentModalPrice.toFixed(2)}/kg**  
-• **AI Next-Period Projection**: **₹${forecast.predictedModalPrice.toFixed(2)}/kg** (${deltaSign}${forecast.predictedChangePercent.toFixed(1)}% expected trajectory)  
-• **Statutory MSP Benchmark**: **₹${mspFloor.toFixed(2)}/kg** (inviolable legal price floor guaranteed on Fasal Matrix)  
-• **Market Demand State**: **${forecast.demandSignal.replace('_', ' ')}**  
-• **Model Calibration**: Calibrated using a multi-lag auto-regressive model trained on 737,392 APMC clearing records with an error margin of **±₹${forecast.testMaeKg.toFixed(2)}/kg**.
+    if (isQuarterHorizon) {
+      const p30 = forecast.trajectory?.find(p => p.dayOffset === 30)?.price ?? (forecast.currentModalPrice * 1.02);
+      const p60 = forecast.trajectory?.find(p => p.dayOffset === 60)?.price ?? (forecast.currentModalPrice * 1.04);
+      const p90 = forecast.trajectory?.find(p => p.dayOffset === 90)?.price ?? (forecast.predictedModalPrice);
 
-${
-  forecast.predictedChangePercent > 2
-    ? `📈 **Strategic Recommendation**: Regional demand is tightening and prices are trending upward. If you have storable lots, storing in an accredited WDRA warehouse or listing with high grading certificates will maximize realization.`
-    : `⚖️ **Strategic Recommendation**: Supply and regional arrivals remain in equilibrium. Direct farmgate trading via Fasal Matrix eliminates traditional 12-18% middleman commission deductions.`
-}`;
+      text += `📅 **3-Month Quarterly Price Projection Breakdown**:\n` +
+        `• **Month 1 (+30 Days)**: Projected around **₹${p30.toFixed(2)}/kg** as initial seasonal lots clear.\n` +
+        `• **Month 2 (+60 Days)**: Projected around **₹${p60.toFixed(2)}/kg** driven by commercial processing demand.\n` +
+        `• **Month 3 (+90 Days)**: Projected around **₹${p90.toFixed(2)}/kg** at peak post-harvest clearing.\n\n` +
+        `📈 **Strategic Recommendation**: For **${targetCrop}**, holding inventory in accredited warehouses or locking forward delivery cadences on Fasal Matrix ensures price retention and shields against spot mandi volatility.`;
+    } else {
+      text += forecast.predictedChangePercent > 2
+        ? `📈 **Strategic Recommendation**: Regional demand is tightening and prices are trending upward. If you have storable lots, storing in an accredited WDRA warehouse or listing with high grading certificates will maximize realization.`
+        : `⚖️ **Strategic Recommendation**: Supply and regional arrivals remain in equilibrium. Direct farmgate trading via Fasal Matrix eliminates traditional 12-18% middleman commission deductions.`;
+    }
 
     return {
       text,

@@ -94,7 +94,7 @@ export default function PriceTrajectoryChart({
   const mspY = mspFloor > 0 ? getY(mspFloor) : null;
 
   return (
-    <div className="w-full bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 sm:p-6 shadow-xs space-y-4">
+    <div className="w-full bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-3 sm:p-4 shadow-xs space-y-3">
       {/* Chart Header & Badges */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-3">
         <div>
@@ -108,7 +108,7 @@ export default function PriceTrajectoryChart({
             </span>
           </div>
           <h3 className="text-sm sm:text-base font-extrabold text-zinc-950 dark:text-zinc-50 mt-0.5">
-            {commodity} Trajectory: Past 14-Day Baseline → +14-Day Future Projection
+            {commodity} Trajectory: Past 14-Day Baseline → Future Projection
           </h3>
         </div>
 
@@ -135,11 +135,12 @@ export default function PriceTrajectoryChart({
         </div>
       </div>
 
-      {/* Responsive SVG Chart */}
-      <div className="relative w-full overflow-x-auto pb-1">
+      {/* Fluid Scalable SVG Chart */}
+      <div className="relative w-full overflow-hidden">
         <svg
           viewBox={`0 0 ${width} ${height}`}
-          className="w-full h-auto min-w-[540px] select-none"
+          className="w-full h-auto block select-none"
+          preserveAspectRatio="xMidYMid meet"
         >
           {/* Subtle Grid Lines */}
           {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => {
@@ -320,24 +321,24 @@ export default function PriceTrajectoryChart({
       </div>
 
       {/* Trajectory Horizon Targets Quick Strip */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
         {[
-          { label: 'Spot Modal', price: currentModalPrice, delta: 0, tag: 'Live APMC' },
-          { label: '+3 Days Target', price: trajectory.find((p) => p.dayOffset === 3)?.price ?? predictedPrice, delta: '+1.6%', tag: 'Short Lag' },
-          { label: '+7 Days Target', price: trajectory.find((p) => p.dayOffset === 7)?.price ?? predictedPrice, delta: '+3.8%', tag: 'Median Lag' },
-          { label: '+14 Days Target', price: trajectory.find((p) => p.dayOffset === 14)?.price ?? predictedPrice, delta: '+6.2%', tag: 'Monthly Lag' },
+          { label: 'Spot Modal', price: currentModalPrice, tag: 'Live Market' },
+          { label: trajectory.some(p => p.dayOffset === 90) ? '+30d Target' : '+3d Target', price: (trajectory.find((p) => p.dayOffset === 30) ?? trajectory.find((p) => p.dayOffset === 3))?.price ?? predictedPrice, tag: trajectory.some(p => p.dayOffset === 90) ? 'Month 1' : 'Short Lag' },
+          { label: trajectory.some(p => p.dayOffset === 90) ? '+60d Target' : '+7d Target', price: (trajectory.find((p) => p.dayOffset === 60) ?? trajectory.find((p) => p.dayOffset === 7))?.price ?? predictedPrice, tag: trajectory.some(p => p.dayOffset === 90) ? 'Month 2' : 'Median Lag' },
+          { label: trajectory.some(p => p.dayOffset === 90) ? '+90d Target' : '+14d Target', price: (trajectory.find((p) => p.dayOffset === 90) ?? trajectory.find((p) => p.dayOffset === 14))?.price ?? predictedPrice, tag: trajectory.some(p => p.dayOffset === 90) ? 'Quarter End' : 'Monthly Lag' },
         ].map((h, i) => (
           <div
             key={i}
-            className="p-3 bg-zinc-50 dark:bg-zinc-850/60 rounded-xl border border-zinc-200 dark:border-zinc-800 text-center"
+            className="p-2.5 sm:p-3 bg-zinc-50 dark:bg-zinc-850/60 rounded-xl border border-zinc-200 dark:border-zinc-800 text-center"
           >
             <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500">
-              <span>{h.label}</span>
-              <span className="text-[9px] px-1 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-bold">
+              <span className="truncate">{h.label}</span>
+              <span className="text-[9px] px-1 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-bold shrink-0 ml-1">
                 {h.tag}
               </span>
             </div>
-            <div className="text-lg font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-0.5">
+            <div className="text-base sm:text-lg font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-0.5">
               ₹{h.price?.toFixed(2)}/kg
             </div>
           </div>
@@ -346,3 +347,4 @@ export default function PriceTrajectoryChart({
     </div>
   );
 }
+

@@ -15,6 +15,7 @@ export interface ForecastParams {
   district?: string;
   market?: string;
   storageDays?: number;
+  horizonDays?: number;
 }
 
 export interface ForecastResult {
@@ -97,6 +98,16 @@ const DEFAULT_CROP_BASELINES: Record<string, { modal: number; min: number; max: 
   Mango: { modal: 65.0, min: 50.0, max: 85.0, msp: 0.0 },
   Garlic: { modal: 110.0, min: 90.0, max: 135.0, msp: 0.0 },
   Ginger: { modal: 85.0, min: 70.0, max: 105.0, msp: 0.0 },
+  Coffee: { modal: 245.0, min: 220.0, max: 280.0, msp: 0.0 },
+  'Coffee (Arabica / Robusta)': { modal: 245.0, min: 220.0, max: 280.0, msp: 0.0 },
+  Tea: { modal: 165.0, min: 140.0, max: 195.0, msp: 0.0 },
+  Sugarcane: { modal: 3.40, min: 3.15, max: 3.65, msp: 3.40 },
+  Jute: { modal: 54.0, min: 50.5, max: 58.0, msp: 53.35 },
+  'Natural Rubber': { modal: 185.0, min: 165.0, max: 210.0, msp: 0.0 },
+  Tobacco: { modal: 130.0, min: 115.0, max: 150.0, msp: 0.0 },
+  Turmeric: { modal: 138.0, min: 125.0, max: 155.0, msp: 0.0 },
+  'Dry Red Chilli': { modal: 185.0, min: 160.0, max: 215.0, msp: 0.0 },
+  Cumin: { modal: 275.0, min: 245.0, max: 310.0, msp: 0.0 },
 };
 
 function normalizeName(str: string): string {
@@ -358,6 +369,19 @@ export function generateForecast(params: ForecastParams): ForecastResult {
     { offset: 7,  label: '+7d',  price: d7, ciMult: 1.8 },
     { offset: 14, label: '+14d', price: d14, ciMult: 2.3 },
   ];
+
+  const horizonDays = Number(params.horizonDays || 14);
+  if (horizonDays >= 60) {
+    futurePoints.push(
+      { offset: 30, label: '+30d', price: Number(Math.max(mspFloor, finalPredicted * (1 + trendSlope * 18)).toFixed(2)), ciMult: 2.8 },
+      { offset: 60, label: '+60d', price: Number(Math.max(mspFloor, finalPredicted * (1 + trendSlope * 32)).toFixed(2)), ciMult: 3.4 },
+      { offset: 90, label: '+90d', price: Number(Math.max(mspFloor, finalPredicted * (1 + trendSlope * 45)).toFixed(2)), ciMult: 4.0 }
+    );
+  } else if (horizonDays >= 30) {
+    futurePoints.push(
+      { offset: 30, label: '+30d', price: Number(Math.max(mspFloor, finalPredicted * (1 + trendSlope * 18)).toFixed(2)), ciMult: 2.8 }
+    );
+  }
 
   futurePoints.forEach(f => {
     const ciDelta = Number((testMaeKg * f.ciMult).toFixed(2));
