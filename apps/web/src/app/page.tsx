@@ -9,6 +9,38 @@ import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import InquiryModal from '../components/InquiryModal';
+import JsonLd from '../components/JsonLd';
+
+const homeFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is Fasal Matrix?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Fasal Matrix is an Indian agrarian marketplace connecting farmers, institutional food processors, and consumers directly with guaranteed MSP protection, AGMARK quality grading, and RBI nodal escrow payments.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How do farmers sell directly without middleman deductions?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Farmers create verified crop lots on the portal with assay specs and price benchmarks. Buyers pay into a secure escrow account, and funds are settled directly to the farmer within 24 hours of delivery.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Are agricultural produce prices governed by APMC mandis?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, Fasal Matrix benchmarks prices against real-time Agmarknet and e-NAM modal prices, alerting users if an offer falls below statutory Minimum Support Price (MSP) levels.',
+      },
+    },
+  ],
+};
 import { useProduceStore, useOrderStore, useRfqStore, ProduceLotItem } from '../lib/store';
 import {
   Shield,
@@ -84,6 +116,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-zinc-900 font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-950">
+      <JsonLd data={homeFaqSchema} />
       <Navbar onOpenInquiry={() => setInquiryOpen(true)} />
 
       <main className="flex-1 bg-zinc-50 dark:bg-zinc-950 transition-colors">

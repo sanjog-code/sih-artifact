@@ -13,6 +13,12 @@ export default function TermsOfServicePage() {
 
       <main id="main-content" className="flex-1 py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
         <div className="space-y-4 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+            <Link href="/" className="hover:text-emerald-600 transition">Home</Link>
+            <span>/</span>
+            <span className="text-zinc-800 dark:text-zinc-200 font-bold">Terms of Service</span>
+          </nav>
+
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-semibold uppercase tracking-wider">
             <Scale className="w-3.5 h-3.5" />
             <span>Institutional Trading Protocol</span>

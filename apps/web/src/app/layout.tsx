@@ -9,7 +9,51 @@ import ConsumerAiShoppingAdvisor from '../components/ConsumerAiShoppingAdvisor';
 import FarmerAiListingAdvisor from '../components/FarmerAiListingAdvisor';
 import PwaRegister from '../components/PwaRegister';
 import CookieConsentBanner from '../components/CookieConsentBanner';
+import JsonLd from '../components/JsonLd';
 import { cookies } from 'next/headers';
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Fasal Matrix Agrarian Technologies',
+  alternateName: 'Fasal Matrix',
+  url: 'https://fasalmatrix.in',
+  logo: 'https://fasalmatrix.in/icon-192.png',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+91-1800-889-2603',
+    contactType: 'customer support',
+    areaServed: 'IN',
+    availableLanguage: ['English', 'Hindi', 'Punjabi', 'Marathi', 'Telugu', 'Tamil'],
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Muhana Terminal, Sanganer',
+    addressLocality: 'Jaipur',
+    addressRegion: 'Rajasthan',
+    postalCode: '302029',
+    addressCountry: 'IN',
+  },
+  sameAs: [
+    'https://twitter.com/fasalmatrix',
+    'https://linkedin.com/company/fasal-matrix',
+  ],
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Fasal Matrix',
+  url: 'https://fasalmatrix.in',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://fasalmatrix.in/?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -22,10 +66,43 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Fasal Matrix — Direct Agrarian Marketplace & Demand Intelligence',
+  metadataBase: new URL('https://fasalmatrix.in'),
+  title: {
+    default: 'Fasal Matrix — Direct Agrarian Marketplace & Mandi MSP Intelligence',
+    template: '%s | Fasal Matrix',
+  },
   description:
-    'Direct farm-to-doorstep trade. Real-time mandi AI price intelligence, verified crop quality grading, and guaranteed bank payment with zero middleman deductions.',
+    'Direct farm-to-doorstep trade across India. Real-time mandi price intelligence, verified crop quality grading, and guaranteed T+1 escrow settlement with zero middleman deductions.',
   manifest: '/manifest.json',
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    title: 'Fasal Matrix — Direct Agrarian Marketplace & Mandi Intelligence',
+    description:
+      'Direct farm-to-doorstep agricultural commerce in India with real-time APMC/e-NAM price discovery and T+1 bank escrows.',
+    url: 'https://fasalmatrix.in',
+    siteName: 'Fasal Matrix',
+    locale: 'en_IN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Fasal Matrix — Direct Agrarian Marketplace',
+    description:
+      'Direct farm-to-doorstep agricultural commerce in India with real-time APMC/e-NAM price discovery and T+1 bank escrows.',
+  },
 };
 
 export const viewport = {
@@ -51,6 +128,8 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-[#fafafa] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">
+        <JsonLd data={organizationSchema} />
+        <JsonLd data={websiteSchema} />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-xl focus:font-bold focus:shadow-lg focus:outline-none"
