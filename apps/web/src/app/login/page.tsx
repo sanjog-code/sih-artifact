@@ -89,42 +89,73 @@ export default function LoginPage() {
     });
   }, [handleRoleSelect]);
 
-  const handleSendOtp = (e: React.FormEvent) => {
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!phone.trim()) {
       setErrorMsg('Please enter a valid mobile number');
       return;
     }
-    setOtpSent(true);
-    setOtp('584210'); // Simulated verified OTP for rapid institutional sign-in
     setErrorMsg(null);
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'send_otp',
+          phone: phone.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setErrorMsg(data.error || 'Failed to dispatch OTP. Please retry.');
+        return;
+      }
+      setOtpSent(true);
+      setOtp(data.otpPreview || '584210');
+    } catch {
+      setErrorMsg('Network error while requesting OTP.');
+    }
   };
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!ageConsent) {
       setErrorMsg('You must confirm you are 18 years or older and accept the Terms of Service & Privacy Policy.');
       return;
     }
-    if (selectedRole === 'admin') {
-      if (adminKey !== 'farmlink-admin-2026' && adminKey !== 'admin') {
-        setErrorMsg('Invalid administrative security key. Enter "farmlink-admin-2026" or "admin".');
-        return;
-      }
-    } else {
-      if (!otp.trim()) {
-        setErrorMsg('Please enter the 6-digit OTP received via SMS.');
-        return;
-      }
-    }
 
-    setAuthSuccess(true);
     setErrorMsg(null);
-    login(selectedRole, phone);
 
-    setTimeout(() => {
-      router.push(roleDetails[selectedRole].destination);
-    }, 1200);
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'login',
+          role: selectedRole,
+          phone: phone.trim(),
+          otp: otp.trim(),
+          adminKey: adminKey.trim(),
+          ageConsent: true,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setErrorMsg(data.error || 'Authentication failed. Please check credentials.');
+        return;
+      }
+
+      setAuthSuccess(true);
+      await login(selectedRole, phone.trim());
+
+      setTimeout(() => {
+        router.push(roleDetails[selectedRole].destination);
+      }, 1000);
+    } catch {
+      setErrorMsg('Server connection failure during verification.');
+    }
   };
 
   const CurrentRoleIcon = roleDetails[selectedRole].icon;
