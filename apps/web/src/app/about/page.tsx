@@ -893,6 +893,22 @@ export default function AboutPage() {
                     />
                   </div>
 
+                  <div className="pt-1">
+                    <label className="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        required
+                        className="mt-0.5 rounded border-zinc-300 dark:border-zinc-700 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                      />
+                      <span>
+                        I consent to Fasal Matrix contacting me regarding commodity procurement in accordance with the{' '}
+                        <Link href="/privacy" className="underline font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800">
+                          Privacy Policy
+                        </Link>.
+                      </span>
+                    </label>
+                  </div>
+
                   <button
                     type="submit"
                     className="w-full py-3 bg-zinc-950 hover:bg-zinc-800 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm cursor-pointer active:scale-98"

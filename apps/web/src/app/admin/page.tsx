@@ -273,16 +273,16 @@ export default function AdminConsolePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
-                { name: 'Jaitpura Farmer Cooperative', state: 'Rajasthan', members: 420, rating: '99.2%', depot: 'Phulera Depot #3' },
-                { name: 'Vidarbha Farmer Collective', state: 'Maharashtra', members: 1250, rating: '98.7%', depot: 'Nagpur East Agro Hub' },
-                { name: 'Malwa Sharbati Cluster', state: 'Madhya Pradesh', members: 890, rating: '99.5%', depot: 'Ujjain Central Silo' },
-                { name: 'Phulera Mustard Producers', state: 'Rajasthan', members: 630, rating: '99.1%', depot: 'Jaipur North WDRA Hub' },
+                { name: 'Jaitpura Farmer Cooperative', state: 'Rajasthan', members: 420, capacityMt: '2,400 MT', depot: 'Phulera Depot #3' },
+                { name: 'Vidarbha Farmer Collective', state: 'Maharashtra', members: 1250, capacityMt: '6,800 MT', depot: 'Nagpur East Agro Hub' },
+                { name: 'Malwa Sharbati Cluster', state: 'Madhya Pradesh', members: 890, capacityMt: '4,100 MT', depot: 'Ujjain Central Silo' },
+                { name: 'Phulera Mustard Producers', state: 'Rajasthan', members: 630, capacityMt: '3,250 MT', depot: 'Jaipur North WDRA Hub' },
               ].map((c, i) => (
                 <div key={i} className="p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-800/40 space-y-2">
                   <div className="flex items-center justify-between">
                     <strong className="text-sm text-zinc-950 dark:text-white">{c.name}</strong>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
-                      Score {c.rating}
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-mono">
+                      Capacity: {c.capacityMt}
                     </span>
                   </div>
                   <div className="text-xs text-zinc-500">

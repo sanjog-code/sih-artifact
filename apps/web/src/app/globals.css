@@ -61,3 +61,14 @@ body {
   font-family: var(--font-geist-sans), var(--font-indic-tamil);
   line-height: 1.6;
 }
+
+/* WCAG 2.1 AA Keyboard Navigation: High-contrast focus rings for interactive elements */
+:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* Ensure smooth scrolling when jumping via skip links */
+html {
+  scroll-behavior: smooth;
+}

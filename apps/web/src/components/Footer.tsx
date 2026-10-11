@@ -315,19 +315,43 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Corporate Registration & Statutory Grievance Details */}
+        <div className="mt-10 pt-6 border-t border-zinc-800 grid grid-cols-1 md:grid-cols-3 gap-4 text-[11px] text-zinc-300">
+          <div>
+            <strong className="text-white block font-semibold">Registered Entity & CIN:</strong>
+            <span className="text-zinc-400">Fasal Matrix Agrarian Technologies Pvt. Ltd.</span>
+            <span className="block text-zinc-400 font-mono">CIN: U01111RJ2026PTC089201</span>
+          </div>
+          <div>
+            <strong className="text-white block font-semibold">Registered Office & Terminal Hub:</strong>
+            <span className="text-zinc-400">Terminal 3, Muhana Mandi Complex, Sanganer, Jaipur, Rajasthan 302029</span>
+          </div>
+          <div>
+            <strong className="text-white block font-semibold">Nodal Grievance Officer:</strong>
+            <span className="text-zinc-400">Rajesh V. Meena (grievance@fasalmatrix.in)</span>
+            <span className="block text-zinc-400">Response SLA: Within 48 hours</span>
+          </div>
+        </div>
+
         {/* Bottom Legal Bar */}
-        <div className="mt-12 pt-6 border-t border-zinc-850 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
-          <p>© {new Date().getFullYear()} {t.footer.copyright}</p>
-          <div className="flex flex-wrap items-center gap-6">
-            <Link href="/about#governance" className="hover:text-emerald-400 transition font-medium">
+        <div className="mt-8 pt-6 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
+          <p>© {new Date().getFullYear()} {t.footer.copyright}. All rights reserved.</p>
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 font-medium">
+            <Link href="/privacy" className="hover:text-emerald-400 transition">
               {t.footer.privacy}
             </Link>
-            <Link href="/about#governance" className="hover:text-emerald-400 transition font-medium">
+            <Link href="/terms" className="hover:text-emerald-400 transition">
               {t.footer.terms}
             </Link>
-            <Link href="/about#governance" className="hover:text-emerald-400 transition font-medium">
-              {t.footer.security}
+            <Link href="/refund-policy" className="hover:text-emerald-400 transition">
+              Refund Policy
             </Link>
+            <Link href="/cookie-policy" className="hover:text-emerald-400 transition">
+              Cookie Policy
+            </Link>
+            <span className="text-[10px] text-zinc-400 font-mono">
+              Age Restricted: 18+ Only
+            </span>
           </div>
         </div>
       </div>

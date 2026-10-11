@@ -57,6 +57,7 @@ export default function CheckoutPage() {
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [confirmedOrderId, setConfirmedOrderId] = useState<string | null>(null);
   const [confirmedHash, setConfirmedHash] = useState<string | null>(null);
+  const [escrowConsent, setEscrowConsent] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Load cart from localStorage or populate default for seamless testing
@@ -715,10 +716,32 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
+                {/* Statutory Escrow & Refund Policy Consent */}
+                <div className="pt-2">
+                  <label className="flex items-start gap-2.5 text-[11px] text-zinc-600 dark:text-zinc-400 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={escrowConsent}
+                      onChange={(e) => setEscrowConsent(e.target.checked)}
+                      className="mt-0.5 rounded border-zinc-300 dark:border-zinc-700 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                    />
+                    <span>
+                      I authorize locking funds into the RBI-regulated nodal escrow account and agree to the{' '}
+                      <Link href="/terms" target="_blank" className="underline font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800">
+                        Terms of Service
+                      </Link>{' '}
+                      and{' '}
+                      <Link href="/refund-policy" target="_blank" className="underline font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800">
+                        Dispute & Refund Policy
+                      </Link>.
+                    </span>
+                  </label>
+                </div>
+
                 {/* Initiate Lock Button */}
                 <button
                   type="button"
-                  disabled={cartItems.length === 0}
+                  disabled={cartItems.length === 0 || !escrowConsent}
                   onClick={() => setIsConfirming(true)}
                   className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >

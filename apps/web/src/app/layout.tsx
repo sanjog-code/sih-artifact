@@ -8,6 +8,7 @@ import AiAssistant from '../components/AiAssistant';
 import ConsumerAiShoppingAdvisor from '../components/ConsumerAiShoppingAdvisor';
 import FarmerAiListingAdvisor from '../components/FarmerAiListingAdvisor';
 import PwaRegister from '../components/PwaRegister';
+import CookieConsentBanner from '../components/CookieConsentBanner';
 import { cookies } from 'next/headers';
 
 const geistSans = Geist({
@@ -25,6 +26,9 @@ export const metadata: Metadata = {
   description:
     'Direct farm-to-doorstep trade. Real-time mandi AI price intelligence, verified crop quality grading, and guaranteed bank payment with zero middleman deductions.',
   manifest: '/manifest.json',
+};
+
+export const viewport = {
   themeColor: '#16a34a',
 };
 
@@ -47,6 +51,12 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-[#fafafa] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-xl focus:font-bold focus:shadow-lg focus:outline-none"
+        >
+          Skip to main content
+        </a>
         <ThemeProvider>
           <AuthProvider>
             <LanguageProvider initialLanguage={validLang}>
@@ -55,6 +65,7 @@ export default async function RootLayout({
               <ConsumerAiShoppingAdvisor />
               <FarmerAiListingAdvisor />
               <PwaRegister />
+              <CookieConsentBanner />
             </LanguageProvider>
           </AuthProvider>
         </ThemeProvider>

@@ -17,6 +17,7 @@ import {
   KeyRound,
   ShieldCheck,
 } from 'lucide-react';
+import Link from 'next/link';
 
 export type UserRole = 'farmer' | 'buyer' | 'consumer' | 'admin';
 
@@ -28,6 +29,7 @@ export default function LoginPage() {
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [adminKey, setAdminKey] = useState('');
+  const [ageConsent, setAgeConsent] = useState(false);
   const [authSuccess, setAuthSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -100,6 +102,10 @@ export default function LoginPage() {
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!ageConsent) {
+      setErrorMsg('You must confirm you are 18 years or older and accept the Terms of Service & Privacy Policy.');
+      return;
+    }
     if (selectedRole === 'admin') {
       if (adminKey !== 'farmlink-admin-2026' && adminKey !== 'admin') {
         setErrorMsg('Invalid administrative security key. Enter "farmlink-admin-2026" or "admin".');
@@ -293,10 +299,33 @@ export default function LoginPage() {
                 </>
               )}
 
+              {/* Mandatory Age & Terms Consent */}
+              <div className="pt-2 pb-1 border-t border-zinc-100 dark:border-zinc-800">
+                <label className="flex items-start gap-2.5 text-xs text-zinc-600 dark:text-zinc-300 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={ageConsent}
+                    onChange={(e) => setAgeConsent(e.target.checked)}
+                    required
+                    className="mt-0.5 rounded border-zinc-300 dark:border-zinc-750 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                  />
+                  <span>
+                    I confirm that I am <strong>18 years or older</strong> and agree to Fasal Matrix&apos;s{' '}
+                    <Link href="/terms" target="_blank" className="underline font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800">
+                      Terms of Service
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="/privacy" target="_blank" className="underline font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800">
+                      Privacy Policy
+                    </Link>.
+                  </span>
+                </label>
+              </div>
+
               {selectedRole === 'admin' && (
                 <button
                   type="submit"
-                  className="w-full py-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-purple-600 dark:hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm"
+                  className="w-full py-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-purple-600 dark:hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                 >
                   <ShieldCheck className="w-4 h-4" />
                   <span>Verify Administrator Access</span>
