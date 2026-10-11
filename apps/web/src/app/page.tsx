@@ -93,24 +93,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(22,163,74,0.04)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.06)_1px,transparent_1px)] bg-size-[28px_28px] pointer-events-none" />
           <div className="pointer-events-none absolute top-1/3 left-1/2 h-[380px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial from-emerald-500/10 dark:from-emerald-500/15 via-emerald-500/3 to-transparent blur-3xl" />
 
-          {/* landing-01 Technical Crosshairs & Corner Borders */}
-          <div className="absolute top-10 left-6 hidden lg:block h-4 w-4 pointer-events-none">
-            <div className="absolute top-1/2 left-0 right-0 h-px bg-emerald-600/30" />
-            <div className="absolute top-0 bottom-0 left-1/2 w-px bg-emerald-600/30" />
-          </div>
-          <div className="absolute top-10 right-6 hidden lg:block h-4 w-4 pointer-events-none">
-            <div className="absolute top-1/2 left-0 right-0 h-px bg-emerald-600/30" />
-            <div className="absolute top-0 bottom-0 left-1/2 w-px bg-emerald-600/30" />
-          </div>
-
           <div className="max-w-5xl mx-auto text-center space-y-6 relative z-10">
-            {/* landing-01 Pill Badge with Tech Monospace Accent */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200/80 dark:border-emerald-800/80 text-emerald-900 dark:text-emerald-300 text-xs font-semibold tracking-wide uppercase font-mono shadow-xs">
-              <span className="text-emerald-600 dark:text-emerald-400 opacity-70">{'//'}</span>
-              <Shield className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
-              <span>{t.hero.badge}</span>
-            </div>
-
             {/* Headline with dynamic agrarian emphasis */}
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight leading-[1.08]">
               {t.hero.titleLine1} <br />
@@ -124,7 +107,7 @@ export default function Home() {
               {t.hero.description}
             </p>
 
-            {/* CTAs with landing-01 corner accent subtle button styling */}
+            {/* CTAs */}
             <div className="pt-2 flex flex-wrap items-center justify-center gap-3.5">
               <a
                 href="#marketplace"
@@ -142,15 +125,9 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Spatial UI Command Deck with landing-01 Corner Accents */}
+            {/* Hero Visual Banner */}
             <div className="pt-6 max-w-5xl mx-auto">
-              <div className="relative rounded-3xl overflow-hidden border border-zinc-200/90 dark:border-zinc-800 shadow-[0_30px_90px_rgba(0,0,0,0.09)] dark:shadow-[0_30px_90px_rgba(0,0,0,0.4)] bg-zinc-950 group">
-                {/* Corner Accents from landing-01 design */}
-                <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-emerald-400/80 z-20 pointer-events-none"></div>
-                <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-emerald-400/80 z-20 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-emerald-400/80 z-20 pointer-events-none"></div>
-                <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-emerald-400/80 z-20 pointer-events-none"></div>
-
+              <div className="relative rounded-3xl overflow-hidden border border-zinc-200/90 dark:border-zinc-800 shadow-xl bg-zinc-950 group">
                 {/* Live Atmospheric Background Photograph */}
                 <div className="relative h-72 sm:h-96 w-full overflow-hidden">
                   <Image
@@ -159,61 +136,21 @@ export default function Home() {
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 1024px"
-                    className="object-cover object-center filter brightness-[0.88] contrast-[1.05] transform scale-105 group-hover:scale-100 transition-transform duration-1000 ease-out"
+                    className="object-cover object-center filter brightness-[0.92] contrast-[1.05] group-hover:scale-102 transition-transform duration-700 ease-out"
                   />
-                  {/* Spatial Vignette & Gradient Overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/35 to-transparent pointer-events-none" />
-                </div>
-
-                {/* Floating Spatial Card 1: Optical Quality HUD (Top-Left) */}
-                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-xs backdrop-blur-xl bg-white/95 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:hover:bg-zinc-900 text-left">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <span className="relative flex h-2.5 w-2.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
-                    </span>
-                    <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-emerald-950 dark:text-emerald-300">
-                      {t.hero.telemetry.opticalTelemetry}
-                    </span>
-                  </div>
-                  <div className="text-xs sm:text-sm font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
-                    {t.hero.telemetry.opticalGrade}
-                  </div>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-300 mt-0.5 leading-snug">
-                    {t.hero.telemetry.opticalDetails}
-                  </p>
-                </div>
-
-                {/* Floating Spatial Card 2: Escrow Payout Guarantee (Top-Right) */}
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 max-w-[260px] backdrop-blur-xl bg-white/95 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 border border-white/70 dark:border-zinc-700 shadow-2xl rounded-2xl p-3.5 transition-all duration-300 hover:bg-white dark:hover:bg-zinc-900 text-right hidden sm:block">
-                  <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100/90 dark:bg-emerald-950/90 text-emerald-900 dark:text-emerald-300 text-[10px] font-mono font-bold uppercase mb-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
-                    {t.hero.telemetry.mspGuarded}
-                  </div>
-                  <div className="text-xs sm:text-sm font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
-                    {t.hero.telemetry.wheatBaseline}
-                  </div>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-300 mt-0.5 leading-snug">
-                    {t.hero.telemetry.escrowDetails || "100% RBI regulated nodal escrow with zero commission surprises."}
-                  </p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-transparent to-transparent pointer-events-none" />
                 </div>
               </div>
             </div>
 
 
 
-            {/* Operational Portals Grid with landing-01 Corner Accents & Micro-Interactions */}
+            {/* Operational Portals Grid */}
             <div className="pt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
               <Link
                 href="/farmer"
-                className="group relative p-5 bg-white dark:bg-zinc-900/90 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all text-left shadow-xs flex flex-col justify-between overflow-hidden"
+                className="group p-5 bg-white dark:bg-zinc-900/90 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all text-left shadow-xs flex flex-col justify-between"
               >
-                {/* landing-01 Corner Accents */}
-                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-emerald-500/60 pointer-events-none"></div>
-                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-emerald-500/60 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-emerald-500/60 pointer-events-none"></div>
-                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-emerald-500/60 pointer-events-none"></div>
-
                 <div>
                   <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                     <Sprout className="w-4 h-4" />
@@ -227,21 +164,14 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="mt-4 pt-2.5 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
-                  <span className="opacity-70">{'//'}</span>
                   <span>{t.portal.openFarmerDesk}</span>
                 </div>
               </Link>
 
               <Link
                 href="/buyer"
-                className="group relative p-5 bg-white dark:bg-zinc-900/90 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all text-left shadow-xs flex flex-col justify-between overflow-hidden"
+                className="group p-5 bg-white dark:bg-zinc-900/90 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all text-left shadow-xs flex flex-col justify-between"
               >
-                {/* landing-01 Corner Accents */}
-                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-emerald-500/60 pointer-events-none"></div>
-                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-emerald-500/60 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-emerald-500/60 pointer-events-none"></div>
-                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-emerald-500/60 pointer-events-none"></div>
-
                 <div>
                   <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                     <Building2 className="w-4 h-4" />
@@ -255,21 +185,14 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="mt-4 pt-2.5 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
-                  <span className="opacity-70">{'//'}</span>
                   <span>{t.portal.openBuyerDesk}</span>
                 </div>
               </Link>
 
               <Link
                 href="/logistics"
-                className="group relative p-5 bg-white dark:bg-zinc-900/90 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all text-left shadow-xs flex flex-col justify-between overflow-hidden"
+                className="group p-5 bg-white dark:bg-zinc-900/90 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all text-left shadow-xs flex flex-col justify-between"
               >
-                {/* landing-01 Corner Accents */}
-                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-emerald-500/60 pointer-events-none"></div>
-                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-emerald-500/60 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-emerald-500/60 pointer-events-none"></div>
-                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-emerald-500/60 pointer-events-none"></div>
-
                 <div>
                   <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                     <Truck className="w-4 h-4" />
@@ -283,7 +206,6 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="mt-4 pt-2.5 border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-1.5 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
-                  <span className="opacity-70">{'//'}</span>
                   <span>{t.portal.openLogisticsDesk}</span>
                 </div>
               </Link>

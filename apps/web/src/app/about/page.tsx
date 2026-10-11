@@ -80,13 +80,6 @@ export default function AboutPage() {
         {/* =================================================================== */}
         <section className="relative border-b border-zinc-200/80 dark:border-zinc-800/80 pt-16 sm:pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
           <div className="max-w-5xl mx-auto text-center space-y-6">
-            {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full backdrop-blur-md bg-emerald-500/10 dark:bg-emerald-400/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-xs font-semibold tracking-wide uppercase shadow-xs">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-              <span>{t.about.institutionalTrustBadge}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            </div>
-
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-zinc-950 dark:text-zinc-50 tracking-tight leading-[1.12]">
               {t.about.title}
             </h1>
