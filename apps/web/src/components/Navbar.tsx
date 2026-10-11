@@ -156,13 +156,6 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
               </Link>
             )}
 
-            {/* Universal Price Advisory Link */}
-            <Link
-              href="/#advisory"
-              className="hover:text-zinc-900 dark:hover:text-white transition flex items-center gap-1"
-            >
-              <span>{navAdvisory}</span>
-            </Link>
 
             {/* Universal About Us Link */}
             <Link
@@ -456,16 +449,7 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
                 </Link>
               )}
 
-              <div className="my-1 border-t border-zinc-100 dark:border-zinc-800" />
 
-              <Link
-                href="/#advisory"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 flex items-center gap-2.5"
-              >
-                <TrendingUp className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
-                <span>{navAdvisory}</span>
-              </Link>
 
               <Link
                 href="/about"
