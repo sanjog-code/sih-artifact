@@ -28,7 +28,10 @@ import {
   Sparkles,
   ArrowUpRight,
   PackageCheck,
+  MapPin,
+  Navigation,
 } from 'lucide-react';
+import { geocodeAddress } from '../../lib/ai/geocoding';
 
 interface AiForecastData {
   currentModalPrice: number;
@@ -106,8 +109,43 @@ export default function FarmerPortal() {
   const [quantity, setQuantity] = useState(2500);
   const [grade, setGrade] = useState<'A1' | 'A2' | 'B'>('A1');
   const [price, setPrice] = useState(28);
+  const [farmAddress, setFarmAddress] = useState('Khasra 412, Jaitpura Farm, Phulera Tehsil');
+  const [pincode, setPincode] = useState('303338');
+  const [farmCoordinates, setFarmCoordinates] = useState<{ lat: number; lng: number }>({ lat: 26.8722, lng: 75.2415 });
+  const [detectingGps, setDetectingGps] = useState(false);
   const depot = 'Jaipur WDRA Terminal Hub';
   const deliveryMode = 'platform_logistics';
+
+  const handleDetectGps = () => {
+    if (typeof window !== 'undefined' && 'geolocation' in navigator) {
+      setDetectingGps(true);
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setDetectingGps(false);
+          const coords = {
+            lat: Number(pos.coords.latitude.toFixed(4)),
+            lng: Number(pos.coords.longitude.toFixed(4)),
+          };
+          setFarmCoordinates(coords);
+          setFarmAddress((prev) => prev.includes('GPS') ? prev : `${prev} (GPS: ${coords.lat}, ${coords.lng})`);
+          setNotice(`GPS Coordinates acquired: ${coords.lat}, ${coords.lng}! Farm pickup locus updated.`);
+          setTimeout(() => setNotice(null), 4000);
+        },
+        () => {
+          setDetectingGps(false);
+          // Fallback to geocoder
+          const geocoded = geocodeAddress(farmAddress, pincode);
+          setFarmCoordinates({ lat: geocoded.lat, lng: geocoded.lng });
+          setNotice(`Resolved location via agrarian land registry to ${geocoded.locationName}`);
+          setTimeout(() => setNotice(null), 4000);
+        },
+        { timeout: 6000 }
+      );
+    } else {
+      const geocoded = geocodeAddress(farmAddress, pincode);
+      setFarmCoordinates({ lat: geocoded.lat, lng: geocoded.lng });
+    }
+  };
 
   // AI Prediction State
   const [aiData, setAiData] = useState<AiForecastData | null>(null);
@@ -160,6 +198,8 @@ export default function FarmerPortal() {
       commodity === 'Wheat' ? 'grains' :
       commodity === 'Soybean' ? 'pulses' : 'vegetables';
 
+    const coords = farmCoordinates || geocodeAddress(farmAddress, pincode);
+
     const newLot = addListing({
       id: `LST-${8900 + produceListings.length + 1}`,
       cropName: commodity,
@@ -171,10 +211,13 @@ export default function FarmerPortal() {
       price: Number(price),
       location: depot,
       cluster: `Direct Farmer Lot (${variety})`,
+      farmAddress,
+      pincode,
+      farmCoordinates: coords,
       status: 'ACTIVE',
       harvestDate: 'Today, Assayed',
       farmerName: 'Rameshwar Jat',
-      description: `Grade ${grade} ${commodity} harvest, cleared under WDRA specifications with ${deliveryMode.replace('_', ' ')}.`,
+      description: `Grade ${grade} ${commodity} harvest, cleared under WDRA specifications with ${deliveryMode.replace('_', ' ')}. Farm Pickup: ${farmAddress}.`,
     });
 
     setNotice(t.farmer.lotPublishedNotice.replace('{id}', newLot.id).replace('{price}', String(price)));
@@ -639,6 +682,64 @@ export default function FarmerPortal() {
                       <span className="text-emerald-700 font-semibold">100% Escrow Protection</span>
                     </div>
                   )}
+                </div>
+
+                {/* 5. Farm Location & Logistics Pickup Locus */}
+                <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-900/40 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>5. Farm Location & Pickup Address (For Route Optimization)</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={handleDetectGps}
+                      disabled={detectingGps}
+                      className="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900 text-[11px] font-bold text-emerald-800 dark:text-emerald-300 transition flex items-center gap-1"
+                    >
+                      <Navigation className={`w-3 h-3 ${detectingGps ? 'animate-spin' : ''}`} />
+                      <span>{detectingGps ? 'Detecting GPS...' : 'Use Farm GPS'}</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="sm:col-span-2">
+                      <input
+                        type="text"
+                        value={farmAddress}
+                        onChange={(e) => {
+                          setFarmAddress(e.target.value);
+                          const g = geocodeAddress(e.target.value, pincode);
+                          setFarmCoordinates({ lat: g.lat, lng: g.lng });
+                        }}
+                        placeholder="Village, Khasra/Plot No., Tehsil, District"
+                        className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="text"
+                        value={pincode}
+                        onChange={(e) => {
+                          setPincode(e.target.value);
+                          const g = geocodeAddress(farmAddress, e.target.value);
+                          setFarmCoordinates({ lat: g.lat, lng: g.lng });
+                        }}
+                        placeholder="PIN Code (e.g. 303338)"
+                        maxLength={6}
+                        className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 flex items-center justify-between">
+                    <span>Geocoded Pickup Coordinates:</span>
+                    <span className="font-bold text-emerald-700 dark:text-emerald-400">
+                      {farmCoordinates.lat.toFixed(4)}° N, {farmCoordinates.lng.toFixed(4)}° E
+                    </span>
+                  </div>
                 </div>
 
                 <div className="pt-2 flex gap-3">

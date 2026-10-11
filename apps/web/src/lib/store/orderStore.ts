@@ -16,6 +16,10 @@ export interface OrderItem {
   buyerName?: string;
   buyerPhone?: string;
   shippingAddress?: string;
+  pincode?: string;
+  deliveryCoordinates?: { lat: number; lng: number };
+  farmAddress?: string;
+  farmCoordinates?: { lat: number; lng: number };
   status: OrderStatus;
   escrowLocked: boolean;
   escrowTxHash?: string;
@@ -36,6 +40,10 @@ export const INITIAL_ORDER_SEED: OrderItem[] = [
     buyerType: 'CONSUMER',
     buyerName: 'Anita Sharma',
     shippingAddress: 'Sector 4, Vaishali Nagar, Jaipur',
+    pincode: '302021',
+    deliveryCoordinates: { lat: 26.9048, lng: 75.7483 },
+    farmAddress: 'Khasra 412, Jaitpura Farm, Phulera Tehsil',
+    farmCoordinates: { lat: 26.8722, lng: 75.2415 },
     status: 'DISPATCHED',
     escrowLocked: true,
     escrowTxHash: 'ESCROW-TX-99410-LOCKED',
@@ -54,6 +62,10 @@ export const INITIAL_ORDER_SEED: OrderItem[] = [
     buyerType: 'BULK_BUYER',
     buyerName: 'ITC Agri Procurement',
     shippingAddress: 'Central Warehouse, Indore Highway',
+    pincode: '452010',
+    deliveryCoordinates: { lat: 22.7196, lng: 75.8577 },
+    farmAddress: 'Dewas Highway Agrarian Locus, Ujjain',
+    farmCoordinates: { lat: 23.1765, lng: 75.7885 },
     status: 'DELIVERED',
     escrowLocked: true,
     escrowTxHash: 'ESCROW-TX-99388-SETTLED',
@@ -187,6 +199,10 @@ export const orderStore = {
       buyerName: order.buyerName || 'Verified Consumer',
       buyerPhone: order.buyerPhone || '+91 98765 43210',
       shippingAddress: order.shippingAddress || 'Direct Doorstep Delivery',
+      pincode: order.pincode,
+      deliveryCoordinates: order.deliveryCoordinates,
+      farmAddress: order.farmAddress,
+      farmCoordinates: order.farmCoordinates,
       status: order.status || 'ESCROW_LOCKED',
       escrowLocked: order.escrowLocked ?? true,
       escrowTxHash: order.escrowTxHash || `ESCROW-${Date.now().toString().slice(-6)}-LOCKED`,

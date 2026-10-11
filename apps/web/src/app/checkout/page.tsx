@@ -24,7 +24,9 @@ import {
   BadgeCheck,
   Sparkles,
   RefreshCw,
+  MapPin,
 } from 'lucide-react';
+import { geocodeAddress } from '../../lib/ai/geocoding';
 
 export default function CheckoutPage() {
   const { listings, decrementQuantity } = useProduceStore();
@@ -149,16 +151,28 @@ export default function CheckoutPage() {
       const orderId = `ORD-ESCROW-${Date.now().toString().slice(-6)}`;
       const cryptoHash = `0x${Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`;
 
-      // Register order in orderStore
+      // Geocode consumer delivery address for route optimizer
+      const consumerGeo = geocodeAddress(address, pincode);
+      const primaryLot = cartItems[0]?.lot;
+      const farmPickupAddr = primaryLot?.farmAddress || primaryLot?.location || 'Phulera Farm Depot';
+      const farmPickupCoords = primaryLot?.farmCoordinates || geocodeAddress(farmPickupAddr, primaryLot?.pincode);
+
+      // Register order in orderStore with full geospatial route waypoints
       placeOrder({
-        lotId: cartItems[0]?.lot.id || 'MULTI-LOT',
+        lotId: primaryLot?.id || 'MULTI-LOT',
         items: cartItems.map((c) => `${c.qty}kg ${c.lot.cropName} (Gr.${c.lot.grade})`).join(', '),
-        commodity: cartItems[0]?.lot.cropName || 'Mixed Agrarian Lot',
+        commodity: primaryLot?.cropName || 'Mixed Agrarian Lot',
         quantityKg: cartItems.reduce((acc, c) => acc + c.qty, 0),
-        unitPrice: cartItems[0]?.lot.price || 0,
+        unitPrice: primaryLot?.price || 0,
         totalPrice: totalPayable,
         buyerType: 'CONSUMER',
         buyerName: fullName,
+        buyerPhone: phone,
+        shippingAddress: address,
+        pincode,
+        deliveryCoordinates: { lat: consumerGeo.lat, lng: consumerGeo.lng },
+        farmAddress: farmPickupAddr,
+        farmCoordinates: farmPickupCoords,
         status: 'ESCROW_LOCKED',
         escrowLocked: true,
         createdAt: 'Just now',
@@ -463,6 +477,17 @@ export default function CheckoutPage() {
                     onChange={(e) => setDeliveryNotes(e.target.value)}
                     className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                   />
+                </div>
+
+                {/* Real-time Delivery Geocoding Telemetry */}
+                <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+                  <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-bold">
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span>Delivery Waypoint:</span>
+                  </span>
+                  <span>
+                    {geocodeAddress(address, pincode).lat.toFixed(4)}° N, {geocodeAddress(address, pincode).lng.toFixed(4)}° E
+                  </span>
                 </div>
               </div>
 

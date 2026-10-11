@@ -25,6 +25,9 @@ export interface WaypointInput {
   payloadKg?: number;
   quantityKg?: number;
   type?: 'DEPOT' | 'PICKUP' | 'DROPOFF';
+  address?: string;
+  contactName?: string;
+  contactPhone?: string;
 }
 
 export interface OriginInput {
@@ -33,6 +36,7 @@ export interface OriginInput {
   lat: number;
   lng?: number;
   lon?: number;
+  address?: string;
 }
 
 export interface VrpSolverParams {
@@ -54,6 +58,10 @@ export interface OptimizedStop {
   cumulativeLoadKg: number;
   distanceToNextKm: number;
   durationToNextMinutes: number;
+  type?: 'DEPOT' | 'PICKUP' | 'DROPOFF';
+  address?: string;
+  contactName?: string;
+  contactPhone?: string;
 }
 
 export interface VehicleTour {
@@ -79,6 +87,10 @@ export interface VrpSolverResult {
   isMultiVehicle: boolean;
   unoptimizedDistanceKm?: number;
   co2SavedKg?: number;
+  origin?: { name: string; lat: number; lng: number; address?: string };
+  orderedStops?: OptimizedStop[];
+  estimatedDurationMinutes?: number;
+  isOverloaded?: boolean;
   timestamp: string;
 }
 
@@ -173,6 +185,10 @@ export function solveCapacitatedVrp(params: VrpSolverParams): VrpSolverResult {
     lat: w.lat,
     lng: w.lng ?? w.lon ?? 0,
     payloadKg: Math.max(0, w.payloadKg ?? w.quantityKg ?? 0),
+    type: w.type || 'DROPOFF',
+    address: w.address,
+    contactName: w.contactName,
+    contactPhone: w.contactPhone,
   }));
 
   if (normalizedStops.length === 0) {
@@ -189,6 +205,10 @@ export function solveCapacitatedVrp(params: VrpSolverParams): VrpSolverResult {
       fuelSavedLiters: 0,
       co2AvertedKg: 0,
       isMultiVehicle: false,
+      origin: depot,
+      orderedStops: [],
+      estimatedDurationMinutes: 0,
+      isOverloaded: false,
       timestamp: new Date().toISOString(),
     };
   }
@@ -351,6 +371,10 @@ export function solveCapacitatedVrp(params: VrpSolverParams): VrpSolverResult {
         cumulativeLoadKg: runningLoad,
         distanceToNextKm: Number(legDist.toFixed(2)),
         durationToNextMinutes: legDurationMinutes,
+        type: stopInfo.type,
+        address: stopInfo.address,
+        contactName: stopInfo.contactName,
+        contactPhone: stopInfo.contactPhone,
       });
     }
 
@@ -385,6 +409,10 @@ export function solveCapacitatedVrp(params: VrpSolverParams): VrpSolverResult {
       ? Number(((totalPayloadKg / totalCapacityProvided) * 100).toFixed(1))
       : 0;
 
+  // Flatten ordered stops from all vehicle tours for single-glance manifest presentation
+  const allOrderedStops = vehicleTours.flatMap((vt) => vt.stops);
+  const totalEstDurationMinutes = vehicleTours.reduce((sum, vt) => sum + vt.durationMinutes, 0);
+
   return {
     success: true,
     vehicleClass,
@@ -400,6 +428,10 @@ export function solveCapacitatedVrp(params: VrpSolverParams): VrpSolverResult {
     isMultiVehicle: vehicleTours.length > 1,
     unoptimizedDistanceKm: baselineDistanceKm,
     co2SavedKg: co2AvertedKg,
+    origin: depot,
+    orderedStops: allOrderedStops,
+    estimatedDurationMinutes: totalEstDurationMinutes,
+    isOverloaded: totalPayloadKg > totalCapacityProvided,
     timestamp: new Date().toISOString(),
   };
 }

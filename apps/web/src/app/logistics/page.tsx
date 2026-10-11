@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import InquiryModal from '../../components/InquiryModal';
 import { useLanguage } from '../../context/LanguageContext';
-import { logisticsStore, LogisticsDispatchRecord } from '../../lib/store';
+import { logisticsStore, LogisticsDispatchRecord, useOrderStore } from '../../lib/store';
+import { geocodeAddress } from '../../lib/ai/geocoding';
+import { WaypointInput } from '../../lib/ai/vrp-solver';
 import RoleGuard from '../../components/RoleGuard';
 import {
   Truck,
@@ -17,6 +19,9 @@ import {
   Fuel,
   RefreshCw,
   ShieldCheck,
+  MapPin,
+  Sprout,
+  ShoppingBag,
 } from 'lucide-react';
 
 type VehicleType = 'TWO_WHEELER' | 'CAR' | 'VAN' | 'TRUCK';
@@ -27,10 +32,14 @@ interface RouteStop {
   quantityKg: number;
   distanceToNextKm?: number;
   cumulativeLoadKg?: number;
+  type?: 'DEPOT' | 'PICKUP' | 'DROPOFF';
+  address?: string;
+  contactName?: string;
+  contactPhone?: string;
 }
 
 interface RouteResult {
-  origin?: { name: string; lat: number; lng: number };
+  origin?: { name: string; lat: number; lng: number; address?: string };
   orderedStops?: RouteStop[];
   totalDistanceKm: number;
   unoptimizedDistanceKm: number;
@@ -52,6 +61,10 @@ export default function LogisticsPortal() {
   const [routeResult, setRouteResult] = useState<RouteResult | null>(null);
   const [dispatchNotice, setDispatchNotice] = useState<string | null>(null);
   const [dispatches, setDispatches] = useState<LogisticsDispatchRecord[]>([]);
+  const [routeMode, setRouteMode] = useState<'LIVE_ORDERS' | 'SAMPLE_CIRCUIT'>('LIVE_ORDERS');
+
+  // Persistence Stores
+  const { orders } = useOrderStore();
 
   useEffect(() => {
     queueMicrotask(() => {
@@ -59,13 +72,96 @@ export default function LogisticsPortal() {
     });
   }, []);
 
-  const calculateRoute = async (selectedVehicle: string) => {
+  const calculateRoute = useCallback(async (selectedVehicle: string, mode: 'LIVE_ORDERS' | 'SAMPLE_CIRCUIT' = routeMode) => {
     setLoading(true);
     try {
+      // Build waypoints dynamically
+      let waypointsPayload: WaypointInput[] = [];
+      const originPayload = {
+        name: 'Jaipur Regional Warehousing Hub',
+        lat: 26.9124,
+        lng: 75.7873,
+      };
+
+      if (mode === 'LIVE_ORDERS' && orders.length > 0) {
+        // Collect active orders needing logistics pickup and delivery
+        const activeOrders = orders.filter((o) => o.status !== 'DELIVERED').slice(0, 6);
+        const stopsMap: WaypointInput[] = [];
+
+        activeOrders.forEach((ord, idx) => {
+          // 1. Farm Pickup Stop
+          const farmGeo = ord.farmCoordinates || geocodeAddress(ord.farmAddress || 'Phulera Farm Depot', '303338');
+          stopsMap.push({
+            id: `PICKUP-${ord.id}-${idx + 1}`,
+            name: `${ord.commodity} Farm Pickup (${ord.farmAddress || 'Rural Farm Locus'})`,
+            lat: farmGeo.lat,
+            lng: farmGeo.lng,
+            payloadKg: ord.quantityKg,
+            type: 'PICKUP',
+            address: ord.farmAddress || 'Rural Farm Locus',
+            contactName: 'Verified Producer',
+            contactPhone: '+91 98290 41029',
+          });
+
+          // 2. Consumer Doorstep Delivery Stop
+          const consGeo = ord.deliveryCoordinates || geocodeAddress(ord.shippingAddress || 'Doorstep Delivery', ord.pincode);
+          stopsMap.push({
+            id: `DROPOFF-${ord.id}-${idx + 1}`,
+            name: `${ord.buyerName || 'Consumer'} Delivery (${ord.shippingAddress || 'Doorstep'})`,
+            lat: consGeo.lat,
+            lng: consGeo.lng,
+            payloadKg: ord.quantityKg,
+            type: 'DROPOFF',
+            address: ord.shippingAddress || 'Consumer Doorstep Delivery',
+            contactName: ord.buyerName || 'Consumer Recipient',
+            contactPhone: ord.buyerPhone || '+91 98765 43210',
+          });
+        });
+
+        waypointsPayload = stopsMap;
+      }
+
+      // If no waypoints assembled from live orders, fall back to default regional farm-to-depot waypoints
+      if (waypointsPayload.length === 0) {
+        waypointsPayload = [
+          {
+            id: 'STOP-1',
+            name: 'Chomu Tomato Hub (Farm Pickup)',
+            lat: 27.1683,
+            lng: 75.7208,
+            payloadKg: 350,
+            type: 'PICKUP',
+            address: 'Chomu Mandi Link Farm #4, Jaipur Rural',
+          },
+          {
+            id: 'STOP-2',
+            name: 'Phulera Mustard Cooperative (Farm Pickup)',
+            lat: 26.8722,
+            lng: 75.2415,
+            payloadKg: 250,
+            type: 'PICKUP',
+            address: 'Khasra 412, Jaitpura Farm, Phulera Tehsil',
+          },
+          {
+            id: 'STOP-3',
+            name: 'Bassi Organic Collective (Consumer Drop-off)',
+            lat: 26.8322,
+            lng: 76.0415,
+            payloadKg: 200,
+            type: 'DROPOFF',
+            address: 'Direct Doorstep Hub, Bassi Sector 2',
+          },
+        ];
+      }
+
       const res = await fetch('/api/ai/route-optimize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ vehicleType: selectedVehicle }),
+        body: JSON.stringify({
+          vehicleType: selectedVehicle,
+          origin: originPayload,
+          waypoints: waypointsPayload,
+        }),
       });
       const data = await res.json();
       setRouteResult(data);
@@ -74,13 +170,13 @@ export default function LogisticsPortal() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [orders, routeMode]);
 
   useEffect(() => {
     queueMicrotask(() => {
-      calculateRoute(vehicle);
+      calculateRoute(vehicle, routeMode);
     });
-  }, [vehicle]);
+  }, [vehicle, routeMode, calculateRoute]);
 
   const handleDispatch = () => {
     const driver =
@@ -151,6 +247,34 @@ export default function LogisticsPortal() {
             <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs">
               <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 mb-1">{t.logistics.vehicleClassTitle}</h3>
               <p className="text-xs text-zinc-500 mb-4">{t.logistics.vehicleClassSubtitle}</p>
+
+              {/* Waypoint Routing Source Mode Toggle */}
+              <div className="mb-4 p-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 grid grid-cols-2 gap-1 text-center">
+                <button
+                  type="button"
+                  onClick={() => setRouteMode('LIVE_ORDERS')}
+                  className={`py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 ${
+                    routeMode === 'LIVE_ORDERS'
+                      ? 'bg-white dark:bg-zinc-900 text-zinc-950 dark:text-zinc-50 shadow-xs'
+                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'
+                  }`}
+                >
+                  <ShoppingBag className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Live Orders ({orders.filter((o) => o.status !== 'DELIVERED').length})</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRouteMode('SAMPLE_CIRCUIT')}
+                  className={`py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 ${
+                    routeMode === 'SAMPLE_CIRCUIT'
+                      ? 'bg-white dark:bg-zinc-900 text-zinc-950 dark:text-zinc-50 shadow-xs'
+                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'
+                  }`}
+                >
+                  <Sprout className="w-3.5 h-3.5 text-teal-600" />
+                  <span>Regional Hubs</span>
+                </button>
+              </div>
 
               <div className="space-y-2">
                 {[
@@ -293,23 +417,53 @@ export default function LogisticsPortal() {
                     </div>
                   </div>
 
-                  {routeResult.orderedStops?.map((stop: RouteStop, index: number) => (
-                    <div key={stop.id} className="flex items-start gap-3 p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
-                      <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold shrink-0">
-                        {index + 1}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <strong className="text-xs text-zinc-900 dark:text-zinc-100">{stop.name}</strong>
-                          <span className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100">+{stop.quantityKg} {t.common.kg}</span>
+                  {routeResult.orderedStops?.map((stop: RouteStop, index: number) => {
+                    const isPickup = stop.type === 'PICKUP';
+                    return (
+                      <div key={stop.id} className="flex items-start gap-3 p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                        <div
+                          className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                            isPickup
+                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300'
+                              : 'bg-teal-100 text-teal-800 dark:bg-teal-950/80 dark:text-teal-300'
+                          }`}
+                        >
+                          {index + 1}
                         </div>
-                        <div className="flex items-center justify-between mt-1 text-[11px] text-zinc-500">
-                          <span>{t.logistics.legDistance.replace('{km}', String(stop.distanceToNextKm))}</span>
-                          <span>{t.logistics.cumulativePayload.replace('{kg}', String(stop.cumulativeLoadKg))}</span>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <strong className="text-xs text-zinc-900 dark:text-zinc-100">{stop.name}</strong>
+                              <span
+                                className={`text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded-full ${
+                                  isPickup
+                                    ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                                    : 'bg-teal-50 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-800'
+                                }`}
+                              >
+                                {isPickup ? '🌱 Farm Pickup' : '📦 Doorstep Delivery'}
+                              </span>
+                            </div>
+                            <span className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100">
+                              {isPickup ? `+${stop.quantityKg}` : `-${stop.quantityKg}`} {t.common.kg}
+                            </span>
+                          </div>
+
+                          {stop.address && (
+                            <div className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-0.5 flex items-center gap-1 font-sans">
+                              <MapPin className="w-3 h-3 text-zinc-400 shrink-0" />
+                              <span className="truncate">{stop.address}</span>
+                            </div>
+                          )}
+
+                          <div className="flex items-center justify-between mt-1 text-[11px] text-zinc-500 font-mono">
+                            <span>{t.logistics.legDistance.replace('{km}', String(stop.distanceToNextKm))}</span>
+                            <span>{t.logistics.cumulativePayload.replace('{kg}', String(stop.cumulativeLoadKg))}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
                 <div className="mt-8 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-end gap-3">

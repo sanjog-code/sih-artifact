@@ -22,6 +22,9 @@ export interface ProduceLotItem {
   farmerId?: string;
   farmerName?: string;
   description?: string;
+  farmAddress?: string;
+  farmCoordinates?: { lat: number; lng: number };
+  pincode?: string;
 }
 
 export const INITIAL_PRODUCE_SEED: ProduceLotItem[] = [
@@ -39,6 +42,9 @@ export const INITIAL_PRODUCE_SEED: ProduceLotItem[] = [
     harvestDate: 'Today, 06:30 AM',
     status: 'ACTIVE',
     farmerName: 'Rameshwar Jat',
+    farmAddress: 'Khasra 412, Jaitpura Farm, Phulera Tehsil',
+    pincode: '303338',
+    farmCoordinates: { lat: 26.8722, lng: 75.2415 },
   },
   {
     id: 'LOT-MH-6204',
@@ -54,6 +60,9 @@ export const INITIAL_PRODUCE_SEED: ProduceLotItem[] = [
     harvestDate: 'Oct 01, 2026',
     status: 'ACTIVE',
     farmerName: 'Sunil Patil',
+    farmAddress: 'Plot 18, Wardha Road Farm Cluster, Nagpur',
+    pincode: '440015',
+    farmCoordinates: { lat: 21.1458, lng: 79.0882 },
   },
   {
     id: 'LOT-MP-9302',
@@ -69,6 +78,9 @@ export const INITIAL_PRODUCE_SEED: ProduceLotItem[] = [
     harvestDate: 'Sep 28, 2026',
     status: 'ACTIVE',
     farmerName: 'Bhawani Singh',
+    farmAddress: 'Dewas Highway Agrarian Locus, Ujjain',
+    pincode: '456010',
+    farmCoordinates: { lat: 23.1765, lng: 75.7885 },
   },
   {
     id: 'LOT-PB-7703',
@@ -84,6 +96,9 @@ export const INITIAL_PRODUCE_SEED: ProduceLotItem[] = [
     harvestDate: 'Oct 04, 2026',
     status: 'ACTIVE',
     farmerName: 'Harpreet Dhillon',
+    farmAddress: 'Chomu Mandi Link Farm #4, Jaipur Rural',
+    pincode: '303702',
+    farmCoordinates: { lat: 27.1683, lng: 75.7208 },
   },
   {
     id: 'LOT-UP-5104',
@@ -99,6 +114,9 @@ export const INITIAL_PRODUCE_SEED: ProduceLotItem[] = [
     harvestDate: 'Oct 05, 2026',
     status: 'ACTIVE',
     farmerName: 'Kailash Meena',
+    farmAddress: 'Fatehabad Road Farmland, Agra',
+    pincode: '282001',
+    farmCoordinates: { lat: 27.1767, lng: 78.0081 },
   },
 ];
 
