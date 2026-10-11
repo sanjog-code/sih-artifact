@@ -104,7 +104,7 @@ export const translations = {
       titleLine1: 'Transparent farm gate pricing.',
       titleLine2: 'Zero intermediary loss.',
       description:
-        'Fasal Matrix unites verified farmers, WDRA-accredited warehouses, and institutional buyers on a single transparent network with explainable AI pricing, quality grading, and guaranteed T+1 settlement.',
+        'Sell straight from your farm. Buy straight from the grower. No shady middlemen taking cuts, no price cheating — just real-time mandi AI rates, tested produce quality, and guaranteed 24-hour bank payout.',
       exploreMarket: 'Explore Produce Market',
       calculatePrice: 'Check Price Advisory',
       trustStat1: 'Live Escrow',
@@ -265,7 +265,7 @@ export const translations = {
       govPlatformFee: '✓ Transparent 1% platform escrow fee',
     },
     footer: {
-      description: 'Fasal Matrix unites verified farmers, WDRA-accredited warehouses, and institutional buyers on a single transparent network.',
+      description: 'Direct farm-to-buyer trade. Fair prices verified by live mandi AI, zero middleman cuts, and guaranteed next-day bank transfers.',
       quickLinks: 'Navigation',
       trustPillars: 'Pillars of Trust',
       compliance: 'Compliance',

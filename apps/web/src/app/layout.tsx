@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Fasal Matrix — Direct Agrarian Marketplace & Demand Intelligence',
   description:
-    'Institutional produce trading infrastructure connecting verified farmers, WDRA-accredited warehouses, and bulk buyers with explainable AI pricing and T+1 escrow settlement.',
+    'Direct farm-to-doorstep trade. Real-time mandi AI price intelligence, verified crop quality grading, and guaranteed bank payment with zero middleman deductions.',
   manifest: '/manifest.json',
   themeColor: '#16a34a',
 };
