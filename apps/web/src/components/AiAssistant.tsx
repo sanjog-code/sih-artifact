@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import { useLanguage } from '../context/LanguageContext';
 import {
   Sparkles,
@@ -13,110 +14,264 @@ import {
   Maximize2,
   Bot,
   User,
+  Mic,
+  MicOff,
+  TrendingUp,
+  Warehouse,
+  ShieldCheck,
+  CheckCircle2,
+  Clock,
+  ArrowRight,
+  RotateCcw,
+  ExternalLink,
 } from 'lucide-react';
 
 import { useAuth } from '../context/AuthContext';
 import { playSoftFemaleVoice, stopAiVoice } from '../lib/ai/tts-client';
+import PriceTrajectoryChart, { TrajectoryPoint } from './PriceTrajectoryChart';
+import { VisualArtifact } from '../lib/ai/ai-brain';
 
 interface ChatMessage {
   id: string;
   sender: 'ai' | 'user';
   text: string;
   timestamp: string;
+  visualArtifact?: VisualArtifact;
+  suggestedPrompts?: string[];
 }
 
 export default function AiAssistant() {
-  const { role } = useAuth();
-
-  // If consumer is logged in, their exclusive ConsumerAiShoppingAdvisor handles consumer guidance
-  // If farmer is logged in, their exclusive FarmerAiListingAdvisor handles farmer listing guidance
-  if (role === 'consumer' || role === 'farmer') {
-    return null;
-  }
-
   return <AiAssistantWidget />;
 }
 
 function AiAssistantWidget() {
   const { language } = useLanguage();
+  const { role, userIdentifier } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [inputText, setInputText] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [currentSpeakingId, setCurrentSpeakingId] = useState<string | null>(null);
+
+  // Speech-to-Text (STT) State
+  const [isListening, setIsListening] = useState(false);
+  const [sttSupported, setSttSupported] = useState(true);
+  const [liveTranscript, setLiveTranscript] = useState('');
+
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'welcome',
       sender: 'ai',
-      text: 'Namaste! I am Fasal Matrix AI, your agrarian advisor. Ask me about mandi modal prices, MSP statutory floors, FPO cooperatives, AGMARK grading, or accredited warehouse storage.',
+      text: `Namaste! 🙏 I am **Fasal Matrix AI**, your intelligent agrarian advisor and conversational copilot.
+
+I can help you with:
+• **Real-time Price & Demand Forecasts** with interactive charts
+• **Crop Agronomy & Storage Protocols** under WDRA standards
+• **Statutory CCEA MSP Guardrails** & RBI Nodal Escrow settlement
+• Any general query, agricultural science, or platform guidance!
+
+Ask me anything below or tap the microphone to speak!`,
       timestamp: 'Just now',
+      suggestedPrompts: [
+        'Price forecast for Wheat',
+        'Tomato price graph & trajectory',
+        'How does T+1 escrow protect me?',
+        'How to store Mustard in WDRA Silo?',
+      ],
     },
   ]);
-  const [inputText, setInputText] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, loading]);
 
-  const speakTextWithSarvamTts = async (text: string) => {
-    if (isPlayingAudio) {
-      await stopAiVoice();
-      setIsPlayingAudio(false);
+  // Initialize SpeechRecognition safely on client
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRec =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (!SpeechRec) {
+        setSttSupported(false);
+      }
+    }
+  }, []);
+
+  const startVoiceInput = () => {
+    if (!sttSupported || typeof window === 'undefined') {
+      // Browser fallback simulation if speech recognition is unavailable
+      setInputText('Show me price forecast and graph for Wheat');
       return;
     }
 
+    try {
+      const SpeechRec =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const rec = new SpeechRec();
+      rec.lang = language === 'hi' ? 'hi-IN' : 'en-IN';
+      rec.interimResults = true;
+      rec.maxAlternatives = 1;
+
+      rec.onstart = () => {
+        setIsListening(true);
+        setLiveTranscript('');
+      };
+
+      rec.onresult = (event: any) => {
+        let transcript = '';
+        for (let i = 0; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        setLiveTranscript(transcript);
+        setInputText(transcript);
+      };
+
+      rec.onerror = () => {
+        setIsListening(false);
+      };
+
+      rec.onend = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = rec;
+      rec.start();
+    } catch (e) {
+      console.warn('Speech recognition start failed:', e);
+      setIsListening(false);
+    }
+  };
+
+  const stopVoiceInput = () => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (e) {
+        // ignore
+      }
+    }
+    setIsListening(false);
+  };
+
+  const speakText = async (text: string, msgId: string) => {
+    if (isPlayingAudio && currentSpeakingId === msgId) {
+      await stopAiVoice();
+      setIsPlayingAudio(false);
+      setCurrentSpeakingId(null);
+      return;
+    }
+
+    await stopAiVoice();
     setIsPlayingAudio(true);
+    setCurrentSpeakingId(msgId);
+
+    // Strip markdown formatting before sending to TTS engine
+    const plainText = text.replace(/[*_#`[\]()]/g, ' ').replace(/\s+/g, ' ').trim();
+
     await playSoftFemaleVoice(
-      text,
+      plainText,
       language,
-      () => setIsPlayingAudio(false),
-      () => setIsPlayingAudio(false)
+      () => {
+        setIsPlayingAudio(false);
+        setCurrentSpeakingId(null);
+      },
+      () => {
+        setIsPlayingAudio(false);
+        setCurrentSpeakingId(null);
+      }
     );
   };
 
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputText.trim() || loading) return;
+  const handleSendMessage = async (textToSend?: string) => {
+    const query = (textToSend || inputText).trim();
+    if (!query || loading) return;
+
+    if (isListening) {
+      stopVoiceInput();
+    }
 
     const userMsg: ChatMessage = {
       id: `msg-${Date.now()}`,
       sender: 'user',
-      text: inputText.trim(),
+      text: query,
       timestamp: 'Just now',
     };
 
     setMessages((prev) => [...prev, userMsg]);
     setInputText('');
+    setLiveTranscript('');
     setLoading(true);
 
-    const query = userMsg.text.toLowerCase();
+    try {
+      const historyPayload = messages.slice(-6).map((m) => ({
+        role: (m.sender === 'user' ? 'user' : 'assistant') as 'user' | 'assistant',
+        content: m.text,
+      }));
 
-    // Natural agrarian domain intelligence rules
-    setTimeout(() => {
-      let reply = '';
-      if (query.includes('tomato') || query.includes('tamatar')) {
-        reply = 'Tomato prices currently hold at ₹26 - ₹29/kg in northern depots. Holding beyond 4 days incurs perishability decay under ambient temperatures. Verified cold-storage with 88% RH extends optimal shelf-life by 7 days.';
-      } else if (query.includes('wheat') || query.includes('gehu')) {
-        reply = 'Wheat (Sharbati) is trading above the statutory MSP floor of ₹22.75/kg at ₹24.50 - ₹28.00/kg. Depositing your lot at Ujjain or Jaipur WDRA Silos guarantees climate-controlled preservation and verified quality retention.';
-      } else if (query.includes('mustard') || query.includes('sarson')) {
-        reply = 'Mustard / Rapeseed is at peak market demand at ₹88.00/kg across Phulera and Jaipur hubs. Grade A1 certified lots (>40% oil content) trade at an additional ₹2.50/kg premium.';
-      } else if (query.includes('escrow') || query.includes('payment') || query.includes('payout')) {
-        reply = 'Fasal Matrix operates under an RBI-regulated node escrow. When buyers confirm a purchase, consideration is locked instantly and disbursed directly into your bank account on T+1 terms within 24 hours of destination gate pass verification.';
-      } else if (query.includes('msp') || query.includes('minimum')) {
-        reply = 'Every commodity on Fasal Matrix is bound by statutory CCEA Minimum Support Price (MSP) hard guardrails. The platform algorithmically prevents buyers from bidding below official benchmark floors.';
-      } else {
-        reply = `I have logged your agrarian query regarding "${userMsg.text}". All trades on Fasal Matrix connect directly to verified FPO cooperatives, APMC mandi arrivals, and WDRA accredited depots with zero broker cuts.`;
+      const res = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query,
+          role: role || 'guest',
+          language,
+          messages: historyPayload,
+          context: {
+            userIdentifier: userIdentifier || undefined,
+            role,
+          },
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error ${res.status}`);
       }
+
+      const data = await res.json();
 
       const aiMsg: ChatMessage = {
         id: `ai-${Date.now()}`,
         sender: 'ai',
-        text: reply,
+        text: data.response || 'I have analyzed your query.',
+        timestamp: 'Just now',
+        visualArtifact: data.visualArtifact,
+        suggestedPrompts: data.suggestedPrompts,
+      };
+
+      setMessages((prev) => [...prev, aiMsg]);
+    } catch (err) {
+      console.warn('AI chat error:', err);
+      const fallbackMsg: ChatMessage = {
+        id: `ai-${Date.now()}`,
+        sender: 'ai',
+        text: `I've analyzed your query regarding "${query}". All trades on Fasal Matrix connect directly with verified farmer clusters and WDRA warehouses with guaranteed statutory MSP floors and 0% broker fees.`,
         timestamp: 'Just now',
       };
-      setMessages((prev) => [...prev, aiMsg]);
+      setMessages((prev) => [...prev, fallbackMsg]);
+    } finally {
       setLoading(false);
-    }, 700);
+    }
+  };
+
+  const handleClearChat = () => {
+    setMessages([
+      {
+        id: 'welcome-reset',
+        sender: 'ai',
+        text: 'Chat history cleared. How can I assist you with crops, forecasts, or direct trading?',
+        timestamp: 'Just now',
+        suggestedPrompts: [
+          'Price forecast for Wheat',
+          'Tomato price graph & trajectory',
+          'How does T+1 escrow protect me?',
+          'How to store Mustard in WDRA Silo?',
+        ],
+      },
+    ]);
   };
 
   if (!isOpen) {
@@ -125,53 +280,102 @@ function AiAssistantWidget() {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 px-4 py-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-full shadow-2xl transition-all duration-300 hover:scale-105 group border border-white/20"
-          aria-label="Open Fasal Matrix AI Voice Assistant"
+          className="flex items-center gap-2.5 px-5 py-3.5 bg-zinc-950 hover:bg-zinc-900 text-white rounded-full shadow-2xl transition-all duration-300 hover:scale-105 group border border-emerald-500/30"
+          aria-label="Open Fasal Matrix Realtime AI Assistant"
         >
-          <div className="w-6 h-6 rounded-full bg-emerald-500 dark:bg-emerald-400 text-zinc-950 flex items-center justify-center font-bold text-xs">
-            <Sparkles className="w-3.5 h-3.5 text-zinc-950" />
+          <div className="w-7 h-7 rounded-full bg-emerald-500 text-zinc-950 flex items-center justify-center font-bold text-xs shadow-md">
+            <Sparkles className="w-4 h-4 text-zinc-950 animate-pulse" />
           </div>
-          <span className="text-xs font-bold tracking-tight">Fasal Matrix AI</span>
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <div className="flex flex-col text-left">
+            <span className="text-xs font-black tracking-tight flex items-center gap-1.5">
+              Fasal Matrix AI
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            </span>
+            <span className="text-[10px] text-zinc-400 font-medium">Real-Time Talking Copilot</span>
+          </div>
         </button>
       </div>
     );
   }
 
+  const containerWidthClass = isExpanded
+    ? 'w-[720px] max-w-[calc(100vw-2rem)]'
+    : 'w-[440px] max-w-[calc(100vw-2rem)]';
+
+  const containerHeightClass = isExpanded ? 'h-[720px] max-h-[88vh]' : 'h-[580px] max-h-[82vh]';
+
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-[360px] sm:w-[400px] max-w-[calc(100vw-2rem)]">
-      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300">
+    <div className={`fixed bottom-6 right-6 z-50 ${containerWidthClass} transition-all duration-300`}>
+      <div
+        className={`bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden ${
+          isMinimized ? 'h-auto' : containerHeightClass
+        }`}
+      >
         {/* Header */}
         <div className="p-4 bg-zinc-950 text-white flex items-center justify-between border-b border-zinc-800">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-emerald-500 text-zinc-950 flex items-center justify-center font-bold">
-              <Bot className="w-4 h-4" />
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 text-zinc-950 flex items-center justify-center font-bold shadow-md">
+                <Bot className="w-5 h-5 text-zinc-950" />
+              </div>
+              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-zinc-950"></span>
             </div>
             <div>
-              <div className="text-xs font-extrabold flex items-center gap-1.5">
-                <span>Fasal Matrix AI Agrarian Advisor</span>
-                <span className="px-1.5 py-0.2 rounded-full bg-emerald-950 text-emerald-400 text-[9px] font-mono border border-emerald-800">
-                  Sarvam TTS Active
+              <div className="text-xs font-black flex items-center gap-2">
+                <span>Fasal Matrix AI Assistant</span>
+                <span className="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 text-[9px] font-mono border border-emerald-800 font-bold">
+                  Gemini & ML Calibrated
                 </span>
               </div>
-              <div className="text-[10px] text-zinc-400">
-                MSP floors & APMC price intelligence
+              <div className="text-[10px] text-zinc-400 flex items-center gap-2">
+                <span>Real-Time Voice & Forecasts</span>
+                {isPlayingAudio && (
+                  <span className="flex items-center gap-1 text-emerald-400 font-semibold animate-pulse">
+                    <span className="w-1 h-3 bg-emerald-400 rounded-full animate-bounce"></span>
+                    <span className="w-1 h-4 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.15s]"></span>
+                    <span className="w-1 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.3s]"></span>
+                    Speaking
+                  </span>
+                )}
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-1">
+            {/* Clear Chat */}
+            <button
+              type="button"
+              onClick={handleClearChat}
+              className="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition"
+              title="Clear Chat"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
+            {/* Expand / Narrow */}
+            <button
+              type="button"
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition hidden sm:block"
+              title={isExpanded ? 'Compact View' : 'Expanded View'}
+            >
+              <Maximize2 className="w-3.5 h-3.5" />
+            </button>
+            {/* Minimize */}
             <button
               type="button"
               onClick={() => setIsMinimized(!isMinimized)}
               className="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition"
               title={isMinimized ? 'Expand' : 'Minimize'}
             >
-              {isMinimized ? <Maximize2 className="w-3.5 h-3.5" /> : <Minimize2 className="w-3.5 h-3.5" />}
+              <Minimize2 className="w-3.5 h-3.5" />
             </button>
+            {/* Close */}
             <button
               type="button"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                stopAiVoice();
+                setIsOpen(false);
+              }}
               className="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition"
               title="Close"
             >
@@ -183,43 +387,158 @@ function AiAssistantWidget() {
         {!isMinimized && (
           <>
             {/* Messages Body */}
-            <div className="p-4 h-80 overflow-y-auto space-y-3 bg-[#fafafa] dark:bg-zinc-950 text-xs">
+            <div className="p-4 flex-1 overflow-y-auto space-y-4 bg-zinc-50/70 dark:bg-zinc-950/70 text-xs">
               {messages.map((m) => (
                 <div
                   key={m.id}
-                  className={`flex gap-2.5 ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex gap-3 ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   {m.sender === 'ai' && (
-                    <div className="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
-                      <Bot className="w-3.5 h-3.5" />
+                    <div className="w-7 h-7 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5 border border-emerald-500/20">
+                      <Bot className="w-4 h-4" />
                     </div>
                   )}
 
                   <div
-                    className={`p-3 rounded-2xl max-w-[82%] leading-relaxed ${
+                    className={`p-4 rounded-3xl max-w-[88%] leading-relaxed ${
                       m.sender === 'user'
-                        ? 'bg-zinc-900 dark:bg-emerald-600 text-white rounded-br-none shadow-xs'
-                        : 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-800 rounded-bl-none shadow-xs'
+                        ? 'bg-zinc-900 dark:bg-emerald-600 text-white rounded-br-xs shadow-md'
+                        : 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-200/80 dark:border-zinc-800 rounded-bl-xs shadow-sm'
                     }`}
                   >
-                    <p>{m.text}</p>
+                    {/* Message Text with simple Markdown formatting */}
+                    <div className="whitespace-pre-line font-normal space-y-2">
+                      {m.text}
+                    </div>
+
+                    {/* Inline Visual Artifact: Price Forecast & Chart */}
+                    {m.visualArtifact?.type === 'price_forecast' && m.visualArtifact.forecastData && (
+                      <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-xs flex items-center gap-1.5 text-zinc-900 dark:text-zinc-100">
+                            <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                            {m.visualArtifact.title}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-400 text-[10px] font-bold">
+                            {m.visualArtifact.forecastData.demandSignal.replace('_', ' ')}
+                          </span>
+                        </div>
+
+                        {/* Interactive SVG Chart */}
+                        <div className="rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-2">
+                          <PriceTrajectoryChart
+                            commodity={m.visualArtifact.forecastData.commodity}
+                            currentModalPrice={m.visualArtifact.forecastData.currentModalPrice}
+                            predictedPrice={m.visualArtifact.forecastData.predictedPrice}
+                            mspFloor={m.visualArtifact.forecastData.mspFloor}
+                            trajectory={m.visualArtifact.forecastData.trajectory}
+                            demandSignal={m.visualArtifact.forecastData.demandSignal}
+                            confidenceScore={m.visualArtifact.forecastData.confidenceScore}
+                          />
+                        </div>
+
+                        {/* Metric Highlights Grid */}
+                        {m.visualArtifact.metrics && (
+                          <div className="grid grid-cols-2 gap-2 pt-1">
+                            {m.visualArtifact.metrics.map((metric, idx) => (
+                              <div
+                                key={idx}
+                                className="p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-100 dark:border-zinc-700/60"
+                              >
+                                <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium">
+                                  {metric.label}
+                                </div>
+                                <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
+                                  {metric.value}
+                                </div>
+                                {metric.delta && (
+                                  <div
+                                    className={`text-[9px] font-medium mt-0.5 ${
+                                      metric.sentiment === 'positive'
+                                        ? 'text-emerald-600 dark:text-emerald-400'
+                                        : metric.sentiment === 'negative'
+                                        ? 'text-red-500'
+                                        : 'text-zinc-400'
+                                    }`}
+                                  >
+                                    {metric.delta}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Inline Visual Artifact: Shelf Life & Storage */}
+                    {m.visualArtifact?.type === 'shelf_life' && m.visualArtifact.shelfLifeData && (
+                      <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 space-y-3">
+                        <div className="flex items-center gap-1.5 font-bold text-xs text-zinc-900 dark:text-zinc-100">
+                          <Warehouse className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                          {m.visualArtifact.title}
+                        </div>
+
+                        {m.visualArtifact.metrics && (
+                          <div className="grid grid-cols-2 gap-2">
+                            {m.visualArtifact.metrics.map((metric, idx) => (
+                              <div
+                                key={idx}
+                                className="p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-100 dark:border-zinc-700/60"
+                              >
+                                <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium">
+                                  {metric.label}
+                                </div>
+                                <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
+                                  {metric.value}
+                                </div>
+                                {metric.delta && (
+                                  <div className="text-[9px] text-emerald-600 dark:text-emerald-400 font-medium">
+                                    {metric.delta}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Action Links */}
+                    {m.visualArtifact?.actionLinks && m.visualArtifact.actionLinks.length > 0 && (
+                      <div className="mt-3 pt-2 flex flex-wrap gap-2">
+                        {m.visualArtifact.actionLinks.map((link, idx) => (
+                          <Link
+                            key={idx}
+                            href={link.href}
+                            onClick={() => setIsOpen(false)}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[11px] font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 hover:opacity-90 transition"
+                          >
+                            <span>{link.label}</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Footer with Timestamp & Voice Reader */}
                     {m.sender === 'ai' && (
-                      <div className="mt-2 pt-1.5 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
-                        <span className="text-[10px] text-zinc-400">{m.timestamp}</span>
+                      <div className="mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
+                        <span className="text-[10px] text-zinc-400 font-medium">{m.timestamp}</span>
                         <button
                           type="button"
-                          onClick={() => speakTextWithSarvamTts(m.text)}
-                          className="text-[10px] text-emerald-700 dark:text-emerald-400 font-semibold hover:underline flex items-center gap-1"
+                          onClick={() => speakText(m.text, m.id)}
+                          className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1.5"
                         >
-                          {isPlayingAudio ? (
+                          {isPlayingAudio && currentSpeakingId === m.id ? (
                             <>
-                              <VolumeX className="w-3 h-3 text-red-500" />
-                              <span>Stop Voice</span>
+                              <VolumeX className="w-3.5 h-3.5 text-red-500" />
+                              <span className="text-red-500">Stop Voice</span>
                             </>
                           ) : (
                             <>
-                              <Volume2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-                              <span>Listen via Sarvam TTS</span>
+                              <Volume2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                              <span>Listen Response</span>
                             </>
                           )}
                         </button>
@@ -228,61 +547,104 @@ function AiAssistantWidget() {
                   </div>
 
                   {m.sender === 'user' && (
-                    <div className="w-6 h-6 rounded-lg bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 flex items-center justify-center shrink-0 mt-0.5">
-                      <User className="w-3.5 h-3.5" />
+                    <div className="w-7 h-7 rounded-xl bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 flex items-center justify-center shrink-0 mt-0.5">
+                      <User className="w-4 h-4" />
                     </div>
                   )}
                 </div>
               ))}
 
+              {/* Dynamic Suggested Prompts */}
+              {messages.length > 0 &&
+                messages[messages.length - 1].sender === 'ai' &&
+                messages[messages.length - 1].suggestedPrompts && (
+                  <div className="pt-2">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
+                      Suggested Next Inquiries
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {messages[messages.length - 1].suggestedPrompts!.map((prompt, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => handleSendMessage(prompt)}
+                          className="text-left px-2.5 py-1 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-emerald-500 text-zinc-700 dark:text-zinc-300 text-[11px] transition hover:shadow-xs"
+                        >
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
               {loading && (
-                <div className="flex gap-2 items-center text-zinc-500 italic">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  <span>Computing APMC advisory...</span>
+                <div className="flex gap-2.5 items-center text-zinc-500 dark:text-zinc-400 text-xs py-2">
+                  <div className="w-7 h-7 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center animate-spin">
+                    <Loader2 className="w-4 h-4" />
+                  </div>
+                  <span className="animate-pulse">Reasoning over APMC clearing data & generating forecast...</span>
                 </div>
               )}
 
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Quick Query Suggestions */}
-            <div className="px-3 py-2 bg-white dark:bg-zinc-900 border-t border-zinc-100 dark:border-zinc-800 flex gap-1.5 overflow-x-auto text-[11px] scrollbar-none">
-              <button
-                type="button"
-                onClick={() => setInputText('What is the MSP floor for Wheat?')}
-                className="px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 text-zinc-700 dark:text-zinc-300 whitespace-nowrap transition"
-              >
-                Wheat MSP
-              </button>
-              <button
-                type="button"
-                onClick={() => setInputText('How does the T+1 escrow payout work?')}
-                className="px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 text-zinc-700 dark:text-zinc-300 whitespace-nowrap transition"
-              >
-                Escrow Rules
-              </button>
-              <button
-                type="button"
-                onClick={() => setInputText('Tell me about Mustard market demand')}
-                className="px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 text-zinc-700 dark:text-zinc-300 whitespace-nowrap transition"
-              >
-                Mustard Demand
-              </button>
-            </div>
+            {/* Listening Feedback Banner */}
+            {isListening && (
+              <div className="px-4 py-2 bg-emerald-50 dark:bg-emerald-950/80 border-t border-emerald-200 dark:border-emerald-800 flex items-center justify-between text-xs text-emerald-800 dark:text-emerald-300 animate-pulse">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+                  <span className="font-bold">Listening... Speak now</span>
+                </div>
+                {liveTranscript && (
+                  <span className="italic truncate max-w-[200px]">"{liveTranscript}"</span>
+                )}
+                <button
+                  type="button"
+                  onClick={stopVoiceInput}
+                  className="px-2 py-0.5 rounded bg-red-600 text-white text-[10px] font-bold"
+                >
+                  Stop
+                </button>
+              </div>
+            )}
 
-            {/* Input Form */}
-            <form onSubmit={handleSendMessage} className="p-3 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 flex items-center gap-2">
+            {/* Input Form with Voice STT & Send */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSendMessage();
+              }}
+              className="p-3 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 flex items-center gap-2"
+            >
               <input
                 type="text"
-                placeholder="Ask about crops, prices, escrows..."
+                placeholder={isListening ? 'Listening to voice...' : 'Ask anything, request graphs, or speak...'}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                className="flex-1 text-xs px-3 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                className="flex-1 text-xs px-3.5 py-2.5 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-2xl text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
               />
+
+              {/* Voice Input Mic Button */}
+              <button
+                type="button"
+                onClick={isListening ? stopVoiceInput : startVoiceInput}
+                className={`p-2.5 rounded-2xl transition ${
+                  isListening
+                    ? 'bg-red-600 text-white animate-pulse'
+                    : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-950 dark:hover:text-emerald-400'
+                }`}
+                title={isListening ? 'Stop listening' : 'Speak via microphone'}
+              >
+                {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+              </button>
+
+              {/* Send Button */}
               <button
                 type="submit"
                 disabled={!inputText.trim() || loading}
-                className="p-2 bg-zinc-900 hover:bg-zinc-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-xl transition disabled:opacity-40"
+                className="p-2.5 bg-zinc-950 hover:bg-zinc-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-2xl transition disabled:opacity-30 disabled:cursor-not-allowed shadow-md"
+                title="Send message"
               >
                 <Send className="w-4 h-4" />
               </button>

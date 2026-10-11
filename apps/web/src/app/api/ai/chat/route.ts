@@ -1,38 +1,61 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdvisorTranslations } from '@/lib/ai/multilingual-advisors';
+import { processAiQuery, extractCropFromText, VisualArtifact } from '@/lib/ai/ai-brain';
 
 interface ChatRequest {
-  role: 'farmer' | 'buyer' | 'consumer';
-  language: string;
-  query: string;
-  context?: {
-    crop?: string;
-    stage?: string;
-    quantityKg?: number;
-    price?: number;
-    frequency?: string;
-  };
+  role?: string;
+  language?: string;
+  query?: string;
+  messages?: Array<{ role: 'user' | 'assistant'; content: string }>;
+  context?: Record<string, unknown>;
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body: ChatRequest = await request.json();
-    const { role = 'farmer', language = 'en', query = '', context = {} } = body;
+    const { role = 'guest', language = 'en', query, messages = [], context = {} } = body;
 
-    const t = getAdvisorTranslations(language);
+    // Resolve active prompt from query or latest user message
+    let activeQuery = (query || '').trim();
+    if (!activeQuery && messages.length > 0) {
+      const lastUserMsg = [...messages].reverse().find((m) => m.role === 'user');
+      if (lastUserMsg) {
+        activeQuery = lastUserMsg.content.trim();
+      }
+    }
+
+    if (!activeQuery) {
+      return NextResponse.json({
+        success: true,
+        response: 'Hello! I am Fasal Matrix AI. How can I help you today with crops, market prices, or platform workflows?',
+        role,
+        language,
+      });
+    }
+
+    // Step 1: Execute domain reasoning and visual artifact synthesis
+    const brainResult = await processAiQuery({
+      query: activeQuery,
+      role,
+      language,
+      history: messages,
+      context,
+    });
+
     const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 
-    // If a live Gemini API key is configured, call the Google Generative AI API
+    // Step 2: If Gemini API key is available, leverage Google Gemini 2.5 Flash for generative flair
     if (apiKey) {
       try {
-        const systemPrompt = `You are Fasal Matrix AI Assistant, an agricultural procurement and direct trading advisor in India.
-Current User Role: ${role}.
-Target Language: ISO code "${language}".
-Tone: Polite, respectful, clear, soft, informative, and warm (Juniper persona).
-Statutory Rule: Minimum Support Price (MSP) set by CACP is the inviolable legal floor. Prices can NEVER be negotiated below MSP.
-Brokerage: 0% middleman deduction.
-Escrow: T+1 bank settlement.
-Respond directly in natural ${language} language without markdown fluff. Keep responses concise (under 80 words).`;
+        const detectedCrop = brainResult.detectedCrop || extractCropFromText(activeQuery);
+        const systemPrompt = `You are Fasal Matrix AI Assistant, an advanced agrarian intelligence copilot and universal conversational chatbot in India (similar to Google Gemini / ChatGPT with deep agricultural grounding).
+User Role: ${role}.
+Language: ${language}.
+Statutory Rules:
+- Minimum Support Price (MSP) set by CCEA/CACP is the inviolable legal floor.
+- Trades connect directly from farmgate/FPOs to buyers with 0% broker deductions.
+- Payments are secured by RBI-compliant nodal escrow with T+1 bank disbursement.
+- When explaining forecasts or market prices for crops, be articulate, structured, and informative.
+- If the user asks a general query or chit-chat, reply naturally, intelligently, and warmly.`;
 
         const geminiRes = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
@@ -45,14 +68,14 @@ Respond directly in natural ${language} language without markdown fluff. Keep re
                   role: 'user',
                   parts: [
                     {
-                      text: `${systemPrompt}\n\nUser Query: ${query}\nContext: ${JSON.stringify(context)}`,
+                      text: `${systemPrompt}\n\nUser Question: ${activeQuery}\nDetected Crop Context: ${detectedCrop || 'None'}\nReference Model Insights:\n${brainResult.text}`,
                     },
                   ],
                 },
               ],
               generationConfig: {
-                temperature: 0.3,
-                maxOutputTokens: 250,
+                temperature: 0.4,
+                maxOutputTokens: 600,
               },
             }),
           }
@@ -64,46 +87,31 @@ Respond directly in natural ${language} language without markdown fluff. Keep re
           if (generatedText && generatedText.trim().length > 0) {
             return NextResponse.json({
               success: true,
-              source: 'gemini-live',
+              source: 'gemini-2.5-flash',
               response: generatedText.trim(),
-              language,
+              visualArtifact: brainResult.visualArtifact,
+              suggestedPrompts: brainResult.suggestedPrompts,
+              detectedCrop: brainResult.detectedCrop,
               role,
+              language,
             });
           }
         }
       } catch (geminiError) {
-        console.warn('Gemini API call fallback:', geminiError);
+        console.warn('Gemini live call error, falling back to autonomous brain:', geminiError);
       }
     }
 
-    // High-performance localized deterministic engine supporting all 22 languages
-    let localizedResponse = '';
-    if (role === 'farmer') {
-      if (context.crop) {
-        localizedResponse = `${t.farmer.timingPrompt} (${context.crop})`;
-      } else {
-        localizedResponse = t.farmer.welcome;
-      }
-    } else if (role === 'buyer') {
-      if (context.crop) {
-        localizedResponse = `${t.buyer.volumePrompt} (${context.crop})`;
-      } else {
-        localizedResponse = t.buyer.welcome;
-      }
-    } else {
-      if (context.crop) {
-        localizedResponse = `${t.consumer.qtyPrompt} (${context.crop})`;
-      } else {
-        localizedResponse = t.consumer.welcome;
-      }
-    }
-
+    // Step 3: Return high-capability autonomous brain response with visual artifacts
     return NextResponse.json({
       success: true,
-      source: 'local-multilingual-engine',
-      response: localizedResponse,
-      language,
+      source: 'autonomous-agrarian-brain',
+      response: brainResult.text,
+      visualArtifact: brainResult.visualArtifact,
+      suggestedPrompts: brainResult.suggestedPrompts,
+      detectedCrop: brainResult.detectedCrop,
       role,
+      language,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'AI Chat request failed';
