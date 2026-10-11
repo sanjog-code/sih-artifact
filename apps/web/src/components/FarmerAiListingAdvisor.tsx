@@ -126,7 +126,7 @@ const CROP_ADVISORY_DATA: Record<
     practices: [
       'Careful mechanical threshing at low cylinder speed to prevent seed-coat split',
       'Grading for uniform bean size and zero split kernels',
-      'Moisture balancing under 10% for e-NWR warehouse certification',
+      'Moisture balancing under 10% for WDRA warehouse certification',
     ],
     implements: [
       'Rubber-roller low-impact thresher',

@@ -280,7 +280,7 @@ const ABOUT_SRC = readSrc('apps/web/src/app/about/page.tsx');
 
 const ABOUT_ANCHORS = [
   ['WDRA (via i18n key)',        /t\.about\.wdra|wdra/i],
-  ['e-NWR (via i18n key)',       /e-NWR|eNWR|t\.about\.enwr/i],
+  ['Warehousing / Storage',      /warehouse|storag|vault/i],
   ['MSP (via i18n key)',         /MSP|t\.about\.msp/i],
   ['escrow (via i18n key)',      /escrow/i],
   ['traceability (via i18n key)',/traceab|t\.about\.trace|cryptoAuditTrail|auditTrail/i],

@@ -64,7 +64,7 @@ export default function KycVerificationModal({ isOpen, onClose }: KycVerificatio
               Instant Farmer KYC & Penny-Drop
             </h3>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 mb-6">
-              Connect your verified bank account for instantaneous escrow release payouts and WDRA e-NWR pledges.
+              Connect your verified bank account for instantaneous escrow release payouts and direct farm settlements.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">

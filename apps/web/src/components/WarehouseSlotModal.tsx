@@ -85,7 +85,7 @@ export default function WarehouseSlotModal({
               Warehouse Slot Booking
             </h3>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 mb-6">
-              Reserve a dedicated unloading dock at an accredited depot to eliminate tractor queue times and generate e-NWR pledge receipts.
+              Reserve a dedicated unloading dock at an accredited depot to eliminate tractor queue times and secure certified vault storage.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -222,7 +222,7 @@ export default function WarehouseSlotModal({
               Slot <strong>#{bookedSlotId}</strong> reserved at <strong>{selectedDepot}</strong> ({selectedDock}) for {scheduledDate} between {timeSlot}.
             </p>
             <div className="mt-4 p-3 bg-zinc-50 dark:bg-zinc-800 rounded-xl text-[11px] font-mono text-zinc-600 dark:text-zinc-400">
-              e-NWR Gatepass Generated • Priority Unloading Active
+              Gatepass Generated • Priority Unloading Active
             </div>
 
             <button

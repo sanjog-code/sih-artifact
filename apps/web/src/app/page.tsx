@@ -118,7 +118,7 @@ export default function Home() {
 
   const handleHoldAction = () => {
     setActionNotice(
-      `Holding order logged: Storing ${selectedCrop} for ${holdingDays} days with e-NWR pledge facility at Phulera Depot #3.`
+      `Holding order logged: Storing ${selectedCrop} for ${holdingDays} days with certified vault storage at Phulera Depot #3.`
     );
     setTimeout(() => setActionNotice(null), 5000);
   };

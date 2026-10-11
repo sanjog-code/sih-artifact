@@ -30,7 +30,7 @@ export default function AboutPage() {
     e.preventDefault();
     if (!licenseQuery.trim()) return;
     setVerifiedResult(
-      `✓ Verified: Depot #${licenseQuery.trim()} is officially accredited with active automated grade assaying and e-NWR pledge facility.`
+      `✓ Verified: Depot #${licenseQuery.trim()} is officially accredited with active automated grade assaying and cold-chain vault storage.`
     );
   };
 
@@ -164,7 +164,7 @@ export default function AboutPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-transparent to-transparent"></div>
                 <span className="absolute bottom-3 left-3 text-[10px] font-mono font-bold uppercase text-blue-300 bg-blue-950/80 backdrop-blur-md border border-blue-700/50 px-2 py-0.5 rounded-full">
-                  WDRA & e-NWR Depots
+                  WDRA Accredited Depots
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">

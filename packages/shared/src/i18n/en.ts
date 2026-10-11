@@ -51,7 +51,7 @@ export const en = {
     pickup: 'Request pickup',
     lots: 'My lots',
     insights: 'Price insights',
-    finance: 'Finance & e-NWR enquiry',
+    finance: 'Finance & credit enquiry',
     decisions: 'Sell now / Hold / Quote / List',
     consent: 'Consent history',
     notifications: 'Notifications',

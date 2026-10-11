@@ -54,7 +54,7 @@ export const INITIAL_SLOT_SEED: WarehouseSlotBooking[] = [
 ];
 
 export interface WarehouseReceipt {
-  id: string; // e.g. "ENWR-RJ-901"
+  id: string; // e.g. "WDRA-RJ-901"
   lotId: string;
   commodity: string;
   quantityKg: number;
@@ -72,7 +72,7 @@ export interface WarehouseReceipt {
 
 export const INITIAL_WAREHOUSE_SEED: WarehouseReceipt[] = [
   {
-    id: 'ENWR-RJ-901',
+    id: 'WDRA-RJ-901',
     lotId: 'LOT-PB-7703',
     commodity: 'Mustard / Rapeseed',
     quantityKg: 18500,
@@ -88,7 +88,7 @@ export const INITIAL_WAREHOUSE_SEED: WarehouseReceipt[] = [
     status: 'PLEDGED',
   },
   {
-    id: 'ENWR-MP-902',
+    id: 'WDRA-MP-902',
     lotId: 'LOT-MP-9302',
     commodity: 'Wheat Sharbati',
     quantityKg: 32000,
@@ -193,7 +193,7 @@ export const warehouseStore = {
   recordIntake(receipt: Partial<WarehouseReceipt>): WarehouseReceipt {
     const current = safeGetLocalStorage();
     const newReceipt: WarehouseReceipt = {
-      id: receipt.id || `ENWR-${Date.now().toString().slice(-4)}`,
+      id: receipt.id || `WDRA-${Date.now().toString().slice(-4)}`,
       lotId: receipt.lotId || `LOT-GEN-${Date.now().toString().slice(-4)}`,
       commodity: receipt.commodity || 'Agricultural Produce',
       quantityKg: Number(receipt.quantityKg || 5000),

@@ -45,7 +45,7 @@ function AiAssistantWidget() {
     {
       id: 'welcome',
       sender: 'ai',
-      text: 'Namaste! I am Fasal Matrix AI, your agrarian advisor. Ask me about mandi modal prices, MSP statutory floors, FPO cooperatives, AGMARK grading, or cold-storage e-NWR pledges.',
+      text: 'Namaste! I am Fasal Matrix AI, your agrarian advisor. Ask me about mandi modal prices, MSP statutory floors, FPO cooperatives, AGMARK grading, or accredited warehouse storage.',
       timestamp: 'Just now',
     },
   ]);
@@ -97,7 +97,7 @@ function AiAssistantWidget() {
       if (query.includes('tomato') || query.includes('tamatar')) {
         reply = 'Tomato prices currently hold at ₹26 - ₹29/kg in northern depots. Holding beyond 4 days incurs perishability decay under ambient temperatures. Verified cold-storage with 88% RH extends optimal shelf-life by 7 days.';
       } else if (query.includes('wheat') || query.includes('gehu')) {
-        reply = 'Wheat (Sharbati) is trading above the statutory MSP floor of ₹22.75/kg at ₹24.50 - ₹28.00/kg. Depositing your lot at Ujjain or Jaipur WDRA Silos allows unlocking up to 50% instant liquidity via partner bank e-NWR escrows.';
+        reply = 'Wheat (Sharbati) is trading above the statutory MSP floor of ₹22.75/kg at ₹24.50 - ₹28.00/kg. Depositing your lot at Ujjain or Jaipur WDRA Silos guarantees climate-controlled preservation and verified quality retention.';
       } else if (query.includes('mustard') || query.includes('sarson')) {
         reply = 'Mustard / Rapeseed is at peak market demand at ₹88.00/kg across Phulera and Jaipur hubs. Grade A1 certified lots (>40% oil content) trade at an additional ₹2.50/kg premium.';
       } else if (query.includes('escrow') || query.includes('payment') || query.includes('payout')) {

@@ -68,7 +68,7 @@ export function runF02PersistenceTests(harness) {
       expect.equal(found.status, 'ACCEPTED', 'Persisted RFQ should have ACCEPTED status');
     });
 
-    harness.it('F02-T1.4: WarehouseStore pledges e-NWR warehouse receipts', () => {
+    harness.it('F02-T1.4: WarehouseStore pledges WDRA warehouse receipts', () => {
       setup();
       const receipt = engine.WarehouseStore.pledgeReceipt({
         id: 'NWR-TEST-101',

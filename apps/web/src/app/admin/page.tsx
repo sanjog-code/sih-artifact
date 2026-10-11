@@ -527,7 +527,7 @@ export default function AdminConsolePage() {
               <div>
                 <h3 className="text-base font-bold text-zinc-950 dark:text-white flex items-center gap-2">
                   <Warehouse className="w-4 h-4 text-purple-600" />
-                  <span>Depot Unloading Slots & e-NWR Pre-Pledges</span>
+                  <span>Depot Unloading Slots & Vault Storage</span>
                 </h3>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">
                   Scheduled tractor/truck dock appointments across WDRA accredited hubs.
@@ -579,7 +579,7 @@ export default function AdminConsolePage() {
                         onClick={() => updateSlotStatus(slot.id, 'COMPLETED')}
                         className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold transition-colors"
                       >
-                        Complete Intake & Generate e-NWR
+                        Complete Intake & Store Lot
                       </button>
                     )}
                   </div>
