@@ -66,12 +66,22 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans flex flex-col selection:bg-emerald-500/20 selection:text-emerald-950 dark:selection:text-emerald-100 transition-colors relative overflow-hidden">
-      {/* Circuit Board / Mesh Grid Subtle Backdrop (Fintech SaaS Template Inspiration) */}
+      {/* Dynamic Photographic Backdrop with Agrarian Landscape & Circuit Blend */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] dark:bg-[radial-gradient(#059669_1px,transparent_1px)] [background-size:28px_28px] opacity-15"></div>
-        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-emerald-500/10 dark:bg-emerald-600/15 blur-3xl transform-gpu"></div>
-        <div className="absolute top-1/3 -right-40 w-96 h-96 rounded-full bg-teal-500/10 dark:bg-teal-600/10 blur-3xl transform-gpu"></div>
-        <div className="absolute bottom-10 left-1/4 w-80 h-80 rounded-full bg-emerald-500/5 dark:bg-emerald-500/10 blur-3xl transform-gpu"></div>
+        <Image
+          src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=2000&q=85"
+          alt="Agrarian Golden Harvest Fields"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center opacity-25 dark:opacity-20 scale-105 filter blur-[2px]"
+        />
+        {/* Multilayered Gradient Scrim for crisp text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-zinc-50/90 via-zinc-50/80 to-zinc-50/95 dark:from-zinc-950/92 dark:via-zinc-950/85 dark:to-zinc-950/95" />
+        <div className="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] dark:bg-[radial-gradient(#059669_1px,transparent_1px)] [background-size:32px_32px] opacity-20"></div>
+        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-emerald-500/15 dark:bg-emerald-600/20 blur-3xl transform-gpu"></div>
+        <div className="absolute top-1/3 -right-40 w-96 h-96 rounded-full bg-teal-500/15 dark:bg-teal-600/15 blur-3xl transform-gpu"></div>
+        <div className="absolute bottom-10 left-1/4 w-80 h-80 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 blur-3xl transform-gpu"></div>
       </div>
 
       <Navbar onOpenInquiry={() => setInquiryOpen(true)} />
@@ -175,22 +185,36 @@ export default function AboutPage() {
         {/* =================================================================== */}
         {/* SATIN FEATURE PANEL: Core Cause & Mission Statement                */}
         {/* =================================================================== */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-          <div className="backdrop-blur-2xl bg-white/80 dark:bg-zinc-900/80 rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 p-6 sm:p-12 shadow-sm transition-all">
-            <div className="max-w-3xl">
-              <span className="text-xs uppercase font-mono tracking-wider text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{t.about.coreCauseBadge}</span>
-              </span>
+        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative">
+          <div className="relative rounded-3xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 shadow-md">
+            {/* Photographic Underlay */}
+            <div className="absolute inset-0 z-0">
+              <Image
+                src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80"
+                alt="Agrarian Logistics and Grain Depots"
+                fill
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                className="object-cover object-center opacity-20 dark:opacity-15 filter blur-[1px]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/90 to-white/95 dark:from-zinc-950/95 dark:via-zinc-950/90 dark:to-zinc-950/95" />
+            </div>
 
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-2 mb-6 tracking-tight">
-                {t.about.missionTitle}
-              </h2>
+            <div className="relative z-10 backdrop-blur-md p-6 sm:p-12">
+              <div className="max-w-3xl">
+                <span className="text-xs uppercase font-mono tracking-wider text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{t.about.coreCauseBadge}</span>
+                </span>
 
-              <div className="space-y-4 text-zinc-600 dark:text-zinc-300 text-sm sm:text-base leading-relaxed">
-                <p>{t.about.missionText1}</p>
-                <div className="font-medium text-zinc-800 dark:text-zinc-200 backdrop-blur-md bg-zinc-100/70 dark:bg-zinc-950/60 p-5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-2xs">
-                  {t.about.missionText2}
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-2 mb-6 tracking-tight">
+                  {t.about.missionTitle}
+                </h2>
+
+                <div className="space-y-4 text-zinc-600 dark:text-zinc-300 text-sm sm:text-base leading-relaxed">
+                  <p>{t.about.missionText1}</p>
+                  <div className="font-medium text-zinc-800 dark:text-zinc-200 backdrop-blur-md bg-white/80 dark:bg-zinc-900/80 p-5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-2xs">
+                    {t.about.missionText2}
+                  </div>
                 </div>
               </div>
             </div>
@@ -448,23 +472,37 @@ export default function AboutPage() {
         {/* PLATFORM PLEDGE & ZERO COMMISSION ARCHITECTURE                     */}
         {/* =================================================================== */}
         <section id="governance" className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto scroll-mt-24">
-          <div className="backdrop-blur-xl bg-white/70 dark:bg-zinc-900/70 border border-zinc-200/80 dark:border-zinc-800/80 rounded-3xl p-8 text-center space-y-4 shadow-xs">
-            <h3 className="text-xl sm:text-2xl font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">
-              {t.about.governanceTitle}
-            </h3>
-            <p className="text-sm text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto leading-relaxed">
-              {t.about.governanceDesc}
-            </p>
-            <div className="pt-4 flex flex-wrap justify-center gap-3">
-              <span className="px-3.5 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-medium border border-zinc-200 dark:border-zinc-700 shadow-xs">
-                {t.about.govNoProprietary}
-              </span>
-              <span className="px-3.5 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-medium border border-zinc-200 dark:border-zinc-700 shadow-xs">
-                {t.about.govNoHiddenCharges}
-              </span>
-              <span className="px-3.5 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-medium border border-zinc-200 dark:border-zinc-700 shadow-xs">
-                {t.about.govPlatformFee}
-              </span>
+          <div className="relative rounded-3xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm">
+            {/* Photographic Underlay */}
+            <div className="absolute inset-0 z-0">
+              <Image
+                src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=1600&q=80"
+                alt="Golden Agrarian Fields Governance"
+                fill
+                sizes="(max-width: 896px) 100vw, 896px"
+                className="object-cover object-center opacity-15 dark:opacity-10 filter blur-[1px]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/90 to-white/95 dark:from-zinc-900/95 dark:via-zinc-900/90 dark:to-zinc-900/95" />
+            </div>
+
+            <div className="relative z-10 backdrop-blur-xl p-8 text-center space-y-4">
+              <h3 className="text-xl sm:text-2xl font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">
+                {t.about.governanceTitle}
+              </h3>
+              <p className="text-sm text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+                {t.about.governanceDesc}
+              </p>
+              <div className="pt-4 flex flex-wrap justify-center gap-3">
+                <span className="px-3.5 py-1.5 rounded-full bg-zinc-100/80 dark:bg-zinc-800/80 text-zinc-800 dark:text-zinc-200 text-xs font-medium border border-zinc-200 dark:border-zinc-700 shadow-xs">
+                  {t.about.govNoProprietary}
+                </span>
+                <span className="px-3.5 py-1.5 rounded-full bg-zinc-100/80 dark:bg-zinc-800/80 text-zinc-800 dark:text-zinc-200 text-xs font-medium border border-zinc-200 dark:border-zinc-700 shadow-xs">
+                  {t.about.govNoHiddenCharges}
+                </span>
+                <span className="px-3.5 py-1.5 rounded-full bg-zinc-100/80 dark:bg-zinc-800/80 text-zinc-800 dark:text-zinc-200 text-xs font-medium border border-zinc-200 dark:border-zinc-700 shadow-xs">
+                  {t.about.govPlatformFee}
+                </span>
+              </div>
             </div>
           </div>
         </section>
