@@ -24,6 +24,7 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 import OrderTrackingTimeline from '../../components/OrderTrackingTimeline';
+import SmartBuyGuide from '../../components/SmartBuyGuide';
 
 interface CartItem {
   lotId: string;
@@ -427,6 +428,9 @@ export default function ConsumerPortal() {
 
               <div className="absolute right-0 top-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
             </div>
+
+            {/* Price Intelligence: Smart Way to Buy for Consumers */}
+            <SmartBuyGuide />
 
             {/* Filter & Search Bar */}
             <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">

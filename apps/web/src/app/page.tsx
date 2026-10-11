@@ -4,6 +4,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import InquiryModal from '../components/InquiryModal';
@@ -13,7 +14,6 @@ import {
   ArrowRight,
   Search,
   CheckCircle2,
-  AlertCircle,
   Scale,
   Camera,
   ThermometerSnowflake,
@@ -42,6 +42,7 @@ function getCropImage(name: string): string {
 
 export default function Home() {
   const { t } = useLanguage();
+  const { role } = useAuth();
   const [inquiryOpen, setInquiryOpen] = useState(false);
 
   // Persistence Stores
@@ -49,67 +50,14 @@ export default function Home() {
   const { placeOrder } = useOrderStore();
   const { submitRfq } = useRfqStore();
 
-  // Advisory State
-  const [selectedCrop, setSelectedCrop] = useState<'Tomato' | 'Mustard' | 'Wheat' | 'Soybean'>('Tomato');
-  const [holdingDays, setHoldingDays] = useState<number>(1);
-  const [actionNotice, setActionNotice] = useState<string | null>(null);
-
   // Marketplace State
   const [marketFilter, setMarketFilter] = useState<'all' | 'grains' | 'vegetables' | 'oilseeds' | 'pulses'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [cartSuccessNotice, setCartSuccessNotice] = useState<string | null>(null);
 
-  // Advisory Dynamic Engine
-  const advisoryEngine = useMemo(() => {
-    switch (selectedCrop) {
-      case 'Tomato': {
-        const baseMin = 26;
-        const baseMax = 29;
-        const decay = holdingDays >= 6 ? 0.85 : holdingDays >= 3 ? 0.95 : 1.0;
-        return {
-          range: `₹${(baseMin * decay).toFixed(0)} - ₹${(baseMax * decay).toFixed(0)} / ${t.market.perKg}`,
-          conf: holdingDays === 1 ? '88%' : holdingDays === 3 ? '81%' : '74%',
-          fresh: 'Just now (APMC Real-Time)',
-          factors: [t.advisory.factorDemand, t.advisory.factorGrade, t.advisory.factorShelf],
-          isPerishableNearExpiry: holdingDays >= 6,
-        };
-      }
-      case 'Mustard': {
-        return {
-          range: `₹84 - ₹96 / ${t.market.perKg}`,
-          conf: '91%',
-          fresh: 'Verified 09:30 AM',
-          factors: [t.advisory.factorMsp, t.advisory.factorPledge, t.advisory.factorStorage],
-          isPerishableNearExpiry: false,
-        };
-      }
-      case 'Wheat': {
-        return {
-          range: `₹24.50 - ₹28 / ${t.market.perKg}`,
-          conf: '94%',
-          fresh: 'Verified 09:30 AM',
-          factors: [t.advisory.factorMsp, t.advisory.factorStorage, t.advisory.factorDemand],
-          isPerishableNearExpiry: false,
-        };
-      }
-      case 'Soybean': {
-        return {
-          range: `₹46 - ₹52 / ${t.market.perKg}`,
-          conf: '86%',
-          fresh: 'Verified 10:00 AM',
-          factors: [t.advisory.factorMsp, t.advisory.factorGrade, t.advisory.factorDemand],
-          isPerishableNearExpiry: false,
-        };
-      }
-    }
-  }, [selectedCrop, holdingDays, t]);
-
   const getLotDisplayName = useCallback((lot: ProduceLotItem) => {
-    if (t?.advisory && (t.advisory as Record<string, string>)[lot.nameKey]) {
-      return (t.advisory as Record<string, string>)[lot.nameKey];
-    }
     return lot.cropName || lot.id;
-  }, [t]);
+  }, []);
 
   const filteredLots = useMemo(() => {
     return listings.filter((lot) => {
@@ -123,16 +71,6 @@ export default function Home() {
       return matchesCategory && matchesSearch && lot.quantityKg > 0;
     });
   }, [listings, marketFilter, searchQuery, getLotDisplayName]);
-
-  const handleHoldAction = () => {
-    setActionNotice(t.advisory.holdSuccess);
-    setTimeout(() => setActionNotice(null), 4000);
-  };
-
-  const handleListAction = () => {
-    setActionNotice(t.advisory.listSuccess);
-    setTimeout(() => setActionNotice(null), 4000);
-  };
 
   const handleLotOrder = (lotId: string) => {
     const target = listings.find((l) => l.id.toLowerCase() === lotId.toLowerCase());
@@ -372,141 +310,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Section 1: Interactive Price Advisory */}
-        <section id="advisory" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs uppercase font-mono tracking-wider text-emerald-800 dark:text-emerald-400 font-bold">
-              {t.advisory.sectionBadge}
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-1 mb-2 tracking-tight">
-              {t.advisory.title}
-            </h2>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              {t.advisory.subtitle}
-            </p>
-          </div>
-
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs overflow-hidden">
-            {/* Notification Banner */}
-            {actionNotice && (
-              <div className="bg-emerald-50 dark:bg-emerald-950/60 border-b border-emerald-200 dark:border-emerald-800 px-6 py-3 text-xs font-semibold text-emerald-900 dark:text-emerald-300 flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
-                <span>{actionNotice}</span>
-              </div>
-            )}
-
-            <div className="p-6 sm:p-8">
-              {/* Controls */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                <div>
-                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
-                    {t.advisory.cropLabel}
-                  </label>
-                  <select
-                    value={selectedCrop}
-                    onChange={(e) => setSelectedCrop(e.target.value as 'Tomato' | 'Mustard' | 'Wheat' | 'Soybean')}
-                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg p-2.5 text-xs sm:text-sm font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                  >
-                    <option value="Tomato">{t.advisory.cropTomato}</option>
-                    <option value="Mustard">{t.advisory.cropMustard}</option>
-                    <option value="Wheat">{t.advisory.cropWheat}</option>
-                    <option value="Soybean">{t.advisory.cropSoybean}</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
-                    {t.advisory.holdingLabel}
-                  </label>
-                  <select
-                    value={holdingDays}
-                    onChange={(e) => setHoldingDays(Number(e.target.value))}
-                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg p-2.5 text-xs sm:text-sm font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                  >
-                    <option value={1}>{t.advisory.holdingDay1}</option>
-                    <option value={3}>{t.advisory.holdingDay3}</option>
-                    <option value={6}>{t.advisory.holdingDay6}</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Valuation Dashboard */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 mb-6 text-center">
-                <div>
-                  <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide block">
-                    {t.advisory.suggestedRange}
-                  </span>
-                  <span className="text-xl sm:text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-0.5 block">
-                    {advisoryEngine.range}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide block">
-                    {t.advisory.confidence}
-                  </span>
-                  <span className="text-xl sm:text-2xl font-extrabold text-emerald-800 dark:text-emerald-400 font-mono mt-0.5 block">
-                    {advisoryEngine.conf}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide block">
-                    {t.advisory.dataFreshness}
-                  </span>
-                  <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 mt-2 block">
-                    {advisoryEngine.fresh}
-                  </span>
-                </div>
-              </div>
-
-              {/* Explainable Reasoning Factors */}
-              <div className="mb-6">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-3">
-                  {t.advisory.factorsTitle}
-                </h4>
-                <ul className="space-y-2 text-xs sm:text-sm text-zinc-700 dark:text-zinc-300">
-                  {advisoryEngine.factors.map((factor, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                      <span>{factor}</span>
-                    </li>
-                  ))}
-                  {advisoryEngine.isPerishableNearExpiry && (
-                    <li className="flex items-start gap-2 text-amber-900 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 p-2 rounded-lg border border-amber-200 dark:border-amber-800">
-                      <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                      <span>{t.advisory.spoilageWarning}</span>
-                    </li>
-                  )}
-                </ul>
-              </div>
-
-              {/* Guardrail Disclaimer */}
-              <div className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 text-xs text-zinc-600 dark:text-zinc-400 flex items-center gap-2 mb-6">
-                <Scale className="w-4 h-4 text-zinc-500 shrink-0" />
-                <span>{t.advisory.guardrailText}</span>
-              </div>
-
-              {/* Interactive Decision Actions */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={handleHoldAction}
-                  className="w-full py-3 px-4 border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-xl text-xs sm:text-sm font-semibold text-zinc-800 dark:text-zinc-200 transition"
-                >
-                  {t.advisory.btnHold}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleListAction}
-                  className="w-full py-3 px-4 bg-zinc-950 hover:bg-zinc-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-bold transition shadow-sm"
-                >
-                  {t.advisory.btnList}
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 2: Live Verified Produce Marketplace */}
+        {/* Section: Live Verified Produce Marketplace */}
         <section id="marketplace" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-200 dark:border-zinc-800">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
@@ -629,13 +433,29 @@ export default function Home() {
                 </div>
 
                 <div className="mt-5 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleLotOrder(lot.id)}
-                    className="flex-1 py-2 text-center text-xs font-bold bg-zinc-950 hover:bg-zinc-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-lg transition shadow-xs"
-                  >
-                    {t.market.buyNow}
-                  </button>
+                  {role === 'farmer' ? (
+                    <Link
+                      href="/farmer"
+                      className="flex-1 py-2 text-center text-xs font-bold bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 rounded-lg transition"
+                    >
+                      Farmer Desk
+                    </Link>
+                  ) : role === 'admin' ? (
+                    <Link
+                      href="/admin"
+                      className="flex-1 py-2 text-center text-xs font-bold bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 rounded-lg transition"
+                    >
+                      Admin Ops
+                    </Link>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleLotOrder(lot.id)}
+                      className="flex-1 py-2 text-center text-xs font-bold bg-zinc-950 hover:bg-zinc-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-lg transition shadow-xs"
+                    >
+                      {t.market.buyNow}
+                    </button>
+                  )}
                   <button
                     type="button"
                     onClick={() => setInquiryOpen(true)}

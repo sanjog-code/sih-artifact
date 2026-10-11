@@ -6,7 +6,7 @@ interface SarvamTtsRequest {
   speaker?: string; // "meera", "pavithra", "mahesh", etc.
 }
 
-// BCP-47 mapping for Sarvam-supported regional Indian languages
+// BCP-47 mapping for all 22 official Eighth Schedule regional Indian languages + English
 const SARVAM_LANG_MAP: Record<string, string> = {
   hi: 'hi-IN',
   bn: 'bn-IN',
@@ -18,6 +18,18 @@ const SARVAM_LANG_MAP: Record<string, string> = {
   ta: 'ta-IN',
   te: 'te-IN',
   gu: 'gu-IN',
+  as: 'as-IN',
+  ur: 'ur-IN',
+  sa: 'sa-IN',
+  ne: 'ne-IN',
+  sd: 'sd-IN',
+  ks: 'ks-IN',
+  kok: 'kok-IN',
+  mni: 'mni-IN',
+  brx: 'brx-IN',
+  mai: 'mai-IN',
+  sat: 'sat-IN',
+  doi: 'doi-IN',
   en: 'en-IN',
 };
 
@@ -26,7 +38,8 @@ export async function POST(request: NextRequest) {
     const body: SarvamTtsRequest = await request.json();
     const rawLang = body.languageCode || 'hi-IN';
     const normalizedLang = SARVAM_LANG_MAP[rawLang] || rawLang;
-    const { text, languageCode = normalizedLang, speaker = 'meera' } = body;
+    // Default to 'pavithra' (clear, soothing soft female voice) rather than harsh male/robotic tones
+    const { text, languageCode = normalizedLang, speaker = 'pavithra' } = body;
 
     if (!text || text.trim().length === 0) {
       return NextResponse.json(
@@ -50,9 +63,9 @@ export async function POST(request: NextRequest) {
             inputs: [text.slice(0, 500)],
             target_language_code: languageCode,
             speaker: speaker,
-            pitch: 0,
-            pace: 1.0,
-            loudness: 1.0,
+            pitch: 0.2, // slightly higher gentle feminine pitch
+            pace: 0.92, // calm, articulate pace
+            loudness: 0.95, // softened tone
             speech_sample_rate: 22050,
             enable_preprocessing: true,
             model: 'bulbul:v1',

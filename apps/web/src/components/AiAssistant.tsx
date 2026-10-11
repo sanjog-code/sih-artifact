@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 import { useAuth } from '../context/AuthContext';
+import { playSoftFemaleVoice, stopAiVoice } from '../lib/ai/tts-client';
 
 interface ChatMessage {
   id: string;
@@ -59,51 +60,18 @@ function AiAssistantWidget() {
 
   const speakTextWithSarvamTts = async (text: string) => {
     if (isPlayingAudio) {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      await stopAiVoice();
       setIsPlayingAudio(false);
       return;
     }
 
     setIsPlayingAudio(true);
-
-    try {
-      // Call Sarvam TTS API
-      const res = await fetch('/api/ai/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text,
-          languageCode: language === 'hi' ? 'hi-IN' : language === 'pa' ? 'pa-IN' : language === 'ta' ? 'ta-IN' : language === 'te' ? 'te-IN' : 'en-IN',
-        }),
-      });
-
-      const data = await res.json();
-
-      if (data.audioBase64) {
-        const audio = new Audio(`data:audio/wav;base64,${data.audioBase64}`);
-        audio.onended = () => setIsPlayingAudio(false);
-        audio.onerror = () => setIsPlayingAudio(false);
-        await audio.play();
-        return;
-      }
-
-      // Browser Web Speech fallback with natural voice parameters
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = language === 'hi' ? 'hi-IN' : language === 'pa' ? 'pa-IN' : language === 'ta' ? 'ta-IN' : language === 'te' ? 'te-IN' : 'en-IN';
-        utterance.rate = 0.95;
-        utterance.onend = () => setIsPlayingAudio(false);
-        utterance.onerror = () => setIsPlayingAudio(false);
-        window.speechSynthesis.speak(utterance);
-      } else {
-        setIsPlayingAudio(false);
-      }
-    } catch {
-      setIsPlayingAudio(false);
-    }
+    await playSoftFemaleVoice(
+      text,
+      language,
+      () => setIsPlayingAudio(false),
+      () => setIsPlayingAudio(false)
+    );
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {

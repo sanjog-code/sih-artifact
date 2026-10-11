@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { useProduceStore } from '../lib/store/produceStore';
+import { playSoftFemaleVoice, stopAiVoice } from '../lib/ai/tts-client';
 import {
   X,
   Volume2,
@@ -191,67 +192,18 @@ Which crop are you harvesting or planning to list today?`,
 
   const speakTextWithSarvamTts = async (text: string) => {
     if (isPlayingAudio) {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      await stopAiVoice();
       setIsPlayingAudio(false);
       return;
     }
 
-    try {
-      setIsPlayingAudio(true);
-      const res = await fetch('/api/ai/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: text.slice(0, 300),
-          languageCode:
-            language === 'hi'
-              ? 'hi-IN'
-              : language === 'pa'
-              ? 'pa-IN'
-              : language === 'ta'
-              ? 'ta-IN'
-              : language === 'te'
-              ? 'te-IN'
-              : 'en-IN',
-        }),
-      });
-
-      const data = await res.json();
-
-      if (data.audioBase64) {
-        const audio = new Audio(`data:audio/wav;base64,${data.audioBase64}`);
-        audio.onended = () => setIsPlayingAudio(false);
-        audio.onerror = () => setIsPlayingAudio(false);
-        await audio.play();
-        return;
-      }
-
-      // Web Speech fallback
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang =
-          language === 'hi'
-            ? 'hi-IN'
-            : language === 'pa'
-            ? 'pa-IN'
-            : language === 'ta'
-            ? 'ta-IN'
-            : language === 'te'
-            ? 'te-IN'
-            : 'en-IN';
-        utterance.rate = 0.95;
-        utterance.onend = () => setIsPlayingAudio(false);
-        utterance.onerror = () => setIsPlayingAudio(false);
-        window.speechSynthesis.speak(utterance);
-      } else {
-        setIsPlayingAudio(false);
-      }
-    } catch {
-      setIsPlayingAudio(false);
-    }
+    setIsPlayingAudio(true);
+    await playSoftFemaleVoice(
+      text,
+      language,
+      () => setIsPlayingAudio(false),
+      () => setIsPlayingAudio(false)
+    );
   };
 
   const handleSelectCrop = (cropName: string) => {

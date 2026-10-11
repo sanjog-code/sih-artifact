@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import InquiryModal from '../../components/InquiryModal';
 import { useLanguage } from '../../context/LanguageContext';
 import { useRfqStore, useProduceStore, useOrderStore, useSubscriptionStore, BusinessTier, ProduceLotItem } from '../../lib/store';
+import { getCropMspFloor } from '../../lib/cropTaxonomy';
 import RoleGuard from '../../components/RoleGuard';
 import {
   CheckCircle2,
@@ -26,6 +27,7 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 import { triggerInvoicePrintOrDownload } from '../../lib/invoiceGenerator';
+import SmartQuoteGuide from '../../components/SmartQuoteGuide';
 
 export default function BuyerPortal() {
   const { t } = useLanguage();
@@ -89,6 +91,13 @@ export default function BuyerPortal() {
     const cropName = targetLot ? targetLot.cropName : selectedLot.split(' ')[1]?.replace('(', '') || 'Tomato';
     const clusterName = targetLot ? targetLot.cluster : 'Jaitpura Farmer Cooperative';
     const asking = targetLot ? targetLot.price : 28;
+
+    const mspFloor = getCropMspFloor(cropName);
+    if (mspFloor && Number(offerPrice) < mspFloor) {
+      setRfqNotice(`Fair Trade Guardrail Enforced: CACP Statutory MSP for ${cropName} is ₹${mspFloor.toFixed(2)}/kg. Institutional bids below statutory floor are prohibited.`);
+      setTimeout(() => setRfqNotice(null), 6000);
+      return;
+    }
 
     const newRfq = submitRfq({
       lotId: targetLotId,
@@ -328,6 +337,15 @@ export default function BuyerPortal() {
                 </div>
               </div>
             </div>
+
+            {/* Smart Price Guide to Quote: Volume Pricing Brackets */}
+            <SmartQuoteGuide
+              onApplyQuote={(_crop, vol, price) => {
+                setOfferPrice(price);
+                setTargetVolume(vol);
+                setActiveTab('rfqs');
+              }}
+            />
 
             {/* AI Intelligence & Recommended FPOs */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

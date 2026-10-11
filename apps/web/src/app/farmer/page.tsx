@@ -41,6 +41,8 @@ import WarehouseSlotModal from '../../components/WarehouseSlotModal';
 import VoiceListingButton from '../../components/VoiceListingButton';
 import OpticalGradingChecklist from '../../components/OpticalGradingChecklist';
 import { useAlertStore, useKycStore, useWarehouseStore } from '../../lib/store';
+import { getCropMspFloor } from '../../lib/cropTaxonomy';
+import SmartListingGuide from '../../components/SmartListingGuide';
 
 interface AiForecastData {
   currentModalPrice: number;
@@ -218,6 +220,14 @@ export default function FarmerPortal() {
 
   const handleCreateListing = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const mspFloor = getCropMspFloor(commodity);
+    if (mspFloor && Number(price) < mspFloor) {
+      setNotice(`Statutory MSP Guardrail Enforced: CACP minimum baseline for ${commodity} is ₹${mspFloor.toFixed(2)}/kg. Listing below MSP is strictly prohibited.`);
+      setTimeout(() => setNotice(null), 6000);
+      return;
+    }
+
     const cat: 'vegetables' | 'oilseeds' | 'grains' | 'pulses' =
       commodity === 'Tomato' ? 'vegetables' :
       commodity === 'Mustard' ? 'oilseeds' :
@@ -590,6 +600,9 @@ export default function FarmerPortal() {
             {/* Weather & Spraying Advisory Widget (Real Open-Meteo Telemetry) */}
             <WeatherAdvisoryWidget crop={commodity} lat={farmCoordinates.lat} lng={farmCoordinates.lng} />
 
+            {/* Smart Harvest Listing Guide: Sell Now vs WDRA Vault Hold */}
+            <SmartListingGuide />
+
             {/* Farmer Net-Income & Mandi Comparison Calculator */}
             <NetIncomeCalculator initialCommodity={commodity} initialPriceKg={price} />
           </div>
@@ -745,12 +758,18 @@ export default function FarmerPortal() {
                   <input
                     type="number"
                     step={0.5}
-                    min={5}
+                    min={getCropMspFloor(commodity) || 5}
                     value={price}
                     onChange={(e) => setPrice(Number(e.target.value))}
                     className="w-full text-sm p-3 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 font-mono font-bold text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                     required
                   />
+                  {getCropMspFloor(commodity) ? (
+                    <div className="mt-1 text-[11px] text-amber-700 dark:text-amber-400 font-semibold flex items-center justify-between">
+                      <span>CACP Statutory MSP Floor: ₹{getCropMspFloor(commodity)?.toFixed(2)}/kg (Hard Floor)</span>
+                      <span className="text-emerald-700 dark:text-emerald-400">Distress-Selling Guardrail Active</span>
+                    </div>
+                  ) : null}
                   {/* Transparent Single-Digit Commission Breakdown */}
                   <div className="mt-2.5 p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-xs">
                     <div className="flex items-center justify-between font-bold text-emerald-950 dark:text-emerald-200">
