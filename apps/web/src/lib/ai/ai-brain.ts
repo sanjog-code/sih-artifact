@@ -465,8 +465,8 @@ The **Minimum Support Price (MSP)** is a guaranteed floor price announced by the
 
 Fasal Matrix incorporates standard AGMARK quality criteria coupled with optical inspection standards:
 
-• **Grade A1 (Premier)**: $\\ge 95\\%$ visual color and size uniformity, moisture strictly within statutory limits (e.g., $\\le 12\\%$ for Wheat, $\\le 8.5\\%$ for Mustard), zero foreign matter, zero pest infestation. Premium pricing (+5% to +12% over spot).
-• **Grade A2 (Standard Commercial)**: $88\\% - 94\\%$ uniformity, standard commercial moisture tolerance, $<1\\%$ foreign matter. Traded at full benchmark modal rate.
+• **Grade A1 (Premier)**: 95% or higher visual color and size uniformity, moisture strictly within statutory limits (e.g., under 12% for Wheat, under 8.5% for Mustard), zero foreign matter, zero pest infestation. Premium pricing (+5% to +12% over spot).
+• **Grade A2 (Standard Commercial)**: 88% to 94% uniformity, standard commercial moisture tolerance, under 1% foreign matter. Traded at full benchmark modal rate.
 • **Grade B1 (Fair Average Quality - FAQ)**: Acceptable for immediate processing, industrial flour/oil extraction, or animal feed.
 • **Instant Optical Grading**: Farmers can use the camera tool during harvest declaration to assess color spectrum, surface blemishes, and grain consistency before publishing their listing.`;
 

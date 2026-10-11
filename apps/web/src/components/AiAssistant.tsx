@@ -40,6 +40,120 @@ interface ChatMessage {
   suggestedPrompts?: string[];
 }
 
+const WELCOME_TEXT = `Namaste! I am **Fasal Matrix AI**, your intelligent agrarian advisor and conversational copilot.
+
+I can help you with:
+• **Real-time Price & Demand Forecasts** with interactive charts
+• **Crop Agronomy & Storage Protocols** under WDRA standards
+• **Statutory CCEA MSP Guardrails** & RBI Nodal Escrow settlement
+• **Agricultural Inquiries**, farming science, or platform guidance!
+
+Ask me anything below or tap the microphone to speak!`;
+
+function FormattedMessage({ text, isUser }: { text: string; isUser?: boolean }) {
+  if (isUser) {
+    return <p className="leading-relaxed whitespace-pre-wrap">{text}</p>;
+  }
+
+  // Sanitize any raw math, latex, or strange encoding artifacts
+  const sanitized = text
+    .replace(/\\ge\s*/g, '>= ')
+    .replace(/\\le\s*/g, '<= ')
+    .replace(/\\\$/g, '$')
+    .replace(/\$([^$]+)\$/g, '$1')
+    .replace(/Â/g, '')
+    .replace(/â€¢/g, '•')
+    .replace(/â‚¹/g, '₹');
+
+  const lines = sanitized.split('\n');
+  const elements: React.ReactNode[] = [];
+  let currentList: React.ReactNode[] = [];
+
+  const flushList = () => {
+    if (currentList.length > 0) {
+      elements.push(
+        <ul key={`list-${elements.length}`} className="my-2 space-y-1.5 pl-0.5">
+          {currentList}
+        </ul>
+      );
+      currentList = [];
+    }
+  };
+
+  const renderInlineFormatted = (str: string) => {
+    const parts: React.ReactNode[] = [];
+    const boldRegex = /\*\*(.*?)\*\*/g;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = boldRegex.exec(str)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(str.substring(lastIndex, match.index));
+      }
+      parts.push(
+        <strong key={`b-${match.index}`} className="font-bold text-zinc-950 dark:text-white">
+          {match[1]}
+        </strong>
+      );
+      lastIndex = match.index + match[0].length;
+    }
+    if (lastIndex < str.length) {
+      parts.push(str.substring(lastIndex));
+    }
+    return parts.length > 0 ? parts : str;
+  };
+
+  lines.forEach((rawLine, idx) => {
+    const line = rawLine.trim();
+
+    if (!line) {
+      flushList();
+      return;
+    }
+
+    if (line.startsWith('### ')) {
+      flushList();
+      elements.push(
+        <h4 key={`h-${idx}`} className="font-extrabold text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mt-2.5 mb-1">
+          {line.replace(/^###\s*/, '')}
+        </h4>
+      );
+      return;
+    }
+    if (line.startsWith('## ') || line.startsWith('# ')) {
+      flushList();
+      elements.push(
+        <h3 key={`h-${idx}`} className="font-extrabold text-sm text-zinc-900 dark:text-zinc-100 mt-3 mb-1">
+          {line.replace(/^#{1,2}\s*/, '')}
+        </h3>
+      );
+      return;
+    }
+
+    if (line.startsWith('• ') || line.startsWith('- ') || line.startsWith('* ')) {
+      const content = line.replace(/^[•\-*]\s*/, '');
+      currentList.push(
+        <li key={`li-${idx}`} className="flex items-start gap-2 text-xs leading-relaxed text-zinc-800 dark:text-zinc-200">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 mt-1.5 shrink-0" />
+          <span className="flex-1">{renderInlineFormatted(content)}</span>
+        </li>
+      );
+      return;
+    }
+
+    flushList();
+    elements.push(
+      <p key={`p-${idx}`} className="text-xs leading-relaxed text-zinc-800 dark:text-zinc-200">
+        {renderInlineFormatted(line)}
+      </p>
+    );
+  });
+
+  flushList();
+
+  return <div className="space-y-1.5">{elements}</div>;
+}
+
 export default function AiAssistant() {
   return <AiAssistantWidget />;
 }
@@ -64,15 +178,7 @@ function AiAssistantWidget() {
     {
       id: 'welcome',
       sender: 'ai',
-      text: `Namaste! 🙏 I am **Fasal Matrix AI**, your intelligent agrarian advisor and conversational copilot.
-
-I can help you with:
-• **Real-time Price & Demand Forecasts** with interactive charts
-• **Crop Agronomy & Storage Protocols** under WDRA standards
-• **Statutory CCEA MSP Guardrails** & RBI Nodal Escrow settlement
-• Any general query, agricultural science, or platform guidance!
-
-Ask me anything below or tap the microphone to speak!`,
+      text: WELCOME_TEXT,
       timestamp: 'Just now',
       suggestedPrompts: [
         'Price forecast for Wheat',
@@ -262,7 +368,7 @@ Ask me anything below or tap the microphone to speak!`,
       {
         id: 'welcome-reset',
         sender: 'ai',
-        text: 'Chat history cleared. How can I assist you with crops, forecasts, or direct trading?',
+        text: WELCOME_TEXT,
         timestamp: 'Just now',
         suggestedPrompts: [
           'Price forecast for Wheat',
@@ -406,10 +512,8 @@ Ask me anything below or tap the microphone to speak!`,
                         : 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-200/80 dark:border-zinc-800 rounded-bl-xs shadow-sm'
                     }`}
                   >
-                    {/* Message Text with simple Markdown formatting */}
-                    <div className="whitespace-pre-line font-normal space-y-2">
-                      {m.text}
-                    </div>
+                    {/* Formatted Legible Message Rendering */}
+                    <FormattedMessage text={m.text} isUser={m.sender === 'user'} />
 
                     {/* Inline Visual Artifact: Price Forecast & Chart */}
                     {m.visualArtifact?.type === 'price_forecast' && m.visualArtifact.forecastData && (
