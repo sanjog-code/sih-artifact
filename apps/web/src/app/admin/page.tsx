@@ -5,22 +5,39 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import LogisticsPortal from '../logistics/page';
 import RoleGuard from '../../components/RoleGuard';
-import { useProduceStore, useOrderStore, useRfqStore } from '../../lib/store';
+import { useProduceStore, useOrderStore, useRfqStore, useSubscriptionStore } from '../../lib/store';
 import {
   ShieldAlert,
   Truck,
   Users,
   Coins,
+  TrendingUp,
+  Sparkles,
+  Receipt,
+  BarChart3,
 } from 'lucide-react';
 
 export default function AdminConsolePage() {
-  const [activeTab, setActiveTab] = useState<'logistics' | 'mandi' | 'escrow' | 'clusters'>('logistics');
+  const [activeTab, setActiveTab] = useState<'logistics' | 'mandi' | 'escrow' | 'clusters' | 'monetization'>('monetization');
 
   const { listings } = useProduceStore();
   const { orders } = useOrderStore();
   const { rfqs } = useRfqStore();
+  const { businessConfig, consumerConfig } = useSubscriptionStore();
 
   const totalValueSettled = orders.reduce((acc, o) => acc + o.totalPrice, 0);
+
+  // Platform Commission calculated across orders
+  const totalPlatformCommission = orders.reduce((acc, o) => {
+    return acc + (o.platformCommissionAmount || Math.round(o.totalPrice * (o.platformCommissionRate || 0.04)));
+  }, 0);
+
+  // Active Recurring Revenue from B2B & Consumer tiers
+  // Baseline simulated volume: 50 B2B active customers + 1,000 active consumers
+  const estimatedB2bMrr = 50 * businessConfig.monthlyPrice;
+  const estimatedConsumerMrr = 1000 * (consumerConfig.monthlyPrice > 0 ? consumerConfig.monthlyPrice : 99);
+  const totalMrr = estimatedB2bMrr + estimatedConsumerMrr + totalPlatformCommission;
+  const annualizedRunRate = totalMrr * 12;
 
   return (
     <div className="min-h-screen bg-[#fafafa] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans flex flex-col transition-colors duration-200">
@@ -79,6 +96,18 @@ export default function AdminConsolePage() {
 
         {/* Tab Selector */}
         <div className="flex flex-wrap gap-2 mb-8 p-1.5 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl w-fit">
+          <button
+            onClick={() => setActiveTab('monetization')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+              activeTab === 'monetization'
+                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs border border-zinc-200 dark:border-zinc-700'
+                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+            }`}
+          >
+            <BarChart3 className="w-3.5 h-3.5 text-emerald-600" />
+            <span>FarmLink Premier Monetization</span>
+          </button>
+
           <button
             onClick={() => setActiveTab('logistics')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
@@ -216,6 +245,170 @@ export default function AdminConsolePage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Tab 4: FarmLink Premier Monetization & Financial Telemetry Hub */}
+        {activeTab === 'monetization' && (
+          <div className="space-y-6">
+            <div className="border-b border-zinc-200 dark:border-zinc-800 pb-4">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-semibold mb-2">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Executive Financial Telemetry & Monetization Engine</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-950 dark:text-white tracking-tight">
+                FarmLink Premier — Operating Revenue & Unit Economics
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+                Real-time tracking of single-digit farmer commissions (2–5%), B2B enterprise procurement subscriptions, and consumer memberships.
+              </p>
+            </div>
+
+            {/* Financial Telemetry Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
+                <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-1">
+                  <span>Gross Merchandise Value (GMV)</span>
+                  <Receipt className="w-4 h-4 text-emerald-600" />
+                </div>
+                <div className="text-2xl font-black text-zinc-950 dark:text-white font-mono">
+                  ₹{(totalValueSettled / 100000).toFixed(2)} Lakh
+                </div>
+                <div className="text-[11px] text-zinc-500 mt-1">
+                  Total completed trade considerations
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
+                <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-1">
+                  <span>Platform Commission Earned</span>
+                  <Coins className="w-4 h-4 text-emerald-600" />
+                </div>
+                <div className="text-2xl font-black text-emerald-700 dark:text-emerald-400 font-mono">
+                  ₹{totalPlatformCommission.toLocaleString('en-IN')}
+                </div>
+                <div className="text-[11px] text-emerald-600 font-medium mt-1">
+                  Transparent 2–5% completed sales fee
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
+                <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-1">
+                  <span>Monthly Recurring Revenue (MRR)</span>
+                  <TrendingUp className="w-4 h-4 text-blue-600" />
+                </div>
+                <div className="text-2xl font-black text-zinc-950 dark:text-white font-mono">
+                  ₹{(totalMrr / 100000).toFixed(2)} Lakh
+                </div>
+                <div className="text-[11px] text-blue-600 font-medium mt-1">
+                  B2B SaaS + Consumer memberships
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
+                <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-1">
+                  <span>Annualized Run-Rate (ARR)</span>
+                  <BarChart3 className="w-4 h-4 text-purple-600" />
+                </div>
+                <div className="text-2xl font-black text-purple-700 dark:text-purple-400 font-mono">
+                  ₹{(annualizedRunRate / 100000).toFixed(2)} Lakh
+                </div>
+                <div className="text-[11px] text-purple-600 font-medium mt-1">
+                  Projected 12-month recurring trajectory
+                </div>
+              </div>
+            </div>
+
+            {/* Illustrative Monthly Revenue Model Scenario Card */}
+            <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-4">
+              <div className="border-b border-zinc-100 dark:border-zinc-800 pb-3 flex items-center justify-between">
+                <div>
+                  <h3 className="text-base font-bold text-zinc-950 dark:text-white">
+                    Validated Monthly Revenue Projection Model
+                  </h3>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                    Illustrative baseline scenario model grounded in tripartite monetization principles.
+                  </p>
+                </div>
+                <span className="text-xs font-mono font-bold px-3 py-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 rounded-full">
+                  Target: ₹7.98 Lakh / month
+                </span>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-zinc-200 dark:border-zinc-800 text-zinc-500 font-semibold uppercase text-[10px]">
+                      <th className="py-2.5 px-3">Revenue Source</th>
+                      <th className="py-2.5 px-3">Operational Assumption</th>
+                      <th className="py-2.5 px-3 text-right">Monthly Revenue</th>
+                      <th className="py-2.5 px-3 text-right">Contribution %</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800 font-mono">
+                    <tr>
+                      <td className="py-3 px-3 font-sans font-medium text-zinc-900 dark:text-zinc-100">Farmer Platform Fee</td>
+                      <td className="py-3 px-3 text-zinc-600 dark:text-zinc-400 font-sans">₹50 Lakh completed GMV × 4% effective fee</td>
+                      <td className="py-3 px-3 text-right font-bold text-zinc-950 dark:text-zinc-50">₹2,00,000</td>
+                      <td className="py-3 px-3 text-right text-emerald-600">25.0%</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-3 font-sans font-medium text-zinc-900 dark:text-zinc-100">B2B Business Subscriptions</td>
+                      <td className="py-3 px-3 text-zinc-600 dark:text-zinc-400 font-sans">50 businesses × ₹9,999 (Business Growth)</td>
+                      <td className="py-3 px-3 text-right font-bold text-zinc-950 dark:text-zinc-50">₹4,99,950</td>
+                      <td className="py-3 px-3 text-right text-blue-600">62.6%</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-3 font-sans font-medium text-zinc-900 dark:text-zinc-100">Consumer Premier Memberships</td>
+                      <td className="py-3 px-3 text-zinc-600 dark:text-zinc-400 font-sans">1,000 consumers × ₹99 / month</td>
+                      <td className="py-3 px-3 text-right font-bold text-zinc-950 dark:text-zinc-50">₹99,000</td>
+                      <td className="py-3 px-3 text-right text-purple-600">12.4%</td>
+                    </tr>
+                    <tr className="bg-zinc-50 dark:bg-zinc-800/50 font-bold">
+                      <td className="py-3 px-3 font-sans text-zinc-950 dark:text-white">Total Blended Monthly Revenue</td>
+                      <td className="py-3 px-3 text-zinc-600 dark:text-zinc-300 font-sans">Tripartite model run-rate</td>
+                      <td className="py-3 px-3 text-right text-emerald-700 dark:text-emerald-400 text-sm">₹7,98,950 / mo</td>
+                      <td className="py-3 px-3 text-right text-zinc-950 dark:text-white">100.0%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div>
+                  <strong className="text-zinc-950 dark:text-white font-sans block">Annualized Run-Rate Benchmark:</strong>
+                  <span>Maintained over 12 months, this yields ~₹95.9 Lakh annualized gross software and transaction revenue.</span>
+                </div>
+                <div className="shrink-0 font-mono font-extrabold text-sm text-emerald-700 dark:text-emerald-400 bg-white dark:bg-zinc-900 px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700">
+                  ~₹95.9 Lakh / year
+                </div>
+              </div>
+            </div>
+
+            {/* Operating Principles & Governance Compliance Strip */}
+            <div className="p-5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-transparent border border-emerald-500/20 text-xs space-y-2">
+              <span className="font-bold text-emerald-950 dark:text-emerald-200 uppercase tracking-wider text-[10px]">
+                Transparent Operating Principles
+              </span>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-zinc-600 dark:text-zinc-400">
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  <span>Basic farmer marketplace access remains 100% free with zero upfront fees.</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  <span>Platform fee (2–5%) is deducted transparently only upon completed escrow release.</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  <span>All payments and subscriptions are verified server-side before activating access.</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  <span>Delivery discounts are bounded to ensure positive contribution margin.</span>
+                </li>
+              </ul>
             </div>
           </div>
         )}

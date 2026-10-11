@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import InquiryModal from '../../components/InquiryModal';
 import { useProduceStore, ProduceLotItem } from '../../lib/store/produceStore';
 import { useOrderStore } from '../../lib/store/orderStore';
+import { useSubscriptionStore } from '../../lib/store/subscriptionStore';
 import {
   ShieldCheck,
   Lock,
@@ -31,6 +32,7 @@ import { geocodeAddress } from '../../lib/ai/geocoding';
 export default function CheckoutPage() {
   const { listings, decrementQuantity } = useProduceStore();
   const { placeOrder } = useOrderStore();
+  const { consumerConfig, calculateConsumerDeliveryFee } = useSubscriptionStore();
 
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const [cartState, setCartState] = useState<Record<string, number>>({});
@@ -135,7 +137,12 @@ export default function CheckoutPage() {
     return cartItems.reduce((acc, curr) => acc + curr.subtotal, 0);
   }, [cartItems]);
 
-  const deliveryFee = cartItems.length > 0 ? 35 : 0;
+  const deliveryCalc = useMemo(() => {
+    if (cartItems.length === 0) return { finalFee: 0, discountApplied: 0, isFree: false };
+    return calculateConsumerDeliveryFee(rawSubtotal, 35);
+  }, [cartItems.length, calculateConsumerDeliveryFee, rawSubtotal]);
+
+  const deliveryFee = deliveryCalc.finalFee;
   const totalPayable = rawSubtotal + deliveryFee;
 
   // Handle final escrow lock
@@ -586,9 +593,26 @@ export default function CheckoutPage() {
                       <span>Consolidated Cold Transit</span>
                     </span>
                     <span className="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
-                      ₹{deliveryFee}
+                      {deliveryCalc.discountApplied > 0 ? (
+                        <>
+                          <span className="line-through text-zinc-400 mr-1.5">₹35</span>
+                          <span>₹{deliveryFee}</span>
+                        </>
+                      ) : (
+                        `₹${deliveryFee}`
+                      )}
                     </span>
                   </div>
+
+                  {deliveryCalc.discountApplied > 0 && (
+                    <div className="flex justify-between text-emerald-800 dark:text-emerald-300 font-medium bg-emerald-50/60 dark:bg-emerald-950/40 p-2 rounded-lg">
+                      <span className="flex items-center gap-1">
+                        <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                        <span>{consumerConfig.name} Benefit</span>
+                      </span>
+                      <span className="font-mono font-bold">-₹{deliveryCalc.discountApplied} Saved</span>
+                    </div>
+                  )}
 
                   <div className="flex justify-between text-emerald-700 dark:text-emerald-400 font-medium">
                     <span className="flex items-center gap-1">

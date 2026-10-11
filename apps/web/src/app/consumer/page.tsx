@@ -6,7 +6,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import InquiryModal from '../../components/InquiryModal';
 import { useLanguage } from '../../context/LanguageContext';
-import { useProduceStore, useOrderStore, ProduceLotItem, ProduceGrade } from '../../lib/store';
+import { useProduceStore, useOrderStore, useSubscriptionStore, ConsumerTier, ProduceLotItem, ProduceGrade } from '../../lib/store';
 import RoleGuard from '../../components/RoleGuard';
 import {
   ShoppingCart,
@@ -40,9 +40,15 @@ export default function ConsumerPortal() {
   // Persistence Stores
   const { listings, decrementQuantity } = useProduceStore();
   const { orders, placeOrder } = useOrderStore();
+  const {
+    consumerTier,
+    consumerConfig,
+    setConsumerPlan,
+    calculateConsumerDeliveryFee,
+  } = useSubscriptionStore();
 
   // Navigation & Tabs
-  const [activeTab, setActiveTab] = useState<'shop' | 'cart' | 'orders'>('shop');
+  const [activeTab, setActiveTab] = useState<'shop' | 'cart' | 'orders' | 'membership'>('shop');
 
   // Filters & Search
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
@@ -127,7 +133,12 @@ export default function ConsumerPortal() {
     return cartItems.reduce((acc, item) => acc + item.unitPrice * item.quantityKg, 0);
   }, [cartItems]);
 
-  const deliveryFee = cartItems.length > 0 ? 25 : 0;
+  const deliveryCalc = useMemo(() => {
+    if (cartItems.length === 0) return { finalFee: 0, discountApplied: 0, isFree: false };
+    return calculateConsumerDeliveryFee(cartSubtotal, 25);
+  }, [cartItems.length, calculateConsumerDeliveryFee, cartSubtotal]);
+
+  const deliveryFee = deliveryCalc.finalFee;
   const escrowProtectionFee = 0; // Guaranteed zero markup
   const totalPayable = cartSubtotal + deliveryFee + escrowProtectionFee;
 
@@ -299,6 +310,21 @@ export default function ConsumerPortal() {
               <span>{t.consumer.ordersTab}</span>
               <span className="px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 text-[10px]">
                 {orders.length}
+              </span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('membership')}
+              className={`px-3.5 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
+                activeTab === 'membership'
+                  ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-xs font-bold'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-zinc-100'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Consumer Premier</span>
+              <span className="px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-mono font-bold">
+                {consumerConfig.name.replace('Consumer ', '')}
               </span>
             </button>
           </div>
@@ -1050,6 +1076,138 @@ export default function ConsumerPortal() {
                   })}
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4: CONSUMER PREMIER MEMBERSHIPS */}
+        {activeTab === 'membership' && (
+          <div className="space-y-6">
+            <div className="text-center max-w-2xl mx-auto space-y-2 mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 dark:bg-emerald-400/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                <span>FarmLink Consumer Premier — Simple & Affordable Memberships</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
+                Farm-to-Fork Freshness Privileges
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+                Support regional smallholders directly while enjoying guaranteed delivery savings and AGMARK batch traceability.
+              </p>
+            </div>
+
+            {/* Consumer Plans Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {[
+                {
+                  id: 'basic',
+                  name: 'Consumer Basic',
+                  monthly: '₹0',
+                  annual: 'Free Forever',
+                  target: 'Standard retail shopping',
+                  features: [
+                    'Browse farm-fresh catalog from certified growers',
+                    'Direct zero-middleman produce orders',
+                    'Standard GPS dispatch and route tracking',
+                    'Transparent farm origin & harvest date details',
+                  ],
+                },
+                {
+                  id: 'premier',
+                  name: 'Consumer Premier',
+                  monthly: '₹99',
+                  annual: '₹999 / year',
+                  target: 'Regular fresh grocery buyers',
+                  popular: true,
+                  features: [
+                    'Flat 50% discount on cold-chain delivery',
+                    'Personalized harvest arrival alerts',
+                    'Full AGMARK lot quality & assay passport',
+                    'Convenient 1-click repeat replenishment',
+                    'Priority morning delivery slots (6 AM - 8 AM)',
+                  ],
+                },
+                {
+                  id: 'plus',
+                  name: 'Consumer Plus',
+                  monthly: '₹199',
+                  annual: '₹1,999 / year',
+                  target: 'Healthy families & farm-to-table enthusiasts',
+                  features: [
+                    'Everything in Premier',
+                    'Unlimited 100% free delivery on orders > ₹299',
+                    'Early-access harvest drops (reserve lots early)',
+                    'Dedicated farm-to-table consumer concierge',
+                    'Exclusive seasonal farmer harvest boxes',
+                  ],
+                },
+              ].map((tier) => {
+                const isActive = consumerTier === tier.id;
+                return (
+                  <div
+                    key={tier.id}
+                    className={`p-6 rounded-2xl flex flex-col justify-between transition relative ${
+                      isActive
+                        ? 'bg-white dark:bg-zinc-800 border-2 border-emerald-600 dark:border-emerald-500 shadow-xl ring-2 ring-emerald-500/20'
+                        : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs hover:border-zinc-300'
+                    }`}
+                  >
+                    {tier.popular && (
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-extrabold tracking-wide uppercase shadow-sm">
+                        Most Popular
+                      </span>
+                    )}
+
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <h3 className="text-base font-extrabold text-zinc-950 dark:text-zinc-50">{tier.name}</h3>
+                        {isActive && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                            CURRENT
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-zinc-500 mb-4">{tier.target}</p>
+
+                      <div className="mb-4 pb-4 border-b border-zinc-100 dark:border-zinc-800">
+                        <div className="text-2xl font-black text-zinc-950 dark:text-zinc-50 font-mono">
+                          {tier.monthly}
+                          <span className="text-xs font-normal text-zinc-500 font-sans"> / month</span>
+                        </div>
+                        <div className="text-[11px] text-emerald-700 dark:text-emerald-400 font-medium mt-0.5">
+                          {tier.annual}
+                        </div>
+                      </div>
+
+                      <ul className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400 mb-6">
+                        {tier.features.map((f, idx) => (
+                          <li key={idx} className="flex items-start gap-1.5">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                            <span>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <button
+                      type="button"
+                      disabled={isActive}
+                      onClick={() => {
+                        setConsumerPlan(tier.id as ConsumerTier, 'monthly');
+                        setOrderNotice(`Consumer membership switched to ${tier.name}! Delivery discounts and perks activated.`);
+                        setTimeout(() => setOrderNotice(null), 5000);
+                      }}
+                      className={`w-full py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
+                        isActive
+                          ? 'bg-zinc-100 dark:bg-zinc-700 text-zinc-500 cursor-default'
+                          : 'bg-zinc-900 hover:bg-zinc-800 text-white shadow-xs'
+                      }`}
+                    >
+                      <span>{isActive ? 'Active Membership' : `Join ${tier.name}`}</span>
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

@@ -6,7 +6,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import InquiryModal from '../../components/InquiryModal';
 import { useLanguage } from '../../context/LanguageContext';
-import { useProduceStore, useOrderStore, useRfqStore } from '../../lib/store';
+import { useProduceStore, useOrderStore, useRfqStore, useSubscriptionStore, FarmerTier } from '../../lib/store';
 import RoleGuard from '../../components/RoleGuard';
 import {
   TrendingUp,
@@ -102,6 +102,12 @@ export default function FarmerPortal() {
   const { listings: produceListings, addListing, deleteListing, togglePauseListing } = useProduceStore();
   const { orders, updateOrderStatus } = useOrderStore();
   const { submitRfq } = useRfqStore();
+  const {
+    farmerTier,
+    farmerConfig,
+    setFarmerTier,
+    calculateFarmerCommission,
+  } = useSubscriptionStore();
 
   // Sell Form State
   const [commodity, setCommodity] = useState('Tomato');
@@ -220,7 +226,10 @@ export default function FarmerPortal() {
       description: `Grade ${grade} ${commodity} harvest, cleared under WDRA specifications with ${deliveryMode.replace('_', ' ')}. Farm Pickup: ${farmAddress}.`,
     });
 
-    setNotice(t.farmer.lotPublishedNotice.replace('{id}', newLot.id).replace('{price}', String(price)));
+    const estimatedComm = calculateFarmerCommission(Number(quantity) * Number(price));
+    setNotice(
+      `${t.farmer.lotPublishedNotice.replace('{id}', newLot.id).replace('{price}', String(price))} (Net Payout Est: ₹${estimatedComm.farmerReceives.toLocaleString('en-IN')})`
+    );
     setActiveTab('listings');
     setTimeout(() => setNotice(null), 4500);
   };
@@ -676,6 +685,24 @@ export default function FarmerPortal() {
                     className="w-full text-sm p-3 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 font-mono font-bold text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                     required
                   />
+                  {/* Transparent Single-Digit Commission Breakdown */}
+                  <div className="mt-2.5 p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-xs">
+                    <div className="flex items-center justify-between font-bold text-emerald-950 dark:text-emerald-200">
+                      <span>Estimated Total Harvest Value ({quantity.toLocaleString('en-IN')} kg):</span>
+                      <span className="font-mono text-sm">₹{(quantity * price).toLocaleString('en-IN')}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-zinc-600 dark:text-zinc-400 mt-1 text-[11px]">
+                      <span>FarmLink Platform Fee ({farmerConfig.name} Plan • {(farmerConfig.commissionRate * 100)}%):</span>
+                      <span className="font-mono text-zinc-900 dark:text-zinc-200">-₹{Math.round(quantity * price * farmerConfig.commissionRate).toLocaleString('en-IN')}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-emerald-800 dark:text-emerald-300 font-extrabold pt-1.5 mt-1.5 border-t border-emerald-200/60 dark:border-emerald-800/40">
+                      <span>Direct Farmer Escrow Payout (T+1):</span>
+                      <span className="font-mono text-sm">₹{Math.round(quantity * price * (1 - farmerConfig.commissionRate)).toLocaleString('en-IN')}</span>
+                    </div>
+                    <p className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1 leading-tight">
+                      *Zero monthly subscription. Marketplace access is 100% free. Platform fee is deducted only upon verified completed escrow release.
+                    </p>
+                  </div>
                   {aiData && (
                     <div className="mt-1 text-[11px] text-zinc-500 flex items-center justify-between">
                       <span>Statutory MSP Floor: ₹{aiData.mspFloor || 22.75}/kg</span>
@@ -1332,6 +1359,74 @@ export default function FarmerPortal() {
                   <IndianRupee className="w-4 h-4 text-emerald-400" />
                   <span>{withdrawing ? 'Processing Clearing...' : 'Withdraw to Bank Account'}</span>
                 </button>
+              </div>
+
+              {/* FarmLink Farmer Premier Commission Tier Card */}
+              <div className="mb-6 p-5 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-transparent border border-emerald-500/30 dark:border-emerald-500/20">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-emerald-500/20">
+                  <div>
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-[10px] font-bold uppercase tracking-wider">
+                      <Sparkles className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                      <span>FarmLink Farmer Premier</span>
+                    </div>
+                    <h3 className="text-base font-extrabold text-zinc-950 dark:text-zinc-50 mt-1">
+                      Current Plan: {farmerConfig.name} ({farmerConfig.commissionRate * 100}% Commission)
+                    </h3>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                      Zero monthly subscription. Marketplace access is 100% free. Platform charge applies only upon completed sale.
+                    </p>
+                  </div>
+                  <span className="text-xs font-mono font-bold px-3 py-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 rounded-full border border-emerald-300 dark:border-emerald-700 self-start">
+                    Monthly Fee: ₹0 (FREE)
+                  </span>
+                </div>
+
+                {/* Tier Selector Grid */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-4">
+                  {[
+                    { id: 'basic', name: 'Basic', fee: '5%', desc: 'Standard Listing & Escrow' },
+                    { id: 'premier', name: 'Premier', fee: '4%', desc: 'Demand Telemetry & Priority Aggregation' },
+                    { id: 'premier_pro', name: 'Premier Pro', fee: '3%', desc: 'AI Mandi Forecasts & Promoted Placement' },
+                    { id: 'premier_elite', name: 'Premier Elite', fee: '2%', desc: 'Institutional Matching & 2% Lowest Rate' },
+                  ].map((tier) => {
+                    const isSelected = farmerTier === tier.id;
+                    return (
+                      <button
+                        key={tier.id}
+                        type="button"
+                        onClick={() => {
+                          setFarmerTier(tier.id as FarmerTier);
+                          setNotice(`Updated Farmer Premier Tier to ${tier.name} (${tier.fee} commission on completed sales).`);
+                          setTimeout(() => setNotice(null), 4000);
+                        }}
+                        className={`p-3 rounded-xl border text-left transition ${
+                          isSelected
+                            ? 'bg-white dark:bg-zinc-800 border-emerald-600 dark:border-emerald-500 ring-2 ring-emerald-500/40 shadow-xs'
+                            : 'bg-white/60 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 hover:border-emerald-300'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-zinc-950 dark:text-zinc-50">{tier.name}</span>
+                          <span className="text-xs font-mono font-extrabold text-emerald-700 dark:text-emerald-400">{tier.fee}</span>
+                        </div>
+                        <p className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1 leading-tight">{tier.desc}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Example Calculator */}
+                <div className="p-3 bg-white/80 dark:bg-zinc-900/80 rounded-xl border border-zinc-200 dark:border-zinc-800 text-xs">
+                  <span className="font-bold text-zinc-900 dark:text-zinc-100 block mb-1">
+                    Transparent Example on a ₹10,000 Completed Sale:
+                  </span>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-[11px] text-zinc-600 dark:text-zinc-400">
+                    <div>Basic (5%): <strong className="text-emerald-700 dark:text-emerald-300">₹9,500 net</strong></div>
+                    <div>Premier (4%): <strong className="text-emerald-700 dark:text-emerald-300">₹9,600 net</strong></div>
+                    <div>Pro (3%): <strong className="text-emerald-700 dark:text-emerald-300">₹9,700 net</strong></div>
+                    <div>Elite (2%): <strong className="text-emerald-700 dark:text-emerald-300">₹9,800 net</strong></div>
+                  </div>
+                </div>
               </div>
 
               {/* Linked Bank Account Card */}

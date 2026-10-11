@@ -23,6 +23,9 @@ export interface OrderItem {
   status: OrderStatus;
   escrowLocked: boolean;
   escrowTxHash?: string;
+  platformCommissionRate?: number; // e.g. 0.05 (5%) down to 0.02 (2%)
+  platformCommissionAmount?: number; // e.g. ₹500
+  farmerPayoutAmount?: number; // e.g. ₹9,500
   createdAt: string;
   deliveryDate?: string;
   trackingId?: string;
@@ -47,6 +50,9 @@ export const INITIAL_ORDER_SEED: OrderItem[] = [
     status: 'DISPATCHED',
     escrowLocked: true,
     escrowTxHash: 'ESCROW-TX-99410-LOCKED',
+    platformCommissionRate: 0.04,
+    platformCommissionAmount: 280,
+    farmerPayoutAmount: 6720,
     createdAt: 'Today, 09:15 AM',
     deliveryDate: 'Tomorrow Morning',
     trackingId: 'TRK-RJ-4412',
@@ -69,6 +75,9 @@ export const INITIAL_ORDER_SEED: OrderItem[] = [
     status: 'DELIVERED',
     escrowLocked: true,
     escrowTxHash: 'ESCROW-TX-99388-SETTLED',
+    platformCommissionRate: 0.03,
+    platformCommissionAmount: 780,
+    farmerPayoutAmount: 25220,
     createdAt: '2 days ago',
     deliveryDate: 'Yesterday, 04:00 PM',
     trackingId: 'TRK-MP-8109',
@@ -87,6 +96,9 @@ export const INITIAL_ORDER_SEED: OrderItem[] = [
     status: 'DELIVERED',
     escrowLocked: true,
     escrowTxHash: 'ESCROW-TX-99212-SETTLED',
+    platformCommissionRate: 0.04,
+    platformCommissionAmount: 980,
+    farmerPayoutAmount: 23520,
     createdAt: '5 days ago',
     deliveryDate: '4 days ago',
     trackingId: 'TRK-MH-1205',
@@ -186,6 +198,9 @@ export const orderStore = {
     const unitPrice = Number(order.unitPrice || 28);
     const totalPrice = Number(order.totalPrice || qtyKg * unitPrice);
     const commodity = order.commodity || 'Fresh Produce';
+    const commRate = order.platformCommissionRate ?? 0.04;
+    const commAmount = order.platformCommissionAmount ?? Math.round(totalPrice * commRate);
+    const farmerPayout = order.farmerPayoutAmount ?? (totalPrice - commAmount);
 
     const newOrder: OrderItem = {
       id: order.id || `ORD-FL-${Math.floor(1000 + Math.random() * 9000)}`,
@@ -206,6 +221,9 @@ export const orderStore = {
       status: order.status || 'ESCROW_LOCKED',
       escrowLocked: order.escrowLocked ?? true,
       escrowTxHash: order.escrowTxHash || `ESCROW-${Date.now().toString().slice(-6)}-LOCKED`,
+      platformCommissionRate: commRate,
+      platformCommissionAmount: commAmount,
+      farmerPayoutAmount: farmerPayout,
       createdAt: order.createdAt || 'Just now',
       deliveryDate: order.deliveryDate || 'Scheduled within 24h',
       trackingId: order.trackingId || `TRK-FL-${Math.floor(1000 + Math.random() * 9000)}`,

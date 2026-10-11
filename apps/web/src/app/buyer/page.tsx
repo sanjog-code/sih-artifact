@@ -6,7 +6,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import InquiryModal from '../../components/InquiryModal';
 import { useLanguage } from '../../context/LanguageContext';
-import { useRfqStore, useProduceStore, useOrderStore, ProduceLotItem } from '../../lib/store';
+import { useRfqStore, useProduceStore, useOrderStore, useSubscriptionStore, BusinessTier, ProduceLotItem } from '../../lib/store';
 import RoleGuard from '../../components/RoleGuard';
 import {
   CheckCircle2,
@@ -32,12 +32,24 @@ export default function BuyerPortal() {
   const [rfqNotice, setRfqNotice] = useState<string | null>(null);
 
   // Active Tab navigation
-  const [activeTab, setActiveTab] = useState<'overview' | 'market' | 'rfqs' | 'orders' | 'tender'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'market' | 'rfqs' | 'orders' | 'tender' | 'subscriptions' | 'recurring'>('overview');
 
   // Persistence Stores
   const { rfqs, submitRfq, lockEscrow } = useRfqStore();
   const { listings } = useProduceStore();
   const { orders, placeOrder, updateOrderStatus } = useOrderStore();
+  const {
+    businessTier,
+    businessConfig,
+    setBusinessPlan,
+    recurringSchedules,
+    addRecurringSchedule,
+  } = useSubscriptionStore();
+
+  const [schedCrop, setSchedCrop] = useState('Tomato');
+  const [schedVolume, setSchedVolume] = useState(1000);
+  const [schedFrequency, setSchedFrequency] = useState<'WEEKLY' | 'BIWEEKLY' | 'MONTHLY'>('WEEKLY');
+  const [schedDate, setSchedDate] = useState('Every Monday, 07:00 AM');
 
   // Search & Filter in Marketplace
   const [marketSearch, setMarketSearch] = useState('');
@@ -235,6 +247,36 @@ export default function BuyerPortal() {
           >
             <PlusCircle className="w-3.5 h-3.5" />
             <span>Post Demand Tender</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('recurring')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+              activeTab === 'recurring'
+                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
+                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
+            }`}
+          >
+            <Truck className="w-3.5 h-3.5" />
+            <span>Recurring Procurement</span>
+            <span className="px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px]">
+              {recurringSchedules.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('subscriptions')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+              activeTab === 'subscriptions'
+                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
+                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
+            }`}
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Business Premier</span>
+            <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-mono font-bold">
+              {businessConfig.name.replace('Business ', '')}
+            </span>
           </button>
         </div>
 
@@ -754,6 +796,283 @@ export default function BuyerPortal() {
                 </button>
               </div>
             </form>
+          </div>
+        )}
+
+        {/* TAB 6: RECURRING PROCUREMENT SCHEDULES */}
+        {activeTab === 'recurring' && (
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
+                  Automated Recurring Procurement Schedules
+                </h2>
+                <p className="text-xs text-zinc-500 mt-0.5">
+                  Pre-scheduled institutional standing orders fulfilled directly by regional FPO cooperatives with guaranteed cold-chain slots.
+                </p>
+              </div>
+              <span className="text-xs font-mono font-bold px-3 py-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 rounded-full border border-emerald-300 dark:border-emerald-700 self-start">
+                Plan Level: {businessConfig.name}
+              </span>
+            </div>
+
+            {/* Active Standing Orders Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {recurringSchedules.map((sch) => (
+                <div
+                  key={sch.id}
+                  className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[10px] font-mono font-bold uppercase bg-blue-100 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300 px-2 py-0.5 rounded">
+                        {sch.frequency} DISPATCH
+                      </span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                        {sch.status}
+                      </span>
+                    </div>
+                    <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
+                      {sch.commodity} • {sch.volumeKg.toLocaleString('en-IN')} kg
+                    </h3>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+                      Next Auto-Intake: <strong className="text-zinc-800 dark:text-zinc-200">{sch.nextDispatchDate}</strong>
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
+                    <span className="text-emerald-700 font-semibold font-mono">FPO Multi-Sourced</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRfqNotice(`Triggered manual advance dispatch for standing schedule ${sch.id}!`);
+                        setTimeout(() => setRfqNotice(null), 4000);
+                      }}
+                      className="px-3 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 text-zinc-800 dark:text-zinc-200 font-semibold transition text-[11px]"
+                    >
+                      Accelerate Lot
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Schedule Setup Form */}
+            <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs max-w-2xl">
+              <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 mb-3 flex items-center gap-1.5">
+                <Truck className="w-4 h-4 text-emerald-600" />
+                <span>Create New Automated Standing Procurement Order</span>
+              </h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-zinc-600 dark:text-zinc-400 mb-1">Commodity</label>
+                  <input
+                    type="text"
+                    value={schedCrop}
+                    onChange={(e) => setSchedCrop(e.target.value)}
+                    className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-zinc-600 dark:text-zinc-400 mb-1">Weekly Volume (kg)</label>
+                  <input
+                    type="number"
+                    value={schedVolume}
+                    onChange={(e) => setSchedVolume(Number(e.target.value))}
+                    className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-800 font-mono text-zinc-900 dark:text-zinc-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-zinc-600 dark:text-zinc-400 mb-1">Cadence</label>
+                  <select
+                    value={schedFrequency}
+                    onChange={(e) => setSchedFrequency(e.target.value as 'WEEKLY' | 'BIWEEKLY' | 'MONTHLY')}
+                    className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                  >
+                    <option value="WEEKLY">Weekly</option>
+                    <option value="BIWEEKLY">Bi-Weekly</option>
+                    <option value="MONTHLY">Monthly</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-[11px] font-semibold text-zinc-600 dark:text-zinc-400 mb-1">Dispatch Schedule Window</label>
+                <input
+                  type="text"
+                  value={schedDate}
+                  onChange={(e) => setSchedDate(e.target.value)}
+                  className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  addRecurringSchedule({
+                    commodity: schedCrop,
+                    volumeKg: schedVolume,
+                    frequency: schedFrequency,
+                    nextDispatchDate: schedDate,
+                  });
+                  setRfqNotice(`Scheduled recurring procurement for ${schedVolume} kg ${schedCrop} successfully registered!`);
+                  setTimeout(() => setRfqNotice(null), 4500);
+                }}
+                className="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5"
+              >
+                <PlusCircle className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Activate Standing Schedule</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 7: BUSINESS PREMIER SUBSCRIPTIONS */}
+        {activeTab === 'subscriptions' && (
+          <div className="space-y-6">
+            <div className="text-center max-w-3xl mx-auto space-y-2 mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 dark:bg-emerald-400/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span>FarmLink Business Premier — B2B Procurement Subscriptions</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
+                Institutional Sourcing & Supply Chain Ladder
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+                Designed for restaurants, wholesalers, retail chains, food processors, and multi-location bulk enterprises.
+              </p>
+            </div>
+
+            {/* B2B Pricing Plans Matrix */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                {
+                  id: 'starter',
+                  name: 'Business Starter',
+                  monthly: '₹4,999',
+                  annual: '₹49,990',
+                  target: 'Small restaurants & retailers',
+                  features: [
+                    'Bulk procurement dashboard',
+                    'Supplier discovery & comparison',
+                    'Order management & tracking',
+                    'Basic inventory coordination',
+                    'Standard business support',
+                  ],
+                },
+                {
+                  id: 'growth',
+                  name: 'Business Growth',
+                  monthly: '₹9,999',
+                  annual: '₹99,990',
+                  target: 'Growing wholesalers & businesses',
+                  popular: true,
+                  features: [
+                    'Everything in Starter',
+                    'Multi-farmer sourcing coordination',
+                    'Recurring procurement schedules',
+                    'Advanced purchasing analytics',
+                    'Enhanced supplier performance reports',
+                    'Priority support',
+                  ],
+                },
+                {
+                  id: 'pro',
+                  name: 'Business Pro',
+                  monthly: '₹19,999',
+                  annual: '₹1,99,990',
+                  target: 'Large buyers & distributors',
+                  features: [
+                    'Everything in Growth',
+                    'Multi-warehouse destination routing',
+                    'Consolidated purchasing audit reports',
+                    'Enhanced order allocation',
+                    'Dedicated account support',
+                    'Customizable business workflows',
+                  ],
+                },
+                {
+                  id: 'enterprise',
+                  name: 'Enterprise',
+                  monthly: '₹49,999+',
+                  annual: 'Custom SLA',
+                  target: 'Multi-location chains & food processors',
+                  features: [
+                    'Multi-state depot procurement',
+                    'Custom ERP / SAP integrations',
+                    'Dedicated account management desk',
+                    'Contractual SLA commitments',
+                    'Cold-chain dedicated fleet reservation',
+                  ],
+                },
+              ].map((tier) => {
+                const isActive = businessTier === tier.id;
+                return (
+                  <div
+                    key={tier.id}
+                    className={`p-6 rounded-2xl flex flex-col justify-between transition relative ${
+                      isActive
+                        ? 'bg-white dark:bg-zinc-800 border-2 border-emerald-600 dark:border-emerald-500 shadow-xl ring-2 ring-emerald-500/20'
+                        : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs hover:border-zinc-300'
+                    }`}
+                  >
+                    {tier.popular && (
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-extrabold tracking-wide uppercase shadow-sm">
+                        Recommended
+                      </span>
+                    )}
+
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-base font-extrabold text-zinc-950 dark:text-zinc-50">{tier.name}</h3>
+                        {isActive && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                            ACTIVE
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-zinc-500 mb-4">{tier.target}</p>
+
+                      <div className="mb-4 pb-4 border-b border-zinc-100 dark:border-zinc-800">
+                        <div className="text-2xl font-black text-zinc-950 dark:text-zinc-50 font-mono">
+                          {tier.monthly}
+                          <span className="text-xs font-normal text-zinc-500 font-sans"> / month</span>
+                        </div>
+                        <div className="text-[11px] text-emerald-700 dark:text-emerald-400 font-medium mt-0.5">
+                          Annual: {tier.annual} (2 months free)
+                        </div>
+                      </div>
+
+                      <ul className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400 mb-6">
+                        {tier.features.map((f, idx) => (
+                          <li key={idx} className="flex items-start gap-1.5">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                            <span>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <button
+                      type="button"
+                      disabled={isActive}
+                      onClick={() => {
+                        setBusinessPlan(tier.id as BusinessTier, 'monthly');
+                        setRfqNotice(`Successfully upgraded to ${tier.name}! Procurement tools and standing schedules unlocked.`);
+                        setTimeout(() => setRfqNotice(null), 5000);
+                      }}
+                      className={`w-full py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
+                        isActive
+                          ? 'bg-zinc-100 dark:bg-zinc-700 text-zinc-500 cursor-default'
+                          : 'bg-zinc-900 hover:bg-zinc-800 text-white shadow-xs'
+                      }`}
+                    >
+                      <span>{isActive ? 'Current Plan' : `Upgrade to ${tier.name}`}</span>
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
         </main>
