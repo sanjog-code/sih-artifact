@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
@@ -42,8 +43,9 @@ function getCropImage(name: string): string {
 }
 
 export default function Home() {
+  const router = useRouter();
   const { t } = useLanguage();
-  const { role } = useAuth();
+  const { role, isAuthenticated } = useAuth();
   const [inquiryOpen, setInquiryOpen] = useState(false);
 
   // Persistence Stores
@@ -75,43 +77,9 @@ export default function Home() {
     });
   }, [listings, marketFilter, searchQuery, getLotDisplayName]);
 
-  const handleLotOrder = (lotId: string) => {
-    const target = listings.find((l) => l.id.toLowerCase() === lotId.toLowerCase());
-    if (!target) return;
-
-    const orderAmountKg = Math.min(target.quantityKg, 1000);
-    decrementQuantity(target.id, orderAmountKg);
-
-    const order = placeOrder({
-      lotId: target.id,
-      items: `${orderAmountKg} kg ${target.cropName} (Grade ${target.grade})`,
-      commodity: target.cropName,
-      quantityKg: orderAmountKg,
-      unitPrice: target.price,
-      totalPrice: orderAmountKg * target.price,
-      buyerType: 'BULK_BUYER',
-      buyerName: 'Verified Institutional Buyer',
-      status: 'ESCROW_LOCKED',
-      escrowLocked: true,
-      createdAt: 'Just now',
-    });
-
-    submitRfq({
-      lotId: target.id,
-      crop: target.cropName,
-      sellerCluster: target.cluster,
-      volumeKg: orderAmountKg,
-      askingRate: target.price,
-      bidRate: target.price,
-      status: 'ACCEPTED',
-      escrowLocked: true,
-      createdAt: 'Just now',
-    });
-
-    setCartSuccessNotice(
-      `${t.market.quoteSentMsg} (${target.id}) — Order #${order.id} placed & escrow locked!`
-    );
-    setTimeout(() => setCartSuccessNotice(null), 4500);
+  const handleLotOrder = (_lotId: string) => {
+    // Users on the overview page must log in to initiate an order
+    router.push('/login');
   };
 
   return (
