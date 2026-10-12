@@ -272,51 +272,6 @@ export default function BuyerPortal() {
         {/* TAB 1: EXECUTIVE OVERVIEW */}
         {activeTab === 'overview' && (
           <div className="space-y-8">
-            {/* KPI Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
-                <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-1">
-                  <span>Procurement This Month</span>
-                  <Receipt className="w-4 h-4 text-emerald-700" />
-                </div>
-                <div className="text-2xl font-black text-zinc-950 dark:text-zinc-50 font-mono">₹4.82 Lakh</div>
-                <div className="text-[11px] text-emerald-700 font-semibold mt-1 flex items-center gap-1">
-                  <TrendingUp className="w-3 h-3" /> +12.8% vs last month
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
-                <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-1">
-                  <span>Verified FPO Suppliers</span>
-                  <Store className="w-4 h-4 text-blue-600" />
-                </div>
-                <div className="text-2xl font-black text-zinc-950 dark:text-zinc-50 font-mono">38 Clusters</div>
-                <div className="text-[11px] text-emerald-700 font-semibold mt-1">
-                  +6 accredited this month
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
-                <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-1">
-                  <span>Assayed Inventory Reach</span>
-                  <Boxes className="w-4 h-4 text-amber-600" />
-                </div>
-                <div className="text-2xl font-black text-zinc-950 dark:text-zinc-50 font-mono">18.6 Tonnes</div>
-                <div className="text-[11px] text-zinc-500 mt-1">Across 12 WDRA Depots</div>
-              </div>
-
-              <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xs">
-                <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-1">
-                  <span>VRP Logistics Savings</span>
-                  <Truck className="w-4 h-4 text-emerald-600" />
-                </div>
-                <div className="text-2xl font-black text-zinc-950 dark:text-zinc-50 font-mono">₹38,400</div>
-                <div className="text-[11px] text-emerald-700 font-semibold mt-1">
-                  Optimized multi-depot runs
-                </div>
-              </div>
-            </div>
-
             {/* Native Bulk Buyer Copilot: Institutional Pricing & Quote Advisor */}
             <BulkBuyerAiQuoteAdvisor onNavigateToRfq={() => setActiveTab('market')} />
 
