@@ -170,6 +170,18 @@ export default function PricingPage() {
               {(['basic', 'premier', 'premier_pro', 'premier_elite'] as FarmerPlanTier[]).map((tierKey) => {
                 const config = FARMER_TIER_CONFIGS[tierKey];
                 const isPopular = tierKey === 'premier';
+                const localizedPlanName =
+                  tierKey === 'basic' ? (tp?.planBasicFarmer || config.name) :
+                  tierKey === 'premier' ? (tp?.planPremierFarmer || config.name) :
+                  tierKey === 'premier_pro' ? (tp?.planPremierProFarmer || config.name) :
+                  (tp?.planPremierEliteFarmer || config.name);
+
+                const localizedFeatures =
+                  tierKey === 'basic' ? [tp?.featBasic1 || config.features[0], tp?.featBasic2 || config.features[1], tp?.featBasic3 || config.features[2], tp?.featBasic4 || config.features[3]] :
+                  tierKey === 'premier' ? [tp?.featPremier1 || config.features[0], tp?.featPremier2 || config.features[1], tp?.featPremier3 || config.features[2], tp?.featPremier4 || config.features[3]] :
+                  tierKey === 'premier_pro' ? [tp?.featPro1 || config.features[0], tp?.featPro2 || config.features[1], tp?.featPro3 || config.features[2], tp?.featPro4 || config.features[3]] :
+                  [tp?.featElite1 || config.features[0], tp?.featElite2 || config.features[1], tp?.featElite3 || config.features[2], tp?.featElite4 || config.features[3]];
+
                 return (
                   <div
                     key={config.id}
@@ -186,7 +198,7 @@ export default function PricingPage() {
                         </span>
                       )}
                       <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
-                        {config.name}
+                        {localizedPlanName}
                       </h3>
                       <div className="mt-3 flex items-baseline gap-1">
                         <span className="text-3xl font-black text-zinc-950 dark:text-zinc-50 font-mono">
@@ -203,7 +215,7 @@ export default function PricingPage() {
                           {tp?.includedBenefits || 'Included Benefits:'}
                         </span>
                         <ul className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400">
-                          {config.features.map((feat, idx) => (
+                          {localizedFeatures.map((feat, idx) => (
                             <li key={idx} className="flex items-start gap-2">
                               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                               <span>{feat}</span>
@@ -267,13 +279,18 @@ export default function PricingPage() {
                 {(['basic', 'premier', 'premier_pro', 'premier_elite'] as FarmerPlanTier[]).map((tierKey) => {
                   const res = calculatedPayouts[tierKey];
                   const config = FARMER_TIER_CONFIGS[tierKey];
+                  const localizedPlanName =
+                    tierKey === 'basic' ? (tp?.planBasicFarmer || config.name) :
+                    tierKey === 'premier' ? (tp?.planPremierFarmer || config.name) :
+                    tierKey === 'premier_pro' ? (tp?.planPremierProFarmer || config.name) :
+                    (tp?.planPremierEliteFarmer || config.name);
                   return (
                     <div
                       key={`card-${tierKey}`}
                       className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-850/60 space-y-2"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-bold text-sm text-zinc-900 dark:text-zinc-100">{config.name}</span>
+                        <span className="font-bold text-sm text-zinc-900 dark:text-zinc-100">{localizedPlanName}</span>
                         <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
                           {res.commissionRatePct}% {tp?.rateCol || 'Rate'}
                         </span>
@@ -308,10 +325,15 @@ export default function PricingPage() {
                     {(['basic', 'premier', 'premier_pro', 'premier_elite'] as FarmerPlanTier[]).map((tierKey) => {
                       const res = calculatedPayouts[tierKey];
                       const config = FARMER_TIER_CONFIGS[tierKey];
+                      const localizedPlanName =
+                        tierKey === 'basic' ? (tp?.planBasicFarmer || config.name) :
+                        tierKey === 'premier' ? (tp?.planPremierFarmer || config.name) :
+                        tierKey === 'premier_pro' ? (tp?.planPremierProFarmer || config.name) :
+                        (tp?.planPremierEliteFarmer || config.name);
                       return (
                         <tr key={tierKey} className="hover:bg-zinc-50 dark:hover:bg-zinc-850">
                           <td className="py-3 px-3 font-semibold text-zinc-900 dark:text-zinc-100">
-                            {config.name}
+                            {localizedPlanName}
                           </td>
                           <td className="py-3 px-3 font-mono text-zinc-600 dark:text-zinc-400">
                             {res.commissionRatePct}%
@@ -385,6 +407,33 @@ export default function PricingPage() {
                 const price = billingPeriod === 'annual' ? config.yearlyFeeInr : config.monthlyFeeInr;
                 const periodLabel = billingPeriod === 'annual' ? (tp?.perYear || '/year') : (tp?.perMonth || '/month');
 
+                const localizedPlanName =
+                  tierKey === 'starter' ? (tp?.planBusinessStarter || config.name) :
+                  tierKey === 'growth' ? (tp?.planBusinessGrowth || config.name) :
+                  tierKey === 'pro' ? (tp?.planBusinessPro || config.name) :
+                  (tp?.planEnterprise || config.name);
+
+                const localizedDesc =
+                  tierKey === 'starter' ? (tp?.descBusinessStarter || config.description) :
+                  tierKey === 'growth' ? (tp?.descBusinessGrowth || config.description) :
+                  tierKey === 'pro' ? (tp?.descBusinessPro || config.description) :
+                  (tp?.descEnterprise || config.description);
+
+                const getLocalizedEntitlement = (ent: string) => {
+                  if (ent === 'buyer:basic_search') return tp?.capBasicSearch || 'Basic search';
+                  if (ent === 'buyer:order_management') return tp?.capOrderMgmt || 'Order management';
+                  if (ent === 'buyer:single_depot') return tp?.capSingleDepot || 'Single depot';
+                  if (ent === 'buyer:multi_supplier_sourcing') return tp?.capMultiSupplier || 'Multi-supplier sourcing';
+                  if (ent === 'buyer:recurring_orders') return tp?.capRecurringOrders || 'Recurring orders';
+                  if (ent === 'buyer:analytics_supplier_perf') return tp?.capAnalytics || 'Supplier performance analytics';
+                  if (ent === 'buyer:multi_depot_routing') return tp?.capMultiDepotRouting || 'Multi-depot routing';
+                  if (ent === 'buyer:audit_reports_consolidated') return tp?.capAuditReports || 'Consolidated audit reports';
+                  if (ent === 'buyer:priority_dispatch') return tp?.capPriorityDispatch || 'Priority dispatch';
+                  if (ent === 'buyer:custom_erp_integration') return tp?.capCustomErp || 'Custom ERP integrations';
+                  if (ent === 'buyer:dedicated_account_desk') return tp?.capDedicatedAccount || 'Dedicated account desk';
+                  return ent.replace('buyer:', '').replace(/_/g, ' ');
+                };
+
                 return (
                   <div
                     key={config.id}
@@ -401,10 +450,10 @@ export default function PricingPage() {
                         </span>
                       )}
                       <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
-                        {config.name}
+                        {localizedPlanName}
                       </h3>
                       <p className="text-xs text-zinc-500 mt-1 leading-relaxed">
-                        {config.description}
+                        {localizedDesc}
                       </p>
 
                       <div className="mt-4 flex items-baseline gap-1">
@@ -425,7 +474,7 @@ export default function PricingPage() {
                             <li key={idx} className="flex items-start gap-2">
                               <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
                               <span className="capitalize">
-                                {ent.replace('buyer:', '').replace(/_/g, ' ')}
+                                {getLocalizedEntitlement(ent)}
                               </span>
                             </li>
                           ))}
@@ -454,25 +503,25 @@ export default function PricingPage() {
                               openFallbackModal: (modal) => {
                                 setPaymentModalData({
                                   amountInr: modal.amountInr,
-                                  planName: modal.planName || config.name,
+                                  planName: modal.planName || localizedPlanName,
                                   billingInterval: modal.billingInterval,
                                   title: modal.title,
                                   onAuthorize: () => {
-                                    setPaymentNotice(`Successfully activated ${config.name} (${billingPeriod})! Digital receipt generated.`);
+                                    setPaymentNotice(`Successfully activated ${localizedPlanName} (${billingPeriod})! Digital receipt generated.`);
                                     setTimeout(() => setPaymentNotice(null), 5000);
                                   },
                                 });
                                 setPaymentModalOpen(true);
                               },
                               onSuccess: (res) => {
-                                setPaymentNotice(`Payment Verified (${res.paymentId})! Activated ${config.name}.`);
+                                setPaymentNotice(`Payment Verified (${res.paymentId})! Activated ${localizedPlanName}.`);
                                 setTimeout(() => setPaymentNotice(null), 5000);
                               },
                             });
                           }}
                           className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold text-center block transition shadow-xs cursor-pointer"
                         >
-                          {(tp?.subscribeBtn || 'Subscribe {plan}').replace('{plan}', config.name)}
+                          {(tp?.subscribeBtn || 'Subscribe {plan}').replace('{plan}', localizedPlanName)}
                         </button>
                       )}
                     </div>
@@ -533,6 +582,11 @@ export default function PricingPage() {
                 const price = billingPeriod === 'annual' ? config.yearlyFeeInr : config.monthlyFeeInr;
                 const periodLabel = billingPeriod === 'annual' ? (tp?.perYear || '/year') : (tp?.perMonth || '/month');
 
+                const localizedPlanName =
+                  tierKey === 'basic' ? (tp?.planConsumerBasic || config.name) :
+                  tierKey === 'premier' ? (tp?.planConsumerPremier || config.name) :
+                  (tp?.planConsumerPlus || config.name);
+
                 return (
                   <div
                     key={config.id}
@@ -549,7 +603,7 @@ export default function PricingPage() {
                         </span>
                       )}
                       <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
-                        {config.name}
+                        {localizedPlanName}
                       </h3>
                       <div className="mt-3 flex items-baseline gap-1">
                         <span className="text-3xl font-black text-zinc-950 dark:text-zinc-50 font-mono">
@@ -601,7 +655,7 @@ export default function PricingPage() {
                           href="/consumer"
                           className="w-full py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-bold text-center block transition shadow-xs"
                         >
-                          {consumerTier === 'basic' ? (tp?.currentFreePlan || 'Current Free Plan') : (tp?.selectFreePlan || 'Select Free Plan')}
+                          {consumerTier === 'basic' ? (tp?.currentFreePlan || 'Current Free Plan') : (tp?.startFreeBtn || tp?.selectFreePlan || 'Start Free')}
                         </Link>
                       ) : consumerTier === tierKey ? (
                         <Link
@@ -622,12 +676,12 @@ export default function PricingPage() {
                               openFallbackModal: (modal) => {
                                 setPaymentModalData({
                                   amountInr: modal.amountInr,
-                                  planName: modal.planName || config.name,
+                                  planName: modal.planName || localizedPlanName,
                                   billingInterval: modal.billingInterval,
                                   title: modal.title,
                                   onAuthorize: () => {
                                     setConsumerPlan(tierKey as ConsumerTier, billingPeriod);
-                                    setPaymentNotice(`Successfully activated ${config.name} (${billingPeriod})! Your Premium Zone is now unlocked.`);
+                                    setPaymentNotice(`Successfully activated ${localizedPlanName} (${billingPeriod})! Your Premium Zone is now unlocked.`);
                                     setTimeout(() => setPaymentNotice(null), 5000);
                                   },
                                 });
@@ -635,14 +689,14 @@ export default function PricingPage() {
                               },
                               onSuccess: (res) => {
                                 setConsumerPlan(tierKey as ConsumerTier, billingPeriod);
-                                setPaymentNotice(`Payment Verified (${res.paymentId})! Welcome to ${config.name}.`);
+                                setPaymentNotice(`Payment Verified (${res.paymentId})! Welcome to ${localizedPlanName}.`);
                                 setTimeout(() => setPaymentNotice(null), 5000);
                               },
                             });
                           }}
                           className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold text-center block transition shadow-xs cursor-pointer"
                         >
-                          {(tp?.joinPlan || 'Join {plan} (₹{price}{period})').replace('{plan}', config.name).replace('{price}', String(price)).replace('{period}', periodLabel)}
+                          {(tp?.joinPlan || 'Join {plan} (₹{price}{period})').replace('{plan}', localizedPlanName).replace('{price}', String(price)).replace('{period}', periodLabel)}
                         </button>
                       )}
                     </div>
