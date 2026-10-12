@@ -31,16 +31,32 @@ import { triggerInvoicePrintOrDownload } from '../../lib/invoiceGenerator';
 import SmartQuoteGuide from '../../components/SmartQuoteGuide';
 import BulkBuyerAiQuoteAdvisor from '../../components/BulkBuyerAiQuoteAdvisor';
 
+import InstitutionalPaymentModal from '../../components/InstitutionalPaymentModal';
+import { initiateClientPayment } from '../../lib/client/checkout';
+
 export default function BuyerPortal() {
   const { t } = useLanguage();
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const [rfqNotice, setRfqNotice] = useState<string | null>(null);
 
   // Active Tab navigation
-  const [activeTab, setActiveTab] = useState<'overview' | 'copilot' | 'market' | 'rfqs' | 'orders' | 'tender' | 'subscriptions' | 'recurring'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'copilot' | 'market' | 'orders' | 'tender' | 'subscriptions' | 'recurring'>('overview');
+
+  // Payment Gateway Modal State
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [paymentModalData, setPaymentModalData] = useState<{
+    amountInr: number;
+    planName?: string;
+    billingInterval?: 'monthly' | 'annual';
+    title: string;
+    targetTier?: BusinessTier;
+    onAuthorize?: () => void;
+  }>({
+    amountInr: 4999,
+    title: 'Institutional Payment Gateway',
+  });
 
   // Persistence Stores
-  const { rfqs, submitRfq, lockEscrow, counterOffer } = useRfqStore();
   const { listings } = useProduceStore();
   const { orders, placeOrder, updateOrderStatus, advanceOrderStage, advanceAllOrders } = useOrderStore();
   const {
@@ -59,11 +75,6 @@ export default function BuyerPortal() {
   // Search & Filter in Marketplace
   const [marketSearch, setMarketSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-
-  // RFQ Form State
-  const [selectedLot, setSelectedLot] = useState('LOT-RJ-8401 (Tomato - 4,200kg)');
-  const [targetVolume, setTargetVolume] = useState(2000);
-  const [offerPrice, setOfferPrice] = useState(26.5);
 
   // Post Demand Tender Form State
   const [tenderCrop, setTenderCrop] = useState('Tomato');
@@ -86,41 +97,6 @@ export default function BuyerPortal() {
       return matchCat && matchSearch && isAvailableForBulk && item.quantityKg > 0;
     });
   }, [listings, selectedCategory, marketSearch]);
-
-  const handleSubmitRfq = (e: React.FormEvent) => {
-    e.preventDefault();
-    const targetLotId = selectedLot.split(' ')[0] || '';
-    const targetLot = listings.find((l) => l.id.toLowerCase() === targetLotId.toLowerCase());
-    const cropName = targetLot ? targetLot.cropName : selectedLot.split(' ')[1]?.replace('(', '') || 'Tomato';
-    const clusterName = targetLot ? targetLot.cluster : 'Jaitpura Farmer Cooperative';
-    const asking = targetLot ? targetLot.price : 28;
-
-    const mspFloor = getCropMspFloor(cropName);
-    if (mspFloor && Number(offerPrice) < mspFloor) {
-      setRfqNotice(`Fair Trade Guardrail Enforced: CACP Statutory MSP for ${cropName} is ₹${mspFloor.toFixed(2)}/kg. Institutional bids below statutory floor are prohibited.`);
-      setTimeout(() => setRfqNotice(null), 6000);
-      return;
-    }
-
-    const newRfq = submitRfq({
-      lotId: targetLotId,
-      crop: cropName,
-      sellerCluster: clusterName,
-      volumeKg: Number(targetVolume),
-      askingRate: asking,
-      bidRate: Number(offerPrice),
-      status: 'PENDING',
-      createdAt: 'Just now',
-    });
-
-    setRfqNotice(
-      t.buyer.rfqSubmittedNotice
-        .replace('{id}', newRfq.id)
-        .replace('{price}', String(offerPrice))
-        .replace('{cluster}', clusterName)
-    );
-    setTimeout(() => setRfqNotice(null), 4500);
-  };
 
   const handleQuickSource = (lot: ProduceLotItem) => {
     const qty = Math.min(lot.quantityKg, 1000);
@@ -236,21 +212,6 @@ export default function BuyerPortal() {
           </button>
 
           <button
-            onClick={() => setActiveTab('rfqs')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
-              activeTab === 'rfqs'
-                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
-                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
-            }`}
-          >
-            <FileText className="w-3.5 h-3.5" />
-            <span>RFQ Bidding Desk</span>
-            <span className="px-1.5 py-0.5 rounded-full bg-zinc-200 text-zinc-800 dark:text-zinc-200 text-[10px]">
-              {rfqs.length}
-            </span>
-          </button>
-
-          <button
             onClick={() => setActiveTab('orders')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
               activeTab === 'orders'
@@ -357,14 +318,14 @@ export default function BuyerPortal() {
             </div>
 
             {/* Native Bulk Buyer Copilot: Institutional Pricing & Quote Advisor */}
-            <BulkBuyerAiQuoteAdvisor onNavigateToRfq={() => setActiveTab('rfqs')} />
+            <BulkBuyerAiQuoteAdvisor onNavigateToRfq={() => setActiveTab('market')} />
 
             {/* Smart Price Guide to Quote: Volume Pricing Brackets */}
             <SmartQuoteGuide
               onApplyQuote={(_crop, vol, price) => {
-                setOfferPrice(price);
-                setTargetVolume(vol);
-                setActiveTab('rfqs');
+                setActiveTab('market');
+                setRfqNotice(`Market Quote Benchmark ₹${price}/kg for ${vol.toLocaleString('en-IN')} kg noted. Select lot from Farmer Marketplace.`);
+                setTimeout(() => setRfqNotice(null), 5000);
               }}
             />
 
@@ -447,7 +408,7 @@ export default function BuyerPortal() {
                       </div>
                       <button
                         onClick={() => {
-                          setActiveTab('rfqs');
+                          setActiveTab('market');
                         }}
                         className="px-3 py-1 bg-zinc-900 hover:bg-zinc-800 text-white text-[11px] font-semibold rounded-lg transition"
                       >
@@ -475,7 +436,7 @@ export default function BuyerPortal() {
         {/* TAB: NATIVE AI BUYER COPILOT */}
         {activeTab === 'copilot' && (
           <div className="space-y-6">
-            <BulkBuyerAiQuoteAdvisor onNavigateToRfq={() => setActiveTab('rfqs')} />
+            <BulkBuyerAiQuoteAdvisor onNavigateToRfq={() => setActiveTab('market')} />
           </div>
         )}
 
@@ -540,22 +501,13 @@ export default function BuyerPortal() {
                     </div>
                   </div>
 
-                  <div className="pt-2 flex items-center gap-2">
+                  <div className="pt-2">
                     <button
                       onClick={() => handleQuickSource(lot)}
-                      className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold transition text-center shadow-xs"
+                      className="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold transition text-center shadow-xs flex items-center justify-center gap-1.5"
                     >
-                      Instant Purchase
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSelectedLot(`${lot.id} (${lot.cropName} - ${lot.quantityKg}kg)`);
-                        setOfferPrice(lot.price);
-                        setActiveTab('rfqs');
-                      }}
-                      className="px-3 py-2 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 text-zinc-900 dark:text-zinc-100 rounded-lg text-xs font-semibold transition"
-                    >
-                      Bid RFQ
+                      <Lock className="w-3.5 h-3.5" />
+                      <span>Instant Purchase (Escrow Lock)</span>
                     </button>
                   </div>
                 </div>
@@ -564,161 +516,7 @@ export default function BuyerPortal() {
           </div>
         )}
 
-        {/* TAB 3: RFQ BIDDING DESK */}
-        {activeTab === 'rfqs' && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Form Column */}
-            <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs space-y-4">
-              <div className="border-b border-zinc-100 dark:border-zinc-800 pb-3">
-                <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">{t.buyer.rfq}</h3>
-                <p className="text-xs text-zinc-500">{t.buyer.rfqSubtitle}</p>
-              </div>
-
-              <form onSubmit={handleSubmitRfq} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">{t.buyer.targetLot}</label>
-                  <select
-                    value={selectedLot}
-                    onChange={(e) => setSelectedLot(e.target.value)}
-                    className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                  >
-                    {listings.map((l) => (
-                      <option key={l.id} value={`${l.id} (${l.cropName} - ${l.quantityKg}kg)`}>
-                        {l.id} ({l.cropName} Grade {l.grade} - {l.quantityKg.toLocaleString('en-IN')} kg)
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">{t.buyer.targetVolume}</label>
-                  <input
-                    type="number"
-                    required
-                    min={500}
-                    step={100}
-                    value={targetVolume}
-                    onChange={(e) => setTargetVolume(Number(e.target.value))}
-                    className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">{t.buyer.offerRate}</label>
-                  <input
-                    type="number"
-                    required
-                    min={10}
-                    step={0.25}
-                    value={offerPrice}
-                    onChange={(e) => setOfferPrice(Number(e.target.value))}
-                    className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                  />
-                </div>
-
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    className="w-full py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 shadow-xs"
-                  >
-                    <Send className="w-3.5 h-3.5" />
-                    <span>{t.buyer.transmitRfq}</span>
-                  </button>
-                </div>
-              </form>
-            </div>
-
-            {/* Negotiations Column */}
-            <div className="lg:col-span-2 space-y-6">
-              <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs">
-                <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-4">
-                  <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">{t.buyer.activeNegotiationsTitle}</h3>
-                  <span className="text-[11px] font-mono text-zinc-500">{rfqs.length} {t.common.activeNegotiations}</span>
-                </div>
-
-                <div className="space-y-3">
-                  {rfqs.map((rfq) => (
-                    <div
-                      key={rfq.id}
-                      className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:border-zinc-300 transition space-y-2"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{rfq.crop}</span>
-                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                          rfq.status === 'ACCEPTED'
-                            ? 'bg-emerald-100 text-emerald-800'
-                            : rfq.status === 'ESCROW_LOCKED'
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-amber-100 text-amber-800'
-                        }`}>
-                          {rfq.status}
-                        </span>
-                      </div>
-
-                      <div className="flex justify-between text-xs text-zinc-600 dark:text-zinc-400">
-                        <span>{t.buyer.growerCluster} <strong>{rfq.sellerCluster}</strong></span>
-                        <span>{t.buyer.volumeLabel} <strong className="font-mono">{rfq.volumeKg.toLocaleString()} {t.common.kg}</strong></span>
-                      </div>
-
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs pt-2 border-t border-zinc-100 dark:border-zinc-800">
-                        <span className="text-zinc-500">
-                          {t.buyer.askingRateLabel.replace('{asking}', String(rfq.askingRate))} <strong className="text-zinc-900 dark:text-zinc-100 font-mono">₹{rfq.bidRate}{t.common.perKg}</strong>
-                        </span>
-                        <div className="flex items-center gap-2">
-                          {rfq.status !== 'ESCROW_LOCKED' && rfq.status !== 'SETTLED' && (
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-[10px] font-mono text-zinc-500 uppercase font-semibold">Counter: ₹</span>
-                              <input
-                                type="number"
-                                step={0.25}
-                                min={10}
-                                placeholder="Rate"
-                                defaultValue={rfq.bidRate}
-                                onKeyDown={(e) => {
-                                  if (e.key === 'Enter') {
-                                    const val = Number((e.target as HTMLInputElement).value);
-                                    if (val > 0) {
-                                      counterOffer(rfq.id, val);
-                                      setRfqNotice(`Counter-bid of ₹${val}/kg transmitted to seller for ${rfq.id}!`);
-                                      setTimeout(() => setRfqNotice(null), 4000);
-                                    }
-                                  }
-                                }}
-                                className="w-16 px-1.5 py-1 text-[11px] font-mono font-bold rounded border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
-                              />
-                            </div>
-                          )}
-
-                          {rfq.status === 'ACCEPTED' ? (
-                            <button
-                              type="button"
-                              onClick={() => {
-                                lockEscrow(rfq.id);
-                                setRfqNotice(t.buyer.escrowReleasedNotice.replace('{id}', rfq.id));
-                                setTimeout(() => setRfqNotice(null), 4500);
-                              }}
-                              className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-md text-[11px] font-semibold transition"
-                            >
-                              {t.buyer.releaseEscrowBtn}
-                            </button>
-                          ) : rfq.status === 'ESCROW_LOCKED' ? (
-                            <span className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
-                              <Lock className="w-3 h-3" /> {t.buyer.escrowLocked}
-                            </span>
-                          ) : (
-                            <span className="text-[11px] text-zinc-400 font-mono">{t.buyer.awaitingConsensus}</span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 4: PROCUREMENT ORDERS & ESCROW RELEASE */}
+        {/* TAB: PROCUREMENT ORDERS & ESCROW RELEASE */}
         {activeTab === 'orders' && (
           <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs">
             <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-6">
@@ -1166,9 +964,39 @@ export default function BuyerPortal() {
                       type="button"
                       disabled={isActive}
                       onClick={() => {
-                        setBusinessPlan(tier.id as BusinessTier, 'monthly');
-                        setRfqNotice(`Successfully upgraded to ${tier.name}! Procurement tools and standing schedules unlocked.`);
-                        setTimeout(() => setRfqNotice(null), 5000);
+                        const feeMap: Record<string, number> = {
+                          starter: 4999,
+                          growth: 9999,
+                          pro: 19999,
+                          enterprise: 49999,
+                        };
+                        const amount = feeMap[tier.id] || 4999;
+                        initiateClientPayment({
+                          type: 'SUBSCRIPTION',
+                          planCode: tier.id,
+                          billingInterval: 'monthly',
+                          customerName: 'Enterprise Buyer #BYR-DL-802',
+                          openFallbackModal: (modal) => {
+                            setPaymentModalData({
+                              amountInr: modal.amountInr,
+                              planName: modal.planName || tier.name,
+                              billingInterval: modal.billingInterval,
+                              title: modal.title,
+                              targetTier: tier.id as BusinessTier,
+                              onAuthorize: () => {
+                                setBusinessPlan(tier.id as BusinessTier, 'monthly');
+                                setRfqNotice(`Authorized Institutional Payment & Activated ${tier.name}! Digital invoice dispatched.`);
+                                setTimeout(() => setRfqNotice(null), 5000);
+                              },
+                            });
+                            setPaymentModalOpen(true);
+                          },
+                          onSuccess: (paymentRes) => {
+                            setBusinessPlan(tier.id as BusinessTier, 'monthly');
+                            setRfqNotice(`Payment Verified (${paymentRes.paymentId})! Successfully upgraded to ${tier.name}.`);
+                            setTimeout(() => setRfqNotice(null), 5000);
+                          },
+                        });
                       }}
                       className={`w-full py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
                         isActive
@@ -1189,6 +1017,19 @@ export default function BuyerPortal() {
 
       <Footer />
       <InquiryModal isOpen={inquiryOpen} onClose={() => setInquiryOpen(false)} />
+      <InstitutionalPaymentModal
+        isOpen={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        title={paymentModalData.title}
+        amountInr={paymentModalData.amountInr}
+        planName={paymentModalData.planName}
+        billingInterval={paymentModalData.billingInterval}
+        onSuccess={() => {
+          if (paymentModalData.onAuthorize) {
+            paymentModalData.onAuthorize();
+          }
+        }}
+      />
     </div>
   );
 }

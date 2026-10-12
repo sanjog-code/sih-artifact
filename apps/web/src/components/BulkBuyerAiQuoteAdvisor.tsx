@@ -593,7 +593,7 @@ You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telem
               onClick={onNavigateToRfq}
               className="px-3 py-1 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg text-xs font-bold transition flex items-center gap-1 shrink-0"
             >
-              <span>View RFQ Desk</span>
+              <span>View Marketplace</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           )}

@@ -348,6 +348,35 @@ import('crypto').then((crypto) => {
 
   console.log('  ✅ Orders removed from Farmer Hub, Demand Advisory active, Tier Progression rules verified, and AI (beta) tagged site-wide!\n');
 
-  console.log('🎉 ALL 11 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
+  // 12. RFQ Bidding Desk Removal from Buyer Portal & Universal Payment Gateway Integration
+  console.log('💳 Test 12: Verifying RFQ Bidding Desk Removal & Universal Payment Gateway Integration...');
+
+  // Assert buyer page has completely removed RFQ bidding desk tab & buttons
+  assert(!buyerPageSrc2.includes("{ id: 'rfqs'"), 'Buyer portal must not define an rfqs tab in activeTab list');
+  assert(!buyerPageSrc2.includes('RFQ Bidding Desk'), 'Buyer portal must not display RFQ Bidding Desk navigation button');
+  assert(!buyerPageSrc2.includes('activeTab === \'rfqs\''), 'Buyer portal must not contain activeTab === rfqs rendering block');
+  assert(!buyerPageSrc2.includes('Bid RFQ'), 'Buyer portal must not display Bid RFQ action button');
+
+  // Assert Institutional Payment Gateway & client checkout integration
+  assert(buyerPageSrc2.includes('InstitutionalPaymentModal'), 'Buyer portal must integrate InstitutionalPaymentModal');
+  assert(buyerPageSrc2.includes('initiateClientPayment'), 'Buyer portal must wire subscription upgrades to initiateClientPayment');
+
+  const pricingPagePath = path.resolve(__dirname, '../src/app/pricing/page.tsx');
+  const pricingPageSrc = fs.readFileSync(pricingPagePath, 'utf8');
+  assert(pricingPageSrc.includes('InstitutionalPaymentModal'), 'Pricing page must integrate InstitutionalPaymentModal');
+  assert(pricingPageSrc.includes('initiateClientPayment'), 'Pricing page must integrate initiateClientPayment');
+
+  const clientCheckoutPath = path.resolve(__dirname, '../src/lib/client/checkout.ts');
+  assert(fs.existsSync(clientCheckoutPath), 'lib/client/checkout.ts client checkout helper must exist');
+  const clientCheckoutSrc = fs.readFileSync(clientCheckoutPath, 'utf8');
+  assert(clientCheckoutSrc.includes('initiateClientPayment'), 'checkout.ts must export initiateClientPayment');
+  assert(clientCheckoutSrc.includes('/api/monetization/checkout'), 'checkout.ts must call /api/monetization/checkout endpoint');
+
+  const paymentModalPath = path.resolve(__dirname, '../src/components/InstitutionalPaymentModal.tsx');
+  assert(fs.existsSync(paymentModalPath), 'InstitutionalPaymentModal.tsx component must exist');
+
+  console.log('  ✅ RFQ Bidding Desk removed from Bulk Buyer Dashboard & Payment Gateway seamlessly integrated!\n');
+
+  console.log('🎉 ALL 12 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
 });
 

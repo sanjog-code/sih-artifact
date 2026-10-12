@@ -27,11 +27,28 @@ import {
   Calculator,
 } from 'lucide-react';
 
+import InstitutionalPaymentModal from '../../components/InstitutionalPaymentModal';
+import { initiateClientPayment } from '../../lib/client/checkout';
+
 export default function PricingPage() {
   const [roleTab, setRoleTab] = useState<'farmer' | 'business' | 'consumer'>('farmer');
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
   const [saleAmount, setSaleAmount] = useState<number>(10000);
   const [inquiryOpen, setInquiryOpen] = useState(false);
+  const [paymentNotice, setPaymentNotice] = useState<string | null>(null);
+
+  // Payment Gateway Modal State
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [paymentModalData, setPaymentModalData] = useState<{
+    amountInr: number;
+    planName?: string;
+    billingInterval?: 'monthly' | 'annual';
+    title: string;
+    onAuthorize?: () => void;
+  }>({
+    amountInr: 4999,
+    title: 'Fasal Matrix Institutional Payment Gateway',
+  });
 
   const calculatedPayouts = {
     basic: calculateFarmerPayout(saleAmount, 'basic'),
@@ -363,12 +380,47 @@ export default function PricingPage() {
                     </div>
 
                     <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800">
-                      <Link
-                        href="/buyer"
-                        className="w-full py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-bold text-center block transition shadow-xs"
-                      >
-                        {tierKey === 'enterprise' ? 'Inquire Enterprise' : 'Select Plan'}
-                      </Link>
+                      {tierKey === 'enterprise' ? (
+                        <button
+                          type="button"
+                          onClick={() => setInquiryOpen(true)}
+                          className="w-full py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-bold text-center block transition shadow-xs cursor-pointer"
+                        >
+                          Inquire Enterprise Custom SLA
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            initiateClientPayment({
+                              type: 'SUBSCRIPTION',
+                              planCode: tierKey,
+                              billingInterval: billingPeriod,
+                              customerName: 'Enterprise Bulk Buyer',
+                              openFallbackModal: (modal) => {
+                                setPaymentModalData({
+                                  amountInr: modal.amountInr,
+                                  planName: modal.planName || config.name,
+                                  billingInterval: modal.billingInterval,
+                                  title: modal.title,
+                                  onAuthorize: () => {
+                                    setPaymentNotice(`Successfully activated ${config.name} (${billingPeriod})! Digital receipt generated.`);
+                                    setTimeout(() => setPaymentNotice(null), 5000);
+                                  },
+                                });
+                                setPaymentModalOpen(true);
+                              },
+                              onSuccess: (res) => {
+                                setPaymentNotice(`Payment Verified (${res.paymentId})! Activated ${config.name}.`);
+                                setTimeout(() => setPaymentNotice(null), 5000);
+                              },
+                            });
+                          }}
+                          className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold text-center block transition shadow-xs cursor-pointer"
+                        >
+                          Subscribe {config.name}
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
@@ -490,12 +542,46 @@ export default function PricingPage() {
                     </div>
 
                     <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800">
-                      <Link
-                        href="/consumer"
-                        className="w-full py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-bold text-center block transition shadow-xs"
-                      >
-                        {price === 0 ? 'Start Free' : 'Join Membership'}
-                      </Link>
+                      {price === 0 ? (
+                        <Link
+                          href="/consumer"
+                          className="w-full py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-bold text-center block transition shadow-xs"
+                        >
+                          Start Free
+                        </Link>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            initiateClientPayment({
+                              type: 'SUBSCRIPTION',
+                              planCode: tierKey,
+                              billingInterval: billingPeriod,
+                              customerName: 'FarmLink Consumer Member',
+                              openFallbackModal: (modal) => {
+                                setPaymentModalData({
+                                  amountInr: modal.amountInr,
+                                  planName: modal.planName || config.name,
+                                  billingInterval: modal.billingInterval,
+                                  title: modal.title,
+                                  onAuthorize: () => {
+                                    setPaymentNotice(`Successfully activated ${config.name} (${billingPeriod})! Enjoy direct farm benefits.`);
+                                    setTimeout(() => setPaymentNotice(null), 5000);
+                                  },
+                                });
+                                setPaymentModalOpen(true);
+                              },
+                              onSuccess: (res) => {
+                                setPaymentNotice(`Payment Verified (${res.paymentId})! Welcome to ${config.name}.`);
+                                setTimeout(() => setPaymentNotice(null), 5000);
+                              },
+                            });
+                          }}
+                          className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold text-center block transition shadow-xs cursor-pointer"
+                        >
+                          Join {config.name} (₹{price}{periodLabel})
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
@@ -587,6 +673,25 @@ export default function PricingPage() {
 
       <Footer />
       <InquiryModal isOpen={inquiryOpen} onClose={() => setInquiryOpen(false)} />
+      <InstitutionalPaymentModal
+        isOpen={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        title={paymentModalData.title}
+        amountInr={paymentModalData.amountInr}
+        planName={paymentModalData.planName}
+        billingInterval={paymentModalData.billingInterval}
+        onSuccess={() => {
+          if (paymentModalData.onAuthorize) {
+            paymentModalData.onAuthorize();
+          }
+        }}
+      />
+      {paymentNotice && (
+        <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-emerald-900 text-white shadow-2xl border border-emerald-700 text-xs font-semibold flex items-center gap-2 animate-in slide-in-from-bottom">
+          <ShieldCheck className="w-4 h-4 text-emerald-300" />
+          <span>{paymentNotice}</span>
+        </div>
+      )}
     </div>
   );
 }
