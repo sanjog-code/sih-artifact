@@ -85,6 +85,7 @@ import {
 
 export default function AboutPage() {
   const { t } = useLanguage();
+  const ta = t.about;
   const [inquiryOpen, setInquiryOpen] = useState(false);
 
   // Direct Contact Form State
@@ -225,14 +226,14 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6">
             <div>
               <span className="text-xs uppercase font-mono tracking-wider text-emerald-700 dark:text-emerald-400 font-bold">
-                Ground Reality & Field Infrastructure
+                {ta.groundRealityBadge}
               </span>
               <h2 className="text-xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-1 tracking-tight">
-                Operating Directly Across India’s Agricultural Clusters
+                {ta.groundRealityTitle}
               </h2>
             </div>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-2 sm:mt-0 max-w-sm">
-              Real farmgate checkpoints, assay testing laboratories, and cold storage silos operational in Rajasthan, Madhya Pradesh, and Punjab.
+              {ta.groundRealityDesc}
             </p>
           </div>
 
@@ -249,25 +250,25 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
                 <div className="absolute top-3 left-3 flex gap-2">
                   <span className="text-[10px] font-mono font-bold uppercase text-emerald-300 bg-emerald-950/90 backdrop-blur-md border border-emerald-700/60 px-2.5 py-0.5 rounded-full">
-                    Kisan Cluster #42
+                    {ta.kisanClusterBadge}
                   </span>
                 </div>
                 <span className="absolute bottom-3 left-3 text-[11px] font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
-                   Sanganer, Jaipur (Rajasthan)
+                   {ta.kisanClusterLoc}
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-white">
-                    Direct Smallholder Harvests
+                    {ta.kisanClusterTitle}
                   </h3>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
-                    Farmers grading fresh produce lots directly at source with optical moisture & defect scanning, eliminating middleman cartel deductions.
+                    {ta.kisanClusterDesc}
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-emerald-700 dark:text-emerald-400 font-mono font-semibold">
-                  <span>AGMARK A1 Certified</span>
-                  <span>100% Direct Payout</span>
+                  <span>{ta.agmarkA1Certified}</span>
+                  <span>{ta.directPayout100}</span>
                 </div>
               </div>
             </div>
@@ -284,25 +285,25 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
                 <div className="absolute top-3 left-3 flex gap-2">
                   <span className="text-[10px] font-mono font-bold uppercase text-blue-300 bg-blue-950/90 backdrop-blur-md border border-blue-700/60 px-2.5 py-0.5 rounded-full">
-                    WDRA Vault FL-RJ-0482
+                    {ta.wdraVaultBadge}
                   </span>
                 </div>
                 <span className="absolute bottom-3 left-3 text-[11px] font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
-                   Phulera Cold Silo Terminal
+                   {ta.wdraVaultLoc}
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-white">
-                    Accredited Cold Silos & Vaults
+                    {ta.wdraVaultTitle}
                   </h3>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
-                    State-of-the-art temperature and moisture telemetry protecting storable grain, pulses, and perishables with zero post-harvest spoilage.
+                    {ta.wdraVaultDesc}
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-blue-700 dark:text-blue-400 font-mono font-semibold">
-                  <span>e-NWR Fungible</span>
-                  <span>4°C Humidity Controlled</span>
+                  <span>{ta.eNwrFungible}</span>
+                  <span>{ta.humidityControlled4c}</span>
                 </div>
               </div>
             </div>
@@ -319,25 +320,25 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
                 <div className="absolute top-3 left-3 flex gap-2">
                   <span className="text-[10px] font-mono font-bold uppercase text-zinc-300 bg-zinc-900/90 backdrop-blur-md border border-zinc-700 px-2.5 py-0.5 rounded-full">
-                    Bulk Nodal Clearance
+                    {ta.bulkClearanceBadge}
                   </span>
                 </div>
                 <span className="absolute bottom-3 left-3 text-[11px] font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
-                   Muhana Institutional Terminal
+                   {ta.bulkClearanceLoc}
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-white">
-                    Direct Institutional Clearance
+                    {ta.bulkClearanceTitle}
                   </h3>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
-                    Automated multi-depot vehicle manifests and delivery to verified bulk processors and consumers with guaranteed T+1 escrow payout.
+                    {ta.bulkClearanceDesc}
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-zinc-700 dark:text-zinc-300 font-mono font-semibold">
-                  <span>RBI Escrow Vault</span>
-                  <span>T+1 Bank Settlement</span>
+                  <span>{ta.rbiEscrowVault}</span>
+                  <span>{ta.t1BankSettlement}</span>
                 </div>
               </div>
             </div>
@@ -353,25 +354,25 @@ export default function AboutPage() {
               <div className="space-y-4">
                 <span className="text-xs uppercase font-mono tracking-wider text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1.5">
                   <BadgeCheck className="w-4 h-4 text-emerald-600" />
-                  <span>Transparent Market Linkages</span>
+                  <span>{ta.marketLinkagesBadge}</span>
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight leading-snug">
-                  From Farm Gate Soil to Wholesale Processing Plant
+                  {ta.marketLinkagesTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                  Traditional mandis impose opaque weighing cuts, commission agent margins, and days of holding queue decay. Fasal Matrix deploys cold-chain logistics, algorithmic route dispatch, and digital gate assaying to bridge growers directly with food processing enterprises.
+                  {ta.marketLinkagesDesc}
                 </p>
 
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/70 dark:border-zinc-800/70">
-                    <span className="block text-[10px] font-mono uppercase text-zinc-500 font-bold">Cold Chain Dispatch</span>
-                    <span className="text-sm font-bold text-emerald-700 dark:text-emerald-400 block mt-0.5">Direct Farm-to-Buyer</span>
-                    <span className="text-[11px] text-zinc-500 block">Minimizing transit decay</span>
+                    <span className="block text-[10px] font-mono uppercase text-zinc-500 font-bold">{ta.coldChainDispatchTitle}</span>
+                    <span className="text-sm font-bold text-emerald-700 dark:text-emerald-400 block mt-0.5">{ta.coldChainDispatchSub}</span>
+                    <span className="text-[11px] text-zinc-500 block">{ta.coldChainDispatchDesc}</span>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/70 dark:border-zinc-800/70">
-                    <span className="block text-[10px] font-mono uppercase text-zinc-500 font-bold">Transit Logistics</span>
-                    <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 block mt-0.5">Scheduled Dispatch</span>
-                    <span className="text-[11px] text-zinc-500 block">Route-monitored vehicles</span>
+                    <span className="block text-[10px] font-mono uppercase text-zinc-500 font-bold">{ta.transitLogisticsTitle}</span>
+                    <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 block mt-0.5">{ta.transitLogisticsSub}</span>
+                    <span className="text-[11px] text-zinc-500 block">{ta.transitLogisticsDesc}</span>
                   </div>
                 </div>
               </div>
@@ -388,7 +389,7 @@ export default function AboutPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
                   <span className="absolute bottom-2 left-2 text-[10px] font-semibold text-white px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs">
-                    Automated Lot Sizing
+                    {ta.photoLotSizing}
                   </span>
                 </div>
 
@@ -402,7 +403,7 @@ export default function AboutPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
                   <span className="absolute bottom-2 left-2 text-[10px] font-semibold text-white px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs">
-                    Farmgate Crated Intake
+                    {ta.photoCratedIntake}
                   </span>
                 </div>
 
@@ -416,7 +417,7 @@ export default function AboutPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
                   <span className="absolute bottom-2 left-2 text-[10px] font-semibold text-white px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs">
-                    Chemical & Purity Lab
+                    {ta.photoPurityLab}
                   </span>
                 </div>
 
@@ -430,7 +431,7 @@ export default function AboutPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
                   <span className="absolute bottom-2 left-2 text-[10px] font-semibold text-white px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs">
-                    Direct Fleet Dispatch
+                    {ta.photoFleetDispatch}
                   </span>
                 </div>
               </div>
@@ -470,7 +471,7 @@ export default function AboutPage() {
                   <FileCheck2 className="w-4 h-4" />
                 </div>
                 <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-emerald-300 bg-emerald-950/80 border border-emerald-700/50 px-2 py-0.5 rounded">
-                  Pillar 01 • AGMARK Testing
+                  {ta.pillar1Badge}
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -504,7 +505,7 @@ export default function AboutPage() {
                   <Building2 className="w-4 h-4" />
                 </div>
                 <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-blue-300 bg-blue-950/80 border border-blue-700/50 px-2 py-0.5 rounded">
-                  Pillar 02 • e-NWR Silos
+                  {ta.pillar2Badge}
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -538,7 +539,7 @@ export default function AboutPage() {
                   <Scale className="w-4 h-4" />
                 </div>
                 <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-amber-300 bg-amber-950/80 border border-amber-700/50 px-2 py-0.5 rounded">
-                  Pillar 03 • Statutory MSP
+                  {ta.pillar3Badge}
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -572,7 +573,7 @@ export default function AboutPage() {
                   <Lock className="w-4 h-4" />
                 </div>
                 <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-zinc-300 bg-zinc-900/80 border border-zinc-700 px-2 py-0.5 rounded">
-                  Pillar 04 • Nodal Escrow
+                  {ta.pillar4Badge}
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -606,7 +607,7 @@ export default function AboutPage() {
                   <BadgeCheck className="w-4 h-4" />
                 </div>
                 <span className="absolute bottom-2.5 left-3 text-[10px] font-mono font-bold uppercase text-teal-300 bg-teal-950/80 border border-teal-700/50 px-2 py-0.5 rounded">
-                  Pillar 05 • Batch Origin & Farm Traceability
+                  {ta.pillar5Badge}
                 </span>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
@@ -681,13 +682,13 @@ export default function AboutPage() {
         <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs uppercase font-mono tracking-wider text-emerald-700 dark:text-emerald-400 font-bold">
-              Field Deployments & Institutional Partners
+              {ta.fieldDeploymentsBadge}
             </span>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 mt-1 tracking-tight">
-              Verified Physical Infrastructure Across Regional Mandis
+              {ta.fieldDeploymentsTitle}
             </h3>
             <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-2">
-              Every depot and cooperative hub on Fasal Matrix operates with active optical assaying hardware, calibrated weighbridges, and e-NWR compliance.
+              {ta.fieldDeploymentsDesc}
             </p>
           </div>
 
@@ -703,13 +704,13 @@ export default function AboutPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <span className="absolute bottom-2 left-2 text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded">
-                  HUB #01 • KOTA
+                  {ta.hub1Badge}
                 </span>
               </div>
               <div className="p-4">
-                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">Kota Grain Terminal</h4>
+                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">{ta.hub1Title}</h4>
                 <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">
-                  12,000 MT capacity with mechanized pneumatic grain intake for soybean and mustard lots.
+                  {ta.hub1Desc}
                 </p>
               </div>
             </div>
@@ -725,13 +726,13 @@ export default function AboutPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <span className="absolute bottom-2 left-2 text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded">
-                  HUB #02 • JAIPUR
+                  {ta.hub2Badge}
                 </span>
               </div>
               <div className="p-4">
-                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">Muhana Fresh Depot</h4>
+                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">{ta.hub2Title}</h4>
                 <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">
-                  Sub-zero multi-chamber cold vault serving tomato, onion, and potato grower clusters.
+                  {ta.hub2Desc}
                 </p>
               </div>
             </div>
@@ -747,13 +748,13 @@ export default function AboutPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <span className="absolute bottom-2 left-2 text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded">
-                  HUB #03 • BHOPAL
+                  {ta.hub3Badge}
                 </span>
               </div>
               <div className="p-4">
-                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">Bhopal Pulses Silo</h4>
+                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">{ta.hub3Title}</h4>
                 <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">
-                  Automated nitrogen purges and moisture meters for chana and pigeon pea preservation.
+                  {ta.hub3Desc}
                 </p>
               </div>
             </div>
@@ -769,13 +770,13 @@ export default function AboutPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <span className="absolute bottom-2 left-2 text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded">
-                  HUB #04 • LUDHIANA
+                  {ta.hub4Badge}
                 </span>
               </div>
               <div className="p-4">
-                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">Punjab Wheat Gateway</h4>
+                <h4 className="text-xs font-bold text-zinc-950 dark:text-white">{ta.hub4Title}</h4>
                 <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">
-                  Sharbati & durum wheat bulk intake terminal with direct rail freight container linkages.
+                  {ta.hub4Desc}
                 </p>
               </div>
             </div>
@@ -790,7 +791,7 @@ export default function AboutPage() {
             {/* Left Contact Context */}
             <div className="lg:col-span-2 space-y-5">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-[11px] font-mono font-bold uppercase">
-                <span>Institutional Onboarding</span>
+                <span>{ta.onboardingBadge}</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-zinc-950 dark:text-zinc-50 tracking-tight leading-snug">
                 {t.about.contactCtaTitle}
@@ -803,26 +804,26 @@ export default function AboutPage() {
                 <div className="flex items-start gap-3">
                   <Building className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <div>
-                    <strong className="text-zinc-900 dark:text-zinc-200 block font-semibold">Agrarian Nodal Hub:</strong>
-                    <span>Muhana Terminal, Sanganer, Jaipur, RJ 302029</span>
+                    <strong className="text-zinc-900 dark:text-zinc-200 block font-semibold">{ta.agrarianNodalHubLabel}</strong>
+                    <span>{ta.agrarianNodalHubVal}</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <Phone className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <div>
-                    <strong className="text-zinc-900 dark:text-zinc-200 block font-semibold">Toll-Free Kisan Desk:</strong>
+                    <strong className="text-zinc-900 dark:text-zinc-200 block font-semibold">{ta.tollFreeKisanDeskLabel}</strong>
                     <a href="tel:18008892603" className="text-emerald-700 dark:text-emerald-400 font-bold hover:underline">
                       1800-889-2603
                     </a>
-                    <span className="text-zinc-500 text-[11px] ml-1.5">(22 Indian Languages Supported)</span>
+                    <span className="text-zinc-500 text-[11px] ml-1.5">{ta.tollFreeLanguagesSupported}</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <Mail className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <div>
-                    <strong className="text-zinc-900 dark:text-zinc-200 block font-semibold">Institutional Escrow Desk:</strong>
+                    <strong className="text-zinc-900 dark:text-zinc-200 block font-semibold">{ta.institutionalEscrowDeskLabel}</strong>
                     <a href="mailto:escrow.desk@farmlink-matrix.gov.in" className="text-emerald-700 dark:text-emerald-400 font-semibold hover:underline">
                       escrow.desk@farmlink-matrix.gov.in
                     </a>
@@ -836,7 +837,7 @@ export default function AboutPage() {
                   onClick={() => setInquiryOpen(true)}
                   className="text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline flex items-center gap-1.5"
                 >
-                  <span>Open Quick Modal Inquiry</span>
+                  <span>{ta.openQuickModalInquiry}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -856,17 +857,17 @@ export default function AboutPage() {
                     <CheckCircle className="w-6 h-6" />
                   </div>
                   <h3 className="text-lg font-bold text-zinc-950 dark:text-zinc-50">
-                    Integration Inquiry Dispatched
+                    {ta.inquiryDispatchedTitle}
                   </h3>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400 max-w-sm mx-auto">
-                    Our agrarian logistics and escrow officer will contact your organization within 2 business hours.
+                    {ta.inquiryDispatchedDesc}
                   </p>
                   <button
                     type="button"
                     onClick={() => setContactSubmitted(false)}
                     className="mt-4 px-4 py-2 bg-zinc-950 hover:bg-zinc-800 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 text-xs font-bold rounded-xl transition"
                   >
-                    Submit Another Inquiry
+                    {ta.submitAnotherInquiryBtn}
                   </button>
                 </div>
               ) : (
@@ -874,7 +875,7 @@ export default function AboutPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[11px] font-mono uppercase font-bold text-zinc-700 dark:text-zinc-300 mb-1">
-                        Full Name <span className="text-emerald-600">*</span>
+                        {ta.fullNameLabel} <span className="text-emerald-600">*</span>
                       </label>
                       <div className="relative">
                         <User className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
@@ -891,7 +892,7 @@ export default function AboutPage() {
 
                     <div>
                       <label className="block text-[11px] font-mono uppercase font-bold text-zinc-700 dark:text-zinc-300 mb-1">
-                        Mobile Phone <span className="text-emerald-600">*</span>
+                        {ta.mobilePhoneLabel} <span className="text-emerald-600">*</span>
                       </label>
                       <div className="relative">
                         <Phone className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
@@ -911,7 +912,7 @@ export default function AboutPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[11px] font-mono uppercase font-bold text-zinc-700 dark:text-zinc-300 mb-1">
-                        Work Email
+                        {ta.workEmailLabel}
                       </label>
                       <div className="relative">
                         <Mail className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
@@ -927,7 +928,7 @@ export default function AboutPage() {
 
                     <div>
                       <label className="block text-[11px] font-mono uppercase font-bold text-zinc-700 dark:text-zinc-300 mb-1">
-                        Organization / FPO
+                        {ta.organizationLabel}
                       </label>
                       <div className="relative">
                         <Building className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
@@ -944,13 +945,13 @@ export default function AboutPage() {
 
                   <div>
                     <label className="block text-[11px] font-mono uppercase font-bold text-zinc-700 dark:text-zinc-300 mb-1">
-                      Organization Type
+                      {ta.organizationTypeLabel}
                     </label>
                     <div className="grid grid-cols-3 gap-2">
                       {[
-                        { id: 'buyer', label: 'Bulk Processor' },
-                        { id: 'fpo', label: 'Farmer / FPO' },
-                        { id: 'warehouse', label: 'Warehouse / Silo' },
+                        { id: 'buyer', label: ta.typeBulkProcessor },
+                        { id: 'fpo', label: ta.typeFarmerFpo },
+                        { id: 'warehouse', label: ta.typeWarehouseSilo },
                       ].map((item) => (
                         <button
                           key={item.id}
@@ -970,13 +971,13 @@ export default function AboutPage() {
 
                   <div>
                     <label className="block text-[11px] font-mono uppercase font-bold text-zinc-700 dark:text-zinc-300 mb-1">
-                      Inquiry / Commodity Requirements
+                      {ta.inquiryCommodityLabel}
                     </label>
                     <textarea
                       rows={3}
                       value={contactForm.message}
                       onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                      placeholder="Specify monthly quintal volume, required AGMARK grade, or regional delivery depot requirements..."
+                      placeholder={ta.inquiryPlaceholder}
                       className="w-full p-3 text-xs border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     />
                   </div>
@@ -989,9 +990,9 @@ export default function AboutPage() {
                         className="mt-0.5 rounded border-zinc-300 dark:border-zinc-700 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
                       />
                       <span>
-                        I consent to Fasal Matrix contacting me regarding commodity procurement in accordance with the{' '}
+                        {ta.consentPrivacyText}{' '}
                         <Link href="/privacy" className="underline font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800">
-                          Privacy Policy
+                          {ta.privacyPolicyLink}
                         </Link>.
                       </span>
                     </label>
