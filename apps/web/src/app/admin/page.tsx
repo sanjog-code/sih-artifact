@@ -19,17 +19,59 @@ import {
   Warehouse,
   CheckCircle2,
   XCircle,
+  ClipboardCheck,
+  Scale,
+  Send,
+  Store,
+  Layers,
 } from 'lucide-react';
 
 export default function AdminConsolePage() {
-  const [activeTab, setActiveTab] = useState<'logistics' | 'mandi' | 'escrow' | 'clusters' | 'monetization' | 'kyc_approvals' | 'depot_slots' | 'ai_operations'>('monetization');
+  const [activeTab, setActiveTab] = useState<
+    | 'grading_queue'
+    | 'logistics'
+    | 'mandi'
+    | 'escrow'
+    | 'clusters'
+    | 'monetization'
+    | 'kyc_approvals'
+    | 'depot_slots'
+    | 'ai_operations'
+  >('grading_queue');
 
-  const { listings } = useProduceStore();
+  const {
+    listings,
+    dispatchGradingVehicle,
+    confirmGradingAndProcure,
+    intakeIntoWarehouse,
+    allocateChannel,
+  } = useProduceStore();
   const { orders } = useOrderStore();
   const { rfqs } = useRfqStore();
   const { businessConfig, consumerConfig } = useSubscriptionStore();
   const { kycList, updateKycStatus } = useKycStore();
-  const { slots, updateSlotStatus } = useWarehouseStore();
+  const { slots, updateSlotStatus, recordIntake } = useWarehouseStore();
+
+  const [queueNotice, setQueueNotice] = useState<string | null>(null);
+
+  // Modal / Form state for Dispatch
+  const [dispatchModalLot, setDispatchModalLot] = useState<string | null>(null);
+  const [vehicleNo, setVehicleNo] = useState('RJ-14-GA-8821');
+  const [inspectorName, setInspectorName] = useState('Rajesh Kumar (AGMARK Grader #04)');
+  const [inspectorPhone, setInspectorPhone] = useState('+91 98290 88219');
+  const [etaHours, setEtaHours] = useState('2 hours');
+
+  // Modal / Form state for Grading Confirmation
+  const [gradeModalLot, setGradeModalLot] = useState<string | null>(null);
+  const [confirmedGrade, setConfirmedGrade] = useState<'A1' | 'A2' | 'B'>('A1');
+  const [moisturePercent, setMoisturePercent] = useState(8.5);
+  const [netWeighedKg, setNetWeighedKg] = useState(2500);
+  const [unitRate, setUnitRate] = useState(28);
+
+  // Modal / Form state for Warehouse Intake
+  const [intakeModalLot, setIntakeModalLot] = useState<string | null>(null);
+  const [depotName, setDepotName] = useState('Phulera Depot #3 Cold Silo');
+  const [bayLocation, setBayLocation] = useState('Chamber 02 - Silo B');
 
   const totalValueSettled = orders.reduce((acc, o) => acc + o.totalPrice, 0);
 
@@ -102,6 +144,23 @@ export default function AdminConsolePage() {
 
         {/* Tab Selector */}
         <div className="flex flex-wrap gap-2 mb-8 p-1.5 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl w-fit">
+          <button
+            onClick={() => setActiveTab('grading_queue')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+              activeTab === 'grading_queue'
+                ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs border border-zinc-200 dark:border-zinc-700'
+                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+            }`}
+          >
+            <ClipboardCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Harvest Grading & Procurement Queue</span>
+            {listings.filter((l) => ['GRADING_REQUESTED', 'INSPECTION_DISPATCHED', 'PROCURED', 'IN_WAREHOUSE'].includes(l.status)).length > 0 && (
+              <span className="px-1.5 py-0.2 rounded-full bg-emerald-600 text-white font-mono text-[10px]">
+                {listings.filter((l) => ['GRADING_REQUESTED', 'INSPECTION_DISPATCHED', 'PROCURED', 'IN_WAREHOUSE'].includes(l.status)).length}
+              </span>
+            )}
+          </button>
+
           <button
             onClick={() => setActiveTab('monetization')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
@@ -189,6 +248,511 @@ export default function AdminConsolePage() {
             </span>
           </button>
         </div>
+
+        {queueNotice && (
+          <div className="mb-6 p-4 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 rounded-2xl text-xs sm:text-sm font-semibold text-emerald-900 dark:text-emerald-200 flex items-center gap-2 shadow-xs">
+            <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
+            <span>{queueNotice}</span>
+          </div>
+        )}
+
+        {/* Tab 0: Harvest Grading & Procurement Queue */}
+        {activeTab === 'grading_queue' && (
+          <div className="space-y-6">
+            <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
+              <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-semibold mb-2">
+                    <ClipboardCheck className="w-3.5 h-3.5" />
+                    <span>Physical Farmgate Procurement Pipeline</span>
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-950 dark:text-white tracking-tight">
+                    Harvest Grading, Collection & Warehouse Routing Queue
+                  </h2>
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+                    When farmers declare harvests, they undergo physical inspection & collection before procurement settlement, WDRA vault intake, and commercial distribution.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono font-bold px-3 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 rounded-full border border-zinc-200 dark:border-zinc-700">
+                    Active Pipeline: {listings.filter((l) => ['GRADING_REQUESTED', 'INSPECTION_DISPATCHED', 'PROCURED', 'IN_WAREHOUSE'].includes(l.status)).length} Lots
+                  </span>
+                </div>
+              </div>
+
+              {listings.filter((l) =>
+                ['GRADING_REQUESTED', 'INSPECTION_DISPATCHED', 'PROCURED', 'IN_WAREHOUSE'].includes(l.status)
+              ).length === 0 ? (
+                <div className="py-12 text-center text-zinc-500">
+                  <ClipboardCheck className="w-10 h-10 mx-auto text-zinc-300 dark:text-zinc-700 mb-2" />
+                  <p className="text-xs">No pending harvest grading requests currently in queue.</p>
+                  <p className="text-[11px] text-zinc-400 mt-1">
+                    When farmers submit harvest declarations, they will appear here for vehicle dispatch and grading.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {listings
+                    .filter((l) =>
+                      ['GRADING_REQUESTED', 'INSPECTION_DISPATCHED', 'PROCURED', 'IN_WAREHOUSE'].includes(l.status)
+                    )
+                    .map((lot) => (
+                      <div
+                        key={lot.id}
+                        className="p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+                      >
+                        <div className="space-y-2 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="font-mono font-bold text-sm text-zinc-950 dark:text-white">
+                              {lot.id}
+                            </span>
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
+                              {lot.cropName} ({lot.grade})
+                            </span>
+                            <span
+                              className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${
+                                lot.status === 'GRADING_REQUESTED'
+                                  ? 'bg-amber-100 text-amber-900 border-amber-300 dark:bg-amber-950 dark:text-amber-300 animate-pulse'
+                                  : lot.status === 'INSPECTION_DISPATCHED'
+                                  ? 'bg-blue-100 text-blue-900 border-blue-300 dark:bg-blue-950 dark:text-blue-300'
+                                  : lot.status === 'PROCURED'
+                                  ? 'bg-emerald-100 text-emerald-900 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300'
+                                  : 'bg-purple-100 text-purple-900 border-purple-300 dark:bg-purple-950 dark:text-purple-300'
+                              }`}
+                            >
+                              {lot.status === 'GRADING_REQUESTED'
+                                ? '1. Grading Requested'
+                                : lot.status === 'INSPECTION_DISPATCHED'
+                                ? '2. Vehicle Dispatched'
+                                : lot.status === 'PROCURED'
+                                ? '3. Procured & Paid'
+                                : '4. Stored in Warehouse'}
+                            </span>
+                          </div>
+
+                          <div className="text-xs text-zinc-600 dark:text-zinc-300">
+                            Grower: <strong>{lot.farmerName}</strong> ({lot.farmerPhone || '+91 98290 41029'}) • Declared Volume: <strong className="font-mono">{lot.quantity}</strong> @ ₹{lot.price}/kg
+                          </div>
+
+                          <div className="text-[11px] text-zinc-500">
+                            Farm Pickup Address: <strong>{lot.farmAddress || 'Rural Farm Locus'}</strong> (Pincode: {lot.pincode || '303338'})
+                          </div>
+
+                          {/* Telemetry info based on state */}
+                          {lot.dispatchInfo && (
+                            <div className="p-2.5 bg-blue-50/70 dark:bg-blue-950/40 rounded-xl border border-blue-200 dark:border-blue-900 text-[11px] text-blue-900 dark:text-blue-200">
+                              Vehicle: <strong>{lot.dispatchInfo.vehicleNo}</strong> • Inspector: <strong>{lot.dispatchInfo.inspectorName}</strong> • ETA: <strong>{lot.dispatchInfo.eta}</strong> (Dispatched: {lot.dispatchInfo.dispatchedAt})
+                            </div>
+                          )}
+
+                          {lot.gradingReport && (
+                            <div className="p-2.5 bg-emerald-50/70 dark:bg-emerald-950/40 rounded-xl border border-emerald-200 dark:border-emerald-900 text-[11px] text-emerald-900 dark:text-emerald-200">
+                              Assayed: Grade <strong>{lot.gradingReport.confirmedGrade}</strong> • Moisture: <strong>{lot.gradingReport.moisturePercent}%</strong> • Net Weight: <strong>{lot.gradingReport.assayedNetWeightKg.toLocaleString()} kg</strong>
+                              {lot.procurementDetails && (
+                                <span className="block mt-0.5 font-mono font-bold text-emerald-800 dark:text-emerald-300">
+                                  Escrow Settled: ₹{lot.procurementDetails.totalFarmerPayout.toLocaleString('en-IN')} (Ref: {lot.procurementDetails.escrowTxId})
+                                </span>
+                              )}
+                            </div>
+                          )}
+
+                          {lot.warehouseStorage && (
+                            <div className="p-2.5 bg-purple-50/70 dark:bg-purple-950/40 rounded-xl border border-purple-200 dark:border-purple-900 text-[11px] text-purple-900 dark:text-purple-200">
+                              Depot: <strong>{lot.warehouseStorage.depotName}</strong> ({lot.warehouseStorage.bayLocation}) • Receipt: <strong className="font-mono">{lot.warehouseStorage.receiptId}</strong>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Workflow Action Buttons */}
+                        <div className="flex flex-col sm:flex-row lg:flex-col gap-2 shrink-0">
+                          {lot.status === 'GRADING_REQUESTED' && (
+                            <button
+                              type="button"
+                              onClick={() => setDispatchModalLot(lot.id)}
+                              className="px-4 py-2.5 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-900 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-xs"
+                            >
+                              <Truck className="w-3.5 h-3.5" />
+                              <span>Dispatch Grading Vehicle</span>
+                            </button>
+                          )}
+
+                          {lot.status === 'INSPECTION_DISPATCHED' && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setGradeModalLot(lot.id);
+                                setNetWeighedKg(lot.quantityKg);
+                                setUnitRate(lot.price);
+                              }}
+                              className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-xs"
+                            >
+                              <Scale className="w-3.5 h-3.5" />
+                              <span>Confirm Grade & Procure</span>
+                            </button>
+                          )}
+
+                          {lot.status === 'PROCURED' && (
+                            <button
+                              type="button"
+                              onClick={() => setIntakeModalLot(lot.id)}
+                              className="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-xs"
+                            >
+                              <Warehouse className="w-3.5 h-3.5" />
+                              <span>Intake into Warehouse</span>
+                            </button>
+                          )}
+
+                          {lot.status === 'IN_WAREHOUSE' && (
+                            <div className="flex flex-col gap-1.5">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  allocateChannel(lot.id, 'CONSUMER_MARKETPLACE');
+                                  setQueueNotice(`Lot ${lot.id} successfully listed on the consumer marketplace!`);
+                                  setTimeout(() => setQueueNotice(null), 4000);
+                                }}
+                                className="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-xs"
+                              >
+                                <Store className="w-3.5 h-3.5" />
+                                <span>List for Consumers</span>
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  allocateChannel(lot.id, 'BULK_B2B');
+                                  setQueueNotice(`Lot ${lot.id} allocated to Bulk B2B Enterprise buyers!`);
+                                  setTimeout(() => setQueueNotice(null), 4000);
+                                }}
+                                className="px-3.5 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-xs"
+                              >
+                                <Layers className="w-3.5 h-3.5" />
+                                <span>Sell to Bulk Buyers</span>
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+
+            {/* Modal: Dispatch Collection Vehicle */}
+            {dispatchModalLot && (
+              <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+                <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 max-w-md w-full p-6 shadow-2xl space-y-4">
+                  <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3">
+                    <h3 className="text-base font-bold text-zinc-950 dark:text-white flex items-center gap-2">
+                      <Truck className="w-4 h-4 text-emerald-600" />
+                      <span>Dispatch Field Grader Vehicle</span>
+                    </h3>
+                    <button
+                      type="button"
+                      onClick={() => setDispatchModalLot(null)}
+                      className="text-zinc-400 hover:text-zinc-600 text-sm font-bold"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                    Assign a mobile optical testing van and certified AGMARK inspector for on-site farmgate collection.
+                  </p>
+
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-[11px] font-mono uppercase font-bold text-zinc-600 dark:text-zinc-400 mb-1">
+                        Vehicle Registration
+                      </label>
+                      <input
+                        type="text"
+                        value={vehicleNo}
+                        onChange={(e) => setVehicleNo(e.target.value)}
+                        className="w-full px-3 py-2 text-xs border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 font-mono"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-mono uppercase font-bold text-zinc-600 dark:text-zinc-400 mb-1">
+                        Certified Inspector Name
+                      </label>
+                      <input
+                        type="text"
+                        value={inspectorName}
+                        onChange={(e) => setInspectorName(e.target.value)}
+                        className="w-full px-3 py-2 text-xs border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-[11px] font-mono uppercase font-bold text-zinc-600 dark:text-zinc-400 mb-1">
+                          Inspector Phone
+                        </label>
+                        <input
+                          type="text"
+                          value={inspectorPhone}
+                          onChange={(e) => setInspectorPhone(e.target.value)}
+                          className="w-full px-3 py-2 text-xs border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 font-mono"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] font-mono uppercase font-bold text-zinc-600 dark:text-zinc-400 mb-1">
+                          Arrival ETA
+                        </label>
+                        <input
+                          type="text"
+                          value={etaHours}
+                          onChange={(e) => setEtaHours(e.target.value)}
+                          className="w-full px-3 py-2 text-xs border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        dispatchGradingVehicle(dispatchModalLot, {
+                          vehicleNo,
+                          inspectorName,
+                          inspectorPhone,
+                          eta: etaHours,
+                        });
+                        setQueueNotice(`Collection vehicle ${vehicleNo} dispatched to farm address!`);
+                        setDispatchModalLot(null);
+                        setTimeout(() => setQueueNotice(null), 4000);
+                      }}
+                      className="flex-1 py-2.5 bg-zinc-950 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-950 rounded-xl text-xs font-bold transition shadow-xs"
+                    >
+                      Confirm Dispatch
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDispatchModalLot(null)}
+                      className="px-4 py-2.5 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs font-semibold text-zinc-600 hover:bg-zinc-50"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Modal: Confirm Physical Grade & Authorize Procurement */}
+            {gradeModalLot && (
+              <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+                <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 max-w-md w-full p-6 shadow-2xl space-y-4">
+                  <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3">
+                    <h3 className="text-base font-bold text-zinc-950 dark:text-white flex items-center gap-2">
+                      <Scale className="w-4 h-4 text-emerald-600" />
+                      <span>On-Site Grade & Procurement Confirmation</span>
+                    </h3>
+                    <button
+                      type="button"
+                      onClick={() => setGradeModalLot(null)}
+                      className="text-zinc-400 hover:text-zinc-600 text-sm font-bold"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                    Entering assayed grading parameters will lock procurement and immediately release T+1 escrow settlement to the farmer.
+                  </p>
+
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-[11px] font-mono uppercase font-bold text-zinc-600 dark:text-zinc-400 mb-1">
+                          Confirmed AGMARK Grade
+                        </label>
+                        <select
+                          value={confirmedGrade}
+                          onChange={(e) => setConfirmedGrade(e.target.value as 'A1' | 'A2' | 'B')}
+                          className="w-full px-3 py-2 text-xs border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 font-bold text-emerald-700"
+                        >
+                          <option value="A1">Grade A1 (Export / High-Spec)</option>
+                          <option value="A2">Grade A2 (Standard Wholesale)</option>
+                          <option value="B">Grade B (Commercial Processing)</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-mono uppercase font-bold text-zinc-600 dark:text-zinc-400 mb-1">
+                          Assayed Moisture %
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={moisturePercent}
+                          onChange={(e) => setMoisturePercent(Number(e.target.value))}
+                          className="w-full px-3 py-2 text-xs border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 font-mono"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-[11px] font-mono uppercase font-bold text-zinc-600 dark:text-zinc-400 mb-1">
+                          Net Weighed Quantity (kg)
+                        </label>
+                        <input
+                          type="number"
+                          value={netWeighedKg}
+                          onChange={(e) => setNetWeighedKg(Number(e.target.value))}
+                          className="w-full px-3 py-2 text-xs border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 font-mono"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-mono uppercase font-bold text-zinc-600 dark:text-zinc-400 mb-1">
+                          Procurement Rate (₹/kg)
+                        </label>
+                        <input
+                          type="number"
+                          value={unitRate}
+                          onChange={(e) => setUnitRate(Number(e.target.value))}
+                          className="w-full px-3 py-2 text-xs border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 font-mono"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="p-3 bg-emerald-50 dark:bg-emerald-950/60 rounded-xl border border-emerald-200 dark:border-emerald-800 flex justify-between items-center text-xs">
+                      <span className="text-emerald-900 dark:text-emerald-200 font-semibold">Total Farmer Payout:</span>
+                      <strong className="font-mono text-sm text-emerald-800 dark:text-emerald-300">
+                        ₹{(netWeighedKg * unitRate).toLocaleString('en-IN')}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const result = confirmGradingAndProcure(gradeModalLot, {
+                          confirmedGrade,
+                          moisturePercent,
+                          assayedNetWeightKg: netWeighedKg,
+                          unitPrice: unitRate,
+                        });
+                        if (result.success) {
+                          setQueueNotice(
+                            `Procurement confirmed! Farmer received ₹${result.farmerPayout.toLocaleString('en-IN')} T+1 escrow settlement.`
+                          );
+                        }
+                        setGradeModalLot(null);
+                        setTimeout(() => setQueueNotice(null), 5000);
+                      }}
+                      className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition shadow-xs"
+                    >
+                      Authorize Escrow & Procure
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setGradeModalLot(null)}
+                      className="px-4 py-2.5 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs font-semibold text-zinc-600 hover:bg-zinc-50"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Modal: Warehouse Intake */}
+            {intakeModalLot && (
+              <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+                <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 max-w-md w-full p-6 shadow-2xl space-y-4">
+                  <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3">
+                    <h3 className="text-base font-bold text-zinc-950 dark:text-white flex items-center gap-2">
+                      <Warehouse className="w-4 h-4 text-purple-600" />
+                      <span>WDRA Vault & Cold Silo Intake</span>
+                    </h3>
+                    <button
+                      type="button"
+                      onClick={() => setIntakeModalLot(null)}
+                      className="text-zinc-400 hover:text-zinc-600 text-sm font-bold"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                    Store procured produce in a WDRA-accredited storage silo or cold terminal and issue an electronic warehouse receipt (e-NWR).
+                  </p>
+
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-[11px] font-mono uppercase font-bold text-zinc-600 dark:text-zinc-400 mb-1">
+                        Depot Terminal Hub
+                      </label>
+                      <select
+                        value={depotName}
+                        onChange={(e) => setDepotName(e.target.value)}
+                        className="w-full px-3 py-2 text-xs border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 font-medium"
+                      >
+                        <option value="Phulera Depot #3 Cold Silo">Phulera Depot #3 Cold Silo (Jaipur Rural)</option>
+                        <option value="Jaipur North WDRA Hub">Jaipur North WDRA Hub (Chomu Road)</option>
+                        <option value="Kota Central Grain Silo">Kota Central Grain Silo (Hadoti Region)</option>
+                        <option value="Nashik Agro Cold Terminal">Nashik Agro Cold Terminal (Maharashtra)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-mono uppercase font-bold text-zinc-600 dark:text-zinc-400 mb-1">
+                        Bay / Chamber Allocation
+                      </label>
+                      <input
+                        type="text"
+                        value={bayLocation}
+                        onChange={(e) => setBayLocation(e.target.value)}
+                        className="w-full px-3 py-2 text-xs border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const targetLot = listings.find((l) => l.id === intakeModalLot);
+                        intakeIntoWarehouse(intakeModalLot, {
+                          depotName,
+                          bayLocation,
+                        });
+                        recordIntake({
+                          lotId: intakeModalLot,
+                          commodity: targetLot?.cropName || 'Produce Lot',
+                          quantityKg: targetLot?.quantityKg || 2500,
+                          grade: `Grade ${targetLot?.grade || 'A1'}`,
+                          warehouseName: depotName,
+                          storageLocation: bayLocation,
+                        });
+                        setQueueNotice(`Lot ${intakeModalLot} checked into ${depotName}! e-NWR receipt issued.`);
+                        setIntakeModalLot(null);
+                        setTimeout(() => setQueueNotice(null), 4000);
+                      }}
+                      className="flex-1 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition shadow-xs"
+                    >
+                      Generate e-NWR & Complete Intake
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIntakeModalLot(null)}
+                      className="px-4 py-2.5 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs font-semibold text-zinc-600 hover:bg-zinc-50"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Tab 1: Embedded Logistics & VRP Fleet Control */}
         {activeTab === 'logistics' && (

@@ -99,6 +99,7 @@ export default function ConsumerPortal() {
   // Filtered Produce Listings
   const filteredProduce = useMemo(() => {
     return listings.filter((item) => {
+      const isPubliclyActive = item.status === 'ACTIVE';
       const matchesCat =
         categoryFilter === 'all' || item.category.toLowerCase() === categoryFilter.toLowerCase();
       const matchesGrade =
@@ -111,7 +112,7 @@ export default function ConsumerPortal() {
         item.location.toLowerCase().includes(q) ||
         item.id.toLowerCase().includes(q);
       const hasStock = item.quantityKg > 0;
-      return matchesCat && matchesGrade && matchesSearch && hasStock;
+      return isPubliclyActive && matchesCat && matchesGrade && matchesSearch && hasStock;
     });
   }, [listings, categoryFilter, gradeFilter, searchQuery]);
 

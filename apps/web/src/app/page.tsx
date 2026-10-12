@@ -98,6 +98,7 @@ export default function Home() {
 
   const filteredLots = useMemo(() => {
     return listings.filter((lot) => {
+      const isPubliclyActive = lot.status === 'ACTIVE';
       const matchesCategory = marketFilter === 'all' || lot.category === marketFilter;
       const cropName = getLotDisplayName(lot).toLowerCase();
       const matchesSearch =
@@ -105,7 +106,7 @@ export default function Home() {
         cropName.includes(searchQuery.toLowerCase()) ||
         lot.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
         lot.id.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch && lot.quantityKg > 0;
+      return isPubliclyActive && matchesCategory && matchesSearch && lot.quantityKg > 0;
     });
   }, [listings, marketFilter, searchQuery, getLotDisplayName]);
 

@@ -294,18 +294,19 @@ export default function FarmerPortal() {
       farmAddress,
       pincode,
       farmCoordinates: coords,
-      status: 'ACTIVE',
-      harvestDate: 'Today, Assayed',
+      status: 'GRADING_REQUESTED',
+      harvestDate: 'Today, Harvest Declared',
       farmerName: 'Rameshwar Jat',
-      description: `Grade ${grade} ${commodity} harvest, cleared under WDRA specifications with ${deliveryMode.replace('_', ' ')}. Farm Pickup: ${farmAddress}.`,
+      farmerPhone: '+91 98290 41029',
+      description: `Grade ${grade} ${commodity} harvest declared at farm gate. Awaiting Fasal Matrix accredited grading vehicle dispatch to ${farmAddress}.`,
     });
 
     const estimatedComm = calculateFarmerCommission(Number(quantity) * Number(price));
     setNotice(
-      `${t.farmer.lotPublishedNotice.replace('{id}', newLot.id).replace('{price}', String(price))} (Net Payout Est: ₹${estimatedComm.farmerReceives.toLocaleString('en-IN')})`
+      `Harvest declaration ${newLot.id} submitted! A Fasal Matrix accredited grading & collection vehicle is being scheduled by the regional admin desk. Expected Payout: ₹${estimatedComm.farmerReceives.toLocaleString('en-IN')} upon on-site assaying.`
     );
     setActiveTab('listings');
-    setTimeout(() => setNotice(null), 4500);
+    setTimeout(() => setNotice(null), 5500);
   };
 
   const handleAcceptOrder = (orderId: string) => {
@@ -993,14 +994,34 @@ export default function FarmerPortal() {
                           <span className="text-[10px] font-mono uppercase bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2 py-0.5 rounded font-bold">
                             {lot.id}
                           </span>
-                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                            isPaused
-                              ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                              : lot.status === 'ACTIVE'
-                              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                              : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300'
-                          }`}>
-                            {lot.status}
+                          <span
+                            className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                              isPaused
+                                ? 'bg-amber-100 text-amber-900 border-amber-300 dark:bg-amber-950 dark:text-amber-300'
+                                : lot.status === 'GRADING_REQUESTED'
+                                ? 'bg-amber-50 text-amber-800 border-amber-300 dark:bg-amber-950/60 dark:text-amber-300 animate-pulse'
+                                : lot.status === 'INSPECTION_DISPATCHED'
+                                ? 'bg-blue-50 text-blue-800 border-blue-300 dark:bg-blue-950/60 dark:text-blue-300'
+                                : lot.status === 'PROCURED'
+                                ? 'bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-300'
+                                : lot.status === 'IN_WAREHOUSE'
+                                ? 'bg-purple-50 text-purple-800 border-purple-300 dark:bg-purple-950/60 dark:text-purple-300'
+                                : lot.status === 'ACTIVE'
+                                ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300'
+                                : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200'
+                            }`}
+                          >
+                            {lot.status === 'GRADING_REQUESTED'
+                              ? 'Grading Requested'
+                              : lot.status === 'INSPECTION_DISPATCHED'
+                              ? 'Vehicle Dispatched'
+                              : lot.status === 'PROCURED'
+                              ? 'Procured & Paid'
+                              : lot.status === 'IN_WAREHOUSE'
+                              ? 'In Warehouse'
+                              : lot.status === 'B2B_ALLOCATED'
+                              ? 'B2B Allocated'
+                              : lot.status}
                           </span>
                         </div>
 
@@ -1011,9 +1032,64 @@ export default function FarmerPortal() {
                           ₹{lot.price} <span className="text-xs text-zinc-500 font-normal">/ kg</span>
                         </div>
 
+                        {/* Physical Procurement & Grading Pipeline Telemetry */}
+                        {lot.status === 'GRADING_REQUESTED' && (
+                          <div className="mt-2.5 p-2.5 bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 rounded-xl text-[11px] text-amber-900 dark:text-amber-200 space-y-1">
+                            <div className="font-semibold flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+                              <span>Awaiting Regional Fleet Dispatch</span>
+                            </div>
+                            <p className="text-amber-700 dark:text-amber-400 text-[10px]">
+                              Admin is scheduling an accredited field grading and collection vehicle to your farm locus ({lot.farmAddress || 'Farm Gate'}).
+                            </p>
+                          </div>
+                        )}
+
+                        {lot.dispatchInfo && (
+                          <div className="mt-2.5 p-2.5 bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 rounded-xl text-[11px] text-blue-900 dark:text-blue-200 space-y-1">
+                            <div className="font-semibold flex items-center justify-between">
+                              <span>Collection Vehicle En Route</span>
+                              <span className="font-mono text-[10px] bg-blue-100 dark:bg-blue-900 px-1.5 py-0.5 rounded font-bold">ETA: {lot.dispatchInfo.eta}</span>
+                            </div>
+                            <div className="text-[10px] text-blue-700 dark:text-blue-300">
+                              Vehicle: <strong>{lot.dispatchInfo.vehicleNo}</strong> • Inspector: <strong>{lot.dispatchInfo.inspectorName}</strong> ({lot.dispatchInfo.inspectorPhone})
+                            </div>
+                          </div>
+                        )}
+
+                        {lot.gradingReport && (
+                          <div className="mt-2.5 p-2.5 bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 rounded-xl text-[11px] text-emerald-900 dark:text-emerald-200 space-y-1">
+                            <div className="font-semibold flex items-center justify-between">
+                              <span>Physical AGMARK Inspection Cleared</span>
+                              <span className="font-mono font-bold text-emerald-700 dark:text-emerald-300">Grade {lot.gradingReport.confirmedGrade}</span>
+                            </div>
+                            <div className="text-[10px] text-emerald-700 dark:text-emerald-400">
+                              Moisture: {lot.gradingReport.moisturePercent}% • Assayed: {lot.gradingReport.assayedNetWeightKg.toLocaleString()} kg
+                            </div>
+                            {lot.procurementDetails && (
+                              <div className="pt-1 mt-1 border-t border-emerald-200 dark:border-emerald-800 text-[11px] font-mono font-bold text-emerald-800 dark:text-emerald-300 flex justify-between">
+                                <span>Escrow Credited:</span>
+                                <span>₹{lot.procurementDetails.totalFarmerPayout.toLocaleString('en-IN')}</span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {lot.warehouseStorage && (
+                          <div className="mt-2.5 p-2.5 bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-900 rounded-xl text-[11px] text-purple-900 dark:text-purple-200">
+                            <div className="font-semibold flex items-center justify-between">
+                              <span>WDRA Silo Vault Intake</span>
+                              <span className="font-mono text-[10px] font-bold">{lot.warehouseStorage.receiptId}</span>
+                            </div>
+                            <div className="text-[10px] text-purple-700 dark:text-purple-300 mt-0.5">
+                              {lot.warehouseStorage.depotName} • {lot.warehouseStorage.bayLocation}
+                            </div>
+                          </div>
+                        )}
+
                         <div className="mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 space-y-1.5 text-xs text-zinc-600 dark:text-zinc-400">
                           <div className="flex justify-between">
-                            <span className="text-zinc-500">Available:</span>
+                            <span className="text-zinc-500">Declared Quantity:</span>
                             <strong className="text-zinc-900 dark:text-zinc-100 font-mono">{lot.quantity}</strong>
                           </div>
                           <div className="flex justify-between">
@@ -1021,11 +1097,11 @@ export default function FarmerPortal() {
                             <span className="text-zinc-900 dark:text-zinc-100 font-semibold">AGMARK Grade {lot.grade}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-zinc-500">Warehouse:</span>
+                            <span className="text-zinc-500">Warehouse Hub:</span>
                             <span className="text-zinc-900 dark:text-zinc-100 truncate max-w-[150px]">{lot.location}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-zinc-500">Declared:</span>
+                            <span className="text-zinc-500">Declared Date:</span>
                             <span className="text-zinc-900 dark:text-zinc-100">{lot.harvestDate}</span>
                           </div>
                         </div>

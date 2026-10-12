@@ -74,6 +74,7 @@ export default function BuyerPortal() {
   // Filtered Produce Lots for Sourcing
   const filteredProduce = useMemo(() => {
     return listings.filter((item) => {
+      const isAvailableForBulk = item.status === 'ACTIVE' || item.status === 'B2B_ALLOCATED';
       const matchCat = selectedCategory === 'all' || item.category.toLowerCase() === selectedCategory.toLowerCase();
       const q = marketSearch.toLowerCase().trim();
       const matchSearch =
@@ -82,7 +83,7 @@ export default function BuyerPortal() {
         item.cluster.toLowerCase().includes(q) ||
         item.location.toLowerCase().includes(q) ||
         item.id.toLowerCase().includes(q);
-      return matchCat && matchSearch && item.status === 'ACTIVE';
+      return matchCat && matchSearch && isAvailableForBulk && item.quantityKg > 0;
     });
   }, [listings, selectedCategory, marketSearch]);
 

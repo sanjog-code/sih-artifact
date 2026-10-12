@@ -4,7 +4,17 @@ import { useSyncExternalStore } from 'react';
 
 export type ProduceCategory = 'vegetables' | 'oilseeds' | 'grains' | 'pulses' | 'fruits';
 export type ProduceGrade = 'A1' | 'A2' | 'B' | 'C';
-export type ProduceLotStatus = 'ACTIVE' | 'PAUSED' | 'IN_WAREHOUSE' | 'SOLD' | 'DISPATCHED' | 'ESCROW_LOCKED';
+export type ProduceLotStatus =
+  | 'GRADING_REQUESTED'
+  | 'INSPECTION_DISPATCHED'
+  | 'PROCURED'
+  | 'IN_WAREHOUSE'
+  | 'B2B_ALLOCATED'
+  | 'ACTIVE'
+  | 'PAUSED'
+  | 'SOLD'
+  | 'DISPATCHED'
+  | 'ESCROW_LOCKED';
 
 export interface ProduceLotItem {
   id: string;
@@ -21,10 +31,38 @@ export interface ProduceLotItem {
   status: ProduceLotStatus;
   farmerId?: string;
   farmerName?: string;
+  farmerPhone?: string;
   description?: string;
   farmAddress?: string;
   farmCoordinates?: { lat: number; lng: number };
   pincode?: string;
+  dispatchInfo?: {
+    vehicleNo: string;
+    inspectorName: string;
+    inspectorPhone: string;
+    eta: string;
+    dispatchedAt: string;
+  };
+  gradingReport?: {
+    confirmedGrade: ProduceGrade;
+    moisturePercent: number;
+    assayedNetWeightKg: number;
+    inspectedAt: string;
+    inspectorId: string;
+    notes?: string;
+  };
+  procurementDetails?: {
+    totalFarmerPayout: number;
+    escrowTxId: string;
+    settledAt: string;
+  };
+  warehouseStorage?: {
+    depotName: string;
+    bayLocation: string;
+    receiptId: string;
+    intakeAt: string;
+  };
+  channelAllocation?: 'BULK_B2B' | 'CONSUMER_MARKETPLACE' | 'UNALLOCATED';
 }
 
 export const INITIAL_PRODUCE_SEED: ProduceLotItem[] = [
@@ -429,6 +467,154 @@ export const produceStore = {
     return found;
   },
 
+  dispatchGradingVehicle(
+    id: string,
+    dispatchInfo: {
+      vehicleNo: string;
+      inspectorName: string;
+      inspectorPhone: string;
+      eta: string;
+    }
+  ): boolean {
+    const current = safeGetLocalStorage();
+    let found = false;
+    const updated = current.map((item) => {
+      if (item.id.toLowerCase() === id.toLowerCase()) {
+        found = true;
+        return {
+          ...item,
+          status: 'INSPECTION_DISPATCHED' as ProduceLotStatus,
+          dispatchInfo: {
+            ...dispatchInfo,
+            dispatchedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          },
+        };
+      }
+      return item;
+    });
+    if (found) {
+      safeSetLocalStorage(updated);
+    }
+    return found;
+  },
+
+  confirmGradingAndProcure(
+    id: string,
+    report: {
+      confirmedGrade: ProduceGrade;
+      moisturePercent: number;
+      assayedNetWeightKg: number;
+      unitPrice?: number;
+      notes?: string;
+    }
+  ): { success: boolean; lot?: ProduceLotItem; farmerPayout: number } {
+    const current = safeGetLocalStorage();
+    let updatedLot: ProduceLotItem | undefined;
+    const updated = current.map((item) => {
+      if (item.id.toLowerCase() === id.toLowerCase()) {
+        const rate = report.unitPrice ?? item.price;
+        const netKg = report.assayedNetWeightKg;
+        const totalPayout = Math.round(netKg * rate);
+        const txId = `ESC-FARMER-${Date.now().toString().slice(-6)}`;
+
+        updatedLot = {
+          ...item,
+          grade: report.confirmedGrade,
+          price: rate,
+          quantityKg: netKg,
+          quantity: `${netKg.toLocaleString('en-IN')} kg`,
+          status: 'PROCURED' as ProduceLotStatus,
+          gradingReport: {
+            confirmedGrade: report.confirmedGrade,
+            moisturePercent: report.moisturePercent,
+            assayedNetWeightKg: netKg,
+            inspectedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            inspectorId: item.dispatchInfo?.inspectorName || 'Fasal Matrix Grader #01',
+            notes: report.notes,
+          },
+          procurementDetails: {
+            totalFarmerPayout: totalPayout,
+            escrowTxId: txId,
+            settledAt: 'Just now (T+1 Guaranteed)',
+          },
+        };
+        return updatedLot;
+      }
+      return item;
+    });
+
+    if (updatedLot) {
+      safeSetLocalStorage(updated);
+      return {
+        success: true,
+        lot: updatedLot,
+        farmerPayout: updatedLot.procurementDetails?.totalFarmerPayout ?? 0,
+      };
+    }
+    return { success: false, farmerPayout: 0 };
+  },
+
+  intakeIntoWarehouse(
+    id: string,
+    warehouseData: {
+      depotName: string;
+      bayLocation: string;
+    }
+  ): boolean {
+    const current = safeGetLocalStorage();
+    let found = false;
+    const updated = current.map((item) => {
+      if (item.id.toLowerCase() === id.toLowerCase()) {
+        found = true;
+        const rcpt = `WDRA-RCPT-${Date.now().toString().slice(-6)}`;
+        return {
+          ...item,
+          status: 'IN_WAREHOUSE' as ProduceLotStatus,
+          location: warehouseData.depotName,
+          warehouseStorage: {
+            depotName: warehouseData.depotName,
+            bayLocation: warehouseData.bayLocation,
+            receiptId: rcpt,
+            intakeAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          },
+          channelAllocation: 'UNALLOCATED' as const,
+        };
+      }
+      return item;
+    });
+    if (found) {
+      safeSetLocalStorage(updated);
+    }
+    return found;
+  },
+
+  allocateChannel(
+    id: string,
+    channel: 'BULK_B2B' | 'CONSUMER_MARKETPLACE'
+  ): boolean {
+    const current = safeGetLocalStorage();
+    let found = false;
+    const updated = current.map((item) => {
+      if (item.id.toLowerCase() === id.toLowerCase()) {
+        found = true;
+        const newStatus =
+          channel === 'CONSUMER_MARKETPLACE'
+            ? ('ACTIVE' as ProduceLotStatus)
+            : ('B2B_ALLOCATED' as ProduceLotStatus);
+        return {
+          ...item,
+          status: newStatus,
+          channelAllocation: channel,
+        };
+      }
+      return item;
+    });
+    if (found) {
+      safeSetLocalStorage(updated);
+    }
+    return found;
+  },
+
   resetToSeed(): void {
     safeSetLocalStorage([...INITIAL_PRODUCE_SEED]);
   },
@@ -458,6 +644,10 @@ export function useProduceStore() {
     updateLotStatus: produceStore.updateLotStatus,
     deleteListing: produceStore.deleteListing,
     togglePauseListing: produceStore.togglePauseListing,
+    dispatchGradingVehicle: produceStore.dispatchGradingVehicle,
+    confirmGradingAndProcure: produceStore.confirmGradingAndProcure,
+    intakeIntoWarehouse: produceStore.intakeIntoWarehouse,
+    allocateChannel: produceStore.allocateChannel,
     resetToSeed: produceStore.resetToSeed,
   };
 }

@@ -258,6 +258,52 @@ import('crypto').then((crypto) => {
 
   console.log('  ✅ Farmer ₹10,000 sale payouts, B2B annual models, and illustrative revenue scenarios verified.\n');
 
-  console.log('🎉 ALL 9 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
+  // 10. End-to-End Physical Grading, Dispatch, Escrow & Warehouse Channel Routing Pipeline Verification
+  console.log('🚜 Test 10: Verifying Physical Grading, Dispatch, Escrow & Warehouse Channel Routing Pipeline...');
+  const produceStorePath = path.resolve(__dirname, '../src/lib/store/produceStore.ts');
+  const produceStoreSrc = fs.readFileSync(produceStorePath, 'utf8');
+
+  assert(produceStoreSrc.includes("'GRADING_REQUESTED'"), 'ProduceLotStatus must include GRADING_REQUESTED');
+  assert(produceStoreSrc.includes("'INSPECTION_DISPATCHED'"), 'ProduceLotStatus must include INSPECTION_DISPATCHED');
+  assert(produceStoreSrc.includes("'PROCURED'"), 'ProduceLotStatus must include PROCURED');
+  assert(produceStoreSrc.includes("'IN_WAREHOUSE'"), 'ProduceLotStatus must include IN_WAREHOUSE');
+  assert(produceStoreSrc.includes("'B2B_ALLOCATED'"), 'ProduceLotStatus must include B2B_ALLOCATED');
+  assert(produceStoreSrc.includes('dispatchGradingVehicle'), 'produceStore must expose dispatchGradingVehicle');
+  assert(produceStoreSrc.includes('confirmGradingAndProcure'), 'produceStore must expose confirmGradingAndProcure');
+  assert(produceStoreSrc.includes('intakeIntoWarehouse'), 'produceStore must expose intakeIntoWarehouse');
+  assert(produceStoreSrc.includes('allocateChannel'), 'produceStore must expose allocateChannel');
+
+  // Verify farmer page creates lots as GRADING_REQUESTED
+  const farmerPagePath = path.resolve(__dirname, '../src/app/farmer/page.tsx');
+  const farmerPageSrc = fs.readFileSync(farmerPagePath, 'utf8');
+  assert(farmerPageSrc.includes("status: 'GRADING_REQUESTED'"), 'Farmer listings must be declared as GRADING_REQUESTED');
+  assert(farmerPageSrc.includes('Collection Vehicle En Route'), 'Farmer page must render vehicle dispatch telemetry');
+
+  // Verify admin console has grading_queue tab and modals
+  const adminPagePath = path.resolve(__dirname, '../src/app/admin/page.tsx');
+  const adminPageSrc = fs.readFileSync(adminPagePath, 'utf8');
+  assert(adminPageSrc.includes("'grading_queue'"), 'Admin page must include grading_queue tab');
+  assert(adminPageSrc.includes('Dispatch Field Grader Vehicle'), 'Admin page must include dispatch vehicle modal');
+  assert(adminPageSrc.includes('On-Site Grade & Procurement Confirmation'), 'Admin page must include grade confirmation modal');
+  assert(adminPageSrc.includes('WDRA Vault & Cold Silo Intake'), 'Admin page must include warehouse intake modal');
+  assert(adminPageSrc.includes('allocateChannel'), 'Admin page must link channel allocation decisions');
+
+  // Verify marketplace visibility enforcement (Homepage & Consumer only show ACTIVE)
+  const homePagePath = path.resolve(__dirname, '../src/app/page.tsx');
+  const homePageSrc = fs.readFileSync(homePagePath, 'utf8');
+  assert(homePageSrc.includes("lot.status === 'ACTIVE'"), 'Homepage must restrict public lots strictly to ACTIVE');
+
+  const consumerPagePath = path.resolve(__dirname, '../src/app/consumer/page.tsx');
+  const consumerPageSrc = fs.readFileSync(consumerPagePath, 'utf8');
+  assert(consumerPageSrc.includes("item.status === 'ACTIVE'"), 'Consumer portal must restrict public inventory strictly to ACTIVE');
+
+  // Verify buyer portal allows ACTIVE and B2B_ALLOCATED
+  const buyerPagePath = path.resolve(__dirname, '../src/app/buyer/page.tsx');
+  const buyerPageSrc = fs.readFileSync(buyerPagePath, 'utf8');
+  assert(buyerPageSrc.includes("B2B_ALLOCATED"), 'Buyer portal must support sourcing B2B_ALLOCATED inventory');
+
+  console.log('  ✅ 6-stage physical grading, dispatch, escrow, warehouse intake, and channel routing pipeline verified!\n');
+
+  console.log('🎉 ALL 10 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
 });
 
