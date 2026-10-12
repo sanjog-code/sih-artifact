@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ShieldCheck, CheckCircle2, X } from 'lucide-react';
+import { ShieldCheck, CheckCircle2, X, Eye, EyeOff } from 'lucide-react';
 import { useKycStore } from '../lib/store/kycStore';
 
 interface KycVerificationModalProps {
@@ -20,6 +20,8 @@ export default function KycVerificationModal({ isOpen, onClose }: KycVerificatio
   const [ifscCode, setIfscCode] = useState('SBIN0002410');
   const [bankName, setBankName] = useState('State Bank of India');
   const [accountHolderName] = useState('Rameshwar Lal');
+  const [showAccountNo, setShowAccountNo] = useState(false);
+  const [showSuccessAccount, setShowSuccessAccount] = useState(false);
 
   const [step, setStep] = useState<'FORM' | 'VERIFYING' | 'SUCCESS'>('FORM');
 
@@ -111,16 +113,47 @@ export default function KycVerificationModal({ isOpen, onClose }: KycVerificatio
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-zinc-500 uppercase mb-1">
-                  Bank Account Number
-                </label>
-                <input
-                  type="password"
-                  required
-                  value={bankAccountNo}
-                  onChange={(e) => setBankAccountNo(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm font-mono focus:ring-2 focus:ring-emerald-500 outline-none"
-                />
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-semibold text-zinc-500 uppercase">
+                    Bank Account Number
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowAccountNo((prev) => !prev)}
+                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                  >
+                    {showAccountNo ? (
+                      <>
+                        <EyeOff className="w-3.5 h-3.5 text-zinc-500" />
+                        <span>Hide</span>
+                      </>
+                    ) : (
+                      <>
+                        <Eye className="w-3.5 h-3.5 text-zinc-500" />
+                        <span>Show</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                <div className="relative">
+                  <input
+                    type={showAccountNo ? 'text' : 'password'}
+                    required
+                    value={bankAccountNo}
+                    onChange={(e) => setBankAccountNo(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm font-mono focus:ring-2 focus:ring-emerald-500 outline-none pr-10"
+                    placeholder="e.g. 501004128912"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowAccountNo((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors"
+                    title={showAccountNo ? 'Hide account number' : 'Show account number'}
+                    aria-label={showAccountNo ? 'Hide account number' : 'Show account number'}
+                  >
+                    {showAccountNo ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -194,7 +227,18 @@ export default function KycVerificationModal({ isOpen, onClose }: KycVerificatio
               Bank Account Verified
             </h4>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 max-w-sm mx-auto">
-              Penny-drop credit successful. Account <strong>••••••••{bankAccountNo.slice(-4)}</strong> ({bankName}) is now verified for automated escrow releases.
+              Penny-drop credit successful. Account{' '}
+              <strong className="font-mono text-zinc-900 dark:text-zinc-100">
+                {showSuccessAccount ? bankAccountNo : `••••••••${bankAccountNo.slice(-4)}`}
+              </strong>{' '}
+              <button
+                type="button"
+                onClick={() => setShowSuccessAccount((prev) => !prev)}
+                className="inline-flex items-center gap-1 text-[10px] text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200 underline decoration-dotted ml-1"
+              >
+                {showSuccessAccount ? 'Hide' : 'Tap to reveal'}
+              </button>{' '}
+              ({bankName}) is now verified for automated escrow releases.
             </p>
 
             <button

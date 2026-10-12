@@ -36,6 +36,8 @@ import {
   Lock,
   ShieldCheck,
   BarChart3,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { geocodeAddress } from '../../lib/ai/geocoding';
 import NetIncomeCalculator from '../../components/NetIncomeCalculator';
@@ -219,6 +221,7 @@ export default function FarmerPortal() {
   // Escrow & Payment State
   const [walletBalance, setWalletBalance] = useState(482500);
   const [withdrawing, setWithdrawing] = useState(false);
+  const [showBankAcc, setShowBankAcc] = useState(false);
 
   const [forecastStorageDays, setForecastStorageDays] = useState(0);
 
@@ -1754,19 +1757,51 @@ export default function FarmerPortal() {
               </div>
 
               {/* Linked Bank Account Card */}
-              <div className="p-4 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl flex items-center justify-between mb-6 text-xs text-zinc-700 dark:text-zinc-300">
+              <div className="p-4 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 text-xs text-zinc-700 dark:text-zinc-300">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 flex items-center justify-center font-bold">
+                  <div className="w-9 h-9 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 flex items-center justify-center font-bold shrink-0">
                     SBI
                   </div>
                   <div>
-                    <div className="font-bold text-zinc-950 dark:text-zinc-50">State Bank of India (Primary PM-KISAN A/C)</div>
-                    <div className="text-[11px] text-zinc-500 font-mono">A/C: **********4819 • IFSC: SBIN0004921</div>
+                    <div className="font-bold text-zinc-950 dark:text-zinc-50">
+                      {currentFarmerKyc?.bankName || 'State Bank of India'} (Primary PM-KISAN A/C)
+                    </div>
+                    <div className="text-[11px] text-zinc-500 font-mono flex items-center gap-2 mt-0.5">
+                      <span>
+                        A/C:{' '}
+                        <strong className="tracking-wider text-zinc-800 dark:text-zinc-200">
+                          {showBankAcc ? '389201944819' : '•••• •••• 4819'}
+                        </strong>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setShowBankAcc((prev) => !prev)}
+                        className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-zinc-200/70 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 text-[10px] font-sans font-semibold transition-colors cursor-pointer select-none"
+                        title={showBankAcc ? 'Hide bank account number' : 'Show bank account number'}
+                        aria-label={showBankAcc ? 'Hide bank account number' : 'Show bank account number'}
+                      >
+                        {showBankAcc ? (
+                          <>
+                            <EyeOff className="w-3 h-3 text-zinc-500" />
+                            <span>Hide</span>
+                          </>
+                        ) : (
+                          <>
+                            <Eye className="w-3 h-3 text-zinc-500" />
+                            <span>Show</span>
+                          </>
+                        )}
+                      </button>
+                      <span className="text-zinc-400">•</span>
+                      <span>IFSC: {currentFarmerKyc?.ifscCode || 'SBIN0004921'}</span>
+                    </div>
                   </div>
                 </div>
-                <span className="text-[10px] font-mono bg-emerald-100 text-emerald-900 px-2 py-0.5 rounded font-bold">
-                  ACTIVE
-                </span>
+                <div className="flex items-center gap-2 self-start sm:self-auto">
+                  <span className="text-[10px] font-mono bg-emerald-100 text-emerald-900 dark:bg-emerald-950/80 dark:text-emerald-300 px-2 py-0.5 rounded font-bold">
+                    ACTIVE
+                  </span>
+                </div>
               </div>
 
               {/* Transaction Ledger */}
