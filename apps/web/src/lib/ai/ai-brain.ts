@@ -296,7 +296,7 @@ export async function processAiQuery(params: {
     } else {
       text += forecast.predictedChangePercent > 2
         ? ` *Recommendation: Demand is rising. Warehousing storable lots or locking direct farmgate sale maximizes realization.*`
-        : ` *Recommendation: Supply is in equilibrium. Direct farmgate trading via Fasal Matrix eliminates middleman broker cuts.*`;
+        : ` *Recommendation: Supply is in equilibrium. Direct farmgate trading via FasalMatrix eliminates middleman broker cuts.*`;
     }
 
     return {
@@ -423,14 +423,14 @@ Would you like to locate the nearest accredited storage hub or book a bay?`;
     lower.includes('safe') ||
     lower.includes('security')
   ) {
-    const text = `### RBI-Compliant Nodal Escrow Protection on Fasal Matrix
+    const text = `### RBI-Compliant Nodal Escrow Protection on FasalMatrix
 
-Fasal Matrix eliminates traditional default and payment delay risks for both farmers and enterprise buyers through an **RBI-compliant nodal escrow mechanism**:
+FasalMatrix eliminates traditional default and payment delay risks for both farmers and enterprise buyers through an **RBI-compliant nodal escrow mechanism**:
 
 1. **Instant Fund Locking**: When a buyer confirms a purchase or quote, 100% of the transaction amount is locked into an RBI-regulated nodal escrow account.
 2. **Quality Gate Pass Verification**: Goods are dispatched with GPS cold-chain tracking. Upon arrival at the buyer's terminal or WDRA warehouse, weight slips and digital AGMARK grade assay certificates are verified.
 3. **Automated T+1 Disbursal**: Once the consignee confirms the gate pass, the locked escrow funds are released directly into the farmer's verified bank account within **T+1 clearing cycles (under 24 hours)**.
-4. **Zero Intermediary Deductions**: Traditional APMC mandis charge up to 6-8% commission plus weighing and unloading levies. Fasal Matrix operates with **0% broker deductions**, ensuring the farmer retains 100% of the agreed price.`;
+4. **Zero Intermediary Deductions**: Traditional APMC mandis charge up to 6-8% commission plus weighing and unloading levies. FasalMatrix operates with **0% broker deductions**, ensuring the farmer retains 100% of the agreed price.`;
 
     const visualArtifact: VisualArtifact = {
       type: 'quick_action',
@@ -478,8 +478,8 @@ Fasal Matrix eliminates traditional default and payment delay risks for both far
 The **Minimum Support Price (MSP)** is a guaranteed floor price announced by the **Cabinet Committee on Economic Affairs (CCEA)** based on recommendations by the **Commission for Agricultural Costs and Prices (CACP)**.
 
 • **Cost Formula**: MSP is calculated using the **A2 + FL formula** (Actual paid-out costs + imputed value of unpaid Family Labour) with a minimum 50% profit margin added over production costs (aligned with the National Commission on Farmers / Swaminathan formula).
-• **Inviolable Platform Guardrail**: On Fasal Matrix, statutory MSP functions as an **inviolable algorithmic floor**. The platform mathematically rejects any buyer offer or auction bid submitted below the official MSP floor for all 23 mandated crops (Wheat, Paddy, Mustard, Soybean, Chana, Maize, etc.).
-• **0% Downside Exposure**: Even during harvest gluts when traditional local mandis crash due to oversupply, Fasal Matrix guarantees that verified transactions cannot violate the MSP safety net.`;
+• **Inviolable Platform Guardrail**: On FasalMatrix, statutory MSP functions as an **inviolable algorithmic floor**. The platform mathematically rejects any buyer offer or auction bid submitted below the official MSP floor for all 23 mandated crops (Wheat, Paddy, Mustard, Soybean, Chana, Maize, etc.).
+• **0% Downside Exposure**: Even during harvest gluts when traditional local mandis crash due to oversupply, FasalMatrix guarantees that verified transactions cannot violate the MSP safety net.`;
 
     const visualArtifact: VisualArtifact = {
       type: 'quick_action',
@@ -502,7 +502,7 @@ The **Minimum Support Price (MSP)** is a guaranteed floor price announced by the
       roleContext: role,
       suggestedPrompts: [
         'Forecast Wheat prices next week',
-        'How does Fasal Matrix prevent price gouging?',
+        'How does FasalMatrix prevent price gouging?',
         'Show me mustard prices',
         'How do I list my lot?',
       ],
@@ -521,7 +521,7 @@ The **Minimum Support Price (MSP)** is a guaranteed floor price announced by the
   ) {
     const text = `### AGMARK & Computer-Vision Produce Assaying Protocols
 
-Fasal Matrix incorporates standard AGMARK quality criteria coupled with optical inspection standards:
+FasalMatrix incorporates standard AGMARK quality criteria coupled with optical inspection standards:
 
 • **Grade A1 (Premier)**: 95% or higher visual color and size uniformity, moisture strictly within statutory limits (e.g., under 12% for Wheat, under 8.5% for Mustard), zero foreign matter, zero pest infestation. Premium pricing (+5% to +12% over spot).
 • **Grade A2 (Standard Commercial)**: 88% to 94% uniformity, standard commercial moisture tolerance, under 1% foreign matter. Traded at full benchmark modal rate.
@@ -535,7 +535,7 @@ Fasal Matrix incorporates standard AGMARK quality criteria coupled with optical 
         'How to list Grade A1 Wheat?',
         'Forecast Mustard price next week',
         'How does escrow lock protect my payment?',
-        'How do I use Fasal Matrix?',
+        'How do I use FasalMatrix?',
       ],
     };
   }
@@ -546,13 +546,13 @@ Fasal Matrix incorporates standard AGMARK quality criteria coupled with optical 
     lower.includes('how to list') ||
     lower.includes('how to buy') ||
     lower.includes('how it works') ||
-    lower.includes('what is fasal matrix') ||
+    lower.includes('what is FasalMatrix') ||
     lower.includes('kese kaam karta hai') ||
     lower.includes('kese beche')
   ) {
-    const text = `### How Fasal Matrix Works
+    const text = `### How FasalMatrix Works
 
-Fasal Matrix is India's direct farmgate trading and demand intelligence platform. It replaces opaque broker networks with transparent algorithmic trade settlement:
+FasalMatrix is India's direct farmgate trading and demand intelligence platform. It replaces opaque broker networks with transparent algorithmic trade settlement:
 
 1. **For Farmers**:
    - **Declare Harvest**: Choose from all 50+ official Government of India registered crops, specify lot size, and upload photo/voice description.
@@ -591,7 +591,7 @@ Fasal Matrix is India's direct farmgate trading and demand intelligence platform
     lower.includes('who are you') ||
     lower.includes('what can you do')
   ) {
-    const text = `Namaste!  I am **Fasal Matrix AI**, your advanced agrarian procurement and market intelligence copilot.
+    const text = `Namaste!  I am **FasalMatrix AI**, your advanced agrarian procurement and market intelligence copilot.
 
 I function as an intelligent conversational advisor - similar to ChatGPT or Google Gemini - with specialized grounding in Indian agriculture, APMC mandi economics, and supply chain logistics.
 
@@ -600,7 +600,7 @@ Here are some things you can ask me right now:
 • **Storage & Shelf-Life Protocols**: *"How long can I store Mustard?"*, *"What are the optimal cold storage conditions for potatoes?"*
 • **Statutory Policy & Escrow**: *"Explain CCEA MSP floor calculations"*, *"How does RBI nodal escrow protect my payout?"*
 • **Agronomy & Farming Science**: *"What is the difference between Rabi and Kharif crops?"*, *"How does drip irrigation improve yield?"*
-• **General Conversation & Inquiries**: Ask me any question about economics, science, or how to get the most value out of Fasal Matrix!
+• **General Conversation & Inquiries**: Ask me any question about economics, science, or how to get the most value out of FasalMatrix!
 
 How may I assist you today?`;
 
@@ -679,7 +679,7 @@ Would you like to explore price forecasts or recommended management practices fo
 Here is your calibrated direct farmgate institutional quote proposal:
 
 • **Commodity**: **${targetCrop} (AGMARK Grade A1)**
-• **Direct Farmgate Rate (Fasal Matrix)**: **₹${baseModal.toFixed(2)}/kg**
+• **Direct Farmgate Rate (FasalMatrix)**: **₹${baseModal.toFixed(2)}/kg**
 • **Traditional APMC Mandi Benchmark**: **₹${traditionalMandi.toFixed(2)}/kg**
 • **Net Weekly Direct Savings**: **~${brokerSavingsPct}%** (Eliminating 3 tiers of middleman commission markups and mandi levies)
 • **Settlement Protection**: **100% RBI Nodal Escrow Locked** (Funds released only post terminal dock weighbridge and grade assay verification)
@@ -691,7 +691,7 @@ Would you like to lock this forward delivery cadence or adjust your weekly metri
       type: 'quick_action',
       title: `${targetCrop} Institutional Bulk Quote Summary`,
       metrics: [
-        { label: 'Fasal Matrix Rate', value: `₹${baseModal.toFixed(2)}/kg`, delta: 'Direct Farmgate', sentiment: 'positive' },
+        { label: 'FasalMatrix Rate', value: `₹${baseModal.toFixed(2)}/kg`, delta: 'Direct Farmgate', sentiment: 'positive' },
         { label: 'APMC Benchmark', value: `₹${traditionalMandi.toFixed(2)}/kg`, delta: '+12-18% Broker Markups', sentiment: 'negative' },
         { label: 'Broker Fee Savings', value: `~${brokerSavingsPct}%`, delta: 'Zero Broker Arbitrage', sentiment: 'positive' },
         { label: 'Settlement Security', value: 'RBI Node Escrow', delta: 'T+1 Disbursal', sentiment: 'positive' },
@@ -734,7 +734,7 @@ Based on live Agmarknet mandi arrivals and harvest peak curves across farmer clu
    - Heavy wholesale arrivals tapering off; farmgate spot rates projected to rise 18% over the next 5-7 days.
 2. **Wheat (Sharbati Flour Grade)**: **STOCK UP**
    - Direct: **₹26.5/kg** vs Retail Supermarket: **₹35/kg** (~24% direct savings).
-   - Inviolable MSP baseline support guaranteed on Fasal Matrix.
+   - Inviolable MSP baseline support guaranteed on FasalMatrix.
 3. **Mustard (High Oil Content)**: **BUY NOW**
    - Direct: **₹62/kg** vs Retail Packaging: **₹72/kg** (~14% savings).
 4. **Potato (Jyoti Fresh)**: **WAIT FEW DAYS**
@@ -834,7 +834,7 @@ No critical bottlenecks detected. Fleet dispatch schedules are operating within 
 
 Regarding your inquiry:
 
-1. **Agrarian & Market Dynamics**: In India's agricultural ecosystem, transparent price discovery and timely logistics are essential to maximizing crop realizations. Fasal Matrix connects harvest lots directly from verified farmer clusters to institutional buyers, bypassing multi-tiered broker commissions.
+1. **Agrarian & Market Dynamics**: In India's agricultural ecosystem, transparent price discovery and timely logistics are essential to maximizing crop realizations. FasalMatrix connects harvest lots directly from verified farmer clusters to institutional buyers, bypassing multi-tiered broker commissions.
 2. **Statutory Benchmark Protections**: Every trade on the platform adheres to CCEA Minimum Support Price (MSP) benchmarks, preventing distress sales and speculative discounting.
 3. **Escrow Security**: All payments are routed through RBI-compliant nodal escrow accounts with T+1 direct bank disbursement upon dock gate verification.
 4. **Role Advisory**: ${roleGreetingAdvisory}

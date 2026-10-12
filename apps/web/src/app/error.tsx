@@ -15,7 +15,7 @@ export default function ErrorBoundary({
 }) {
   React.useEffect(() => {
     // Log error to console for diagnostic traceability
-    console.error('Fasal Matrix Platform Error:', error);
+    console.error('FasalMatrix Platform Error:', error);
   }, [error]);
 
   return (
@@ -25,7 +25,7 @@ export default function ErrorBoundary({
         <div className="relative h-full w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800 shadow-md">
           <Image
             src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1600&q=80"
-            alt="Fasal Matrix Agrarian Field"
+            alt="FasalMatrix Agrarian Field"
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 50vw"
@@ -41,7 +41,7 @@ export default function ErrorBoundary({
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
               </span>
               <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-amber-800 dark:text-amber-400">
-                Fasal Matrix Guard
+                FasalMatrix Guard
               </span>
             </div>
             <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50 leading-tight">

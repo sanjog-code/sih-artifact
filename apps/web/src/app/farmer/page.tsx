@@ -271,12 +271,12 @@ export default function FarmerPortal() {
       harvestDate: 'Today, Harvest Declared',
       farmerName: 'Rameshwar Jat',
       farmerPhone: '+91 98290 41029',
-      description: `Grade ${grade} ${commodity} harvest declared at farm gate. Awaiting Fasal Matrix accredited grading vehicle dispatch to ${farmAddress}.`,
+      description: `Grade ${grade} ${commodity} harvest declared at farm gate. Awaiting FasalMatrix accredited grading vehicle dispatch to ${farmAddress}.`,
     });
 
     const estimatedComm = calculateFarmerCommission(Number(quantity) * Number(price));
     setNotice(
-      `Harvest declaration ${newLot.id} submitted! A Fasal Matrix accredited grading & collection vehicle is being scheduled by the regional admin desk. Expected Payout: ₹${estimatedComm.farmerReceives.toLocaleString('en-IN')} upon on-site assaying.`
+      `Harvest declaration ${newLot.id} submitted! A FasalMatrix accredited grading & collection vehicle is being scheduled by the regional admin desk. Expected Payout: ₹${estimatedComm.farmerReceives.toLocaleString('en-IN')} upon on-site assaying.`
     );
     setActiveTab('listings');
     setTimeout(() => setNotice(null), 5500);
@@ -1581,7 +1581,7 @@ export default function FarmerPortal() {
                 {[
                   {
                     q: 'How does the Minimum Support Price (MSP) protection work?',
-                    a: 'Fasal Matrix strictly verifies government CCEA statutory floors. If bids or market clearing prices drop below the official MSP floor, the platform prohibits sub-floor contracts and offers accredited WDRA storage pledge finance instead.',
+                    a: 'FasalMatrix strictly verifies government CCEA statutory floors. If bids or market clearing prices drop below the official MSP floor, the platform prohibits sub-floor contracts and offers accredited WDRA storage pledge finance instead.',
                   },
                   {
                     q: 'When do I receive payment for dispatched produce?',

@@ -16,8 +16,8 @@ import { cookies } from 'next/headers';
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Fasal Matrix Agrarian Technologies',
-  alternateName: 'Fasal Matrix',
+  name: 'FasalMatrix Agrarian Technologies',
+  alternateName: 'FasalMatrix',
   url: 'https://fasalmatrix.in',
   logo: 'https://fasalmatrix.in/icon-192.png',
   contactPoint: {
@@ -44,7 +44,7 @@ const organizationSchema = {
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Fasal Matrix',
+  name: 'FasalMatrix',
   url: 'https://fasalmatrix.in',
   potentialAction: {
     '@type': 'SearchAction',
@@ -69,8 +69,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://fasalmatrix.in'),
   title: {
-    default: 'Fasal Matrix  -  Direct Agrarian Marketplace & Mandi MSP Intelligence',
-    template: '%s | Fasal Matrix',
+    default: 'FasalMatrix  -  Direct Agrarian Marketplace & Mandi MSP Intelligence',
+    template: '%s | FasalMatrix',
   },
   description:
     'Direct farm-to-doorstep trade across India. Real-time mandi price intelligence, verified crop quality grading, and guaranteed T+1 escrow settlement with zero middleman deductions.',
@@ -97,17 +97,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Fasal Matrix  -  Direct Agrarian Marketplace & Mandi Intelligence',
+    title: 'FasalMatrix  -  Direct Agrarian Marketplace & Mandi Intelligence',
     description:
       'Direct farm-to-doorstep agricultural commerce in India with real-time APMC/e-NAM price discovery and T+1 bank escrows.',
     url: 'https://fasalmatrix.in',
-    siteName: 'Fasal Matrix',
+    siteName: 'FasalMatrix',
     locale: 'en_IN',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Fasal Matrix  -  Direct Agrarian Marketplace',
+    title: 'FasalMatrix  -  Direct Agrarian Marketplace',
     description:
       'Direct farm-to-doorstep agricultural commerce in India with real-time APMC/e-NAM price discovery and T+1 bank escrows.',
   },

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     canonical: '/refund-policy',
   },
   openGraph: {
-    title: 'Refund Policy & Escrow Dispute Resolution | Fasal Matrix',
+    title: 'Refund Policy & Escrow Dispute Resolution | FasalMatrix',
     description:
       'Clear, auditable timelines for quality disputes, assay non-conformance, and 100% money-back escrow safeguards.',
     url: 'https://fasalmatrix.in/refund-policy',

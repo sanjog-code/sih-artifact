@@ -8,9 +8,9 @@ export const metadata: Metadata = {
     canonical: '/privacy',
   },
   openGraph: {
-    title: 'Privacy Policy | Fasal Matrix Agrarian Technologies',
+    title: 'Privacy Policy | FasalMatrix Agrarian Technologies',
     description:
-      'Learn how Fasal Matrix safeguards user data with end-to-end encryption, data minimization, and zero advertising broker sharing.',
+      'Learn how FasalMatrix safeguards user data with end-to-end encryption, data minimization, and zero advertising broker sharing.',
     url: 'https://fasalmatrix.in/privacy',
   },
 };

@@ -27,7 +27,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Effective Date: October 2026 • Published by Fasal Matrix Agrarian Technologies Pvt. Ltd. pursuant to the Digital Personal Data Protection Act, 2023.
+            Effective Date: October 2026 • Published by FasalMatrix Agrarian Technologies Pvt. Ltd. pursuant to the Digital Personal Data Protection Act, 2023.
           </p>
         </div>
 
@@ -66,7 +66,7 @@ export default function PrivacyPolicyPage() {
                 <span>Zero Commercial Sale of Personal Data</span>
               </div>
               <p className="text-xs text-emerald-900/90 dark:text-emerald-300">
-                Fasal Matrix never sells, rents, monetizes, or shares user contact or trading data with third-party advertisers, credit brokers, or marketing networks. Information is processed solely to fulfill confirmed agricultural consignment contracts.
+                FasalMatrix never sells, rents, monetizes, or shares user contact or trading data with third-party advertisers, credit brokers, or marketing networks. Information is processed solely to fulfill confirmed agricultural consignment contracts.
               </p>
             </div>
           </section>
@@ -108,7 +108,7 @@ export default function PrivacyPolicyPage() {
             <div className="p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-mono space-y-1">
               <div><strong>Name:</strong> Officer Rajesh V. Meena</div>
               <div><strong>Designation:</strong> Statutory Grievance Redressal Officer</div>
-              <div><strong>Address:</strong> Fasal Matrix Agrarian Technologies Pvt. Ltd., Muhana Mandi Terminal, Jaipur, RJ 302029</div>
+              <div><strong>Address:</strong> FasalMatrix Agrarian Technologies Pvt. Ltd., Muhana Mandi Terminal, Jaipur, RJ 302029</div>
               <div>
                 <strong>Email:</strong>{' '}
                 <a href="mailto:privacy@fasalmatrix.in" className="text-emerald-700 dark:text-emerald-400 hover:underline">

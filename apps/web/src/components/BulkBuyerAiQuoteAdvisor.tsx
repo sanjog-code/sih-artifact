@@ -195,11 +195,11 @@ export default function BulkBuyerAiQuoteAdvisor({ onNavigateToRfq }: BulkBuyerAi
         text: `Here is your optimized institutional procurement plan for ${selectedCrop}:
 
 • Weekly Volume: ${weeklyVolume.toLocaleString('en-IN')} kg (${volumePerDelivery.toLocaleString('en-IN')} kg × ${frequencyPerWeek} deliveries/wk)
-• Fasal Matrix Direct Rate: ₹${cropData.currentModalPrice.toFixed(2)}/kg vs Traditional Mandi: ₹${cropData.mandiBenchmark.toFixed(2)}/kg
+• FasalMatrix Direct Rate: ₹${cropData.currentModalPrice.toFixed(2)}/kg vs Traditional Mandi: ₹${cropData.mandiBenchmark.toFixed(2)}/kg
 • Weekly Cost: ₹${weeklySpendFasal.toLocaleString('en-IN')} (Saves ₹${weeklySavings.toLocaleString('en-IN')} every week  -  ~${savingsPercent}% lower spend)
 • Projected Annual Savings: ₹${annualSavings.toLocaleString('en-IN')}
 
-How Fasal Matrix delivers this:
+How FasalMatrix delivers this:
 1. Direct farmer contracts eliminate 3 tiers of mandi commissions.
 2. Grade assaying at WDRA silos ensures 0% weight manipulation.
 3. Node escrows release payment only upon destination dock inspection.`,
@@ -241,7 +241,7 @@ How Fasal Matrix delivers this:
       sender: 'ai',
       text: ` Quote #${createdRfq.id} registered!
 
-Your procurement requirement (${selectedCrop}, ${weeklyVolume.toLocaleString('en-IN')} kg/week) has been logged into the Fasal Matrix settlement ledger. 
+Your procurement requirement (${selectedCrop}, ${weeklyVolume.toLocaleString('en-IN')} kg/week) has been logged into the FasalMatrix settlement ledger. 
 
 You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telemetry certificates, and lock escrow for dispatch!`,
       timestamp: 'Just now',
@@ -266,7 +266,7 @@ You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telem
     setMessages((prev) => [...prev, userMsg]);
     setLoading(true);
 
-    // Send query to unified Fasal Matrix AI API powered by Gemini & domain models
+    // Send query to unified FasalMatrix AI API powered by Gemini & domain models
     try {
       const res = await fetch('/api/ai/chat', {
         method: 'POST',
@@ -310,19 +310,19 @@ You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telem
       let reply = '';
 
       if (lower.includes('price') || lower.includes('rate') || lower.includes('cost')) {
-        reply = `Current Fasal Matrix live benchmark prices:
+        reply = `Current FasalMatrix live benchmark prices:
 • Wheat: ₹${COMMODITIES.Wheat.currentModalPrice}/kg (Mandi: ₹${COMMODITIES.Wheat.mandiBenchmark}/kg)
 • Mustard: ₹${COMMODITIES.Mustard.currentModalPrice}/kg (Mandi: ₹${COMMODITIES.Mustard.mandiBenchmark}/kg)
 • Tomato: ₹${COMMODITIES.Tomato.currentModalPrice}/kg (Mandi: ₹${COMMODITIES.Tomato.mandiBenchmark}/kg)
 • Soybean: ₹${COMMODITIES.Soybean.currentModalPrice}/kg (Mandi: ₹${COMMODITIES.Soybean.mandiBenchmark}/kg)`;
       } else if (lower.includes('quality') || lower.includes('grade') || lower.includes('assay')) {
-        reply = `All Fasal Matrix lots are certified under WDRA and AGMARK grading protocols. Each batch is assayed for moisture, defect floor (<1%), and size uniformity with digital certificates attached before gate pass issuance.`;
+        reply = `All FasalMatrix lots are certified under WDRA and AGMARK grading protocols. Each batch is assayed for moisture, defect floor (<1%), and size uniformity with digital certificates attached before gate pass issuance.`;
       } else if (lower.includes('escrow') || lower.includes('payment') || lower.includes('bank')) {
         reply = `Your funds are held in an RBI-compliant nodal escrow account. Sellers are only paid on T+1 terms after your terminal dock verifies weight tickets and grade compliance. You never face advance default risk.`;
       } else if (lower.includes('frequency') || lower.includes('weekly') || lower.includes('schedule')) {
-        reply = `Fasal Matrix supports customizable procurement cadences (from 1x weekly to daily dispatches). Our Vehicle Routing Problem (VRP) engine bundles clustered FPO shipments to guarantee on-time dock delivery and minimum freight overhead.`;
+        reply = `FasalMatrix supports customizable procurement cadences (from 1x weekly to daily dispatches). Our Vehicle Routing Problem (VRP) engine bundles clustered FPO shipments to guarantee on-time dock delivery and minimum freight overhead.`;
       } else {
-        reply = `Regarding "${query}": Fasal Matrix connects enterprise procurers directly to verified farmer clusters with complete price transparency, guaranteed MSP floors, and automated delivery scheduling. Use the quote builder below to model your requirements!`;
+        reply = `Regarding "${query}": FasalMatrix connects enterprise procurers directly to verified farmer clusters with complete price transparency, guaranteed MSP floors, and automated delivery scheduling. Use the quote builder below to model your requirements!`;
       }
 
       const aiMsg: ChatMessage = {
@@ -374,7 +374,7 @@ You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telem
         </div>
       </div>
 
-      {/* Grid: Live Prices Radar & Fasal Matrix Value Proposition */}
+      {/* Grid: Live Prices Radar & FasalMatrix Value Proposition */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-6">
         {Object.entries(COMMODITIES).map(([cKey, cInfo]) => {
           const isSelected = selectedCrop === cKey;
@@ -502,7 +502,7 @@ You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telem
         <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-6 font-mono text-xs">
             <div>
-              <span className="text-[10px] text-zinc-500 block">Weekly Spend (Fasal Matrix):</span>
+              <span className="text-[10px] text-zinc-500 block">Weekly Spend (FasalMatrix):</span>
               <span className="font-extrabold text-blue-600 dark:text-blue-400 text-sm">
                 ₹{weeklySpendFasal.toLocaleString('en-IN')}
               </span>
@@ -575,7 +575,7 @@ You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telem
         {loading && (
           <div className="flex items-center gap-2 text-zinc-400 text-xs italic p-2">
             <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
-            <span>Calculating APMC vs Fasal Matrix margin differentials...</span>
+            <span>Calculating APMC vs FasalMatrix margin differentials...</span>
           </div>
         )}
         <div ref={messagesEndRef} />
@@ -619,10 +619,10 @@ You can review bidder farmer clusters in the RFQ Bidding Desk tab, inspect telem
         </button>
       </form>
 
-      {/* Value Pillars: How Fasal Matrix Solves Procurement Pain Points */}
+      {/* Value Pillars: How FasalMatrix Solves Procurement Pain Points */}
       <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800">
         <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3">
-          How Fasal Matrix Solves Enterprise Supply Chain Volatility:
+          How FasalMatrix Solves Enterprise Supply Chain Volatility:
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800">

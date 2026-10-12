@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 import BrandLogo from '../components/BrandLogo';
 
 export const metadata: Metadata = {
-  title: 'Page Not Found  -  404 | Fasal Matrix',
+  title: 'Page Not Found  -  404 | FasalMatrix',
   description: 'The requested route or agrarian resource could not be found.',
 };
 
@@ -18,7 +18,7 @@ export default function NotFound() {
         <div className="relative h-full w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800 shadow-md">
           <Image
             src="https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=1600&q=80"
-            alt="Fasal Matrix Farm Landscape"
+            alt="FasalMatrix Farm Landscape"
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 50vw"

@@ -87,7 +87,7 @@ export async function initiateClientPayment(options: CheckoutOptions) {
       key: paymentOrder.keyId,
       amount: paymentOrder.amountPaise,
       currency: 'INR',
-      name: 'Fasal Matrix Institutional Escrow',
+      name: 'FasalMatrix Institutional Escrow',
       description: options.type === 'SUBSCRIPTION' ? `Subscription: ${planName}` : 'Produce Sourcing Escrow Lock',
       order_id: paymentOrder.orderId,
       prefill: {

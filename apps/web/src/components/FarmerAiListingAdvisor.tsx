@@ -46,7 +46,7 @@ interface ChatMessage {
   };
 }
 
-// Knowledge base for crops, recommended agronomy practices, implements, and Fasal Matrix dynamic pricing
+// Knowledge base for crops, recommended agronomy practices, implements, and FasalMatrix dynamic pricing
 const CROP_ADVISORY_DATA: Record<
   string,
   {
@@ -77,7 +77,7 @@ const CROP_ADVISORY_DATA: Record<
       'Hermetic grain storage bags (WDRA accredited)',
     ],
     urgencyReason:
-      'Flour mills and institutional buyers are actively booking wheat lots right now with a +9.2% demand premium over mandi rates. By listing today on Fasal Matrix, you retain 100% value with guaranteed T+1 escrow payout and 0% brokerage!',
+      'Flour mills and institutional buyers are actively booking wheat lots right now with a +9.2% demand premium over mandi rates. By listing today on FasalMatrix, you retain 100% value with guaranteed T+1 escrow payout and 0% brokerage!',
   },
   Tomato: {
     name: 'Tomato',
@@ -96,7 +96,7 @@ const CROP_ADVISORY_DATA: Record<
       'Heavy-duty vented harvesting crates',
     ],
     urgencyReason:
-      'Local mandi supplies are volatile and perishable commodities drop 12% in value every 48 hours without cold chains. Listing now on Fasal Matrix connects your harvest instantly with verified buyers offering zero deduction on gate weights!',
+      'Local mandi supplies are volatile and perishable commodities drop 12% in value every 48 hours without cold chains. Listing now on FasalMatrix connects your harvest instantly with verified buyers offering zero deduction on gate weights!',
   },
   Mustard: {
     name: 'Mustard',
@@ -115,7 +115,7 @@ const CROP_ADVISORY_DATA: Record<
       'Elevated wooden storage pallets',
     ],
     urgencyReason:
-      'Oil extraction mills are paying a top premium for high-oil (>40%) seed batches. Mandi brokers often dock 4% for "moisture variance"; Fasal Matrix guarantees transparent assaying and 100% price retention!',
+      'Oil extraction mills are paying a top premium for high-oil (>40%) seed batches. Mandi brokers often dock 4% for "moisture variance"; FasalMatrix guarantees transparent assaying and 100% price retention!',
   },
   Soybean: {
     name: 'Soybean',
@@ -134,7 +134,7 @@ const CROP_ADVISORY_DATA: Record<
       'Calibrated seed moisture meter',
     ],
     urgencyReason:
-      'Institutional feed and oil processors have active buy orders on the platform today. By listing right now on Fasal Matrix, your lot is locked with T+1 bank-backed escrow before harvest gluts depress spot prices!',
+      'Institutional feed and oil processors have active buy orders on the platform today. By listing right now on FasalMatrix, your lot is locked with T+1 bank-backed escrow before harvest gluts depress spot prices!',
   },
 };
 
@@ -282,7 +282,7 @@ function FarmerAiListingAdvisorContent({
         sender: 'ai',
         text: `Here is your customized Agronomy & Listing Plan for ${qty.toLocaleString('en-IN')} kg of ${crop}:
 
-1. Recommended Fasal Matrix Price: ₹${cropData.defaultPrice.toFixed(2)}/kg (Statutory MSP Floor: ₹${cropData.mspFloor.toFixed(2)}/kg).
+1. Recommended FasalMatrix Price: ₹${cropData.defaultPrice.toFixed(2)}/kg (Statutory MSP Floor: ₹${cropData.mspFloor.toFixed(2)}/kg).
 2. Why you should list right now: ${cropData.urgencyReason}
 3. Recommended Farming Practices:
 ${cropData.practices.map((p) => `• ${p}`).join('\n')}
@@ -334,7 +334,7 @@ Would you like to publish this lot directly to the verified marketplace now?`,
     const doneMsg: ChatMessage = {
       id: createMsgId('ai-done'),
       sender: 'ai',
-      text: ` Congratulations! Your lot #${newId} (${quantityKg.toLocaleString('en-IN')} kg of ${crop} at ₹${cropData.defaultPrice}/kg) has been published successfully to the Fasal Matrix marketplace! 
+      text: ` Congratulations! Your lot #${newId} (${quantityKg.toLocaleString('en-IN')} kg of ${crop} at ₹${cropData.defaultPrice}/kg) has been published successfully to the FasalMatrix marketplace! 
 
 Verified buyers can now place purchase orders or bid with guaranteed T+1 escrow settlement.`,
       timestamp: 'Just now',
@@ -370,7 +370,7 @@ Verified buyers can now place purchase orders or bid with guaranteed T+1 escrow 
 
       const cropData = CROP_ADVISORY_DATA[matchedCrop];
 
-      let reply = `Regarding "${userText}": On Fasal Matrix, your ${cropData.name} produces trade at ₹${cropData.defaultPrice.toFixed(2)}/kg against the MSP floor of ₹${cropData.mspFloor.toFixed(2)}/kg. You retain 100% of this price with zero broker commission and guaranteed T+1 payment.`;
+      let reply = `Regarding "${userText}": On FasalMatrix, your ${cropData.name} produces trade at ₹${cropData.defaultPrice.toFixed(2)}/kg against the MSP floor of ₹${cropData.mspFloor.toFixed(2)}/kg. You retain 100% of this price with zero broker commission and guaranteed T+1 payment.`;
 
       if (lower.includes('practice') || lower.includes('method') || lower.includes('care')) {
         reply = `Recommended practices for ${cropData.name}:\n` + cropData.practices.map((p) => `• ${p}`).join('\n');
@@ -423,7 +423,7 @@ Verified buyers can now place purchase orders or bid with guaranteed T+1 escrow 
             </div>
             <div>
               <div className="text-xs font-extrabold flex items-center gap-1.5">
-                <span>Fasal Matrix Kisan Advisor</span>
+                <span>FasalMatrix Kisan Advisor</span>
                 <span className="px-1.5 py-0.2 rounded-full bg-emerald-900 text-emerald-300 text-[9px] font-mono border border-emerald-700">
                   Voice: Juniper Active
                 </span>
@@ -494,7 +494,7 @@ Verified buyers can now place purchase orders or bid with guaranteed T+1 escrow 
                         <div className="grid grid-cols-2 gap-2 text-[11px] font-mono">
                           <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800">
                             <span className="text-emerald-700 dark:text-emerald-400 block text-[10px]">
-                              Fasal Matrix Benchmark
+                              FasalMatrix Benchmark
                             </span>
                             <span className="font-bold text-emerald-900 dark:text-emerald-200 text-sm">
                               ₹{msg.listingSuggestion.recommendedPrice.toFixed(2)}/kg
@@ -537,7 +537,7 @@ Verified buyers can now place purchase orders or bid with guaranteed T+1 escrow 
               {loading && (
                 <div className="flex items-center gap-2 text-zinc-400 text-xs italic p-2">
                   <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
-                  <span>Fasal Matrix AI is calculating agrarian benchmarks...</span>
+                  <span>FasalMatrix AI is calculating agrarian benchmarks...</span>
                 </div>
               )}
 

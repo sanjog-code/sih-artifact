@@ -35,7 +35,7 @@ const aboutFaqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'How does Fasal Matrix ensure farmers receive MSP protection?',
+      name: 'How does FasalMatrix ensure farmers receive MSP protection?',
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'All crop listings are benchmarked in real time against statutory Minimum Support Price (MSP) baselines and APMC modal prices published via Agmarknet and e-NAM. Transactions below statutory MSP floors are algorithmically flagged to protect producer realization.',

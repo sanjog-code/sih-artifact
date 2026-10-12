@@ -63,7 +63,7 @@ export default function PricingPage() {
     onAuthorize?: () => void;
   }>({
     amountInr: 4999,
-    title: 'Fasal Matrix Institutional Payment Gateway',
+    title: 'FasalMatrix Institutional Payment Gateway',
   });
 
   const calculatedPayouts = {

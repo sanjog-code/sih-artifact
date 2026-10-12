@@ -1,4 +1,4 @@
-// Multilingual Advisory Knowledge Engine for Fasal Matrix AI Assistants
+// Multilingual Advisory Knowledge Engine for FasalMatrix AI Assistants
 // Supports all 22 official Eighth Schedule Indian languages + English
 
 export interface MultilingualAdvisorDictionary {
@@ -80,7 +80,7 @@ export interface MultilingualAdvisorDictionary {
 export const ADVISOR_TRANSLATIONS: Record<string, MultilingualAdvisorDictionary> = {
   en: {
     farmer: {
-      welcome: "Namaste Kisan Bhai! I am your Fasal Matrix Farming & Listing Advisor. I will help you pick the best crop, recommend ideal post-harvest practices and equipment, calculate your benchmark platform price, and list your lot for verified buyers with 0% middleman brokerage.\n\nWhich crop are you harvesting or planning to list today?",
+      welcome: "Namaste Kisan Bhai! I am your FasalMatrix Farming & Listing Advisor. I will help you pick the best crop, recommend ideal post-harvest practices and equipment, calculate your benchmark platform price, and list your lot for verified buyers with 0% middleman brokerage.\n\nWhich crop are you harvesting or planning to list today?",
       whichCrop: "Which crop are you harvesting or planning to list today?",
       timingPrompt: "Excellent selection! When was this crop harvested or when is your expected harvest date?",
       quantityPrompt: "Got it. How much quantity (in kilograms or quintals) do you want to list for direct buyer purchase?",
@@ -93,7 +93,7 @@ export const ADVISOR_TRANSLATIONS: Record<string, MultilingualAdvisorDictionary>
       sendBtn: "Send",
       confirmListingBtn: "Publish Lot to Marketplace",
       lotCreatedSuccess: "Lot published successfully to the live marketplace with escrow lock!",
-      recommendedRateBadge: "Fasal Matrix Direct Benchmark",
+      recommendedRateBadge: "FasalMatrix Direct Benchmark",
       mspGuaranteedBadge: "100% CACP MSP Floor Guarded",
       zeroBrokerageBadge: "0% Middleman Deduction",
       practicesTitle: "Recommended Post-Harvest Conditioning",
@@ -106,7 +106,7 @@ export const ADVISOR_TRANSLATIONS: Record<string, MultilingualAdvisorDictionary>
       },
     },
     buyer: {
-      welcome: "Namaste! I am your Fasal Matrix Institutional Bulk Procurement Advisor. I will analyze verified farm-gate supply, calculate direct logistics savings over traditional APMC mandis, and construct an instant bank-escrow guaranteed quote proposal.\n\nWhich primary commodity are you looking to procure in bulk?",
+      welcome: "Namaste! I am your FasalMatrix Institutional Bulk Procurement Advisor. I will analyze verified farm-gate supply, calculate direct logistics savings over traditional APMC mandis, and construct an instant bank-escrow guaranteed quote proposal.\n\nWhich primary commodity are you looking to procure in bulk?",
       whichCropPrompt: "Which primary commodity are you looking to procure in bulk?",
       volumePrompt: "Great choice. What is your estimated intake volume per order consignment (in kilograms or metric tonnes)?",
       frequencyPrompt: "How frequently will your facility require bulk dispatches delivered to your depot?",
@@ -118,7 +118,7 @@ export const ADVISOR_TRANSLATIONS: Record<string, MultilingualAdvisorDictionary>
       weeklySavingsLabel: "Weekly Procurement Savings",
       annualSavingsLabel: "Projected Annual Cost Reduction",
       mandiBaselineLabel: "Traditional APMC Mandi Benchmark",
-      directPriceLabel: "Fasal Matrix Direct Farm-Gate Rate",
+      directPriceLabel: "FasalMatrix Direct Farm-Gate Rate",
       lockRfqBtn: "Lock Bulk RFQ & Open Escrow Contract",
       negotiationGuardNote: "Statutory Rule: Prices cannot be negotiated below the statutory CACP MSP floor.",
       rfqSuccessNotice: "RFQ quote registered successfully in buyer contract desk!",
@@ -129,7 +129,7 @@ export const ADVISOR_TRANSLATIONS: Record<string, MultilingualAdvisorDictionary>
       },
     },
     consumer: {
-      welcome: "Namaste! I am your Fasal Matrix Personal Shopping & Deal Advisor. I connect you directly with local farmers with 0% middleman markups. To find the freshest harvest and the best price deal, what fresh crop or produce are you looking to buy today?",
+      welcome: "Namaste! I am your FasalMatrix Personal Shopping & Deal Advisor. I connect you directly with local farmers with 0% middleman markups. To find the freshest harvest and the best price deal, what fresh crop or produce are you looking to buy today?",
       whichCropPrompt: "What fresh crop or produce are you looking to buy today?",
       qtyPrompt: "How much fresh produce do you need for your household or family?",
       dealFound: "Great news! I found an assayed, farm-fresh lot available directly from a certified farmer.",
@@ -137,7 +137,7 @@ export const ADVISOR_TRANSLATIONS: Record<string, MultilingualAdvisorDictionary>
       speakVoice: "Listen in Juniper Voice",
       stopVoice: "Stop Audio",
       retailPriceLabel: "Local Supermarket / Mandi Retail Rate",
-      farmDirectPriceLabel: "Fasal Matrix Farm-Gate Price",
+      farmDirectPriceLabel: "FasalMatrix Farm-Gate Price",
       savingsBadge: "Direct Consumer Savings",
       freshnessBadge: "Harvested & Assayed Fresh",
       addToCartBtn: "Add Farm Lot to Cart",

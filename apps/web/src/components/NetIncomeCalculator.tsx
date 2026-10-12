@@ -41,7 +41,7 @@ export default function NetIncomeCalculator({
   const totalMandiDeductions = mandiCess + arhtiyaCut + palledariFee + refractionLoss + mandiTransport;
   const netMandiEarnings = Math.max(0, grossValue - totalMandiDeductions);
 
-  // Fasal Matrix Premier Route
+  // FasalMatrix Premier Route
   // 1. Transparent Platform Commission: 3.5%
   const fasalMatrixFee = Math.round(grossValue * 0.035);
   // 2. Doorstep Farmgate Logistics: Picked up right from farm gate (0 haulage expense for farmer)
@@ -207,7 +207,7 @@ export default function NetIncomeCalculator({
           </div>
         </div>
 
-        {/* Fasal Matrix Route */}
+        {/* FasalMatrix Route */}
         <div className="p-6 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border-2 border-emerald-500/40 shadow-sm relative overflow-hidden">
           <div className="flex items-center justify-between mb-4 pb-3 border-b border-emerald-200/60 dark:border-emerald-800/60">
             <span className="text-xs font-mono uppercase font-bold text-emerald-800 dark:text-emerald-300">{fo.fasalMatrixRouteTitle}</span>

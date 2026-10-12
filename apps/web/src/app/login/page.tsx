@@ -341,7 +341,7 @@ export default function LoginPage() {
                     className="mt-0.5 rounded border-zinc-300 dark:border-zinc-750 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
                   />
                   <span>
-                    I confirm that I am <strong>18 years or older</strong> and agree to Fasal Matrix&apos;s{' '}
+                    I confirm that I am <strong>18 years or older</strong> and agree to FasalMatrix&apos;s{' '}
                     <Link href="/terms" target="_blank" className="underline font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800">
                       Terms of Service
                     </Link>{' '}

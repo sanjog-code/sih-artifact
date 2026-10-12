@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     canonical: '/farmer',
   },
   openGraph: {
-    title: 'Farmer Portal  -  Direct Mandi Realization | Fasal Matrix',
+    title: 'Farmer Portal  -  Direct Mandi Realization | FasalMatrix',
     description:
       'Sell crops directly to verified institutional buyers with 0% hidden commissions and guaranteed MSP floor protection.',
     url: 'https://fasalmatrix.in/farmer',

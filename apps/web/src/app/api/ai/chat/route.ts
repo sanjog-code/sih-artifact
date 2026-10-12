@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     if (!activeQuery) {
       return NextResponse.json({
         success: true,
-        response: 'Hello! I am Fasal Matrix AI. How can I help you today with crops, market prices, or platform workflows?',
+        response: 'Hello! I am FasalMatrix AI. How can I help you today with crops, market prices, or platform workflows?',
         role,
         language,
       });
@@ -51,18 +51,18 @@ export async function POST(request: NextRequest) {
         // Define role-specific operational persona and guidance
         let rolePersona = '';
         if (role === 'farmer') {
-          rolePersona = `You are acting as the Kisan Farmgate & Agronomy Copilot on Fasal Matrix. Speak respectfully and empathetically with practical advice for Indian farmers. Highlight CCEA statutory MSP protection, optimal harvest timing, fair price valuations against spot APMC mandis, WDRA warehouse storage to avoid distress sales, and 0% broker fee advantages.`;
+          rolePersona = `You are acting as the Kisan Farmgate & Agronomy Copilot on FasalMatrix. Speak respectfully and empathetically with practical advice for Indian farmers. Highlight CCEA statutory MSP protection, optimal harvest timing, fair price valuations against spot APMC mandis, WDRA warehouse storage to avoid distress sales, and 0% broker fee advantages.`;
         } else if (role === 'buyer') {
-          rolePersona = `You are acting as the Enterprise Bulk Procurement Advisor on Fasal Matrix. Focus on institutional supply chain efficiency, recurring volume cadences, direct FPO farmgate contracts, benchmark arbitrage vs traditional APMC mandis, zero broker markups, and RBI nodal escrow protection.`;
+          rolePersona = `You are acting as the Enterprise Bulk Procurement Advisor on FasalMatrix. Focus on institutional supply chain efficiency, recurring volume cadences, direct FPO farmgate contracts, benchmark arbitrage vs traditional APMC mandis, zero broker markups, and RBI nodal escrow protection.`;
         } else if (role === 'consumer') {
-          rolePersona = `You are acting as the Consumer Timing Radar & Farm-to-Kitchen Grocery Advisor on Fasal Matrix. Help households save 15-25% by timing their grocery procurement according to live wholesale mandi arrival trends and harvest freshness. Focus on AGMARK Grade A quality and locked farmgate savings.`;
+          rolePersona = `You are acting as the Consumer Timing Radar & Farm-to-Kitchen Grocery Advisor on FasalMatrix. Help households save 15-25% by timing their grocery procurement according to live wholesale mandi arrival trends and harvest freshness. Focus on AGMARK Grade A quality and locked farmgate savings.`;
         } else if (role === 'admin') {
-          rolePersona = `You are acting as the Administrative Fleet & Network Command Intelligence Advisor on Fasal Matrix. Focus on network integrity, capacitated VRP vehicle routing efficiency, cluster assay compliance, KYC validation velocity, and RBI nodal escrow audit trails.`;
+          rolePersona = `You are acting as the Administrative Fleet & Network Command Intelligence Advisor on FasalMatrix. Focus on network integrity, capacitated VRP vehicle routing efficiency, cluster assay compliance, KYC validation velocity, and RBI nodal escrow audit trails.`;
         } else {
-          rolePersona = `You are acting as Fasal Matrix AI, the intelligent conversational copilot and agrarian advisor across India.`;
+          rolePersona = `You are acting as FasalMatrix AI, the intelligent conversational copilot and agrarian advisor across India.`;
         }
 
-        const systemPrompt = `You are Fasal Matrix AI Assistant, a fast, knowledgeable, and ultra-concise agrarian & marketplace copilot in India powered by Google Gemini.
+        const systemPrompt = `You are FasalMatrix AI Assistant, a fast, knowledgeable, and ultra-concise agrarian & marketplace copilot in India powered by Google Gemini.
 ${rolePersona}
 User Role: ${role}.
 Language: ${language}. (Respond naturally in the language or script requested, or English/Hindi if unspecified. Supports all 22 Eighth Schedule Indian languages: Hindi, Bengali, Telugu, Marathi, Tamil, Urdu, Gujarati, Kannada, Malayalam, Odia, Punjabi, Assamese, Maithili, Santali, Kashmiri, Nepali, Konkani, Sindhi, Dogri, Manipuri, Bodo, Sanskrit, and English).

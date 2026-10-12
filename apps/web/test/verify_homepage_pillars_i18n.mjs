@@ -25,12 +25,12 @@ const enArch = {
 
 const enComp = {
   title: 'The Economic Differential',
-  subtitle: 'Comparing traditional commission agent channels with Fasal Matrix’s direct marketplace model.',
+  subtitle: 'Comparing traditional commission agent channels with FasalMatrix’s direct marketplace model.',
   middlemanTitle: 'Traditional Middleman Channel',
   middlemanDeduction: '18% to 28% lost to intermediaries, mandi commissions, and weighing cuts.',
   middlemanDelay: 'Delayed payments spanning 15–45 days with significant default risk.',
   middlemanGrading: 'Subjective visual inspection with unfair downgrading during peak harvest.',
-  farmlinkTitle: 'Fasal Matrix Direct Network',
+  farmlinkTitle: 'FasalMatrix Direct Network',
   farmlinkDirect: '+₹4 to ₹7 per kg net increase in farmer income; 12% lower cost for institutional buyers.',
   farmlinkSettlement: 'Guaranteed T+1 escrow settlement directly into the producer bank account.',
   farmlinkGrading: 'Standardized grading (A1/A2/B/C) with physical inspection certificates.',

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     canonical: '/buyer',
   },
   openGraph: {
-    title: 'Institutional Agri-Procurement  -  Fasal Matrix',
+    title: 'Institutional Agri-Procurement  -  FasalMatrix',
     description:
       'Procure quintal and metric ton produce directly from verified FPOs and mandi depots across northern India with automated RFQs and escrow settlement.',
     url: 'https://fasalmatrix.in/buyer',

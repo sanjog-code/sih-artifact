@@ -27,7 +27,7 @@ export default function CookiePolicyPage() {
             Cookie Policy
           </h1>
           <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Effective Date: October 2026 • Fasal Matrix uses only strictly functional and security-essential cookies. We never deploy invasive third-party ad tracking pixels.
+            Effective Date: October 2026 • FasalMatrix uses only strictly functional and security-essential cookies. We never deploy invasive third-party ad tracking pixels.
           </p>
         </div>
 
@@ -39,7 +39,7 @@ export default function CookiePolicyPage() {
               <span>1. What Cookies We Use & Why</span>
             </h2>
             <p>
-              Cookies are compact text files stored on your device by your web browser. Fasal Matrix exclusively utilizes first-party cookies necessary for core application functionality, regional language localization, and role-based portal security.
+              Cookies are compact text files stored on your device by your web browser. FasalMatrix exclusively utilizes first-party cookies necessary for core application functionality, regional language localization, and role-based portal security.
             </p>
           </section>
 

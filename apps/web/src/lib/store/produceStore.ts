@@ -529,7 +529,7 @@ export const produceStore = {
             moisturePercent: report.moisturePercent,
             assayedNetWeightKg: netKg,
             inspectedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            inspectorId: item.dispatchInfo?.inspectorName || 'Fasal Matrix Grader #01',
+            inspectorId: item.dispatchInfo?.inspectorName || 'FasalMatrix Grader #01',
             notes: report.notes,
           },
           procurementDetails: {

@@ -346,7 +346,7 @@ import('crypto').then((crypto) => {
 
   const aiAssistantPath = path.resolve(__dirname, '../src/components/AiAssistant.tsx');
   const aiAssistantSrc = fs.readFileSync(aiAssistantPath, 'utf8');
-  assert(aiAssistantSrc.includes('Fasal Matrix AI (beta)'), 'AiAssistant floating badge must include (beta)');
+  assert(aiAssistantSrc.includes('FasalMatrix AI (beta)'), 'AiAssistant floating badge must include (beta)');
   assert(aiAssistantSrc.includes('Kisan AI Agronomy Copilot (beta)'), 'AiAssistant kisan copilot must include (beta)');
 
   console.log('  ✅ Orders removed from Farmer Hub, Demand Advisory active, Tier Progression rules verified, and AI (beta) tagged site-wide!\n');

@@ -27,7 +27,7 @@ export default function TermsOfServicePage() {
             Terms of Service
           </h1>
           <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Effective Date: October 2026 • Published by Fasal Matrix Agrarian Technologies Pvt. Ltd. pursuant to the Information Technology Act, 2000 and Consumer Protection (E-Commerce) Rules, 2020.
+            Effective Date: October 2026 • Published by FasalMatrix Agrarian Technologies Pvt. Ltd. pursuant to the Information Technology Act, 2000 and Consumer Protection (E-Commerce) Rules, 2020.
           </p>
         </div>
 
@@ -39,7 +39,7 @@ export default function TermsOfServicePage() {
               <span>1. Eligibility & Age Restriction</span>
             </h2>
             <p>
-              By accessing or using Fasal Matrix (the "Platform"), you declare and warrant that you are at least <strong>18 years of age</strong> and are legally competent to enter into a binding contract under the Indian Contract Act, 1872. Minor access without adult guardianship is strictly prohibited.
+              By accessing or using FasalMatrix (the "Platform"), you declare and warrant that you are at least <strong>18 years of age</strong> and are legally competent to enter into a binding contract under the Indian Contract Act, 1872. Minor access without adult guardianship is strictly prohibited.
             </p>
           </section>
 
@@ -50,7 +50,7 @@ export default function TermsOfServicePage() {
               <span>2. Statutory MSP Floor Compliance</span>
             </h2>
             <p>
-              Fasal Matrix operates under a statutory social covenant for agricultural producers. All base procurement transactions for notified commodities are strictly bound to benchmark Minimum Support Price (MSP) floors declared by the Commission for Agricultural Costs and Prices (CACP) and the Cabinet Committee on Economic Affairs (CCEA). Bids or procurement requests below statutory MSP floors are mechanically blocked by platform smart contracts.
+              FasalMatrix operates under a statutory social covenant for agricultural producers. All base procurement transactions for notified commodities are strictly bound to benchmark Minimum Support Price (MSP) floors declared by the Commission for Agricultural Costs and Prices (CACP) and the Cabinet Committee on Economic Affairs (CCEA). Bids or procurement requests below statutory MSP floors are mechanically blocked by platform smart contracts.
             </p>
           </section>
 
@@ -91,7 +91,7 @@ export default function TermsOfServicePage() {
               <span>5. Platform Role & Limitation of AI Authority</span>
             </h2>
             <p>
-              Fasal Matrix provides assistive algorithmic tools (including price trend forecasting and route optimization) as technical aids for informational purposes only. The platform never acts as an automated financial or legal authority. All final purchase, sale, price negotiation, and physical quality approvals rest exclusively with human market participants.
+              FasalMatrix provides assistive algorithmic tools (including price trend forecasting and route optimization) as technical aids for informational purposes only. The platform never acts as an automated financial or legal authority. All final purchase, sale, price negotiation, and physical quality approvals rest exclusively with human market participants.
             </p>
           </section>
 

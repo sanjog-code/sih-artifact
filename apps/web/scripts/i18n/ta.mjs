@@ -129,7 +129,7 @@ export const ta = {
   weightLossLabel: 'எடை இழப்பு / சேதாரம் (2%):',
   tractorHaulageLabel: 'வாகன வாடகை ({km} கிமீ):',
   netTakeHomeLabel: 'கைக்கு வரும் நிகர வருமானம்:',
-  fasalMatrixRouteTitle: 'Fasal Matrix நேரடி முறை',
+  fasalMatrixRouteTitle: 'FasalMatrix நேரடி முறை',
   directGateBadge: 'பண்ணையிலேயே நேரடி கொள்முதல்',
   grossTradeValueLabel: 'மொத்த வர்த்தக மதிப்பு:',
   platformFeeLabel: 'வெளிப்படையான தளக் கட்டணம் (விற்பனையில் 3.5%):',

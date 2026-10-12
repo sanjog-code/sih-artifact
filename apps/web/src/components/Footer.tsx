@@ -233,7 +233,7 @@ export default function Footer() {
             <strong className="text-zinc-200 block font-semibold">
               {(t.footer as Record<string, string>)?.registeredEntity || 'Registered Entity'}:
             </strong>
-            <span>Fasal Matrix Agrarian Technologies Pvt. Ltd.</span>
+            <span>FasalMatrix Agrarian Technologies Pvt. Ltd.</span>
           </div>
           <div>
             <strong className="text-zinc-200 block font-semibold">
@@ -251,7 +251,7 @@ export default function Footer() {
 
         {/* Bottom Legal Bar */}
         <div className="mt-8 pt-6 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
-          <p>© {new Date().getFullYear()} Fasal Matrix Agrarian Technologies. {(t.footer as Record<string, string>)?.allRightsReserved || 'All rights reserved.'}</p>
+          <p>© {new Date().getFullYear()} FasalMatrix Agrarian Technologies. {(t.footer as Record<string, string>)?.allRightsReserved || 'All rights reserved.'}</p>
           <div className="flex flex-wrap items-center gap-4 sm:gap-6 font-medium">
             <Link href="/privacy" className="hover:text-emerald-400 transition">
               {t.footer.privacy}

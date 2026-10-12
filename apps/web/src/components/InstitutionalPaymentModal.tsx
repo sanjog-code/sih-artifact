@@ -200,7 +200,7 @@ export default function InstitutionalPaymentModal({
                 <div className="font-mono text-[11px] text-zinc-600 dark:text-zinc-400">
                   A/C: <span className="font-bold text-zinc-900 dark:text-zinc-100">FASALMATRIX9928192</span><br />
                   IFSC: <span className="font-bold text-zinc-900 dark:text-zinc-100">SBIN0001824</span> (State Bank of India)<br />
-                  Beneficiary: <span className="font-bold text-zinc-900 dark:text-zinc-100">Fasal Matrix Institutional Escrow</span>
+                  Beneficiary: <span className="font-bold text-zinc-900 dark:text-zinc-100">FasalMatrix Institutional Escrow</span>
                 </div>
               </div>
             )}

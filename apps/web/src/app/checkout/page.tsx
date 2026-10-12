@@ -769,7 +769,7 @@ export default function CheckoutPage() {
                   </div>
                   <div>
                     <h3 className="text-base font-extrabold text-zinc-950 dark:text-zinc-50 flex items-center gap-1.5">
-                      <span>Fasal Matrix Escrow Gateway</span>
+                      <span>FasalMatrix Escrow Gateway</span>
                       <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold uppercase">
                         Sandbox
                       </span>

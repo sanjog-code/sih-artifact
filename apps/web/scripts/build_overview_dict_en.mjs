@@ -133,7 +133,7 @@ export const en = {
   weightLossLabel: 'Weight Loss / Handling Refraction (2%):',
   tractorHaulageLabel: 'Tractor / Haulage ({km} km):',
   netTakeHomeLabel: 'Net Take-Home:',
-  fasalMatrixRouteTitle: 'Fasal Matrix Route',
+  fasalMatrixRouteTitle: 'FasalMatrix Route',
   directGateBadge: 'Direct Gate Transfer',
   grossTradeValueLabel: 'Gross Trade Value:',
   platformFeeLabel: 'Transparent Platform Fee (3.5% upon sale):',

@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Secure Account Access & Mandi Verification',
   description:
-    'Sign in to Fasal Matrix to manage farm crop listings, institutional procurement RFQs, cold-chain dispatches, or retail grocery orders.',
+    'Sign in to FasalMatrix to manage farm crop listings, institutional procurement RFQs, cold-chain dispatches, or retail grocery orders.',
   alternates: {
     canonical: '/login',
   },

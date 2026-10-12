@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     canonical: '/consumer',
   },
   openGraph: {
-    title: 'Fresh Produce Direct from Indian Farms  -  Fasal Matrix',
+    title: 'Fresh Produce Direct from Indian Farms  -  FasalMatrix',
     description:
       'Support Indian farmers directly. Zero middlemen markups, authentic origin verification, and certified fresh doorstep delivery.',
     url: 'https://fasalmatrix.in/consumer',

@@ -17,10 +17,10 @@ const homeFaqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'What is Fasal Matrix?',
+      name: 'What is FasalMatrix?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Fasal Matrix is an Indian agrarian marketplace connecting farmers, institutional food processors, and consumers directly with guaranteed MSP protection, AGMARK quality grading, and RBI nodal escrow payments.',
+        text: 'FasalMatrix is an Indian agrarian marketplace connecting farmers, institutional food processors, and consumers directly with guaranteed MSP protection, AGMARK quality grading, and RBI nodal escrow payments.',
       },
     },
     {
@@ -36,7 +36,7 @@ const homeFaqSchema = {
       name: 'Are agricultural produce prices governed by APMC mandis?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes, Fasal Matrix benchmarks prices against real-time Agmarknet and e-NAM modal prices, alerting users if an offer falls below statutory Minimum Support Price (MSP) levels.',
+        text: 'Yes, FasalMatrix benchmarks prices against real-time Agmarknet and e-NAM modal prices, alerting users if an offer falls below statutory Minimum Support Price (MSP) levels.',
       },
     },
   ],
@@ -591,7 +591,7 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Fasal Matrix Direct */}
+            {/* FasalMatrix Direct */}
             <div className="bg-white dark:bg-zinc-900 rounded-xl border border-emerald-300 dark:border-emerald-700/60 p-6 shadow-xs ring-1 ring-emerald-500/10">
               <span className="text-[10px] font-mono uppercase bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded font-bold">
                 {t.portal.directTransparentNetwork}

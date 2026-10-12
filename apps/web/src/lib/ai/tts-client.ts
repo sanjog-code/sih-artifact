@@ -1,4 +1,4 @@
-// Centralized Client Audio Engine for Fasal Matrix AI Assistants
+// Centralized Client Audio Engine for FasalMatrix AI Assistants
 // Enforces a soft, warm female voice persona across all 22 scheduled Indian languages
 
 const LANG_BCP47_MAP: Record<string, string> = {

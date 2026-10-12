@@ -203,7 +203,7 @@ export function buildInvoiceDataFromOrder(order: OrderItem): InvoiceDetails {
     reverseChargeApplicable: order.buyerType === 'BULK_BUYER',
     sellerDetails: {
       legalName: 'Kisan Agrarian Cooperative Society Ltd. (Farmer Producer Organisation)',
-      tradeName: 'Fasal Matrix Producer Consortium Node #4',
+      tradeName: 'FasalMatrix Producer Consortium Node #4',
       gstinOrAadhaar: 'EXEMPT-AGRI-PRODUCE-SEC2(47)',
       pan: 'AAACK1409B',
       address: order.farmAddress || 'Khasra 412, Jaitpura Agricultural Cluster, Phulera Tehsil, Jaipur, Rajasthan',
@@ -324,7 +324,7 @@ export function generateInvoiceHtml(order: OrderItem): string {
     <!-- Header -->
     <div class="header">
       <div>
-        <div class="brand">FASAL MATRIX</div>
+        <div class="brand">FASALMATRIX</div>
         <div class="badge">Government Standard GST Form 500 • Bill of Supply</div>
       </div>
       <div>
@@ -466,7 +466,7 @@ export function generateInvoiceHtml(order: OrderItem): string {
       </div>
       <div class="sig-box">
         <span class="sig-label">Digital QR Authenticator</span>
-        <span class="sig-val">Fasal Matrix Gateway</span>
+        <span class="sig-val">FasalMatrix Gateway</span>
         <span style="font-size: 8px; color: #047857;">✓ Cryptographically Sealed</span>
       </div>
     </div>

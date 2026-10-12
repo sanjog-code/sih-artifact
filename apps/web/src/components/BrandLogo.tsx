@@ -27,7 +27,7 @@ export default function BrandLogo({
       <div className="relative shrink-0 flex items-center justify-center overflow-hidden rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 p-1 shadow-xs">
         <Image
           src="/logo.png"
-          alt="Fasal Matrix Official Logo"
+          alt="FasalMatrix Official Logo"
           width={dimensions.width}
           height={dimensions.height}
           priority={priority}
@@ -38,7 +38,7 @@ export default function BrandLogo({
         <span
           className={`font-black tracking-tight leading-tight text-zinc-950 dark:text-zinc-50 ${dimensions.textClass}`}
         >
-          Fasal Matrix
+          FasalMatrix
         </span>
         {showTagline && (
           <span

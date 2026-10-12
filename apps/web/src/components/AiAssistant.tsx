@@ -41,7 +41,7 @@ interface ChatMessage {
   suggestedPrompts?: string[];
 }
 
-const WELCOME_TEXT = `Namaste!  I am **Fasal Matrix AI**, your fast agricultural copilot.\n\n• **Price Forecasts**: Real-time mandi modal rates & price trajectory charts\n• **MSP Guardrails**: Zero-deduction CCEA price protection & RBI escrow\n• **Agronomy & Storage**: WDRA storage guidance & crop science\n\nAsk any question or tap the microphone to speak!`;
+const WELCOME_TEXT = `Namaste!  I am **FasalMatrix AI**, your fast agricultural copilot.\n\n• **Price Forecasts**: Real-time mandi modal rates & price trajectory charts\n• **MSP Guardrails**: Zero-deduction CCEA price protection & RBI escrow\n• **Agronomy & Storage**: WDRA storage guidance & crop science\n\nAsk any question or tap the microphone to speak!`;
 
 function FormattedMessage({ text, isUser }: { text: string; isUser?: boolean }) {
   if (isUser) {
@@ -464,7 +464,7 @@ function AiAssistantWidget() {
       const fallbackMsg: ChatMessage = {
         id: `ai-${Date.now()}`,
         sender: 'ai',
-        text: `I've analyzed your query regarding "${query}". All trades on Fasal Matrix connect directly with verified farmer clusters and WDRA warehouses with guaranteed statutory MSP floors and 0% broker fees.`,
+        text: `I've analyzed your query regarding "${query}". All trades on FasalMatrix connect directly with verified farmer clusters and WDRA warehouses with guaranteed statutory MSP floors and 0% broker fees.`,
         timestamp: 'Just now',
       };
       setMessages((prev) => [...prev, fallbackMsg]);
@@ -497,14 +497,14 @@ function AiAssistantWidget() {
           type="button"
           onClick={() => setIsOpen(true)}
           className="flex items-center gap-2.5 px-5 py-3.5 bg-zinc-950 hover:bg-zinc-900 text-white rounded-full shadow-2xl transition-all duration-300 hover:scale-105 group border border-emerald-500/30"
-          aria-label="Open Fasal Matrix Realtime AI Assistant"
+          aria-label="Open FasalMatrix Realtime AI Assistant"
         >
           <div className="w-7 h-7 rounded-full bg-emerald-500 text-zinc-950 flex items-center justify-center font-bold text-xs shadow-md">
             <Sparkles className="w-4 h-4 text-zinc-950 animate-pulse" />
           </div>
           <div className="flex flex-col text-left">
             <span className="text-xs font-black tracking-tight flex items-center gap-1.5">
-              Fasal Matrix AI (beta)
+              FasalMatrix AI (beta)
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
             </span>
             <span className="text-[10px] text-zinc-400 font-medium">Real-Time Talking Copilot</span>
@@ -547,7 +547,7 @@ function AiAssistantWidget() {
                     ? 'Consumer Deal & Radar Copilot (beta)'
                     : role === 'admin'
                     ? 'Admin Network & Fleet Copilot (beta)'
-                    : 'Fasal Matrix AI Assistant (beta)'}
+                    : 'FasalMatrix AI Assistant (beta)'}
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 text-[9px] font-mono border border-emerald-800 font-bold">
                   Gemini 3.8 Flash & ML

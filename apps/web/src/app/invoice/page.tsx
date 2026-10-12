@@ -402,7 +402,7 @@ export default function InvoicePage() {
 
             <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/40 print:border print:border-zinc-200">
               <div className="text-[10px] font-mono text-zinc-500 uppercase">Digital QR Authenticator</div>
-              <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100 mt-1">Fasal Matrix Gateway</div>
+              <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100 mt-1">FasalMatrix Gateway</div>
               <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">
                 ✓ Cryptographically Sealed
               </div>

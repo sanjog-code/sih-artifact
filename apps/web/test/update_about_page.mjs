@@ -102,7 +102,7 @@ content = content.replace(
   `<h3 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight leading-snug">\n                  {ta.marketLinkagesTitle}\n                </h3>`
 );
 content = content.replace(
-  `Traditional mandis impose opaque weighing cuts, commission agent margins, and days of holding queue decay. Fasal Matrix deploys cold-chain logistics, algorithmic route dispatch, and digital gate assaying to bridge growers directly with food processing enterprises.`,
+  `Traditional mandis impose opaque weighing cuts, commission agent margins, and days of holding queue decay. FasalMatrix deploys cold-chain logistics, algorithmic route dispatch, and digital gate assaying to bridge growers directly with food processing enterprises.`,
   `{ta.marketLinkagesDesc}`
 );
 
@@ -167,7 +167,7 @@ content = content.replace(
   `{ta.fieldDeploymentsTitle}`
 );
 content = content.replace(
-  `Every depot and cooperative hub on Fasal Matrix operates with active optical assaying hardware, calibrated weighbridges, and e-NWR compliance.`,
+  `Every depot and cooperative hub on FasalMatrix operates with active optical assaying hardware, calibrated weighbridges, and e-NWR compliance.`,
   `{ta.fieldDeploymentsDesc}`
 );
 
@@ -304,7 +304,7 @@ content = content.replace(
 );
 
 content = content.replace(
-  `I consent to Fasal Matrix contacting me regarding commodity procurement in accordance with the{' '}\n                        <Link href="/privacy" className="underline font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800">\n                          Privacy Policy\n                        </Link>.`,
+  `I consent to FasalMatrix contacting me regarding commodity procurement in accordance with the{' '}\n                        <Link href="/privacy" className="underline font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800">\n                          Privacy Policy\n                        </Link>.`,
   `{ta.consentPrivacyText}{' '}\n                        <Link href="/privacy" className="underline font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800">\n                          {ta.privacyPolicyLink}\n                        </Link>.`
 );
 

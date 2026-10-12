@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     canonical: '/logistics',
   },
   openGraph: {
-    title: 'Agrarian Fleet & Multi-Chamber Reefer Routing | Fasal Matrix',
+    title: 'Agrarian Fleet & Multi-Chamber Reefer Routing | FasalMatrix',
     description:
       'Monitor cold chain telemetry, multi-stop farm pickups, and transit weighbridge checks across regional corridors.',
     url: 'https://fasalmatrix.in/logistics',

@@ -39,7 +39,7 @@ export default function RefundPolicyPage() {
               <span>1. Zero-Risk Nodal Escrow Model</span>
             </h2>
             <p>
-              Fasal Matrix operates a zero-speculation trade network. When a buyer places an order, funds are deposited directly into a designated RBI-regulated nodal escrow account. Funds are never released to the producer or warehousing depot until the produce is physically received, weighed, and verified against statutory AGMARK quality assay standards.
+              FasalMatrix operates a zero-speculation trade network. When a buyer places an order, funds are deposited directly into a designated RBI-regulated nodal escrow account. Funds are never released to the producer or warehousing depot until the produce is physically received, weighed, and verified against statutory AGMARK quality assay standards.
             </p>
           </section>
 
@@ -84,7 +84,7 @@ export default function RefundPolicyPage() {
               <span>3. Statutory 9-Point Fresh Vegetable Quality, Return & Refund Policy</span>
             </h2>
             <p className="text-xs text-zinc-600 dark:text-zinc-400">
-              In strict accordance with the <em>Vegetable Quality, Return and Refund Policy</em> standards for fresh perishables, the following 9 statutory rules govern all fresh produce procurement across Fasal Matrix:
+              In strict accordance with the <em>Vegetable Quality, Return and Refund Policy</em> standards for fresh perishables, the following 9 statutory rules govern all fresh produce procurement across FasalMatrix:
             </p>
             <div className="grid grid-cols-1 gap-3 pt-1">
               <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1.5">
