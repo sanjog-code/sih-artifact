@@ -29,9 +29,23 @@ import {
 
 import InstitutionalPaymentModal from '../../components/InstitutionalPaymentModal';
 import { initiateClientPayment } from '../../lib/client/checkout';
+import { useAuth } from '../../context/AuthContext';
+import { useSubscriptionStore, ConsumerTier, BusinessTier } from '../../lib/store';
 
 export default function PricingPage() {
-  const [roleTab, setRoleTab] = useState<'farmer' | 'business' | 'consumer'>('farmer');
+  const { role } = useAuth();
+  const { consumerTier, setConsumerPlan, businessTier, setBusinessPlan } = useSubscriptionStore();
+
+  // If user is authenticated as consumer, default and lock/scope to consumer tab, similarly for buyer or farmer
+  const initialTab = role === 'consumer' ? 'consumer' : role === 'buyer' ? 'business' : 'farmer';
+  const [roleTab, setRoleTab] = useState<'farmer' | 'business' | 'consumer'>(initialTab);
+
+  React.useEffect(() => {
+    if (role === 'consumer') setRoleTab('consumer');
+    else if (role === 'buyer') setRoleTab('business');
+    else if (role === 'farmer') setRoleTab('farmer');
+  }, [role]);
+
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
   const [saleAmount, setSaleAmount] = useState<number>(10000);
   const [inquiryOpen, setInquiryOpen] = useState(false);
@@ -81,47 +95,53 @@ export default function PricingPage() {
             * Proposed starting prices for market validation. All basic farmer marketplace access remains 100% free.
           </p>
 
-          {/* Role Selector Tabs */}
+          {/* Role Selector Tabs: Scoped to designated plans when logged in, or full view for visitors */}
           <div className="mt-8 flex justify-center">
             <div className="inline-flex p-1.5 bg-zinc-200 dark:bg-zinc-900 rounded-2xl border border-zinc-300 dark:border-zinc-800 gap-1">
-              <button
-                type="button"
-                onClick={() => setRoleTab('farmer')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
-                  roleTab === 'farmer'
-                    ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
-                }`}
-              >
-                <Sprout className="w-4 h-4 text-emerald-600" />
-                <span>Farmers (2-5% Commission)</span>
-              </button>
+              {(!role || role === 'farmer') && (
+                <button
+                  type="button"
+                  onClick={() => setRoleTab('farmer')}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
+                    roleTab === 'farmer'
+                      ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
+                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+                  }`}
+                >
+                  <Sprout className="w-4 h-4 text-emerald-600" />
+                  <span>Farmers (2-5% Commission)</span>
+                </button>
+              )}
 
-              <button
-                type="button"
-                onClick={() => setRoleTab('business')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
-                  roleTab === 'business'
-                    ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
-                }`}
-              >
-                <Building2 className="w-4 h-4 text-blue-600" />
-                <span>Businesses & B2B Subscriptions</span>
-              </button>
+              {(!role || role === 'buyer') && (
+                <button
+                  type="button"
+                  onClick={() => setRoleTab('business')}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
+                    roleTab === 'business'
+                      ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
+                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+                  }`}
+                >
+                  <Building2 className="w-4 h-4 text-blue-600" />
+                  <span>Businesses & B2B Subscriptions</span>
+                </button>
+              )}
 
-              <button
-                type="button"
-                onClick={() => setRoleTab('consumer')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
-                  roleTab === 'consumer'
-                    ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
-                }`}
-              >
-                <ShoppingBag className="w-4 h-4 text-amber-600" />
-                <span>Consumers (₹99-₹199/mo)</span>
-              </button>
+              {(!role || role === 'consumer') && (
+                <button
+                  type="button"
+                  onClick={() => setRoleTab('consumer')}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
+                    roleTab === 'consumer'
+                      ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
+                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
+                  }`}
+                >
+                  <ShoppingBag className="w-4 h-4 text-amber-600" />
+                  <span>Consumers (₹99-₹199/mo)</span>
+                </button>
+              )}
             </div>
           </div>
         </section>
@@ -547,7 +567,14 @@ export default function PricingPage() {
                           href="/consumer"
                           className="w-full py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-bold text-center block transition shadow-xs"
                         >
-                          Start Free
+                          {consumerTier === 'basic' ? 'Current Free Plan' : 'Select Free Plan'}
+                        </Link>
+                      ) : consumerTier === tierKey ? (
+                        <Link
+                          href="/consumer"
+                          className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold text-center block transition shadow-xs"
+                        >
+                          Active Plan • Open Premium Zone
                         </Link>
                       ) : (
                         <button
@@ -565,13 +592,15 @@ export default function PricingPage() {
                                   billingInterval: modal.billingInterval,
                                   title: modal.title,
                                   onAuthorize: () => {
-                                    setPaymentNotice(`Successfully activated ${config.name} (${billingPeriod})! Enjoy direct farm benefits.`);
+                                    setConsumerPlan(tierKey as ConsumerTier, billingPeriod);
+                                    setPaymentNotice(`Successfully activated ${config.name} (${billingPeriod})! Your Premium Zone is now unlocked.`);
                                     setTimeout(() => setPaymentNotice(null), 5000);
                                   },
                                 });
                                 setPaymentModalOpen(true);
                               },
                               onSuccess: (res) => {
+                                setConsumerPlan(tierKey as ConsumerTier, billingPeriod);
                                 setPaymentNotice(`Payment Verified (${res.paymentId})! Welcome to ${config.name}.`);
                                 setTimeout(() => setPaymentNotice(null), 5000);
                               },

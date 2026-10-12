@@ -26,6 +26,8 @@ import {
 import OrderTrackingTimeline from '../../components/OrderTrackingTimeline';
 import SmartBuyGuide from '../../components/SmartBuyGuide';
 import { getOrderTelemetry } from '../../lib/services/orderTelemetry';
+import InstitutionalPaymentModal from '../../components/InstitutionalPaymentModal';
+import { initiateClientPayment } from '../../lib/client/checkout';
 
 interface CartItem {
   lotId: string;
@@ -49,6 +51,20 @@ export default function ConsumerPortal() {
     setConsumerPlan,
     calculateConsumerDeliveryFee,
   } = useSubscriptionStore();
+
+  // Payment Gateway Modal State
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [paymentModalData, setPaymentModalData] = useState<{
+    amountInr: number;
+    planName?: string;
+    billingInterval?: 'monthly' | 'annual';
+    title: string;
+    targetTier?: ConsumerTier;
+    onAuthorize?: () => void;
+  }>({
+    amountInr: 99,
+    title: 'Consumer Premier Payment Gateway',
+  });
 
   // Navigation & Tabs
   const [activeTab, setActiveTab] = useState<'shop' | 'cart' | 'orders' | 'membership'>('shop');
@@ -1035,7 +1051,7 @@ export default function ConsumerPortal() {
           </div>
         )}
 
-        {/* TAB 4: CONSUMER PREMIER MEMBERSHIPS */}
+        {/* TAB 4: CONSUMER PREMIER MEMBERSHIPS & PREMIUM ZONE */}
         {activeTab === 'membership' && (
           <div className="space-y-6">
             <div className="text-center max-w-2xl mx-auto space-y-2 mb-8">
@@ -1044,12 +1060,102 @@ export default function ConsumerPortal() {
                 <span>FarmLink Consumer Premier  -  Simple & Affordable Memberships</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
-                Farm-to-Fork Freshness Privileges
+                Farm-to-Fork Freshness Privileges & Premium Zone
               </h2>
               <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
                 Support regional smallholders directly while enjoying guaranteed delivery savings and AGMARK batch traceability.
               </p>
             </div>
+
+            {/* UNLOCKED PREMIUM ZONE: Rendered when consumer has an active paid plan (Premier or Plus) */}
+            {consumerTier !== 'basic' && (
+              <div className="p-6 rounded-3xl bg-gradient-to-br from-emerald-950 via-zinc-900 to-zinc-950 text-white border border-emerald-500/30 shadow-2xl relative overflow-hidden mb-8">
+                <div className="relative z-10 space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-emerald-500/20">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1">
+                          <Sparkles className="w-3 h-3 text-emerald-400" />
+                          Premium Zone Active
+                        </span>
+                        <span className="text-xs font-bold text-zinc-300">
+                          Enrolled: {consumerConfig.name}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-black text-white tracking-tight">
+                        Your Consumer Freshness Privileges Are Live
+                      </h3>
+                      <p className="text-xs text-zinc-400 max-w-xl">
+                        All savings, early harvest drop access, and zero-broker delivery subsidies are automatically applied to your account.
+                      </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md text-right shrink-0">
+                      <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider block">
+                        Active Delivery Subsidy
+                      </span>
+                      <span className="text-xl font-black font-mono text-emerald-400">
+                        {consumerConfig.freeDeliveryThresholdInr
+                          ? `Free > ₹${consumerConfig.freeDeliveryThresholdInr}`
+                          : `₹${consumerConfig.deliveryDiscountInr} Off / Order`}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Active Perks Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+                      <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                        <Truck className="w-4 h-4" />
+                      </div>
+                      <h4 className="text-sm font-bold text-white">Subsidized Delivery</h4>
+                      <p className="text-xs text-zinc-400 leading-relaxed">
+                        {consumerTier === 'plus'
+                          ? '100% Free doorstep delivery on orders over ₹399 automatically locked at checkout.'
+                          : 'Flat ₹40 instant discount deducted directly from cold-transit charges on every order.'}
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+                      <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                        <ShieldCheck className="w-4 h-4" />
+                      </div>
+                      <h4 className="text-sm font-bold text-white">Traceability Passport</h4>
+                      <p className="text-xs text-zinc-400 leading-relaxed">
+                        Inspect farm origin, farmer Aadhaar accreditation, harvest moisture assay, and optical grading certificates on all lots.
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+                      <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                        <Sparkles className="w-4 h-4" />
+                      </div>
+                      <h4 className="text-sm font-bold text-white">Early Harvest Priority</h4>
+                      <p className="text-xs text-zinc-400 leading-relaxed">
+                        Early reservation access to incoming FPO morning harvests before general open-market allocation.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CTA back to shop */}
+                  <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <span className="text-xs text-zinc-400">
+                      Your membership status is verified with statutory digital receipt and active nodal protection.
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('shop')}
+                      className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md shadow-emerald-950"
+                    >
+                      <ShoppingBag className="w-4 h-4 text-zinc-950" />
+                      <span>Shop with Active Member Privileges</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="absolute right-0 top-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+              </div>
+            )}
 
             {/* Consumer Plans Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -1072,6 +1178,7 @@ export default function ConsumerPortal() {
                   name: 'Consumer Premier',
                   monthly: '₹99',
                   annual: '₹999 / year',
+                  feeInr: 99,
                   target: 'Regular fresh grocery buyers',
                   popular: true,
                   features: [
@@ -1087,6 +1194,7 @@ export default function ConsumerPortal() {
                   name: 'Consumer Plus',
                   monthly: '₹199',
                   annual: '₹1,999 / year',
+                  feeInr: 199,
                   target: 'Healthy families & farm-to-table enthusiasts',
                   features: [
                     'Everything in Premier',
@@ -1118,7 +1226,7 @@ export default function ConsumerPortal() {
                         <h3 className="text-base font-extrabold text-zinc-950 dark:text-zinc-50">{tier.name}</h3>
                         {isActive && (
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
-                            CURRENT
+                            ACTIVE IN ZONE
                           </span>
                         )}
                       </div>
@@ -1148,17 +1256,48 @@ export default function ConsumerPortal() {
                       type="button"
                       disabled={isActive}
                       onClick={() => {
-                        setConsumerPlan(tier.id as ConsumerTier, 'monthly');
-                        setOrderNotice(`Consumer membership switched to ${tier.name}! Delivery discounts and perks activated.`);
-                        setTimeout(() => setOrderNotice(null), 5000);
+                        if (tier.id === 'basic') {
+                          setConsumerPlan('basic', 'monthly');
+                          setOrderNotice('Switched to Consumer Basic free plan.');
+                          setTimeout(() => setOrderNotice(null), 4000);
+                          return;
+                        }
+
+                        const fee = tier.feeInr || (tier.id === 'plus' ? 199 : 99);
+                        initiateClientPayment({
+                          type: 'SUBSCRIPTION',
+                          planCode: tier.id,
+                          billingInterval: 'monthly',
+                          customerName: buyerName || 'Consumer Member',
+                          openFallbackModal: (modal) => {
+                            setPaymentModalData({
+                              amountInr: modal.amountInr || fee,
+                              planName: modal.planName || tier.name,
+                              billingInterval: modal.billingInterval || 'monthly',
+                              title: modal.title,
+                              targetTier: tier.id as ConsumerTier,
+                              onAuthorize: () => {
+                                setConsumerPlan(tier.id as ConsumerTier, 'monthly');
+                                setOrderNotice(`Payment Authorized! Upgraded to ${tier.name}. Welcome to your Premium Zone!`);
+                                setTimeout(() => setOrderNotice(null), 5000);
+                              },
+                            });
+                            setPaymentModalOpen(true);
+                          },
+                          onSuccess: (paymentRes) => {
+                            setConsumerPlan(tier.id as ConsumerTier, 'monthly');
+                            setOrderNotice(`Payment Verified (${paymentRes.paymentId})! Welcome to ${tier.name} Premium Zone.`);
+                            setTimeout(() => setOrderNotice(null), 5000);
+                          },
+                        });
                       }}
                       className={`w-full py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
                         isActive
                           ? 'bg-zinc-100 dark:bg-zinc-700 text-zinc-500 cursor-default'
-                          : 'bg-zinc-900 hover:bg-zinc-800 text-white shadow-xs'
+                          : 'bg-zinc-900 hover:bg-zinc-800 text-white shadow-xs cursor-pointer'
                       }`}
                     >
-                      <span>{isActive ? 'Active Membership' : `Join ${tier.name}`}</span>
+                      <span>{isActive ? 'Current Active Plan' : `Unlock ${tier.name}`}</span>
                     </button>
                   </div>
                 );
@@ -1171,6 +1310,19 @@ export default function ConsumerPortal() {
 
       <Footer />
       <InquiryModal isOpen={inquiryOpen} onClose={() => setInquiryOpen(false)} />
+      <InstitutionalPaymentModal
+        isOpen={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        title={paymentModalData.title}
+        amountInr={paymentModalData.amountInr}
+        planName={paymentModalData.planName}
+        billingInterval={paymentModalData.billingInterval}
+        onSuccess={() => {
+          if (paymentModalData.onAuthorize) {
+            paymentModalData.onAuthorize();
+          }
+        }}
+      />
     </div>
   );
 }

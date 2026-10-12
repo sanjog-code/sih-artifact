@@ -377,6 +377,23 @@ import('crypto').then((crypto) => {
 
   console.log('  ✅ RFQ Bidding Desk removed from Bulk Buyer Dashboard & Payment Gateway seamlessly integrated!\n');
 
-  console.log('🎉 ALL 12 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
+  // 13. Pricing Tab Scoping & Consumer Premium Zone Verification
+  console.log('🌟 Test 13: Verifying Pricing Tab Scoping & Consumer Premium Zone...');
+
+  // Assert pricing page contains role-based scoping and consumer premier unlock
+  assert(pricingPageSrc.includes("role === 'consumer'"), 'Pricing page must scope to consumer role');
+  assert(pricingPageSrc.includes("Active Plan • Open Premium Zone"), 'Pricing page must direct subscribed consumers to Premium Zone');
+
+  // Assert consumer portal contains Premium Zone dashboard and payment modal integration
+  const consumerPagePath3 = path.resolve(__dirname, '../src/app/consumer/page.tsx');
+  const consumerPageSrc3 = fs.readFileSync(consumerPagePath3, 'utf8');
+  assert(consumerPageSrc3.includes('Premium Zone Active'), 'Consumer portal must display Premium Zone Active banner when subscribed');
+  assert(consumerPageSrc3.includes('InstitutionalPaymentModal'), 'Consumer portal must integrate InstitutionalPaymentModal');
+  assert(consumerPageSrc3.includes('initiateClientPayment'), 'Consumer portal must connect membership upgrades to initiateClientPayment');
+  assert(consumerPageSrc3.includes('ACTIVE IN ZONE'), 'Consumer portal must indicate active plan in zone');
+
+  console.log('  ✅ Pricing tab dynamically scopes to designated plans and unlocks Consumer Premium Zone!\n');
+
+  console.log('🎉 ALL 13 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
 });
 

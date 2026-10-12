@@ -35,6 +35,8 @@ export interface ConsumerPlanConfig {
   name: string;
   monthlyPrice: number;
   annualPrice: number;
+  deliveryDiscountInr?: number;
+  freeDeliveryThresholdInr?: number;
   perks: string[];
 }
 
@@ -161,6 +163,7 @@ export const CONSUMER_PLANS: Record<ConsumerTier, ConsumerPlanConfig> = {
     name: 'Consumer Basic',
     monthlyPrice: 0,
     annualPrice: 0,
+    deliveryDiscountInr: 0,
     perks: [
       'Browse farm-fresh catalog directly from accredited growers',
       'Place zero-middleman orders with secure escrow lock',
@@ -173,6 +176,7 @@ export const CONSUMER_PLANS: Record<ConsumerTier, ConsumerPlanConfig> = {
     name: 'Consumer Premier',
     monthlyPrice: 99,
     annualPrice: 999,
+    deliveryDiscountInr: 40,
     perks: [
       'Flat ₹40 delivery discount on eligible orders',
       'Personalized harvest arrival alerts & recommendations',
@@ -186,6 +190,8 @@ export const CONSUMER_PLANS: Record<ConsumerTier, ConsumerPlanConfig> = {
     name: 'Consumer Plus',
     monthlyPrice: 199,
     annualPrice: 1999,
+    deliveryDiscountInr: 40,
+    freeDeliveryThresholdInr: 399,
     perks: [
       'Everything in Premier',
       '100% free delivery on all orders over ₹399',
