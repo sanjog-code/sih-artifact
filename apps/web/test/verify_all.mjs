@@ -325,8 +325,11 @@ import('crypto').then((crypto) => {
   assert(farmerPageSrc.includes('Dispatch Progression Track'), 'Farmer page must display dispatch progression track');
   assert(farmerPageSrc.includes('completedDispatches'), 'Farmer page must display completed dispatches');
 
+  // Verify AI Demand Forecast tab is completely removed from Farmer page
+  assert(!farmerPageSrc.includes("{ id: 'forecast'"), 'Farmer portal must not define a forecast tab in activeTab list');
+  assert(!farmerPageSrc.includes("activeTab === 'forecast'"), 'Farmer portal must not contain activeTab === forecast block');
+
   // Verify (beta) suffix on AI and AI-related features
-  assert(farmerPageSrc.includes('AI Demand Forecast (beta)'), 'Farmer page must label AI Demand Forecast with (beta)');
   assert(farmerPageSrc.includes('AI Selling Opportunity (beta)'), 'Farmer page must label AI Selling Opportunity with (beta)');
   assert(farmerPageSrc.includes('Use AI Rate (beta)'), 'Farmer page must label Use AI Rate with (beta)');
 

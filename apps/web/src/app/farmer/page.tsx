@@ -48,7 +48,6 @@ import VoiceListingButton from '../../components/VoiceListingButton';
 import { useAlertStore, useKycStore, useWarehouseStore } from '../../lib/store';
 import { getCropMspFloor, getCropCategory, ICAR_CROPS, ALL_CROP_CATEGORIES } from '../../lib/cropTaxonomy';
 import SmartListingGuide from '../../components/SmartListingGuide';
-import PriceTrajectoryChart, { TrajectoryPoint } from '../../components/PriceTrajectoryChart';
 
 interface AiForecastData {
   currentModalPrice: number;
@@ -59,26 +58,6 @@ interface AiForecastData {
   market?: string;
   district?: string;
   state?: string;
-  fairPriceRange?: { min: number; max: number };
-  factors?: string[];
-  trajectory?: TrajectoryPoint[];
-  horizons?: {
-    d1: number;
-    d3: number;
-    d7: number;
-    d14: number;
-  };
-  factorWeights?: Array<{
-    name: string;
-    impact: string;
-    direction: 'positive' | 'negative' | 'neutral';
-    percentage: number;
-  }>;
-  confidenceScore?: number;
-  modelMetrics?: {
-    testMaeKg: number;
-    datasetRecords: number;
-  };
 }
 
 // Recommended crops to plant/harvest based on current market demand telemetry
@@ -141,7 +120,7 @@ export default function FarmerPortal() {
   const { t } = useLanguage();
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'sell' | 'listings' | 'forecast' | 'logistics' | 'payments' | 'support'
+    'overview' | 'sell' | 'listings' | 'logistics' | 'payments' | 'support'
   >('overview');
 
   // Persistence Stores
@@ -223,12 +202,10 @@ export default function FarmerPortal() {
   const [withdrawing, setWithdrawing] = useState(false);
   const [showBankAcc, setShowBankAcc] = useState(false);
 
-  const [forecastStorageDays, setForecastStorageDays] = useState(0);
-
-  const fetchAiAdvisory = async (cropName: string, daysHeld: number = forecastStorageDays) => {
+  const fetchAiAdvisory = async (cropName: string) => {
     setLoadingAi(true);
     try {
-      const res = await fetch(`/api/ai/forecast?commodity=${encodeURIComponent(cropName)}&state=RJ&district=Jaipur&storageDays=${daysHeld}`);
+      const res = await fetch(`/api/ai/forecast?commodity=${encodeURIComponent(cropName)}&state=RJ&district=Jaipur&storageDays=0`);
       const data = await res.json();
       if (data && data.success) {
         setAiData(data);
@@ -246,27 +223,6 @@ export default function FarmerPortal() {
         market: 'Jaipur APMC (Muhana Mandi)',
         district: 'Jaipur',
         state: 'Rajasthan',
-        fairPriceRange: { min: 24.0, max: 27.0 },
-        factors: ['Equilibrium wholesale demand', 'CCEA statutory MSP floor verified', 'APMC clearing trend positive'],
-        trajectory: [
-          { dayOffset: -14, label: '-14d', price: 23.9, isProjected: false },
-          { dayOffset: -7, label: '-7d', price: 24.2, isProjected: false },
-          { dayOffset: -3, label: '-3d', price: 24.5, isProjected: false },
-          { dayOffset: 0, label: 'Today', price: 24.8, isProjected: false },
-          { dayOffset: 1, label: '+1d', price: 25.1, isProjected: true, lowerCi: 24.25, upperCi: 25.9 },
-          { dayOffset: 3, label: '+3d', price: 25.4, isProjected: true, lowerCi: 24.25, upperCi: 26.5 },
-          { dayOffset: 7, label: '+7d', price: 25.9, isProjected: true, lowerCi: 24.25, upperCi: 27.3 },
-          { dayOffset: 14, label: '+14d', price: 26.5, isProjected: true, lowerCi: 24.25, upperCi: 28.2 },
-        ],
-        horizons: { d1: 25.1, d3: 25.4, d7: 25.9, d14: 26.5 },
-        factorWeights: [
-          { name: 'Arrival Velocity & Clearing Rates', impact: '+4.8%', direction: 'positive', percentage: 78 },
-          { name: 'Statutory CACP MSP Support Floor', impact: '+2.4%', direction: 'positive', percentage: 92 },
-          { name: 'Storage Perishability Decay Rate', impact: '0%', direction: 'neutral', percentage: 10 },
-          { name: 'Regional Arbitrage Spread', impact: '+1.8%', direction: 'positive', percentage: 64 },
-        ],
-        confidenceScore: 0.94,
-        modelMetrics: { testMaeKg: 0.33, datasetRecords: 737392 },
       });
     } finally {
       setLoadingAi(false);
@@ -398,7 +354,6 @@ export default function FarmerPortal() {
             { id: 'overview', label: (t as any).farmerTabs?.overview || 'Overview', icon: LayoutDashboard },
             { id: 'sell', label: (t as any).farmerTabs?.sell || 'List Harvest', icon: PlusCircle },
             { id: 'listings', label: `${(t as any).farmerTabs?.listings || 'My Listings'} (${produceListings.length})`, icon: ListFilter },
-            { id: 'forecast', label: (t as any).farmerTabs?.forecast || 'AI Demand Forecast (beta)', icon: TrendingUp },
             { id: 'logistics', label: (t as any).farmerTabs?.logistics || 'Shipment Tracker', icon: Truck },
             { id: 'payments', label: (t as any).farmerTabs?.payments || 'Payments & Escrow', icon: IndianRupee },
             { id: 'support', label: (t as any).farmerTabs?.support || 'Kisan Helpline', icon: PhoneCall },
@@ -486,11 +441,11 @@ export default function FarmerPortal() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setActiveTab('forecast')}
+                    onClick={() => setActiveTab('listings')}
                     className="px-4 py-2 border border-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 text-zinc-800 dark:text-zinc-200 rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
                   >
-                    <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>AI Demand Forecast (beta)</span>
+                    <ListFilter className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>View Declarations</span>
                   </button>
                 </div>
               </div>
@@ -527,21 +482,6 @@ export default function FarmerPortal() {
                         <div>
                           <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">My Harvest Declarations ({produceListings.length})</div>
                           <div className="text-[11px] text-zinc-500">Track grading & dispatch status</div>
-                        </div>
-                      </div>
-                      <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setActiveTab('forecast')}
-                      className="w-full text-left p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 hover:bg-emerald-50/30 transition flex items-center justify-between"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <TrendingUp className="w-4 h-4 text-emerald-700" />
-                        <div>
-                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">Mandi Price Simulator (beta)</div>
-                          <div className="text-[11px] text-zinc-500">Evaluate holding vs immediate sale</div>
                         </div>
                       </div>
                       <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
@@ -1199,267 +1139,6 @@ export default function FarmerPortal() {
                 })}
               </div>
             )}
-          </div>
-        )}
-
-        {/* ============================================================== */}
-        {/* TAB 4: DEEP AI PRICE & DEMAND FORECAST */}
-        {/* ============================================================== */}
-        {activeTab === 'forecast' && (
-          <div className="space-y-6">
-            <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
-              {/* Header with Live Telemetry Badges */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800 pb-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-800 dark:text-emerald-300 font-bold">
-                      Live APMC Telemetry • 15m Cache Synchronized
-                    </span>
-                  </div>
-                  <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight mt-1">
-                    {t.farmer.aiForecastTitle}
-                  </h2>
-                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-                    {aiData?.market ? `${aiData.market}, ${aiData.district}, ${aiData.state}` : 'Jaipur APMC (Muhana Mandi), Rajasthan'} • Historical mandi modal price trends & season harvest forecast for your selected commodity.
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2 self-start flex-wrap">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (typeof window !== 'undefined') {
-                        window.dispatchEvent(
-                          new CustomEvent('farmlink_open_ai', {
-                            detail: {
-                              query: `Price prediction and trajectory forecast for ${commodity} in the next 3 months`,
-                              autoSend: true,
-                            },
-                          })
-                        );
-                      }
-                    }}
-                    className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white transition text-xs font-bold flex items-center gap-2 shadow-xs active:scale-95"
-                    title="Launch real-time Gemini AI Conversational Copilot for this crop"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-                    <span>Talk to Gemini Kisan Copilot</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => fetchAiAdvisory(commodity, forecastStorageDays)}
-                    className="px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 transition text-xs font-semibold flex items-center gap-2 active:scale-95 shadow-xs"
-                  >
-                    <RefreshCw className={`w-3.5 h-3.5 ${loadingAi ? 'animate-spin text-emerald-600' : ''}`} />
-                    <span>Recalibrate Live Forecast</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Commodity Selector Bar (Extended to 8 crops) */}
-              <div>
-                <span className="text-[11px] font-mono uppercase font-bold text-zinc-500 block mb-2">
-                  Select Crop Commodity for Deep Valuation:
-                </span>
-                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2">
-                  {[
-                    'Tomato',
-                    'Wheat',
-                    'Mustard',
-                    'Soybean',
-                    'Potato',
-                    'Onion',
-                    'Chana',
-                    'Maize',
-                  ].map((crop) => (
-                    <button
-                      key={crop}
-                      type="button"
-                      onClick={() => {
-                        setCommodity(crop);
-                        fetchAiAdvisory(crop, forecastStorageDays);
-                      }}
-                      className={`p-2.5 rounded-xl border text-xs font-bold transition text-center ${
-                        commodity === crop
-                          ? 'bg-zinc-950 text-white dark:bg-emerald-500 dark:text-zinc-950 border-zinc-950 dark:border-emerald-500 shadow-sm'
-                          : 'bg-zinc-50 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800'
-                      }`}
-                    >
-                      {crop}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Storage Duration Simulation Slider */}
-              <div className="p-4 bg-zinc-50 dark:bg-zinc-900/70 border border-zinc-200 dark:border-zinc-800 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <Warehouse className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
-                    <span className="text-xs font-bold text-zinc-950 dark:text-zinc-50">
-                      Warehouse Holding & Perishability Simulation
-                    </span>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold">
-                      {forecastStorageDays === 0 ? 'Fresh Spot (0 Days)' : `${forecastStorageDays} Days Held`}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-zinc-500 mt-0.5">
-                    Simulate how holding produce in accredited cold-storage or warehouses influences expected valuation vs decay.
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 self-stretch sm:self-auto min-w-[220px]">
-                  <input
-                    type="range"
-                    min="0"
-                    max="14"
-                    step="1"
-                    value={forecastStorageDays}
-                    onChange={(e) => {
-                      const days = Number(e.target.value);
-                      setForecastStorageDays(days);
-                      fetchAiAdvisory(commodity, days);
-                    }}
-                    className="w-full accent-emerald-600 cursor-pointer"
-                  />
-                  <span className="text-xs font-mono font-extrabold text-zinc-950 dark:text-zinc-100 min-w-[36px] text-right">
-                    {forecastStorageDays}d
-                  </span>
-                </div>
-              </div>
-
-              {aiData && (
-                <div className="space-y-6">
-                  {/* Valuation Primary Metric Strip */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 text-center">
-                    <div>
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">{t.farmer.currentModal}</span>
-                      <span className="text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-1 block">
-                        ₹{aiData.currentModalPrice.toFixed(2)}/kg
-                      </span>
-                      <span className="text-[10px] text-zinc-500 font-mono">Live APMC Spot Rate</span>
-                    </div>
-
-                    <div>
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">{t.farmer.aiPredicted}</span>
-                      <span className="text-2xl font-extrabold text-emerald-800 dark:text-emerald-400 font-mono mt-1 block">
-                        ₹{aiData.predictedNextPrice.toFixed(2)}/kg
-                      </span>
-                      <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-mono">
-                        {aiData.predictedChangePercent !== undefined
-                          ? `${aiData.predictedChangePercent >= 0 ? '+' : ''}${aiData.predictedChangePercent}% predicted shift`
-                          : 'Optimal Clearing Target'}
-                      </span>
-                    </div>
-
-                    <div>
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">MSP Statutory Floor</span>
-                      <span className="text-2xl font-extrabold text-zinc-800 dark:text-zinc-200 font-mono mt-1 block">
-                        {aiData.mspFloor && aiData.mspFloor > 0 ? `₹${aiData.mspFloor.toFixed(2)}/kg` : 'Non-MSP'}
-                      </span>
-                      <span className="text-[10px] text-amber-700 dark:text-amber-400 font-mono">
-                        {aiData.mspFloor && aiData.mspFloor > 0 ? 'CCEA Statutory Floor Guarantee' : 'Open Market Price'}
-                      </span>
-                    </div>
-
-                    <div>
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">{t.farmer.demandSignal}</span>
-                      <span className="inline-block mt-2 text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-200 font-mono">
-                        {aiData.demandSignal}
-                      </span>
-                      <span className="text-[10px] text-zinc-500 font-mono block mt-1">High Buyer Inflow</span>
-                    </div>
-                  </div>
-
-                  {/* Dynamic SVG Price & Demand Horizon Chart */}
-                  <PriceTrajectoryChart
-                    commodity={commodity}
-                    currentModalPrice={aiData.currentModalPrice}
-                    predictedPrice={aiData.predictedNextPrice}
-                    mspFloor={aiData.mspFloor || 0}
-                    trajectory={aiData.trajectory || []}
-                    demandSignal={aiData.demandSignal}
-                    confidenceScore={aiData.confidenceScore || 0.94}
-                  />
-
-                  {/* Factor Weight Decomposition Bars */}
-                  {aiData.factorWeights && aiData.factorWeights.length > 0 && (
-                    <div className="bg-zinc-50 dark:bg-zinc-900/60 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 space-y-4">
-                      <div className="flex items-center justify-between border-b border-zinc-200/60 dark:border-zinc-800 pb-2">
-                        <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
-                          AI Valuation Driver Decomposition & Elasticity Weights (beta)
-                        </h3>
-                        <span className="text-[10px] font-mono text-zinc-500">Normalised Ridge Lag Coefficients</span>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {aiData.factorWeights.map((fw, i) => (
-                          <div key={i} className="p-3 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-1.5 shadow-2xs">
-                            <div className="flex items-center justify-between text-xs">
-                              <span className="font-semibold text-zinc-900 dark:text-zinc-100">{fw.name}</span>
-                              <span
-                                className={`font-mono text-xs font-bold ${
-                                  fw.direction === 'positive'
-                                    ? 'text-emerald-700 dark:text-emerald-400'
-                                    : fw.direction === 'negative'
-                                    ? 'text-rose-700 dark:text-rose-400'
-                                    : 'text-zinc-500'
-                                }`}
-                              >
-                                {fw.impact}
-                              </span>
-                            </div>
-                            <div className="w-full bg-zinc-100 dark:bg-zinc-800 h-1.5 rounded-full overflow-hidden">
-                              <div
-                                className={`h-full rounded-full transition-all duration-500 ${
-                                  fw.direction === 'positive'
-                                    ? 'bg-emerald-500'
-                                    : fw.direction === 'negative'
-                                    ? 'bg-rose-500'
-                                    : 'bg-zinc-400'
-                                }`}
-                                style={{ width: `${fw.percentage}%` }}
-                              />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Explainability Breakdown Bullet List */}
-                  <div>
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-3">
-                      AI Explainable Valuation Rationale & Market Evidence (beta)
-                    </h3>
-                    <div className="space-y-2">
-                      {aiData.factors?.map((f, i) => (
-                        <div key={i} className="p-3 bg-zinc-50 dark:bg-zinc-900/60 rounded-xl border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                          <span>{f}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Model Accuracy & Verification Badge */}
-                  <div className="p-4 bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 rounded-xl text-xs text-emerald-950 dark:text-emerald-200 flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                      <strong>Model Confidence & Verification:</strong> Out-of-sample Test Mean Absolute Error (MAE):{' '}
-                      <span className="font-mono font-bold">
-                        ₹{aiData.modelMetrics?.testMaeKg ?? 0.33} / kg
-                      </span>{' '}
-                      ({commodity}) • {aiData.modelMetrics?.datasetRecords?.toLocaleString() ?? '737,392'} APMC clearing records verified.
-                    </div>
-                    <span className="text-[11px] font-mono font-semibold bg-emerald-100 dark:bg-emerald-900 px-2.5 py-0.5 rounded text-emerald-900 dark:text-emerald-200">
-                      Ridge Auto-Regressive Multi-Lag
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
         )}
 
