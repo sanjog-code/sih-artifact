@@ -43,7 +43,6 @@ import WeatherAdvisoryWidget from '../../components/WeatherAdvisoryWidget';
 import KycVerificationModal from '../../components/KycVerificationModal';
 import WarehouseSlotModal from '../../components/WarehouseSlotModal';
 import VoiceListingButton from '../../components/VoiceListingButton';
-import OpticalGradingChecklist from '../../components/OpticalGradingChecklist';
 import { useAlertStore, useKycStore, useWarehouseStore } from '../../lib/store';
 import { getCropMspFloor, getCropCategory, ICAR_CROPS, ALL_CROP_CATEGORIES } from '../../lib/cropTaxonomy';
 import SmartListingGuide from '../../components/SmartListingGuide';
@@ -862,17 +861,6 @@ export default function FarmerPortal() {
                         <div className="text-[10px] text-zinc-500 mt-0.5 leading-snug">{g.desc}</div>
                       </button>
                     ))}
-                  </div>
-                  {/* Human-Assisted Optical Assay Checklist */}
-                  <div className="mt-4">
-                    <OpticalGradingChecklist
-                      commodity={commodity}
-                      onGradeAssayed={(result) => {
-                        setGrade(result.grade.replace('Grade ', '') as 'A1' | 'A2' | 'B');
-                        setNotice(`AGMARK Inspector Certified: ${result.grade} (Moisture ${result.moisturePercent}%, Defect ${result.defectPercent}%)`);
-                        setTimeout(() => setNotice(null), 4000);
-                      }}
-                    />
                   </div>
                 </div>
 
