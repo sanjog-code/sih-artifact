@@ -322,17 +322,7 @@ export default function LogisticsPortal() {
                   {t.logistics.optimizationImpact}
                 </h3>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200/60">
-                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-800">
-                      <Fuel className="w-3.5 h-3.5" />
-                      <span>{t.logistics.fuelSaved}</span>
-                    </div>
-                    <span className="text-lg font-extrabold text-emerald-950 font-mono mt-1 block">
-                      {routeResult.fuelSavedLiters} {t.common.liters}
-                    </span>
-                  </div>
-
+                <div className="grid grid-cols-1 gap-3">
                   <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200/60">
                     <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-800">
                       <Leaf className="w-3.5 h-3.5" />
