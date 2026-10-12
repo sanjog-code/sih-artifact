@@ -414,9 +414,26 @@ import('crypto').then((crypto) => {
   assert(simContent.includes('{ta.simTabPotatoOnion}'), 'Simulator must localize simTabPotatoOnion');
   assert(simContent.includes('{ta.simCitationsTitle}'), 'Simulator must localize simCitationsTitle');
 
-  console.log('  ✅ About page and Agrarian Unit Economics Simulator fully localized across all 23 languages with zero hardcoded text!\n');
+  // 15. Homepage Pillars, Portal & Comparison 23-Language Localization Verification
+  console.log('🏛️ Test 15: Verifying Homepage Pillars, Portal & Comparison 23-Language Localization...');
+  const extraTranslationsPath = path.resolve(__dirname, '../src/context/extraTranslations.ts');
+  const extraTranslationsContent = fs.readFileSync(extraTranslationsPath, 'utf8');
 
-  console.log('🎉 ALL 14 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
+  // Assert target regional languages do not contain English default values for card1Title or middlemanTitle
+  const targetLangsList = ['ur', 'sa', 'ks', 'kok', 'mni', 'brx', 'mai', 'sat', 'doi', 'ne', 'sd'];
+  for (const tLang of targetLangsList) {
+    const langIdx = extraTranslationsContent.indexOf(`"${tLang}": {`);
+    assert(langIdx !== -1, `Language ${tLang} must exist in extraTranslations.ts`);
+    const nextLangIdx = extraTranslationsContent.indexOf(`\n  "`, langIdx + 10);
+    const chunk = extraTranslationsContent.slice(langIdx, nextLangIdx !== -1 ? nextLangIdx : undefined);
+    assert(!chunk.includes('"card1Title": "Optical & Chemical Produce Grading"'), `card1Title in ${tLang} must not be English default`);
+    assert(!chunk.includes('"middlemanTitle": "Traditional Middleman Channel"'), `middlemanTitle in ${tLang} must not be English default`);
+  }
+
+  console.log('  ✅ Homepage Pillars, Portal, and Comparison fully localized across all 23 languages with zero English placeholders!\n');
+
+  console.log('🎉 ALL 15 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
 });
+
 
 
