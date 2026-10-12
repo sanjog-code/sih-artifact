@@ -159,7 +159,7 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
                   : ''
               }`}
             >
-              <span>Pricing</span>
+              <span>{(t.footer as Record<string, string>)?.pricingPlans || 'Pricing'}</span>
             </Link>
 
             {/* Universal About Us Link */}
@@ -193,14 +193,14 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
               )}
             </button>
 
-            {/* Language Selector Dropdown (Scrollable 22 languages) */}
+            {/* Language Selector Dropdown (Scrollable 23 languages) */}
             <div className="relative">
               <button
                 type="button"
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
                 className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200/80 dark:hover:bg-zinc-800 rounded-md transition border border-zinc-200 dark:border-zinc-800"
                 aria-label="Select Language / भाषा चुनें"
-                title="Change Language (22 Official Languages Supported)"
+                title="Change Language (23 Official Languages Supported)"
               >
                 <Languages className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 <span>{LANGUAGES.find((l) => l.code === language)?.native || 'English'}</span>
@@ -215,7 +215,7 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
                   onMouseLeave={() => setLangDropdownOpen(false)}
                 >
                   <div className="sticky top-0 bg-white dark:bg-zinc-900 px-3 py-1.5 text-[10px] uppercase font-bold text-zinc-500 dark:text-zinc-400 tracking-wider border-b border-zinc-100 dark:border-zinc-800 z-10">
-                    {t.nav.selectLanguage} (22)
+                    {t.nav.selectLanguage} (23)
                   </div>
                   {LANGUAGES.map((lang) => (
                     <button
@@ -464,7 +464,7 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
                 }`}
               >
                 <Tag className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
-                <span>Pricing & Plans</span>
+                <span>{(t.footer as Record<string, string>)?.pricingPlans || 'Pricing & Plans'}</span>
               </Link>
 
               <Link

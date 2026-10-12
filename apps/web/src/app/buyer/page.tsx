@@ -178,7 +178,7 @@ export default function BuyerPortal() {
             }`}
           >
             <LayoutDashboard className="w-3.5 h-3.5" />
-            <span>Executive Overview</span>
+            <span>{(t as any).buyerTabs?.overview || 'Executive Overview'}</span>
           </button>
 
           <button
@@ -190,7 +190,7 @@ export default function BuyerPortal() {
             }`}
           >
             <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-            <span>Native Copilot (beta)</span>
+            <span>{(t as any).buyerTabs?.copilot || 'Native Copilot (beta)'}</span>
             <span className="px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300 text-[10px] font-bold">
               AI (beta)
             </span>
@@ -205,7 +205,7 @@ export default function BuyerPortal() {
             }`}
           >
             <Store className="w-3.5 h-3.5" />
-            <span>Farmer Marketplace</span>
+            <span>{(t as any).buyerTabs?.market || 'Farmer Marketplace'}</span>
             <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px]">
               {filteredProduce.length}
             </span>
@@ -220,7 +220,7 @@ export default function BuyerPortal() {
             }`}
           >
             <Boxes className="w-3.5 h-3.5" />
-            <span>Procurement Orders</span>
+            <span>{(t as any).buyerTabs?.orders || 'Procurement Orders'}</span>
             <span className="px-1.5 py-0.5 rounded-full bg-zinc-200 text-zinc-800 dark:text-zinc-200 text-[10px]">
               {orders.length}
             </span>
@@ -235,7 +235,7 @@ export default function BuyerPortal() {
             }`}
           >
             <PlusCircle className="w-3.5 h-3.5" />
-            <span>Post Demand Tender</span>
+            <span>{(t as any).buyerTabs?.tender || 'Post Demand Tender'}</span>
           </button>
 
           <button
@@ -247,7 +247,7 @@ export default function BuyerPortal() {
             }`}
           >
             <Truck className="w-3.5 h-3.5" />
-            <span>Recurring Procurement</span>
+            <span>{(t as any).buyerTabs?.recurring || 'Recurring Procurement'}</span>
             <span className="px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px]">
               {recurringSchedules.length}
             </span>
@@ -262,7 +262,7 @@ export default function BuyerPortal() {
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Business Premier</span>
+            <span>{(t as any).buyerTabs?.subscriptions || 'Business Premier'}</span>
             <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-mono font-bold">
               {businessConfig.name.replace('Business ', '')}
             </span>

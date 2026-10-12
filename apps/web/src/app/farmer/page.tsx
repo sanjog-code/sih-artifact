@@ -392,13 +392,13 @@ export default function FarmerPortal() {
         {/* Navigation Tabs Bar */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-2 mb-6 border-b border-zinc-200 dark:border-zinc-800 scrollbar-none">
           {[
-            { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-            { id: 'sell', label: 'List Harvest', icon: PlusCircle },
-            { id: 'listings', label: `My Listings (${produceListings.length})`, icon: ListFilter },
-            { id: 'forecast', label: 'AI Demand Forecast (beta)', icon: TrendingUp },
-            { id: 'logistics', label: 'Shipment Tracker', icon: Truck },
-            { id: 'payments', label: 'Payments & Escrow', icon: IndianRupee },
-            { id: 'support', label: 'Kisan Helpline', icon: PhoneCall },
+            { id: 'overview', label: (t as any).farmerTabs?.overview || 'Overview', icon: LayoutDashboard },
+            { id: 'sell', label: (t as any).farmerTabs?.sell || 'List Harvest', icon: PlusCircle },
+            { id: 'listings', label: `${(t as any).farmerTabs?.listings || 'My Listings'} (${produceListings.length})`, icon: ListFilter },
+            { id: 'forecast', label: (t as any).farmerTabs?.forecast || 'AI Demand Forecast (beta)', icon: TrendingUp },
+            { id: 'logistics', label: (t as any).farmerTabs?.logistics || 'Shipment Tracker', icon: Truck },
+            { id: 'payments', label: (t as any).farmerTabs?.payments || 'Payments & Escrow', icon: IndianRupee },
+            { id: 'support', label: (t as any).farmerTabs?.support || 'Kisan Helpline', icon: PhoneCall },
           ].map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;

@@ -171,7 +171,7 @@ export default function Footer() {
                 {t.common.regionalLangSupport}
               </h4>
               <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold">
-                22 Languages
+                23 Languages
               </span>
             </div>
 
