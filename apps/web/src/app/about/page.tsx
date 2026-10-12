@@ -813,8 +813,8 @@ export default function AboutPage() {
                   <Phone className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                   <div>
                     <strong className="text-zinc-900 dark:text-zinc-200 block font-semibold">{ta.tollFreeKisanDeskLabel}</strong>
-                    <a href="tel:18008892603" className="text-emerald-700 dark:text-emerald-400 font-bold hover:underline">
-                      1800-889-2603
+                    <a href="tel:9251996077" className="text-emerald-700 dark:text-emerald-400 font-bold hover:underline">
+                      +91 9251996077
                     </a>
                     <span className="text-zinc-500 text-[11px] ml-1.5">{ta.tollFreeLanguagesSupported}</span>
                   </div>

@@ -509,10 +509,13 @@ export default function FarmerPortal() {
                 </div>
 
                 <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800 mt-4">
-                  <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                  <a
+                    href="tel:9251996077"
+                    className="flex items-center gap-2 text-xs text-zinc-700 dark:text-zinc-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition font-bold"
+                  >
                     <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>{fo.kisanHelplineLabel}</span>
-                  </div>
+                    <span>{fo.kisanHelplineLabel}: +91 9251996077</span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -1560,12 +1563,12 @@ export default function FarmerPortal() {
                   </div>
                   <div>
                     <div className="text-sm font-bold text-emerald-950">National Kisan Advisory Hotline</div>
-                    <div className="text-xs text-emerald-800 font-mono font-extrabold">1800-180-1551 (Toll-Free)</div>
+                    <div className="text-xs text-emerald-800 font-mono font-extrabold">+91 9251996077 (Kisan Helpline)</div>
                   </div>
                 </div>
 
                 <a
-                  href="tel:18001801551"
+                  href="tel:9251996077"
                   className="px-5 py-2.5 bg-emerald-900 hover:bg-emerald-800 text-white rounded-xl text-xs font-semibold transition"
                 >
                   Dial Now

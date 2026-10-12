@@ -136,14 +136,26 @@ export default function Footer() {
             <div className="space-y-2.5 text-xs text-zinc-400">
               <div>
                 <span className="block text-zinc-500 text-[11px]">
-                  {(t.footer as Record<string, string>)?.tollFreeHelpline || 'Toll-Free Helpline'}:
+                  Kisan Helpline:
                 </span>
                 <a
-                  href="tel:18008892603"
+                  href="tel:9251996077"
+                  className="text-emerald-400 hover:underline font-mono text-xs inline-flex items-center gap-1.5 mt-0.5 font-bold"
+                >
+                  <Phone className="w-3.5 h-3.5 shrink-0" />
+                  <span>+91 9251996077</span>
+                </a>
+              </div>
+              <div>
+                <span className="block text-zinc-500 text-[11px]">
+                  {(t.footer as Record<string, string>)?.tollFreeHelpline || 'General Contact'}:
+                </span>
+                <a
+                  href="tel:9251996077"
                   className="text-emerald-400 hover:underline font-mono text-xs inline-flex items-center gap-1.5 mt-0.5"
                 >
                   <Phone className="w-3.5 h-3.5 shrink-0" />
-                  <span>1800-889-2603</span>
+                  <span>+91 9251996077</span>
                 </a>
               </div>
               <div>

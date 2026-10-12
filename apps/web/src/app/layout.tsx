@@ -22,7 +22,7 @@ const organizationSchema = {
   logo: 'https://fasalmatrix.in/icon-192.png',
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: '+91-1800-889-2603',
+    telephone: '+91-9251996077',
     contactType: 'customer support',
     areaServed: 'IN',
     availableLanguage: ['English', 'Hindi', 'Punjabi', 'Marathi', 'Telugu', 'Tamil'],
