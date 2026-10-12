@@ -474,8 +474,30 @@ import('crypto').then((crypto) => {
 
   console.log('  ✅ Farmer Hub Overview fully translated and integrated across all 23 constitutional languages!\n');
 
-  console.log('🎉 ALL 16 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
+  // 17. Harvest Declaration Form 23-Language Localization Verification
+  console.log('🌱 Test 17: Verifying Harvest Declaration Form 23-Language Localization (All 5 Sections)...');
+  const farmerSellTransPath = path.resolve(__dirname, '../src/context/farmerSellTranslations.ts');
+  assert(fs.existsSync(farmerSellTransPath), 'farmerSellTranslations.ts must exist');
+  const farmerSellTransContent = fs.readFileSync(farmerSellTransPath, 'utf8');
+
+  for (const lang of all23Langs) {
+    assert(farmerSellTransContent.includes(`"${lang}": {`) || farmerSellTransContent.includes(`${lang}: {`), `farmerSellTranslations must define ${lang}`);
+  }
+
+  assert(farmerPageSrc4.includes('getFarmerSellTranslations'), 'farmer/page.tsx must use getFarmerSellTranslations');
+  assert(farmerPageSrc4.includes('fs.section1Title'), 'farmer/page.tsx must reference fs.section1Title');
+  assert(farmerPageSrc4.includes('fs.catAll'), 'farmer/page.tsx must reference fs.catAll');
+  assert(farmerPageSrc4.includes('fs.section2Title'), 'farmer/page.tsx must reference fs.section2Title');
+  assert(farmerPageSrc4.includes('fs.gradeA1Title'), 'farmer/page.tsx must reference fs.gradeA1Title');
+  assert(farmerPageSrc4.includes('fs.section4Title'), 'farmer/page.tsx must reference fs.section4Title');
+  assert(farmerPageSrc4.includes('fs.section5Title'), 'farmer/page.tsx must reference fs.section5Title');
+  assert(farmerPageSrc4.includes('fs.publishLotBtn'), 'farmer/page.tsx must reference fs.publishLotBtn');
+
+  console.log('  ✅ Harvest Declaration Form fully translated and integrated across all 23 constitutional languages!\n');
+
+  console.log('🎉 ALL 17 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
 });
+
 
 
 

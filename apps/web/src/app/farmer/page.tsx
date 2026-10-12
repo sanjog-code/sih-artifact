@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import InquiryModal from '../../components/InquiryModal';
 import { useLanguage } from '../../context/LanguageContext';
 import { getFarmerOverviewTranslations } from '../../context/farmerOverviewTranslations';
+import { getFarmerSellTranslations } from '../../context/farmerSellTranslations';
 import { useProduceStore, useOrderStore, useRfqStore, useSubscriptionStore, FarmerTier } from '../../lib/store';
 import RoleGuard from '../../components/RoleGuard';
 import {
@@ -120,6 +121,7 @@ const HIGH_DEMAND_CROPS = [
 export default function FarmerPortal() {
   const { t, language } = useLanguage();
   const fo = getFarmerOverviewTranslations(language);
+  const fs = getFarmerSellTranslations(language);
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<
     'overview' | 'sell' | 'listings' | 'logistics' | 'payments' | 'support'
@@ -640,10 +642,10 @@ export default function FarmerPortal() {
               <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
-                    {t.farmer.declare}
+                    {fs.formHeaderTitle || t.farmer.declare}
                   </h2>
                   <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-                    {t.farmer.declareSubtitle}
+                    {fs.formHeaderSubtitle || t.farmer.declareSubtitle}
                   </p>
                 </div>
                 <VoiceListingButton
@@ -664,10 +666,10 @@ export default function FarmerPortal() {
                 <div>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                     <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
-                      1. Select Crop / Commodity (Official ICAR / CCEA Registered)
+                      {fs.section1Title}
                     </label>
                     <span className="text-[11px] font-mono text-emerald-800 dark:text-emerald-400 font-semibold">
-                      Selected: <strong>{commodity}</strong> {getCropMspFloor(commodity) ? `• MSP: ₹${getCropMspFloor(commodity)}/kg` : ''}
+                      {fs.selectedCropLabel} <strong>{commodity}</strong> {getCropMspFloor(commodity) ? `• ${fs.mspPrefixLabel} ₹${getCropMspFloor(commodity)}/kg` : ''}
                     </span>
                   </div>
 
@@ -680,7 +682,7 @@ export default function FarmerPortal() {
                           type="text"
                           value={cropSearchTerm}
                           onChange={(e) => setCropSearchTerm(e.target.value)}
-                          placeholder="Search any registered crop (e.g. Cotton, Ragi, Turmeric, Ginger, Apple, Chana, Mustard)..."
+                          placeholder={fs.searchCropsPlaceholder}
                           className="w-full text-xs pl-8 pr-3 py-2 bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-600"
                         />
                       </div>
@@ -690,21 +692,21 @@ export default function FarmerPortal() {
                           onClick={() => setCropSearchTerm('')}
                           className="text-xs text-zinc-400 hover:text-zinc-700 px-2 py-1"
                         >
-                          Clear
+                          {fs.clearSearchBtn}
                         </button>
                       )}
                     </div>
 
                     <div className="flex flex-wrap gap-1.5">
                       {[
-                        { id: 'all', label: 'All Crops' },
-                        { id: 'cereals', label: 'Grains & Cereals' },
-                        { id: 'pulses', label: 'Pulses' },
-                        { id: 'oilseeds', label: 'Oilseeds' },
-                        { id: 'vegetables', label: 'Vegetables' },
-                        { id: 'fruits', label: 'Fruits' },
-                        { id: 'spices', label: 'Spices' },
-                        { id: 'commercial', label: 'Commercial' },
+                        { id: 'all', label: fs.catAll },
+                        { id: 'cereals', label: fs.catCereals },
+                        { id: 'pulses', label: fs.catPulses },
+                        { id: 'oilseeds', label: fs.catOilseeds },
+                        { id: 'vegetables', label: fs.catVegetables },
+                        { id: 'fruits', label: fs.catFruits },
+                        { id: 'spices', label: fs.catSpices },
+                        { id: 'commercial', label: fs.catCommercial },
                       ].map((tab) => (
                         <button
                           key={tab.id}
@@ -770,7 +772,7 @@ export default function FarmerPortal() {
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
-                      2. Total Harvest Quantity (kg)
+                      {fs.section2Title}
                     </label>
                     <div className="flex gap-1.5">
                       {[500, 1000, 2500, 5000].map((inc) => (
@@ -780,7 +782,7 @@ export default function FarmerPortal() {
                           onClick={() => setQuantity(inc)}
                           className="px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 text-[10px] font-mono font-bold text-zinc-700 dark:text-zinc-300"
                         >
-                          {inc.toLocaleString('en-IN')} kg
+                          {inc.toLocaleString('en-IN')} {fs.kgUnit}
                         </button>
                       ))}
                     </div>
@@ -799,13 +801,13 @@ export default function FarmerPortal() {
                 {/* 3. Visual Quality Tier Selector */}
                 <div>
                   <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
-                    3. AGMARK Quality Grade
+                    {fs.section3Title}
                   </label>
                   <div className="grid grid-cols-3 gap-3">
                     {[
-                      { id: 'A1', title: 'Grade A1', desc: 'Premium Export (≤1% defect)' },
-                      { id: 'A2', title: 'Grade A2', desc: 'Standard Wholesale (≤3% defect)' },
-                      { id: 'B', title: 'Grade B', desc: 'Processing / Fair Avg (≤6% defect)' },
+                      { id: 'A1', title: fs.gradeA1Title, desc: fs.gradeA1Desc },
+                      { id: 'A2', title: fs.gradeA2Title, desc: fs.gradeA2Desc },
+                      { id: 'B', title: fs.gradeBTitle, desc: fs.gradeBDesc },
                     ].map((g) => (
                       <button
                         key={g.id}
@@ -828,7 +830,7 @@ export default function FarmerPortal() {
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
-                      4. Asking Price (₹/kg)
+                      {fs.section4Title}
                     </label>
                     {aiData && (
                       <button
@@ -837,7 +839,7 @@ export default function FarmerPortal() {
                         className="text-[11px] font-bold text-emerald-800 underline hover:text-emerald-950 flex items-center gap-1"
                       >
                         <Sparkles className="w-3 h-3 text-emerald-600" />
-                        Use AI Rate (beta): ₹{aiData.predictedNextPrice}/kg
+                        {fs.useAiRateLabel || 'Use AI Rate (beta):'} ₹{aiData.predictedNextPrice}/kg
                       </button>
                     )}
                   </div>
@@ -852,32 +854,32 @@ export default function FarmerPortal() {
                   />
                   {getCropMspFloor(commodity) ? (
                     <div className="mt-1 text-[11px] text-amber-700 dark:text-amber-400 font-semibold flex items-center justify-between">
-                      <span>CACP Statutory MSP Floor: ₹{getCropMspFloor(commodity)?.toFixed(2)}/kg (Hard Floor)</span>
-                      <span className="text-emerald-700 dark:text-emerald-400">Distress-Selling Guardrail Active</span>
+                      <span>{fs.cacpStatutoryMspLabel} ₹{getCropMspFloor(commodity)?.toFixed(2)}/kg {fs.hardFloorBadge}</span>
+                      <span className="text-emerald-700 dark:text-emerald-400">{fs.distressGuardrailActive}</span>
                     </div>
                   ) : null}
                   {/* Transparent Single-Digit Commission Breakdown */}
                   <div className="mt-2.5 p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-xs">
                     <div className="flex items-center justify-between font-bold text-emerald-950 dark:text-emerald-200">
-                      <span>Estimated Total Harvest Value ({quantity.toLocaleString('en-IN')} kg):</span>
+                      <span>{fs.estTotalHarvestValueLabel.replace('{qty}', quantity.toLocaleString('en-IN'))}</span>
                       <span className="font-mono text-sm">₹{(quantity * price).toLocaleString('en-IN')}</span>
                     </div>
                     <div className="flex items-center justify-between text-zinc-600 dark:text-zinc-400 mt-1 text-[11px]">
-                      <span>FarmLink Platform Fee ({farmerConfig.name} Plan • {(farmerConfig.commissionRate * 100)}%):</span>
+                      <span>{fs.platformFeeBreakdownLabel.replace('{plan}', farmerConfig.name).replace('{rate}', String(farmerConfig.commissionRate * 100))}</span>
                       <span className="font-mono text-zinc-900 dark:text-zinc-200">-₹{Math.round(quantity * price * farmerConfig.commissionRate).toLocaleString('en-IN')}</span>
                     </div>
                     <div className="flex items-center justify-between text-emerald-800 dark:text-emerald-300 font-extrabold pt-1.5 mt-1.5 border-t border-emerald-200/60 dark:border-emerald-800/40">
-                      <span>Direct Farmer Escrow Payout (T+1):</span>
+                      <span>{fs.directFarmerEscrowPayoutLabel}</span>
                       <span className="font-mono text-sm">₹{Math.round(quantity * price * (1 - farmerConfig.commissionRate)).toLocaleString('en-IN')}</span>
                     </div>
                     <p className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1 leading-tight">
-                      *Zero monthly subscription. Marketplace access is 100% free. Platform fee is deducted only upon verified completed escrow release.
+                      {fs.zeroSubscriptionNotice}
                     </p>
                   </div>
                   {aiData && (
                     <div className="mt-1 text-[11px] text-zinc-500 flex items-center justify-between">
-                      <span>Statutory MSP Floor: ₹{aiData.mspFloor || 22.75}/kg</span>
-                      <span className="text-emerald-700 font-semibold">100% Escrow Protection</span>
+                      <span>{fs.statutoryMspFloorText} ₹{aiData.mspFloor || 22.75}/kg</span>
+                      <span className="text-emerald-700 font-semibold">{fs.escrowProtection100}</span>
                     </div>
                   )}
                 </div>
@@ -887,7 +889,7 @@ export default function FarmerPortal() {
                   <div className="flex items-center justify-between">
                     <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
                       <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>5. Farm Location & Pickup Address (For Route Optimization)</span>
+                      <span>{fs.section5Title}</span>
                     </label>
                     <button
                       type="button"
@@ -896,7 +898,7 @@ export default function FarmerPortal() {
                       className="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900 text-[11px] font-bold text-emerald-800 dark:text-emerald-300 transition flex items-center gap-1"
                     >
                       <Navigation className={`w-3 h-3 ${detectingGps ? 'animate-spin' : ''}`} />
-                      <span>{detectingGps ? 'Detecting GPS...' : 'Use Farm GPS'}</span>
+                      <span>{detectingGps ? fs.detectingGpsLabel : fs.useFarmGpsBtn}</span>
                     </button>
                   </div>
 
@@ -910,7 +912,7 @@ export default function FarmerPortal() {
                           const g = geocodeAddress(e.target.value, pincode);
                           setFarmCoordinates({ lat: g.lat, lng: g.lng });
                         }}
-                        placeholder="Village, Khasra/Plot No., Tehsil, District"
+                        placeholder={fs.addressPlaceholder}
                         className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-600"
                         required
                       />
@@ -924,7 +926,7 @@ export default function FarmerPortal() {
                           const g = geocodeAddress(farmAddress, e.target.value);
                           setFarmCoordinates({ lat: g.lat, lng: g.lng });
                         }}
-                        placeholder="PIN Code (e.g. 303338)"
+                        placeholder={fs.pincodePlaceholder}
                         maxLength={6}
                         className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-600"
                         required
@@ -933,7 +935,7 @@ export default function FarmerPortal() {
                   </div>
 
                   <div className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 flex items-center justify-between">
-                    <span>Geocoded Pickup Coordinates:</span>
+                    <span>{fs.geocodedCoordinatesLabel}</span>
                     <span className="font-bold text-emerald-700 dark:text-emerald-400">
                       {farmCoordinates.lat.toFixed(4)}° N, {farmCoordinates.lng.toFixed(4)}° E
                     </span>
@@ -946,14 +948,14 @@ export default function FarmerPortal() {
                     className="flex-1 py-3 px-6 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-2 shadow-xs"
                   >
                     <PlusCircle className="w-4 h-4 text-emerald-400" />
-                    <span>{t.farmer.publishBtn}</span>
+                    <span>{fs.publishLotBtn}</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setActiveTab('overview')}
                     className="py-3 px-5 border border-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 rounded-xl text-xs sm:text-sm font-semibold transition"
                   >
-                    Cancel
+                    {fs.cancelBtn}
                   </button>
                 </div>
               </form>
