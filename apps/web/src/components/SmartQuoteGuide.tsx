@@ -136,7 +136,7 @@ export default function SmartQuoteGuide({ onApplyQuote }: SmartQuoteGuideProps) 
           <thead className="bg-zinc-100 dark:bg-zinc-800/70 text-zinc-600 dark:text-zinc-300 font-mono uppercase text-[10px] tracking-wider border-b border-zinc-200 dark:border-zinc-800">
             <tr>
               <th className="py-3 px-4">Procurement Volume Bracket</th>
-              <th className="py-3 px-4">Recommended AI Quote</th>
+              <th className="py-3 px-4">Recommended AI Quote (beta)</th>
               <th className="py-3 px-4">Spread vs Mandi</th>
               <th className="py-3 px-4">Farmer Clearing Odds</th>
               <th className="py-3 px-4 text-right">Action</th>

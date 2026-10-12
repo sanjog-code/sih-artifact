@@ -214,9 +214,9 @@ export default function BuyerPortal() {
             }`}
           >
             <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-            <span>Native Copilot</span>
+            <span>Native Copilot (beta)</span>
             <span className="px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300 text-[10px] font-bold">
-              AI
+              AI (beta)
             </span>
           </button>
 
@@ -378,7 +378,7 @@ export default function BuyerPortal() {
                     <p className="text-xs text-zinc-500">Trained on APMC mandi arrivals & arrival velocity</p>
                   </div>
                   <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-                    AI Active
+                    AI Active (beta)
                   </span>
                 </div>
 

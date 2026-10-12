@@ -242,7 +242,7 @@ export default function AdminConsolePage() {
             }`}
           >
             <Sparkles className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
-            <span>AI Operations Copilot</span>
+            <span>AI Operations Copilot (beta)</span>
             <span className="px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-900/80 text-zinc-800 dark:text-zinc-200 dark:text-zinc-400 text-[10px] font-bold">
               Gemini
             </span>

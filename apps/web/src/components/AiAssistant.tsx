@@ -504,7 +504,7 @@ function AiAssistantWidget() {
           </div>
           <div className="flex flex-col text-left">
             <span className="text-xs font-black tracking-tight flex items-center gap-1.5">
-              Fasal Matrix AI
+              Fasal Matrix AI (beta)
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
             </span>
             <span className="text-[10px] text-zinc-400 font-medium">Real-Time Talking Copilot</span>
@@ -540,14 +540,14 @@ function AiAssistantWidget() {
               <div className="text-xs font-black flex items-center gap-2">
                 <span>
                   {role === 'farmer'
-                    ? 'Kisan AI Agronomy Copilot'
+                    ? 'Kisan AI Agronomy Copilot (beta)'
                     : role === 'buyer'
-                    ? 'Bulk Buyer Procurement Copilot'
+                    ? 'Bulk Buyer Procurement Copilot (beta)'
                     : role === 'consumer'
-                    ? 'Consumer Deal & Radar Copilot'
+                    ? 'Consumer Deal & Radar Copilot (beta)'
                     : role === 'admin'
-                    ? 'Admin Network & Fleet Copilot'
-                    : 'Fasal Matrix AI Assistant'}
+                    ? 'Admin Network & Fleet Copilot (beta)'
+                    : 'Fasal Matrix AI Assistant (beta)'}
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 text-[9px] font-mono border border-emerald-800 font-bold">
                   Gemini 3.8 Flash & ML

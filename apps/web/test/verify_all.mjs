@@ -304,6 +304,50 @@ import('crypto').then((crypto) => {
 
   console.log('  ✅ 6-stage physical grading, dispatch, escrow, warehouse intake, and channel routing pipeline verified!\n');
 
-  console.log('🎉 ALL 10 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
+  // 11. Farmer Hub Streamlining, Demand Crop Advisory, Tier Progression & AI (beta) Tagging
+  console.log('🌾 Test 11: Verifying Farmer Hub Streamlining, Demand Advisory, Tier Progression & AI (beta) Tagging...');
+  
+  // Verify Farmer Hub no longer has orders or buyer requirements tabs
+  assert(!farmerPageSrc.includes("{ id: 'orders'"), 'Farmer hub must not contain orders tab');
+  assert(!farmerPageSrc.includes("{ id: 'marketplace'"), 'Farmer hub must not contain buyer requirements (marketplace) tab');
+  
+  // Verify Farmer Hub Overview contains "Recommended Crops to Grow Based on Market Demand"
+  assert(farmerPageSrc.includes('Recommended Crops to Grow Based on Market Demand'), 'Farmer Overview must feature Demand-Driven Crop Advisory');
+  assert(farmerPageSrc.includes('HIGH_DEMAND_CROPS'), 'Farmer page must define high-demand crop data');
+  
+  // Verify Tier progression rules and milestones (0, 5, 20, 50)
+  const subscriptionStorePath = path.resolve(__dirname, '../src/lib/store/subscriptionStore.ts');
+  const subscriptionStoreSrc = fs.readFileSync(subscriptionStorePath, 'utf8');
+  assert(subscriptionStoreSrc.includes('requiredDispatches: 0'), 'Basic tier requires 0 dispatches');
+  assert(subscriptionStoreSrc.includes('requiredDispatches: 5'), 'Premier tier requires 5 dispatches');
+  assert(subscriptionStoreSrc.includes('requiredDispatches: 20'), 'Premier Pro tier requires 20 dispatches');
+  assert(subscriptionStoreSrc.includes('requiredDispatches: 50'), 'Premier Elite tier requires 50 dispatches');
+  assert(farmerPageSrc.includes('Dispatch Progression Track'), 'Farmer page must display dispatch progression track');
+  assert(farmerPageSrc.includes('completedDispatches'), 'Farmer page must display completed dispatches');
+
+  // Verify (beta) suffix on AI and AI-related features
+  assert(farmerPageSrc.includes('AI Demand Forecast (beta)'), 'Farmer page must label AI Demand Forecast with (beta)');
+  assert(farmerPageSrc.includes('AI Selling Opportunity (beta)'), 'Farmer page must label AI Selling Opportunity with (beta)');
+  assert(farmerPageSrc.includes('Use AI Rate (beta)'), 'Farmer page must label Use AI Rate with (beta)');
+
+  const buyerPageSrc2 = fs.readFileSync(buyerPagePath, 'utf8');
+  assert(buyerPageSrc2.includes('Native Copilot (beta)'), 'Buyer page must label Native Copilot with (beta)');
+  assert(buyerPageSrc2.includes('AI Active (beta)'), 'Buyer page must label AI Active with (beta)');
+
+  const consumerPageSrc2 = fs.readFileSync(consumerPagePath, 'utf8');
+  assert(consumerPageSrc2.includes('AI Timing Radar (beta)'), 'Consumer page must label AI Timing Radar with (beta)');
+  assert(consumerPageSrc2.includes('Deal Advisor (beta)'), 'Consumer page must label AI Shopping & Deal Advisor with (beta)');
+
+  const adminPageSrc2 = fs.readFileSync(adminPagePath, 'utf8');
+  assert(adminPageSrc2.includes('AI Operations Copilot (beta)'), 'Admin page must label AI Operations Copilot with (beta)');
+
+  const aiAssistantPath = path.resolve(__dirname, '../src/components/AiAssistant.tsx');
+  const aiAssistantSrc = fs.readFileSync(aiAssistantPath, 'utf8');
+  assert(aiAssistantSrc.includes('Fasal Matrix AI (beta)'), 'AiAssistant floating badge must include (beta)');
+  assert(aiAssistantSrc.includes('Kisan AI Agronomy Copilot (beta)'), 'AiAssistant kisan copilot must include (beta)');
+
+  console.log('  ✅ Orders removed from Farmer Hub, Demand Advisory active, Tier Progression rules verified, and AI (beta) tagged site-wide!\n');
+
+  console.log('🎉 ALL 11 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
 });
 

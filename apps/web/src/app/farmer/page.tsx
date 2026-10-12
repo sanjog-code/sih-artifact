@@ -33,6 +33,9 @@ import {
   Warehouse,
   UserCheck,
   Search,
+  Lock,
+  ShieldCheck,
+  BarChart3,
 } from 'lucide-react';
 import { geocodeAddress } from '../../lib/ai/geocoding';
 import NetIncomeCalculator from '../../components/NetIncomeCalculator';
@@ -77,47 +80,59 @@ interface AiForecastData {
   };
 }
 
-// Sample verified buyer demand opportunities from regional markets
-const BUYER_REQUIREMENTS = [
+// Recommended crops to plant/harvest based on current market demand telemetry
+const HIGH_DEMAND_CROPS = [
   {
-    id: 'BR-ITC-104',
-    buyer: 'ITC Agro Foods Ltd.',
-    commodity: 'Wheat (Sharbati)',
-    volume: '25,000 kg',
-    targetPrice: 27.5,
-    location: 'Jaipur WDRA Hub',
-    deliveryDate: 'Within 48 hours',
-    specs: 'Max moisture 10%, zero foreign matter, Grade A1 mandatory.',
+    id: 'DEMAND-TOMATO',
+    crop: 'Tomato (Hybrid)',
+    category: 'Vegetables',
+    demandLevel: 'Critically High (Deficit Mandis)',
+    growthTrend: '+18.4% Arrival Shortage',
+    modalRate: '₹28 - ₹32 / kg',
+    benchmarkMsp: '₹14.50 / kg',
+    driver: 'Extreme urban retail consumption & high hotel/catering demand across NCR & Jaipur.',
+    harvestWindow: 'Immediate 45-60 day harvesting cycle',
+    storageFit: 'WDRA Cold-Chamber Vault (0-4°C, 90% RH)',
+    recommendedAction: 'Plant or harvest now. Procuring via direct accredited grading vehicle.',
   },
   {
-    id: 'BR-BB-209',
-    buyer: 'BigBasket Fresh Hub',
-    commodity: 'Tomato (Hybrid)',
-    volume: '8,000 kg',
-    targetPrice: 28.0,
-    location: 'Phulera Depot #3',
-    deliveryDate: 'Immediate intake',
-    specs: 'Uniform ripening 85%+, firm texture, crate packaged.',
+    id: 'DEMAND-WHEAT',
+    crop: 'Wheat (Sharbati A1)',
+    category: 'Grains & Cereals',
+    demandLevel: 'Strong Institutional Demand',
+    growthTrend: '+12.1% Processing Deficit',
+    modalRate: '₹26.50 - ₹28.50 / kg',
+    benchmarkMsp: '₹24.25 / kg',
+    driver: 'Corporate flour mills & institutional aggregators seeking low-moisture storable grain.',
+    harvestWindow: 'Rabi harvest peak / WDRA pledge deposit',
+    storageFit: 'WDRA Silos / Dry Vaults (10-12 months safe hold)',
+    recommendedAction: 'Deposit in accredited warehouse to capture post-harvest premium.',
   },
   {
-    id: 'BR-ADANI-312',
-    buyer: 'Adani Wilmar Procurement',
-    commodity: 'Mustard (High Oil)',
-    volume: '15,000 kg',
-    targetPrice: 89.0,
-    location: 'Alwar Terminal',
-    deliveryDate: 'Oct 15, 2026',
-    specs: 'Oil content > 40%, cleaned and graded.',
+    id: 'DEMAND-MUSTARD',
+    crop: 'Mustard / Rapeseed',
+    category: 'Oilseeds',
+    demandLevel: 'Very High Crushing Influx',
+    growthTrend: '+9.8% Oil Mill Shortage',
+    modalRate: '₹62 - ₹66 / kg',
+    benchmarkMsp: '₹59.50 / kg',
+    driver: 'Edible oil extraction demand across Rajasthan & Gujarat crushing mills.',
+    harvestWindow: 'High oil content (40%+) batches prioritized',
+    storageFit: 'Ventilated WDRA Agrarian Depots',
+    recommendedAction: 'Target Grade A1 assay certification for 4% higher mill premium.',
   },
   {
-    id: 'BR-MD-401',
-    buyer: 'Mother Dairy Fruit & Veg',
-    commodity: 'Potato (Processing Grade)',
-    volume: '20,000 kg',
-    targetPrice: 22.0,
-    location: 'Agra Cold Vault #2',
-    deliveryDate: 'Oct 18, 2026',
-    specs: 'Size 45mm+, low sugar content for processing.',
+    id: 'DEMAND-SOYBEAN',
+    crop: 'Soybean (Yellow)',
+    category: 'Commercial Pulses',
+    demandLevel: 'Elevated Industrial Need',
+    growthTrend: '+7.6% Export & Feed Demand',
+    modalRate: '₹49 - ₹53 / kg',
+    benchmarkMsp: '₹48.92 / kg',
+    driver: 'Solvent extraction plants and high-protein feed compounders.',
+    harvestWindow: 'Optimal moisture below 10%',
+    storageFit: 'WDRA Depots with humidity control',
+    recommendedAction: 'Pre-book grading dispatch for direct bulk collection.',
   },
 ];
 
@@ -125,7 +140,7 @@ export default function FarmerPortal() {
   const { t } = useLanguage();
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'sell' | 'listings' | 'marketplace' | 'orders' | 'forecast' | 'logistics' | 'payments' | 'support'
+    'overview' | 'sell' | 'listings' | 'forecast' | 'logistics' | 'payments' | 'support'
   >('overview');
 
   // Persistence Stores
@@ -135,6 +150,7 @@ export default function FarmerPortal() {
   const {
     farmerTier,
     farmerConfig,
+    completedDispatches,
     setFarmerTier,
     calculateFarmerCommission,
   } = useSubscriptionStore();
@@ -204,11 +220,6 @@ export default function FarmerPortal() {
   // Escrow & Payment State
   const [walletBalance, setWalletBalance] = useState(482500);
   const [withdrawing, setWithdrawing] = useState(false);
-
-  // Connect Offer Modal State
-  const [selectedReq, setSelectedReq] = useState<typeof BUYER_REQUIREMENTS[0] | null>(null);
-  const [offerVolume, setOfferVolume] = useState(2000);
-  const [offerRate, setOfferRate] = useState(27.5);
 
   const [forecastStorageDays, setForecastStorageDays] = useState(0);
 
@@ -309,16 +320,6 @@ export default function FarmerPortal() {
     setTimeout(() => setNotice(null), 5500);
   };
 
-  const handleAcceptOrder = (orderId: string) => {
-    if (advanceOrderStage) {
-      advanceOrderStage(orderId);
-    } else {
-      updateOrderStatus(orderId, 'IN_TRANSIT');
-    }
-    setNotice(`Order #${orderId} accepted & scheduled! Telemetry node updated.`);
-    setTimeout(() => setNotice(null), 4500);
-  };
-
   const handleWithdrawal = () => {
     setWithdrawing(true);
     setTimeout(() => {
@@ -328,24 +329,6 @@ export default function FarmerPortal() {
       setNotice(`Successfully initiated T+1 escrow payout of ₹${amount.toLocaleString('en-IN')} to verified bank account (SBI A/C ***4819). Ref: TXN-${Date.now().toString().slice(-6)}.`);
       setTimeout(() => setNotice(null), 5000);
     }, 1200);
-  };
-
-  const handleSubmitOffer = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedReq) return;
-    submitRfq({
-      lotId: selectedReq.id,
-      crop: selectedReq.commodity.split(' ')[0],
-      sellerCluster: 'Direct Farmer Cooperative',
-      volumeKg: Number(offerVolume),
-      askingRate: Number(offerRate),
-      bidRate: Number(selectedReq.targetPrice),
-      status: 'PENDING',
-      createdAt: 'Just now',
-    });
-    setNotice(`Offer submitted directly to ${selectedReq.buyer} for ${offerVolume.toLocaleString('en-IN')} kg at ₹${offerRate}/kg!`);
-    setSelectedReq(null);
-    setTimeout(() => setNotice(null), 4500);
   };
 
   return (
@@ -413,9 +396,7 @@ export default function FarmerPortal() {
             { id: 'overview', label: 'Overview', icon: LayoutDashboard },
             { id: 'sell', label: 'List Harvest', icon: PlusCircle },
             { id: 'listings', label: `My Listings (${produceListings.length})`, icon: ListFilter },
-            { id: 'marketplace', label: 'Buyer Requirements', icon: ShoppingBag, badge: '4 Active' },
-            { id: 'orders', label: `Orders (${orders.length})`, icon: PackageCheck },
-            { id: 'forecast', label: 'AI Demand Forecast', icon: TrendingUp },
+            { id: 'forecast', label: 'AI Demand Forecast (beta)', icon: TrendingUp },
             { id: 'logistics', label: 'Shipment Tracker', icon: Truck },
             { id: 'payments', label: 'Payments & Escrow', icon: IndianRupee },
             { id: 'support', label: 'Kisan Helpline', icon: PhoneCall },
@@ -435,13 +416,6 @@ export default function FarmerPortal() {
               >
                 <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-400' : 'text-zinc-500'}`} />
                 <span>{tab.label}</span>
-                {tab.badge && (
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                    isActive ? 'bg-emerald-800 text-emerald-200' : 'bg-emerald-100 text-emerald-900'
-                  }`}>
-                    {tab.badge}
-                  </span>
-                )}
               </button>
             );
           })}
@@ -465,7 +439,7 @@ export default function FarmerPortal() {
                         <Sparkles className="w-4 h-4" />
                       </div>
                       <div>
-                        <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">AI Selling Opportunity</h3>
+                        <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">AI Selling Opportunity (beta)</h3>
                         <p className="text-xs text-zinc-500">Based on historical mandi price regression & demand telemetry</p>
                       </div>
                     </div>
@@ -510,10 +484,11 @@ export default function FarmerPortal() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setActiveTab('marketplace')}
-                    className="px-4 py-2 border border-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 text-zinc-800 dark:text-zinc-200 rounded-xl text-xs font-semibold transition"
+                    onClick={() => setActiveTab('forecast')}
+                    className="px-4 py-2 border border-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 text-zinc-800 dark:text-zinc-200 rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
                   >
-                    View Buyer Requirements
+                    <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>AI Demand Forecast (beta)</span>
                   </button>
                 </div>
               </div>
@@ -542,14 +517,14 @@ export default function FarmerPortal() {
 
                     <button
                       type="button"
-                      onClick={() => setActiveTab('orders')}
+                      onClick={() => setActiveTab('listings')}
                       className="w-full text-left p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-300 hover:bg-emerald-50/30 transition flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2.5">
-                        <PackageCheck className="w-4 h-4 text-emerald-700" />
+                        <ListFilter className="w-4 h-4 text-emerald-700" />
                         <div>
-                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">Manage Orders ({orders.length})</div>
-                          <div className="text-[11px] text-zinc-500">Accept and dispatch buyer pickups</div>
+                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">My Harvest Declarations ({produceListings.length})</div>
+                          <div className="text-[11px] text-zinc-500">Track grading & dispatch status</div>
                         </div>
                       </div>
                       <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
@@ -563,7 +538,7 @@ export default function FarmerPortal() {
                       <div className="flex items-center gap-2.5">
                         <TrendingUp className="w-4 h-4 text-emerald-700" />
                         <div>
-                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">Mandi Price Simulator</div>
+                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">Mandi Price Simulator (beta)</div>
                           <div className="text-[11px] text-zinc-500">Evaluate holding vs immediate sale</div>
                         </div>
                       </div>
@@ -593,6 +568,96 @@ export default function FarmerPortal() {
                     <span>Helpline: <strong>1800-180-1551</strong> (Kisan Toll-Free)</span>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Recommended Crops to Grow Based on Market Demand (Demand-Driven Advisory) */}
+            <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-100 dark:border-zinc-800">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/80 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-300 text-xs font-mono font-bold uppercase tracking-wider mb-2">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <span>Market Demand Advisory • Planning Engine</span>
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
+                    Recommended Crops to Grow Based on Market Demand
+                  </h2>
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl leading-relaxed">
+                    Live APMC arrival deficit telemetry and institutional bulk procurement contracts indicate high profitable opportunities for these crops. Align sowing and harvest schedules with real market demand.
+                  </p>
+                </div>
+                <div className="shrink-0 flex items-center gap-2">
+                  <span className="text-xs font-mono font-bold px-3 py-1.5 bg-emerald-50 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+                    4 High-Demand Recommendations
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                {HIGH_DEMAND_CROPS.map((crop) => (
+                  <div
+                    key={crop.id}
+                    className="p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/40 hover:border-emerald-300 dark:hover:border-emerald-800 transition-all flex flex-col justify-between space-y-4"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[11px] font-mono uppercase bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 px-2 py-0.5 rounded font-bold">
+                          {crop.category}
+                        </span>
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                          {crop.growthTrend}
+                        </span>
+                      </div>
+
+                      <h3 className="text-base font-extrabold text-zinc-950 dark:text-zinc-50">
+                        {crop.crop}
+                      </h3>
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+                        {crop.driver}
+                      </p>
+
+                      <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-zinc-200 dark:border-zinc-800 text-xs">
+                        <div>
+                          <span className="text-[10px] text-zinc-400 uppercase font-mono block">Expected Modal Price</span>
+                          <span className="text-sm font-extrabold text-emerald-700 dark:text-emerald-400 font-mono">{crop.modalRate}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-zinc-400 uppercase font-mono block">CACP MSP Floor</span>
+                          <span className="text-sm font-bold text-zinc-700 dark:text-zinc-300 font-mono">{crop.benchmarkMsp}</span>
+                        </div>
+                      </div>
+
+                      <div className="mt-3 space-y-1.5 text-xs text-zinc-600 dark:text-zinc-400">
+                        <div className="flex items-center gap-1.5">
+                          <strong className="text-zinc-900 dark:text-zinc-100">Optimal Cycle:</strong>
+                          <span>{crop.harvestWindow}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <strong className="text-zinc-900 dark:text-zinc-100">Storage Option:</strong>
+                          <span>{crop.storageFit}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+                      <span className="text-[11px] font-medium text-emerald-800 dark:text-emerald-300 flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>{crop.recommendedAction}</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCommodity(crop.crop.split(' ')[0]);
+                          setActiveTab('sell');
+                        }}
+                        className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 rounded-xl text-xs font-bold transition flex items-center gap-1 shrink-0 ml-2"
+                      >
+                        <span>Declare Lot</span>
+                        <ChevronRight className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -824,7 +889,7 @@ export default function FarmerPortal() {
                         className="text-[11px] font-bold text-emerald-800 underline hover:text-emerald-950 flex items-center gap-1"
                       >
                         <Sparkles className="w-3 h-3 text-emerald-600" />
-                        Use AI Rate: ₹{aiData.predictedNextPrice}/kg
+                        Use AI Rate (beta): ₹{aiData.predictedNextPrice}/kg
                       </button>
                     )}
                   </div>
@@ -1147,245 +1212,7 @@ export default function FarmerPortal() {
         )}
 
         {/* ============================================================== */}
-        {/* TAB 4: BUYER MARKETPLACE (DIRECT DEMANDS) */}
-        {/* ============================================================== */}
-        {activeTab === 'marketplace' && (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
-                Verified Institutional Demands
-              </h2>
-              <p className="text-xs text-zinc-500">
-                Bulk corporate buyers and retail aggregators actively seeking verified farmer harvests.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {BUYER_REQUIREMENTS.map((req) => (
-                <div
-                  key={req.id}
-                  className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-xs hover:border-zinc-300 transition flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-[10px] font-mono uppercase bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2 py-0.5 rounded font-bold">
-                        {req.id}
-                      </span>
-                      <span className="text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200/80 px-2 py-0.5 rounded-full">
-                        Escrow Ready
-                      </span>
-                    </div>
-
-                    <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50 mt-1">
-                      {req.commodity}
-                    </h3>
-                    <div className="text-xs text-zinc-500 font-semibold">{req.buyer}</div>
-
-                    <div className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-2">
-                      ₹{req.targetPrice} <span className="text-xs text-zinc-500 font-normal">/ kg Target</span>
-                    </div>
-
-                    <div className="mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800 space-y-1.5 text-xs text-zinc-600 dark:text-zinc-400">
-                      <div className="flex justify-between">
-                        <span className="text-zinc-500">Volume Required:</span>
-                        <strong className="text-zinc-900 dark:text-zinc-100 font-mono">{req.volume}</strong>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-zinc-500">Intake Depot:</span>
-                        <span className="text-zinc-900 dark:text-zinc-100">{req.location}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-zinc-500">Timeline:</span>
-                        <span className="text-zinc-900 dark:text-zinc-100">{req.deliveryDate}</span>
-                      </div>
-                    </div>
-
-                    <p className="text-[11px] text-zinc-500 mt-3 p-2 bg-zinc-50 dark:bg-zinc-900/60 rounded-lg border border-zinc-200 dark:border-zinc-800">
-                      <strong>Specs:</strong> {req.specs}
-                    </p>
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelectedReq(req);
-                        setOfferRate(req.targetPrice);
-                      }}
-                      className="w-full py-2.5 px-4 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 shadow-xs"
-                    >
-                      <ArrowUpRight className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Submit Direct Offer</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Submit Offer Modal */}
-            {selectedReq && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-                <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 max-w-md w-full shadow-2xl space-y-4">
-                  <div className="flex items-center justify-between pb-2 border-b border-zinc-100 dark:border-zinc-800">
-                    <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">
-                      Submit Offer to {selectedReq.buyer}
-                    </h3>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedReq(null)}
-                      className="text-zinc-400 hover:text-zinc-700 dark:text-zinc-300 text-xs font-bold"
-                    >
-                      ✕
-                    </button>
-                  </div>
-
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400">
-                    Declare volume to fulfill for <strong>{selectedReq.commodity}</strong> at {selectedReq.location}.
-                  </p>
-
-                  <form onSubmit={handleSubmitOffer} className="space-y-3">
-                    <div>
-                      <label className="block text-[11px] font-bold text-zinc-700 dark:text-zinc-300 uppercase mb-1">
-                        Supply Quantity (kg)
-                      </label>
-                      <input
-                        type="number"
-                        min={100}
-                        step={100}
-                        value={offerVolume}
-                        onChange={(e) => setOfferVolume(Number(e.target.value))}
-                        className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-mono text-zinc-900 dark:text-zinc-100"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold text-zinc-700 dark:text-zinc-300 uppercase mb-1">
-                        Offered Rate (₹/kg)
-                      </label>
-                      <input
-                        type="number"
-                        step={0.25}
-                        min={10}
-                        value={offerRate}
-                        onChange={(e) => setOfferRate(Number(e.target.value))}
-                        className="w-full text-xs p-2.5 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 font-mono text-zinc-900 dark:text-zinc-100"
-                        required
-                      />
-                    </div>
-
-                    <div className="p-2.5 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-lg text-[11px] text-zinc-600 dark:text-zinc-400 flex justify-between">
-                      <span>Total Value:</span>
-                      <strong className="text-zinc-950 dark:text-zinc-50 font-mono">
-                        ₹{(offerVolume * offerRate).toLocaleString('en-IN')}
-                      </strong>
-                    </div>
-
-                    <div className="flex gap-2 pt-2">
-                      <button
-                        type="submit"
-                        className="flex-1 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs font-semibold transition"
-                      >
-                        Submit Proposal
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setSelectedReq(null)}
-                        className="py-2.5 px-4 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs font-semibold text-zinc-700 dark:text-zinc-300"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ============================================================== */}
-        {/* TAB 5: ORDERS MANAGEMENT */}
-        {/* ============================================================== */}
-        {activeTab === 'orders' && (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
-                Harvest Orders & Fulfilment
-              </h2>
-              <p className="text-xs text-zinc-500">
-                Track pending institutional and consumer orders, accept lots for dispatch, and verify escrow clearing.
-              </p>
-            </div>
-
-            {orders.length === 0 ? (
-              <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-12 text-center text-zinc-500">
-                <PackageCheck className="w-8 h-8 mx-auto text-zinc-300 mb-2" />
-                <p className="text-xs">No active orders placed yet.</p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {orders.map((ord) => {
-                  const isPendingAction = ord.status === 'ESCROW_LOCKED' || ord.status === 'PENDING';
-                  return (
-                    <div
-                      key={ord.id}
-                      className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-xs hover:border-zinc-300 transition flex flex-col md:flex-row md:items-center justify-between gap-4"
-                    >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-mono uppercase bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 px-2 py-0.5 rounded font-bold">
-                            {ord.id}
-                          </span>
-                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                            ord.status === 'DELIVERED'
-                              ? 'bg-emerald-100 text-emerald-900'
-                              : ord.status === 'IN_TRANSIT'
-                              ? 'bg-blue-100 text-blue-900'
-                              : 'bg-amber-100 text-amber-900'
-                          }`}>
-                            {ord.status.replace('_', ' ')}
-                          </span>
-                          <span className="text-xs text-zinc-500">• {ord.createdAt}</span>
-                        </div>
-
-                        <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">
-                          {ord.items}
-                        </h3>
-
-                        <div className="text-xs text-zinc-600 dark:text-zinc-400 flex flex-wrap gap-x-4 gap-y-1 pt-1">
-                          <span>Buyer: <strong>{ord.buyerName}</strong> ({ord.buyerType})</span>
-                          <span>Value: <strong className="font-mono text-zinc-950 dark:text-zinc-50">₹{ord.totalPrice.toLocaleString('en-IN')}</strong></span>
-                          <span>Tracking: <strong className="font-mono">{ord.trackingId}</strong></span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 self-start md:self-center">
-                        {isPendingAction ? (
-                          <button
-                            type="button"
-                            onClick={() => handleAcceptOrder(ord.id)}
-                            className="px-4 py-2 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold transition flex items-center gap-1.5 shadow-xs"
-                          >
-                            <PackageCheck className="w-3.5 h-3.5" />
-                            <span>Accept & Dispatch</span>
-                          </button>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 text-xs text-emerald-800 font-medium px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                            <span>In Transit / Dispatched</span>
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ============================================================== */}
-        {/* TAB 6: DEEP AI PRICE & DEMAND FORECAST */}
+        {/* TAB 4: DEEP AI PRICE & DEMAND FORECAST */}
         {/* ============================================================== */}
         {activeTab === 'forecast' && (
           <div className="space-y-6">
@@ -1571,7 +1398,7 @@ export default function FarmerPortal() {
                     <div className="bg-zinc-50 dark:bg-zinc-900/60 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 space-y-4">
                       <div className="flex items-center justify-between border-b border-zinc-200/60 dark:border-zinc-800 pb-2">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
-                          AI Valuation Driver Decomposition & Elasticity Weights
+                          AI Valuation Driver Decomposition & Elasticity Weights (beta)
                         </h3>
                         <span className="text-[10px] font-mono text-zinc-500">Normalised Ridge Lag Coefficients</span>
                       </div>
@@ -1614,7 +1441,7 @@ export default function FarmerPortal() {
                   {/* Explainability Breakdown Bullet List */}
                   <div>
                     <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-3">
-                      AI Explainable Valuation Rationale & Market Evidence
+                      AI Explainable Valuation Rationale & Market Evidence (beta)
                     </h3>
                     <div className="space-y-2">
                       {aiData.factors?.map((f, i) => (
@@ -1747,56 +1574,179 @@ export default function FarmerPortal() {
                 </button>
               </div>
 
-              {/* FarmLink Farmer Premier Commission Tier Card */}
-              <div className="mb-6 p-5 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-transparent border border-emerald-500/30 dark:border-emerald-500/20">
+              {/* FarmLink Farmer Premier Commission Tier Card & Dispatch Progression */}
+              <div className="mb-6 p-5 rounded-3xl bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-transparent border border-emerald-500/30 dark:border-emerald-500/20 shadow-md">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-emerald-500/20">
                   <div>
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-[10px] font-bold uppercase tracking-wider">
                       <Sparkles className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-                      <span>FarmLink Farmer Premier</span>
+                      <span>FarmLink Farmer Premier • Performance Tiering</span>
                     </div>
-                    <h3 className="text-base font-extrabold text-zinc-950 dark:text-zinc-50 mt-1">
-                      Current Plan: {farmerConfig.name} ({farmerConfig.commissionRate * 100}% Commission)
+                    <h3 className="text-base font-extrabold text-zinc-950 dark:text-zinc-50 mt-1 flex items-center gap-2">
+                      <span>Current Active Tier:</span>
+                      <span className="px-2.5 py-0.5 rounded-xl bg-emerald-600 text-white font-mono text-sm font-black shadow-xs">
+                        {farmerConfig.name} ({farmerConfig.commissionRate * 100}% Commission)
+                      </span>
                     </h3>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400">
-                      Zero monthly subscription. Marketplace access is 100% free. Platform charge applies only upon completed sale.
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
+                      Zero monthly subscription. Marketplace access is 100% free. Tiers unlock automatically through verified successful dispatches.
                     </p>
                   </div>
-                  <span className="text-xs font-mono font-bold px-3 py-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 rounded-full border border-emerald-300 dark:border-emerald-700 self-start">
-                    Monthly Fee: ₹0 (FREE)
-                  </span>
+                  <div className="flex flex-col items-start sm:items-end gap-1">
+                    <span className="text-xs font-mono font-bold px-3 py-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 rounded-full border border-emerald-300 dark:border-emerald-700">
+                      Monthly Fee: ₹0 (FREE)
+                    </span>
+                    <span className="text-[11px] font-mono text-zinc-500">
+                      Completed Dispatches: <strong>{completedDispatches}</strong>
+                    </span>
+                  </div>
                 </div>
 
-                {/* Tier Selector Grid */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-4">
+                {/* Dispatch Progression Milestone Meter */}
+                <div className="mb-5 p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2">
+                      <Truck className="w-4 h-4 text-emerald-600" />
+                      <span className="font-bold text-zinc-900 dark:text-zinc-100">
+                        Dispatch Progression Track: {completedDispatches} Successful Dispatches
+                      </span>
+                    </div>
+                    <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                      {completedDispatches < 5
+                        ? `${5 - completedDispatches} more for Premier (4%)`
+                        : completedDispatches < 20
+                        ? `${20 - completedDispatches} more for Premier Pro (3%)`
+                        : completedDispatches < 50
+                        ? `${50 - completedDispatches} more for Premier Elite (2%)`
+                        : 'Top Tier Reached (2% Platform Commission)'}
+                    </span>
+                  </div>
+
+                  {/* Visual Step Progress Bar */}
+                  <div className="w-full bg-zinc-100 dark:bg-zinc-800 h-2.5 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-emerald-600 rounded-full transition-all duration-500"
+                      style={{
+                        width: `${Math.min(100, Math.max(5, (completedDispatches / 50) * 100))}%`,
+                      }}
+                    />
+                  </div>
+
+                  <div className="flex justify-between text-[10px] font-mono text-zinc-500 pt-1">
+                    <span className={completedDispatches >= 0 ? 'text-emerald-700 font-bold' : ''}>Basic (0)</span>
+                    <span className={completedDispatches >= 5 ? 'text-emerald-700 font-bold' : ''}>Premier (5 dispatches)</span>
+                    <span className={completedDispatches >= 20 ? 'text-emerald-700 font-bold' : ''}>Premier Pro (20 dispatches)</span>
+                    <span className={completedDispatches >= 50 ? 'text-emerald-700 font-bold' : ''}>Premier Elite (50+ dispatches)</span>
+                  </div>
+                </div>
+
+                {/* Tier Selector & Status Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
                   {[
-                    { id: 'basic', name: 'Basic', fee: '5%', desc: 'Standard Listing & Escrow' },
-                    { id: 'premier', name: 'Premier', fee: '4%', desc: 'Demand Telemetry & Priority Aggregation' },
-                    { id: 'premier_pro', name: 'Premier Pro', fee: '3%', desc: 'AI Mandi Forecasts & Promoted Placement' },
-                    { id: 'premier_elite', name: 'Premier Elite', fee: '2%', desc: 'Institutional Matching & 2% Lowest Rate' },
+                    {
+                      id: 'basic',
+                      name: 'Basic',
+                      fee: '5%',
+                      required: 0,
+                      desc: 'Standard Listing & Escrow',
+                      unlockText: 'Default Tier (0 dispatches)',
+                    },
+                    {
+                      id: 'premier',
+                      name: 'Premier',
+                      fee: '4%',
+                      required: 5,
+                      desc: 'Demand Telemetry & Priority Aggregation',
+                      unlockText: 'Unlocked at 5 dispatches',
+                    },
+                    {
+                      id: 'premier_pro',
+                      name: 'Premier Pro',
+                      fee: '3%',
+                      required: 20,
+                      desc: 'AI Mandi Forecasts (beta) & Promoted Placement',
+                      unlockText: 'Unlocked at 20 dispatches',
+                    },
+                    {
+                      id: 'premier_elite',
+                      name: 'Premier Elite',
+                      fee: '2%',
+                      required: 50,
+                      desc: 'Institutional Matching & 2% Lowest Rate',
+                      unlockText: 'Unlocked at 50+ dispatches',
+                    },
                   ].map((tier) => {
-                    const isSelected = farmerTier === tier.id;
+                    const isCurrent = farmerTier === tier.id;
+                    const isUnlocked = completedDispatches >= tier.required;
+                    const dispatchesLeft = Math.max(0, tier.required - completedDispatches);
+
                     return (
-                      <button
+                      <div
                         key={tier.id}
-                        type="button"
-                        onClick={() => {
-                          setFarmerTier(tier.id as FarmerTier);
-                          setNotice(`Updated Farmer Premier Tier to ${tier.name} (${tier.fee} commission on completed sales).`);
-                          setTimeout(() => setNotice(null), 4000);
-                        }}
-                        className={`p-3 rounded-xl border text-left transition ${
-                          isSelected
+                        className={`p-3.5 rounded-2xl border text-left transition flex flex-col justify-between ${
+                          isCurrent
                             ? 'bg-white dark:bg-zinc-800 border-emerald-600 dark:border-emerald-500 ring-2 ring-emerald-500/40 shadow-xs'
-                            : 'bg-white/60 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 hover:border-emerald-300'
+                            : isUnlocked
+                            ? 'bg-white/80 dark:bg-zinc-900/80 border-emerald-200 dark:border-emerald-900/60 hover:border-emerald-400'
+                            : 'bg-zinc-50/70 dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800 opacity-80'
                         }`}
                       >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-zinc-950 dark:text-zinc-50">{tier.name}</span>
-                          <span className="text-xs font-mono font-extrabold text-emerald-700 dark:text-emerald-400">{tier.fee}</span>
+                        <div>
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-xs font-bold text-zinc-950 dark:text-zinc-50 flex items-center gap-1.5">
+                              {tier.name}
+                              {isCurrent && (
+                                <span className="px-1.5 py-0.2 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[9px] font-bold">
+                                  ACTIVE
+                                </span>
+                              )}
+                            </span>
+                            <span className="text-xs font-mono font-extrabold text-emerald-700 dark:text-emerald-400">
+                              {tier.fee}
+                            </span>
+                          </div>
+
+                          <p className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1 leading-tight">
+                            {tier.desc}
+                          </p>
                         </div>
-                        <p className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1 leading-tight">{tier.desc}</p>
-                      </button>
+
+                        <div className="mt-3 pt-2.5 border-t border-zinc-100 dark:border-zinc-800">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] font-mono text-zinc-500 flex items-center gap-1">
+                              {isUnlocked ? (
+                                <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                              ) : (
+                                <Lock className="w-3 h-3 text-zinc-400" />
+                              )}
+                              <span>{isUnlocked ? 'Eligible' : `${dispatchesLeft} dispatches needed`}</span>
+                            </span>
+
+                            {isUnlocked ? (
+                              <button
+                                type="button"
+                                disabled={isCurrent}
+                                onClick={() => {
+                                  setFarmerTier(tier.id as FarmerTier);
+                                  setNotice(`Switched active tier to ${tier.name} (${tier.fee} commission).`);
+                                  setTimeout(() => setNotice(null), 4000);
+                                }}
+                                className={`px-2 py-1 rounded-lg text-[10px] font-bold transition ${
+                                  isCurrent
+                                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-300'
+                                    : 'bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900'
+                                }`}
+                              >
+                                {isCurrent ? 'Current' : 'Select'}
+                              </button>
+                            ) : (
+                              <span className="text-[9px] font-semibold text-zinc-400 uppercase">
+                                Locked
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     );
                   })}
                 </div>
@@ -1808,9 +1758,9 @@ export default function FarmerPortal() {
                   </span>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-[11px] text-zinc-600 dark:text-zinc-400">
                     <div>Basic (5%): <strong className="text-emerald-700 dark:text-emerald-300">₹9,500 net</strong></div>
-                    <div>Premier (4%): <strong className="text-emerald-700 dark:text-emerald-300">₹9,600 net</strong></div>
-                    <div>Pro (3%): <strong className="text-emerald-700 dark:text-emerald-300">₹9,700 net</strong></div>
-                    <div>Elite (2%): <strong className="text-emerald-700 dark:text-emerald-300">₹9,800 net</strong></div>
+                    <div>Premier (4% @ 5 dispatches): <strong className="text-emerald-700 dark:text-emerald-300">₹9,600 net</strong></div>
+                    <div>Pro (3% @ 20 dispatches): <strong className="text-emerald-700 dark:text-emerald-300">₹9,700 net</strong></div>
+                    <div>Elite (2% @ 50+ dispatches): <strong className="text-emerald-700 dark:text-emerald-300">₹9,800 net</strong></div>
                   </div>
                 </div>
               </div>

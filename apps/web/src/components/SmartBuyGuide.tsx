@@ -102,7 +102,7 @@ export default function SmartBuyGuide({ onClose }: SmartBuyGuideProps = {}) {
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/80 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-300 text-xs font-mono font-bold uppercase tracking-wider mb-2">
             <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            <span>AI Price Intelligence • Consumer Radar</span>
+            <span>AI Price Intelligence (beta) • Consumer Radar</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
             Smart Way to Buy: Consumer Timing Radar

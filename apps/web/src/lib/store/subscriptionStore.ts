@@ -17,6 +17,7 @@ export interface FarmerPlanConfig {
   commissionRate: number; // e.g. 0.05 for 5%
   monthlyPrice: number; // Always 0 (free monthly)
   minVolumeKg: number;
+  requiredDispatches: number; // Completed successful dispatches to unlock
   perks: string[];
 }
 
@@ -44,6 +45,7 @@ export const FARMER_PLANS: Record<FarmerTier, FarmerPlanConfig> = {
     commissionRate: 0.05,
     monthlyPrice: 0,
     minVolumeKg: 0,
+    requiredDispatches: 0,
     perks: [
       'Standard produce lot declaration & listing',
       'Direct fair price benchmarking & MSP floor guard',
@@ -57,8 +59,10 @@ export const FARMER_PLANS: Record<FarmerTier, FarmerPlanConfig> = {
     commissionRate: 0.04,
     monthlyPrice: 0,
     minVolumeKg: 5000,
+    requiredDispatches: 5,
     perks: [
       'Everything in Basic with reduced 4% platform commission',
+      'Unlocked after completing 5 successful dispatches',
       'Real-time regional buyer demand telemetry & alerts',
       'Priority lot aggregation at accredited WDRA depots',
       'Optical quality assay certificate badge',
@@ -70,9 +74,11 @@ export const FARMER_PLANS: Record<FarmerTier, FarmerPlanConfig> = {
     commissionRate: 0.03,
     monthlyPrice: 0,
     minVolumeKg: 20000,
+    requiredDispatches: 20,
     perks: [
       'Everything in Premier with reduced 3% platform commission',
-      'Advanced Mandi Price Forecasting & optimal harvest timing AI',
+      'Unlocked after completing 20 successful dispatches',
+      'Advanced Mandi Price Forecasting & optimal harvest timing AI (beta)',
       'Enhanced promotional placement across B2B Buyer Desks',
       'Direct logistics truck matching & route dispatch prioritization',
     ],
@@ -83,8 +89,10 @@ export const FARMER_PLANS: Record<FarmerTier, FarmerPlanConfig> = {
     commissionRate: 0.02,
     monthlyPrice: 0,
     minVolumeKg: 50000,
+    requiredDispatches: 50,
     perks: [
       'Lowest 2% platform commission on completed escrow sales',
+      'Unlocked after completing 50+ successful dispatches',
       'Dedicated FPO cluster advisor & corporate procurement routing',
       'Instant contract locking for multi-quintal institutional RFQs',
       'Consolidated GST, e-Waybill & tax audit reporting exports',
@@ -195,6 +203,7 @@ export const CONSUMER_PLANS: Record<ConsumerTier, ConsumerPlanConfig> = {
 export interface SubscriptionState {
   farmer: {
     activeTier: FarmerTier;
+    completedDispatches: number; // Completed successful physical collections/dispatches
     totalSalesVolumeKg: number;
     totalGmvRupees: number;
     totalCommissionSaved: number;
@@ -225,7 +234,8 @@ export interface SubscriptionState {
 
 const DEFAULT_SUBSCRIPTION_STATE: SubscriptionState = {
   farmer: {
-    activeTier: 'basic',
+    activeTier: 'premier',
+    completedDispatches: 8, // Seeded with 8 completed dispatches (unlocked Premier, working toward Premier Pro at 20)
     totalSalesVolumeKg: 8500,
     totalGmvRupees: 238000,
     totalCommissionSaved: 2380,
@@ -503,6 +513,33 @@ export const subscriptionStore = {
     };
   },
 
+  /**
+   * Increments the count of completed dispatches and auto-promotes farmer tier.
+   */
+  incrementCompletedDispatches(): void {
+    const current = safeGetLocalStorage();
+    const nextDispatches = (current.farmer.completedDispatches || 0) + 1;
+    let nextTier: FarmerTier = current.farmer.activeTier;
+
+    if (nextDispatches >= 50) {
+      nextTier = 'premier_elite';
+    } else if (nextDispatches >= 20) {
+      nextTier = 'premier_pro';
+    } else if (nextDispatches >= 5) {
+      nextTier = 'premier';
+    }
+
+    const updated: SubscriptionState = {
+      ...current,
+      farmer: {
+        ...current.farmer,
+        completedDispatches: nextDispatches,
+        activeTier: nextTier,
+      },
+    };
+    safeSetLocalStorage(updated);
+  },
+
   resetToSeed(): void {
     safeSetLocalStorage({ ...DEFAULT_SUBSCRIPTION_STATE });
   },
@@ -525,6 +562,7 @@ export function useSubscriptionStore() {
   return {
     state,
     farmerTier: state.farmer.activeTier,
+    completedDispatches: state.farmer.completedDispatches ?? 8,
     farmerConfig: FARMER_PLANS[state.farmer.activeTier],
     businessTier: state.business.activeTier,
     businessConfig: BUSINESS_PLANS[state.business.activeTier],
@@ -532,6 +570,7 @@ export function useSubscriptionStore() {
     consumerConfig: CONSUMER_PLANS[state.consumer.activeTier],
     recurringSchedules: state.recurringSchedules,
     setFarmerTier: subscriptionStore.setFarmerTier,
+    incrementCompletedDispatches: subscriptionStore.incrementCompletedDispatches,
     setBusinessPlan: subscriptionStore.setBusinessPlan,
     setConsumerPlan: subscriptionStore.setConsumerPlan,
     addRecurringSchedule: subscriptionStore.addRecurringSchedule,

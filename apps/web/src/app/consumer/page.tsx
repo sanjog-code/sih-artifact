@@ -345,7 +345,7 @@ export default function ConsumerPortal() {
               }`}
             >
               <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-              <span>AI Timing Radar</span>
+              <span>AI Timing Radar (beta)</span>
               {showAiRadar && (
                 <span className="px-1.5 py-0.2 rounded-full bg-white text-emerald-900 text-[10px] font-bold">
                   Active
@@ -428,7 +428,7 @@ export default function ConsumerPortal() {
                   <span className="text-zinc-400 text-xs">• 0% Middleman Margin</span>
                 </div>
                 <h3 className="text-base sm:text-lg font-extrabold tracking-tight text-white">
-                  Meet Your AI Farm-Gate Shopping & Deal Advisor
+                  Meet Your AI Farm-Gate Shopping & Deal Advisor (beta)
                 </h3>
                 <p className="text-xs text-zinc-300 max-w-xl leading-relaxed">
                   Tell our interactive AI advisor what crop and quantity you need. It analyzes real farmer listings, AGMARK grades, harvest timestamps, and proves why you get the best deal.
@@ -442,7 +442,7 @@ export default function ConsumerPortal() {
                   className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-xl text-xs font-black transition flex items-center gap-1.5 shadow-lg shadow-emerald-900/40"
                 >
                   <Sparkles className="w-4 h-4 text-zinc-950" />
-                  <span>{showAiRadar ? 'Hide AI Timing Radar' : 'Explore AI Timing Radar'}</span>
+                  <span>{showAiRadar ? 'Hide AI Timing Radar (beta)' : 'Explore AI Timing Radar (beta)'}</span>
                 </button>
               </div>
 
