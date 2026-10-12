@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { CloudRain, Wind, Thermometer, ShieldCheck, AlertTriangle, RefreshCw, Sun } from 'lucide-react';
 import { AgroWeatherAdvisory } from '../app/api/weather/advisory/route';
+import { useLanguage } from '../context/LanguageContext';
+import { getFarmerOverviewTranslations } from '../context/farmerOverviewTranslations';
 
 interface WeatherAdvisoryWidgetProps {
   crop?: string;
@@ -15,6 +17,8 @@ export default function WeatherAdvisoryWidget({
   lat = 26.9124,
   lng = 75.7873,
 }: WeatherAdvisoryWidgetProps) {
+  const { language } = useLanguage();
+  const fo = getFarmerOverviewTranslations(language);
   const [advisory, setAdvisory] = useState<AgroWeatherAdvisory | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -81,20 +85,20 @@ export default function WeatherAdvisoryWidget({
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-300 text-xs font-semibold mb-2">
             <Sun className="w-3.5 h-3.5" />
-            <span>Open-Meteo Free Agromet Telemetry</span>
+            <span>{fo.weatherTelemetryBadge}</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-zinc-950 dark:text-white tracking-tight">
-            Weather & Field Advisory ({crop})
+            {fo.weatherTitle} ({crop})
           </h2>
           <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-            Real-time agro-meteorology and foliar spraying safety windows for field operations.
+            {fo.weatherSubtitle}
           </p>
         </div>
 
         <button
           onClick={fetchAdvisory}
           className="p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 text-zinc-700 dark:text-zinc-300 transition-colors shrink-0 self-start sm:self-auto"
-          title="Refresh weather"
+          title={fo.refreshWeather}
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
         </button>
@@ -117,8 +121,12 @@ export default function WeatherAdvisoryWidget({
             <AlertTriangle className="w-6 h-6 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
           )}
           <div>
-            <span className="font-bold text-sm sm:text-base block">{sprayingAdvisory.headline}</span>
-            <span className="text-xs opacity-90 block mt-1">{sprayingAdvisory.reason}</span>
+            <span className="font-bold text-sm sm:text-base block">
+              {isOptimal ? fo.sprayingWindowSafe : sprayingAdvisory.headline}
+            </span>
+            <span className="text-xs opacity-90 block mt-1">
+              {isOptimal ? fo.windowHoursSafe : sprayingAdvisory.reason}
+            </span>
           </div>
         </div>
 
@@ -132,7 +140,7 @@ export default function WeatherAdvisoryWidget({
         <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center gap-1.5 text-zinc-500 text-xs mb-1">
             <Thermometer className="w-3.5 h-3.5" />
-            <span>Temperature</span>
+            <span>{fo.temperatureLabel}</span>
           </div>
           <span className="text-xl font-bold font-mono text-zinc-900 dark:text-zinc-100">
             {current.temperature.toFixed(1)}°C
@@ -143,45 +151,45 @@ export default function WeatherAdvisoryWidget({
         <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center gap-1.5 text-zinc-500 text-xs mb-1">
             <Wind className="w-3.5 h-3.5" />
-            <span>Wind Speed</span>
+            <span>{fo.windSpeedLabel}</span>
           </div>
           <span className="text-xl font-bold font-mono text-zinc-900 dark:text-zinc-100">
             {current.windSpeedKmH.toFixed(1)} km/h
           </span>
           <span className={`text-[11px] font-medium block mt-0.5 ${sprayingAdvisory.windSafe ? 'text-emerald-600' : 'text-rose-600'}`}>
-            {sprayingAdvisory.windSafe ? 'Low Drift Risk' : 'High Drift Risk (>15km/h)'}
+            {sprayingAdvisory.windSafe ? fo.lowDriftRisk : fo.highDriftRisk}
           </span>
         </div>
 
         <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center gap-1.5 text-zinc-500 text-xs mb-1">
             <CloudRain className="w-3.5 h-3.5" />
-            <span>Precipitation (4h)</span>
+            <span>{fo.precipitationLabel}</span>
           </div>
           <span className="text-xl font-bold font-mono text-zinc-900 dark:text-zinc-100">
             {current.precipitationProbability}%
           </span>
           <span className={`text-[11px] font-medium block mt-0.5 ${sprayingAdvisory.rainSafe ? 'text-emerald-600' : 'text-rose-600'}`}>
-            {sprayingAdvisory.rainSafe ? 'Dry Field Surface' : 'Washout Hazard'}
+            {sprayingAdvisory.rainSafe ? fo.dryFieldSurface : fo.washoutHazard}
           </span>
         </div>
 
         <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center gap-1.5 text-zinc-500 text-xs mb-1">
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Harvest Window</span>
+            <span>{fo.harvestWindowLabel}</span>
           </div>
           <span className="text-xl font-bold font-mono text-zinc-900 dark:text-zinc-100">
-            {harvestAlert.safeForHarvest ? 'Optimal' : 'Caution'}
+            {harvestAlert.safeForHarvest ? fo.harvestOptimal : fo.harvestCaution}
           </span>
-          <span className="text-[11px] text-zinc-400 block mt-0.5">WDRA intake ready</span>
+          <span className="text-[11px] text-zinc-400 block mt-0.5">{fo.wdraIntakeReady}</span>
         </div>
       </div>
 
       {/* 4-Day Forecast Strip */}
       <div>
         <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 block mb-3">
-          4-Day Agro-Meteorological Outlook
+          {fo.outlookTitle}
         </span>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {dailyForecast.slice(0, 4).map((d) => (
@@ -191,13 +199,13 @@ export default function WeatherAdvisoryWidget({
             >
               <span className="font-bold block text-zinc-800 dark:text-zinc-200 mb-1">{d.date}</span>
               <div className="flex justify-between text-zinc-500 mb-1">
-                <span>Max / Min:</span>
+                <span>{fo.maxMinLabel}</span>
                 <span className="font-mono font-medium text-zinc-900 dark:text-zinc-100">
                   {Math.round(d.maxTemp)}° / {Math.round(d.minTemp)}°
                 </span>
               </div>
               <div className="flex justify-between text-zinc-500">
-                <span>Rain Prob:</span>
+                <span>{fo.rainProbLabel}</span>
                 <span className="font-mono font-medium text-blue-600">{d.rainProbability}%</span>
               </div>
             </div>

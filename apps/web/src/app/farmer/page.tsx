@@ -6,6 +6,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import InquiryModal from '../../components/InquiryModal';
 import { useLanguage } from '../../context/LanguageContext';
+import { getFarmerOverviewTranslations } from '../../context/farmerOverviewTranslations';
 import { useProduceStore, useOrderStore, useRfqStore, useSubscriptionStore, FarmerTier } from '../../lib/store';
 import RoleGuard from '../../components/RoleGuard';
 import {
@@ -117,7 +118,8 @@ const HIGH_DEMAND_CROPS = [
 ];
 
 export default function FarmerPortal() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const fo = getFarmerOverviewTranslations(language);
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<
     'overview' | 'sell' | 'listings' | 'logistics' | 'payments' | 'support'
@@ -396,35 +398,35 @@ export default function FarmerPortal() {
                         <Sparkles className="w-4 h-4" />
                       </div>
                       <div>
-                        <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">AI Selling Opportunity (beta)</h3>
-                        <p className="text-xs text-zinc-500">Based on historical mandi price regression & demand telemetry</p>
+                        <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50">{fo.aiOppTitle || 'AI Selling Opportunity (beta)'}</h3>
+                        <p className="text-xs text-zinc-500">{fo.aiOppSubtitle}</p>
                       </div>
                     </div>
                     <span className="text-[10px] font-mono uppercase bg-emerald-100 text-emerald-900 px-2 py-0.5 rounded-full font-bold">
-                      91% Confidence
+                      {fo.confidenceScore}
                     </span>
                   </div>
 
                   <div className="p-4 bg-emerald-50/50 border border-emerald-200/80 rounded-xl mb-4">
                     <h4 className="text-sm font-bold text-emerald-950">
-                      High Wholesale Demand Projected in Jaipur & Phulera
+                      {fo.oppHeadline}
                     </h4>
                     <p className="text-xs text-emerald-800 mt-1 leading-relaxed">
-                      Modal clearing rates for Grade A1 Tomato and Mustard are trending above baseline. Selling over the next 2-4 days offers optimal value retention before regional arrival surge.
+                      {fo.oppDescription}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-3 gap-3 text-center bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3">
                     <div>
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">Current Modal</span>
+                      <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">{fo.currentModal}</span>
                       <span className="text-base font-extrabold text-zinc-950 dark:text-zinc-50 font-mono mt-0.5 block">₹24.27/kg</span>
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">Projected 72h</span>
+                      <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">{fo.projected72h}</span>
                       <span className="text-base font-extrabold text-emerald-800 font-mono mt-0.5 block">₹24.41/kg</span>
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">Statutory MSP</span>
+                      <span className="text-[10px] font-mono text-zinc-500 uppercase font-bold block">{fo.statutoryMsp}</span>
                       <span className="text-base font-extrabold text-zinc-700 dark:text-zinc-300 font-mono mt-0.5 block">₹22.75/kg</span>
                     </div>
                   </div>
@@ -437,7 +439,7 @@ export default function FarmerPortal() {
                     className="px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
                   >
                     <PlusCircle className="w-3.5 h-3.5" />
-                    <span>List New Harvest Lot</span>
+                    <span>{fo.listHarvestLotBtn}</span>
                   </button>
                   <button
                     type="button"
@@ -445,7 +447,7 @@ export default function FarmerPortal() {
                     className="px-4 py-2 border border-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900/60 text-zinc-800 dark:text-zinc-200 rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
                   >
                     <ListFilter className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>View Declarations</span>
+                    <span>{fo.viewDeclarationsBtn}</span>
                   </button>
                 </div>
               </div>
@@ -454,7 +456,7 @@ export default function FarmerPortal() {
               <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs flex flex-col justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-50 mb-3 pb-2 border-b border-zinc-100 dark:border-zinc-800">
-                    Kisan Quick Controls
+                    {fo.quickControlsTitle}
                   </h3>
                   <div className="space-y-2.5">
                     <button
@@ -465,8 +467,8 @@ export default function FarmerPortal() {
                       <div className="flex items-center gap-2.5">
                         <PlusCircle className="w-4 h-4 text-emerald-700" />
                         <div>
-                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">Declare Harvest Lot</div>
-                          <div className="text-[11px] text-zinc-500">Self-declare crop, volume & grade</div>
+                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">{fo.declareLotTitle}</div>
+                          <div className="text-[11px] text-zinc-500">{fo.declareLotDesc}</div>
                         </div>
                       </div>
                       <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
@@ -480,8 +482,8 @@ export default function FarmerPortal() {
                       <div className="flex items-center gap-2.5">
                         <ListFilter className="w-4 h-4 text-emerald-700" />
                         <div>
-                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">My Harvest Declarations ({produceListings.length})</div>
-                          <div className="text-[11px] text-zinc-500">Track grading & dispatch status</div>
+                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">{fo.myDeclarationsTitle} ({produceListings.length})</div>
+                          <div className="text-[11px] text-zinc-500">{fo.myDeclarationsDesc}</div>
                         </div>
                       </div>
                       <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
@@ -495,8 +497,8 @@ export default function FarmerPortal() {
                       <div className="flex items-center gap-2.5">
                         <IndianRupee className="w-4 h-4 text-emerald-700" />
                         <div>
-                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">T+1 Bank Escrow Payout</div>
-                          <div className="text-[11px] text-zinc-500">Withdraw cleared proceeds</div>
+                          <div className="text-xs font-bold text-zinc-950 dark:text-zinc-50">{fo.t1PayoutTitle}</div>
+                          <div className="text-[11px] text-zinc-500">{fo.t1PayoutDesc}</div>
                         </div>
                       </div>
                       <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
@@ -507,7 +509,7 @@ export default function FarmerPortal() {
                 <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800 mt-4">
                   <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
                     <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Helpline: <strong>1800-180-1551</strong> (Kisan Toll-Free)</span>
+                    <span>{fo.kisanHelplineLabel}</span>
                   </div>
                 </div>
               </div>
@@ -519,87 +521,102 @@ export default function FarmerPortal() {
                 <div>
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/80 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-300 text-xs font-mono font-bold uppercase tracking-wider mb-2">
                     <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                    <span>Market Demand Advisory • Planning Engine</span>
+                    <span>{fo.demandAdvisoryBadge || 'Market Demand Advisory • Planning Engine'}</span>
                   </div>
                   <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight">
-                    Recommended Crops to Grow Based on Market Demand
+                    {fo.demandAdvisoryTitle || 'Recommended Crops to Grow Based on Market Demand'}
                   </h2>
                   <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl leading-relaxed">
-                    Live APMC arrival deficit telemetry and institutional bulk procurement contracts indicate high profitable opportunities for these crops. Align sowing and harvest schedules with real market demand.
+                    {fo.demandAdvisorySubtitle}
                   </p>
                 </div>
                 <div className="shrink-0 flex items-center gap-2">
                   <span className="text-xs font-mono font-bold px-3 py-1.5 bg-emerald-50 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 rounded-xl">
-                    4 High-Demand Recommendations
+                    {fo.recommendationsCount}
                   </span>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                {HIGH_DEMAND_CROPS.map((crop) => (
-                  <div
-                    key={crop.id}
-                    className="p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/40 hover:border-emerald-300 dark:hover:border-emerald-800 transition-all flex flex-col justify-between space-y-4"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-[11px] font-mono uppercase bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 px-2 py-0.5 rounded font-bold">
-                          {crop.category}
-                        </span>
-                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
-                          {crop.growthTrend}
-                        </span>
+                {HIGH_DEMAND_CROPS.map((crop) => {
+                  const isTomato = crop.id === 'DEMAND-TOMATO';
+                  const isWheat = crop.id === 'DEMAND-WHEAT';
+                  const isMustard = crop.id === 'DEMAND-MUSTARD';
+                  const isSoybean = crop.id === 'DEMAND-SOYBEAN';
+
+                  const localizedCategory = isTomato ? fo.tomatoCategory : isWheat ? fo.wheatCategory : isMustard ? fo.mustardCategory : isSoybean ? fo.soybeanCategory : crop.category;
+                  const localizedTrend = isTomato ? fo.tomatoTrend : isWheat ? fo.wheatTrend : isMustard ? fo.mustardTrend : isSoybean ? fo.soybeanTrend : crop.growthTrend;
+                  const localizedName = isTomato ? fo.tomatoName : isWheat ? fo.wheatName : isMustard ? fo.mustardName : isSoybean ? fo.soybeanName : crop.crop;
+                  const localizedDriver = isTomato ? fo.tomatoDriver : isWheat ? fo.wheatDriver : isMustard ? fo.mustardDriver : isSoybean ? fo.soybeanDriver : crop.driver;
+                  const localizedCycle = isTomato ? fo.tomatoCycle : isWheat ? fo.wheatCycle : isMustard ? fo.mustardCycle : isSoybean ? fo.soybeanCycle : crop.harvestWindow;
+                  const localizedStorage = isTomato ? fo.tomatoStorage : isWheat ? fo.wheatStorage : isMustard ? fo.mustardStorage : isSoybean ? fo.soybeanStorage : crop.storageFit;
+                  const localizedAction = isTomato ? fo.tomatoAction : isWheat ? fo.wheatAction : isMustard ? fo.mustardAction : isSoybean ? fo.soybeanAction : crop.recommendedAction;
+
+                  return (
+                    <div
+                      key={crop.id}
+                      className="p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/40 hover:border-emerald-300 dark:hover:border-emerald-800 transition-all flex flex-col justify-between space-y-4"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[11px] font-mono uppercase bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 px-2 py-0.5 rounded font-bold">
+                            {localizedCategory}
+                          </span>
+                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                            {localizedTrend}
+                          </span>
+                        </div>
+
+                        <h3 className="text-base font-extrabold text-zinc-950 dark:text-zinc-50">
+                          {localizedName}
+                        </h3>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+                          {localizedDriver}
+                        </p>
+
+                        <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-zinc-200 dark:border-zinc-800 text-xs">
+                          <div>
+                            <span className="text-[10px] text-zinc-400 uppercase font-mono block">{fo.expectedModalPriceLabel}</span>
+                            <span className="text-sm font-extrabold text-emerald-700 dark:text-emerald-400 font-mono">{crop.modalRate}</span>
+                          </div>
+                          <div>
+                            <span className="text-[10px] text-zinc-400 uppercase font-mono block">{fo.cacpMspFloorLabel}</span>
+                            <span className="text-sm font-bold text-zinc-700 dark:text-zinc-300 font-mono">{crop.benchmarkMsp}</span>
+                          </div>
+                        </div>
+
+                        <div className="mt-3 space-y-1.5 text-xs text-zinc-600 dark:text-zinc-400">
+                          <div className="flex items-center gap-1.5">
+                            <strong className="text-zinc-900 dark:text-zinc-100">{fo.optimalCycleLabel}</strong>
+                            <span>{localizedCycle}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <strong className="text-zinc-900 dark:text-zinc-100">{fo.storageOptionLabel}</strong>
+                            <span>{localizedStorage}</span>
+                          </div>
+                        </div>
                       </div>
 
-                      <h3 className="text-base font-extrabold text-zinc-950 dark:text-zinc-50">
-                        {crop.crop}
-                      </h3>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-                        {crop.driver}
-                      </p>
-
-                      <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-zinc-200 dark:border-zinc-800 text-xs">
-                        <div>
-                          <span className="text-[10px] text-zinc-400 uppercase font-mono block">Expected Modal Price</span>
-                          <span className="text-sm font-extrabold text-emerald-700 dark:text-emerald-400 font-mono">{crop.modalRate}</span>
-                        </div>
-                        <div>
-                          <span className="text-[10px] text-zinc-400 uppercase font-mono block">CACP MSP Floor</span>
-                          <span className="text-sm font-bold text-zinc-700 dark:text-zinc-300 font-mono">{crop.benchmarkMsp}</span>
-                        </div>
-                      </div>
-
-                      <div className="mt-3 space-y-1.5 text-xs text-zinc-600 dark:text-zinc-400">
-                        <div className="flex items-center gap-1.5">
-                          <strong className="text-zinc-900 dark:text-zinc-100">Optimal Cycle:</strong>
-                          <span>{crop.harvestWindow}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <strong className="text-zinc-900 dark:text-zinc-100">Storage Option:</strong>
-                          <span>{crop.storageFit}</span>
-                        </div>
+                      <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+                        <span className="text-[11px] font-medium text-emerald-800 dark:text-emerald-300 flex items-center gap-1">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>{localizedAction}</span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCommodity(crop.crop.split(' ')[0]);
+                            setActiveTab('sell');
+                          }}
+                          className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 rounded-xl text-xs font-bold transition flex items-center gap-1 shrink-0 ml-2"
+                        >
+                          <span>{fo.declareLotAction}</span>
+                          <ChevronRight className="w-3 h-3" />
+                        </button>
                       </div>
                     </div>
-
-                    <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
-                      <span className="text-[11px] font-medium text-emerald-800 dark:text-emerald-300 flex items-center gap-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                        <span>{crop.recommendedAction}</span>
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCommodity(crop.crop.split(' ')[0]);
-                          setActiveTab('sell');
-                        }}
-                        className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 rounded-xl text-xs font-bold transition flex items-center gap-1 shrink-0 ml-2"
-                      >
-                        <span>Declare Lot</span>
-                        <ChevronRight className="w-3 h-3" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 

@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { IndianRupee, Calculator } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import { getFarmerOverviewTranslations } from '@/context/farmerOverviewTranslations';
 
 interface NetIncomeCalculatorProps {
   initialCommodity?: string;
@@ -12,6 +14,9 @@ export default function NetIncomeCalculator({
   initialCommodity = 'Wheat',
   initialPriceKg = 26,
 }: NetIncomeCalculatorProps) {
+  const { language } = useLanguage();
+  const fo = getFarmerOverviewTranslations(language);
+
   const [commodity, setCommodity] = useState(initialCommodity);
   const [quantityKg, setQuantityKg] = useState(5000); // 5 Tonnes
   const [askingPriceKg, setAskingPriceKg] = useState(initialPriceKg);
@@ -57,19 +62,19 @@ export default function NetIncomeCalculator({
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-semibold mb-2">
             <Calculator className="w-3.5 h-3.5" />
-            <span>Honest Mandi Comparison Engine</span>
+            <span>{fo.calculatorBadge}</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-zinc-950 dark:text-white tracking-tight">
-            Farmer Net-Income Calculator
+            {fo.calculatorTitle}
           </h2>
           <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-            Compare transparent direct gate earnings against traditional arhtiya commissions, mandi cess, and transit losses.
+            {fo.calculatorSubtitle}
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <span className="px-3 py-1 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300">
-            {tons.toFixed(1)} Tonnes ({quantityKg.toLocaleString('en-IN')} kg)
+            {tons.toFixed(1)} {fo.tonnesBadge} ({quantityKg.toLocaleString('en-IN')} kg)
           </span>
         </div>
       </div>
@@ -78,7 +83,7 @@ export default function NetIncomeCalculator({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-2">
-            Commodity & Price (₹/kg)
+            {fo.commodityPriceLabel}
           </label>
           <div className="flex gap-2">
             <select
@@ -110,7 +115,7 @@ export default function NetIncomeCalculator({
         <div>
           <div className="flex justify-between items-center mb-2">
             <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-              Harvest Lot Volume
+              {fo.harvestLotVolumeLabel}
             </label>
             <span className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100">
               {quantityKg.toLocaleString('en-IN')} kg
@@ -134,7 +139,7 @@ export default function NetIncomeCalculator({
         <div>
           <div className="flex justify-between items-center mb-2">
             <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-              Distance to APMC Mandi
+              {fo.distanceToMandiLabel}
             </label>
             <span className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100">
               {distanceToMandiKm} km
@@ -150,8 +155,8 @@ export default function NetIncomeCalculator({
             className="w-full h-2 bg-zinc-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-emerald-600"
           />
           <div className="flex justify-between text-[11px] text-zinc-400 mt-1">
-            <span>5 km (Local)</span>
-            <span>120 km (Distant)</span>
+            <span>5 km ({fo.localKmLabel})</span>
+            <span>120 km ({fo.distantKmLabel})</span>
           </div>
         </div>
       </div>
@@ -161,41 +166,41 @@ export default function NetIncomeCalculator({
         {/* Traditional Mandi */}
         <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center justify-between mb-4 pb-3 border-b border-zinc-200 dark:border-zinc-800">
-            <span className="text-xs font-mono uppercase font-bold text-zinc-500">Traditional Mandi Route</span>
+            <span className="text-xs font-mono uppercase font-bold text-zinc-500">{fo.traditionalMandiTitle}</span>
             <span className="text-xs px-2.5 py-0.5 rounded-full bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
-              High Deductions
+              {fo.highDeductionsBadge}
             </span>
           </div>
 
           <div className="space-y-2.5 text-xs text-zinc-600 dark:text-zinc-400 mb-6">
             <div className="flex justify-between">
-              <span>Gross Market Value:</span>
+              <span>{fo.grossMarketValueLabel}:</span>
               <span className="font-mono font-medium text-zinc-900 dark:text-zinc-100">₹{grossValue.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-rose-600 dark:text-rose-400">
-              <span>Arhtiya Cut (3.5%):</span>
+              <span>{fo.arhtiyaCutLabel}:</span>
               <span className="font-mono">-₹{arhtiyaCut.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-rose-600 dark:text-rose-400">
-              <span>Mandi Cess & Market Tax (2.0%):</span>
+              <span>{fo.mandiCessLabel}:</span>
               <span className="font-mono">-₹{mandiCess.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-rose-600 dark:text-rose-400">
-              <span>Palledari & Unloading Fee:</span>
+              <span>{fo.palledariLabel}:</span>
               <span className="font-mono">-₹{palledariFee.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-rose-600 dark:text-rose-400">
-              <span>Weight Loss / Handling Refraction (2%):</span>
+              <span>{fo.weightLossLabel}:</span>
               <span className="font-mono">-₹{refractionLoss.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-rose-600 dark:text-rose-400">
-              <span>Tractor / Haulage ({distanceToMandiKm} km):</span>
+              <span>{fo.tractorHaulageLabel} ({distanceToMandiKm} km):</span>
               <span className="font-mono">-₹{mandiTransport.toLocaleString('en-IN')}</span>
             </div>
           </div>
 
           <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800 flex justify-between items-baseline">
-            <span className="text-xs font-bold uppercase text-zinc-700 dark:text-zinc-300">Net Take-Home:</span>
+            <span className="text-xs font-bold uppercase text-zinc-700 dark:text-zinc-300">{fo.netTakeHomeLabel}:</span>
             <span className="text-xl sm:text-2xl font-black font-mono text-zinc-900 dark:text-zinc-100">
               ₹{netMandiEarnings.toLocaleString('en-IN')}
             </span>
@@ -205,37 +210,37 @@ export default function NetIncomeCalculator({
         {/* Fasal Matrix Route */}
         <div className="p-6 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border-2 border-emerald-500/40 shadow-sm relative overflow-hidden">
           <div className="flex items-center justify-between mb-4 pb-3 border-b border-emerald-200/60 dark:border-emerald-800/60">
-            <span className="text-xs font-mono uppercase font-bold text-emerald-800 dark:text-emerald-300">Fasal Matrix Route</span>
+            <span className="text-xs font-mono uppercase font-bold text-emerald-800 dark:text-emerald-300">{fo.fasalMatrixRouteTitle}</span>
             <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 font-semibold border border-emerald-300 dark:border-emerald-700">
-              Direct Gate Transfer
+              {fo.directGateBadge}
             </span>
           </div>
 
           <div className="space-y-2.5 text-xs text-zinc-600 dark:text-zinc-400 mb-6">
             <div className="flex justify-between">
-              <span>Gross Trade Value:</span>
+              <span>{fo.grossTradeValueLabel}:</span>
               <span className="font-mono font-medium text-zinc-900 dark:text-zinc-100">₹{grossValue.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-zinc-700 dark:text-zinc-300">
-              <span>Transparent Platform Fee (3.5% upon sale):</span>
+              <span>{fo.platformFeeLabel}:</span>
               <span className="font-mono text-emerald-700 dark:text-emerald-400">-₹{fasalMatrixFee.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-emerald-700 dark:text-emerald-400 font-medium">
-              <span>Doorstep Gate Logistics:</span>
-              <span className="font-mono">₹0 (Paid by Buyer)</span>
+              <span>{fo.doorstepLogisticsLabel}:</span>
+              <span className="font-mono">{fo.doorstepLogisticsFree}</span>
             </div>
             <div className="flex justify-between text-emerald-700 dark:text-emerald-400 font-medium">
-              <span>Weighing / Cut Deductions:</span>
-              <span className="font-mono">₹0 (Assayed Gate)</span>
+              <span>{fo.weighingDeductionsLabel}:</span>
+              <span className="font-mono">{fo.weighingDeductionsZero}</span>
             </div>
             <div className="flex justify-between text-emerald-700 dark:text-emerald-400 font-medium">
-              <span>Payment Cycle:</span>
-              <span className="font-mono">T+1 Bank Transfer</span>
+              <span>{fo.paymentCycleLabel}:</span>
+              <span className="font-mono">{fo.paymentCycleT1}</span>
             </div>
           </div>
 
           <div className="pt-4 border-t border-emerald-200/60 dark:border-emerald-800/60 flex justify-between items-baseline">
-            <span className="text-xs font-bold uppercase text-emerald-900 dark:text-emerald-200">Net Take-Home:</span>
+            <span className="text-xs font-bold uppercase text-emerald-900 dark:text-emerald-200">{fo.netTakeHomeLabel}:</span>
             <span className="text-xl sm:text-2xl font-black font-mono text-emerald-800 dark:text-emerald-300">
               ₹{netFasalMatrixEarnings.toLocaleString('en-IN')}
             </span>
@@ -251,7 +256,7 @@ export default function NetIncomeCalculator({
           </div>
           <div>
             <span className="text-xs font-semibold uppercase tracking-wider text-emerald-100 block">
-              Additional Farmer Income Retained
+              {fo.incomeRetainedBanner}
             </span>
             <span className="text-2xl sm:text-3xl font-black font-mono tracking-tight">
               +₹{additionalEarnings.toLocaleString('en-IN')}
@@ -263,7 +268,7 @@ export default function NetIncomeCalculator({
           <span className="px-3.5 py-1.5 rounded-xl bg-white/20 backdrop-blur-xs text-xs font-bold">
             +{percentageGain}% Net Gain
           </span>
-          <span className="text-xs text-emerald-100">over traditional mandi deductions</span>
+          <span className="text-xs text-emerald-100">{fo.gainPercentageOverMandi}</span>
         </div>
       </div>
     </div>

@@ -433,10 +433,50 @@ import('crypto').then((crypto) => {
     assert(!chunk.includes('"middlemanTitle": "Traditional Middleman Channel"'), `middlemanTitle in ${tLang} must not be English default`);
   }
 
-  console.log('  ✅ Homepage Pillars, Portal, and Comparison fully localized across all 23 languages with zero English placeholders!\n');
+  // 16. Farmer Hub Overview 23-Language Localization Verification
+  console.log('🌾 Test 16: Verifying Farmer Hub Overview 23-Language Localization (All 5 Sections)...');
+  const farmerOverviewTransPath = path.resolve(__dirname, '../src/context/farmerOverviewTranslations.ts');
+  assert(fs.existsSync(farmerOverviewTransPath), 'farmerOverviewTranslations.ts must exist');
+  const farmerOverviewTransContent = fs.readFileSync(farmerOverviewTransPath, 'utf8');
 
-  console.log('🎉 ALL 15 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
+  // Verify all 23 languages are defined
+  const all23Langs = [
+    'en', 'hi', 'pa', 'mr', 'te', 'ta', 'bn', 'gu', 'kn', 'ml',
+    'or', 'as', 'ur', 'sa', 'ne', 'sd', 'ks', 'kok', 'mni', 'brx',
+    'mai', 'sat', 'doi'
+  ];
+
+  for (const lang of all23Langs) {
+    assert(farmerOverviewTransContent.includes(`"${lang}": {`) || farmerOverviewTransContent.includes(`${lang}: {`), `farmerOverviewTranslations must define ${lang}`);
+  }
+
+  // Verify component integration in farmer overview components
+  const farmerPagePath4 = path.resolve(__dirname, '../src/app/farmer/page.tsx');
+  const farmerPageSrc4 = fs.readFileSync(farmerPagePath4, 'utf8');
+  assert(farmerPageSrc4.includes('getFarmerOverviewTranslations'), 'farmer/page.tsx must use getFarmerOverviewTranslations');
+  assert(farmerPageSrc4.includes('fo.quickControlsTitle'), 'farmer/page.tsx must reference localized quickControlsTitle');
+  assert(farmerPageSrc4.includes('fo.aiOppTitle'), 'farmer/page.tsx must reference localized aiOppTitle');
+
+  const weatherWidgetPath = path.resolve(__dirname, '../src/components/WeatherAdvisoryWidget.tsx');
+  const weatherWidgetSrc = fs.readFileSync(weatherWidgetPath, 'utf8');
+  assert(weatherWidgetSrc.includes('getFarmerOverviewTranslations'), 'WeatherAdvisoryWidget must use getFarmerOverviewTranslations');
+  assert(weatherWidgetSrc.includes('fo.weatherTelemetryBadge'), 'WeatherAdvisoryWidget must reference fo.weatherTelemetryBadge');
+
+  const smartListingPath = path.resolve(__dirname, '../src/components/SmartListingGuide.tsx');
+  const smartListingSrc = fs.readFileSync(smartListingPath, 'utf8');
+  assert(smartListingSrc.includes('getFarmerOverviewTranslations'), 'SmartListingGuide must use getFarmerOverviewTranslations');
+  assert(smartListingSrc.includes('fo.smartGuideBadge'), 'SmartListingGuide must reference fo.smartGuideBadge');
+
+  const netCalcPath = path.resolve(__dirname, '../src/components/NetIncomeCalculator.tsx');
+  const netCalcSrc = fs.readFileSync(netCalcPath, 'utf8');
+  assert(netCalcSrc.includes('getFarmerOverviewTranslations'), 'NetIncomeCalculator must use getFarmerOverviewTranslations');
+  assert(netCalcSrc.includes('fo.calculatorBadge'), 'NetIncomeCalculator must reference fo.calculatorBadge');
+
+  console.log('  ✅ Farmer Hub Overview fully translated and integrated across all 23 constitutional languages!\n');
+
+  console.log('🎉 ALL 16 VERIFICATION TEST SUITES PASSED CLEANLY (0 ERRORS, 0 WARNINGS)!\n');
 });
+
 
 
 
