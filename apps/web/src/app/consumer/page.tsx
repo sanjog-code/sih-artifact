@@ -78,6 +78,7 @@ export default function ConsumerPortal() {
   // Cart State (stored in component with localStorage backup)
   const [cart, setCart] = useState<Record<string, number>>({});
   const [orderNotice, setOrderNotice] = useState<string | null>(null);
+  const [customQtyInputs, setCustomQtyInputs] = useState<Record<string, string>>({});
 
   React.useEffect(() => {
     queueMicrotask(() => {
@@ -176,6 +177,23 @@ export default function ConsumerPortal() {
     });
   };
 
+  const handleSetCartQty = (lotId: string, qty: number) => {
+    setCart((prev) => {
+      const lot = listings.find((l) => l.id === lotId);
+      const maxAvailable = lot ? lot.quantityKg : 999;
+      const clamped = Math.max(0, Math.min(maxAvailable, Math.floor(qty)));
+      if (clamped <= 0) {
+        const copy = { ...prev };
+        delete copy[lotId];
+        syncCartToStorage(copy);
+        return copy;
+      }
+      const updated = { ...prev, [lotId]: clamped };
+      syncCartToStorage(updated);
+      return updated;
+    });
+  };
+
   const handleUpdateCartQty = (lotId: string, delta: number) => {
     setCart((prev) => {
       const current = prev[lotId] || 0;
@@ -194,8 +212,9 @@ export default function ConsumerPortal() {
     });
   };
 
-  const handleInstantBuy = (lot: ProduceLotItem) => {
-    handleAddToCart(lot.id, 5);
+  const handleInstantBuy = (lot: ProduceLotItem, customQty?: number) => {
+    const qtyToBuy = customQty && customQty > 0 ? customQty : 5;
+    handleAddToCart(lot.id, qtyToBuy);
     setActiveTab('cart');
   };
 
@@ -601,47 +620,122 @@ export default function ConsumerPortal() {
                       </div>
 
                       {/* Card Action Controls */}
-                      <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800">
+                      <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 space-y-2">
                         {inCartQty > 0 ? (
-                          <div className="flex items-center justify-between bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1.5">
-                            <button
-                              type="button"
-                              onClick={() => handleUpdateCartQty(lot.id, -1)}
-                              aria-label="Decrease quantity"
-                              className="min-w-[40px] min-h-[40px] w-10 h-10 rounded-lg bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 font-bold transition active:scale-95"
-                            >
-                              <Minus className="w-4 h-4" />
-                            </button>
-                            <span className="text-xs sm:text-sm font-bold font-mono text-zinc-900 dark:text-zinc-100 px-2">
-                              {t.consumer.inCart.replace('{qty}', String(inCartQty))}
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() => handleUpdateCartQty(lot.id, 1)}
-                              disabled={inCartQty >= lot.quantityKg}
-                              aria-label="Increase quantity"
-                              className="min-w-[40px] min-h-[40px] w-10 h-10 rounded-lg bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 font-bold disabled:opacity-50 transition active:scale-95"
-                            >
-                              <Plus className="w-4 h-4" />
-                            </button>
+                          <div className="space-y-1.5">
+                            <div className="flex items-center justify-between bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1.5">
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateCartQty(lot.id, -1)}
+                                aria-label="Decrease quantity"
+                                className="min-w-[36px] min-h-[36px] w-9 h-9 rounded-lg bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 font-bold transition active:scale-95"
+                              >
+                                <Minus className="w-4 h-4" />
+                              </button>
+                              <div className="flex items-center gap-1">
+                                <input
+                                  type="number"
+                                  min="1"
+                                  max={lot.quantityKg}
+                                  value={inCartQty}
+                                  onChange={(e) => {
+                                    const val = parseInt(e.target.value, 10);
+                                    if (!isNaN(val)) {
+                                      handleSetCartQty(lot.id, val);
+                                    }
+                                  }}
+                                  aria-label="Item quantity in kg"
+                                  className="w-16 py-1 px-1.5 text-center text-xs sm:text-sm font-bold font-mono text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                                />
+                                <span className="text-xs text-zinc-500 font-medium">{t.common.kg}</span>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateCartQty(lot.id, 1)}
+                                disabled={inCartQty >= lot.quantityKg}
+                                aria-label="Increase quantity"
+                                className="min-w-[36px] min-h-[36px] w-9 h-9 rounded-lg bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 font-bold disabled:opacity-50 transition active:scale-95"
+                              >
+                                <Plus className="w-4 h-4" />
+                              </button>
+                            </div>
+                            <div className="flex items-center justify-between text-[11px] text-zinc-500 px-1">
+                              <span>Total: ₹{(lot.price * inCartQty).toLocaleString('en-IN')}</span>
+                              <button
+                                type="button"
+                                onClick={() => setActiveTab('cart')}
+                                className="text-emerald-700 dark:text-emerald-400 font-semibold hover:underline"
+                              >
+                                Go to Cart →
+                              </button>
+                            </div>
                           </div>
                         ) : (
-                          <div className="flex items-center gap-2">
-                            <button
-                              type="button"
-                              onClick={() => handleAddToCart(lot.id, 5)}
-                              className="flex-1 min-h-[44px] py-2.5 px-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-900 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 shadow-2xs active:scale-98"
-                            >
-                              <ShoppingCart className="w-3.5 h-3.5" />
-                              <span>{t.consumer.add5kg}</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleInstantBuy(lot)}
-                              className="min-h-[44px] px-3.5 py-2.5 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 text-emerald-900 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 rounded-xl text-xs sm:text-sm font-semibold transition active:scale-98"
-                            >
-                              {t.consumer.buyNow}
-                            </button>
+                          <div className="space-y-2">
+                            {/* Custom quantity input field */}
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-[11px] text-zinc-500 font-medium shrink-0">Qty:</span>
+                              <div className="relative flex-1">
+                                <input
+                                  type="number"
+                                  min="1"
+                                  max={lot.quantityKg}
+                                  placeholder="5"
+                                  value={customQtyInputs[lot.id] || ''}
+                                  onChange={(e) => {
+                                    const val = e.target.value;
+                                    setCustomQtyInputs((prev) => ({ ...prev, [lot.id]: val }));
+                                  }}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                      e.preventDefault();
+                                      const num = parseInt(customQtyInputs[lot.id] || '5', 10);
+                                      if (!isNaN(num) && num > 0) {
+                                        handleAddToCart(lot.id, num);
+                                      }
+                                    }
+                                  }}
+                                  aria-label="Custom quantity in kg"
+                                  className="w-full py-1.5 pl-2.5 pr-8 text-xs font-mono font-semibold border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                                />
+                                <span className="absolute right-2 top-2 text-[10px] text-zinc-400 font-mono">
+                                  {t.common.kg}
+                                </span>
+                              </div>
+                              <span className="text-[11px] font-mono text-zinc-500 shrink-0">
+                                ≈ ₹{((lot.price * (parseInt(customQtyInputs[lot.id] || '5', 10) || 5))).toLocaleString('en-IN')}
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const customVal = parseInt(customQtyInputs[lot.id] || '', 10);
+                                  const qty = !isNaN(customVal) && customVal > 0 ? customVal : 5;
+                                  handleAddToCart(lot.id, qty);
+                                }}
+                                className="flex-1 min-h-[42px] py-2 px-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-900 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 shadow-2xs active:scale-98"
+                              >
+                                <ShoppingCart className="w-3.5 h-3.5" />
+                                <span>
+                                  {customQtyInputs[lot.id] && parseInt(customQtyInputs[lot.id], 10) > 0
+                                    ? `Add ${parseInt(customQtyInputs[lot.id], 10)} kg`
+                                    : t.consumer.add5kg}
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const customVal = parseInt(customQtyInputs[lot.id] || '', 10);
+                                  const qty = !isNaN(customVal) && customVal > 0 ? customVal : 5;
+                                  handleInstantBuy(lot, qty);
+                                }}
+                                className="min-h-[42px] px-3 py-2 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 text-emerald-900 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 rounded-xl text-xs sm:text-sm font-semibold transition active:scale-98"
+                              >
+                                {t.consumer.buyNow}
+                              </button>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -708,17 +802,33 @@ export default function ConsumerPortal() {
                             <button
                               type="button"
                               onClick={() => handleUpdateCartQty(item.lotId, -1)}
+                              aria-label="Decrease quantity"
                               className="px-2 py-1 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400 font-bold"
                             >
                               -
                             </button>
-                            <span className="px-2.5 py-1 text-xs font-bold font-mono text-zinc-900 dark:text-zinc-100">
-                              {item.quantityKg} {t.common.kg}
-                            </span>
+                            <div className="flex items-center px-1">
+                              <input
+                                type="number"
+                                min="1"
+                                max={item.availableKg}
+                                value={item.quantityKg}
+                                onChange={(e) => {
+                                  const val = parseInt(e.target.value, 10);
+                                  if (!isNaN(val)) {
+                                    handleSetCartQty(item.lotId, val);
+                                  }
+                                }}
+                                aria-label="Cart item quantity"
+                                className="w-14 py-0.5 text-center text-xs font-bold font-mono text-zinc-900 dark:text-zinc-100 bg-transparent border-0 focus:outline-none focus:ring-1 focus:ring-emerald-600 rounded"
+                              />
+                              <span className="text-[11px] text-zinc-400 font-mono pr-1">{t.common.kg}</span>
+                            </div>
                             <button
                               type="button"
                               onClick={() => handleUpdateCartQty(item.lotId, 1)}
                               disabled={item.quantityKg >= item.availableKg}
+                              aria-label="Increase quantity"
                               className="px-2 py-1 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400 font-bold disabled:opacity-40"
                             >
                               +

@@ -128,6 +128,12 @@ export default function Home() {
           <div className="pointer-events-none absolute top-1/3 left-1/2 h-[380px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial from-emerald-500/10 dark:from-emerald-500/15 via-emerald-500/3 to-transparent blur-3xl" />
 
           <div className="max-w-5xl mx-auto text-center space-y-6 relative z-10">
+            {/* Agrarian Value Proposition Tagline Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200/80 dark:border-emerald-800/80 text-emerald-900 dark:text-emerald-300 text-xs sm:text-sm font-semibold tracking-wide shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Direct From Kisan Gate • Zero Middleman Margin • 100% MSP Escrow</span>
+            </div>
+
             {/* Headline with dynamic agrarian emphasis */}
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight leading-[1.08]">
               {t.hero.titleLine1} <br />
