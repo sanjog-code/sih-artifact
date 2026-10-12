@@ -167,29 +167,29 @@ export default function BuyerPortal() {
           </div>
         )}
 
-        {/* Tab Navigation Pill Bar */}
-        <div className="flex flex-wrap gap-2 mb-8 p-1.5 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800/80 rounded-2xl w-fit">
+        {/* Tab Navigation Pill Bar: Mobile Touch-Friendly Horizontal Scroll */}
+        <div className="flex items-center gap-1.5 mb-8 p-1.5 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800/80 rounded-2xl w-full sm:w-fit overflow-x-auto scrollbar-none snap-x">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+            className={`px-3.5 sm:px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 shrink-0 snap-start active:scale-98 ${
               activeTab === 'overview'
                 ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
-            <LayoutDashboard className="w-3.5 h-3.5" />
+            <LayoutDashboard className="w-4 h-4" />
             <span>{(t as any).buyerTabs?.overview || 'Executive Overview'}</span>
           </button>
 
           <button
             onClick={() => setActiveTab('copilot')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+            className={`px-3.5 sm:px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 shrink-0 snap-start active:scale-98 ${
               activeTab === 'copilot'
                 ? 'bg-white dark:bg-zinc-800 text-blue-600 dark:text-blue-400 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-400" />
             <span>{(t as any).buyerTabs?.copilot || 'Native Copilot (beta)'}</span>
             <span className="px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300 text-[10px] font-bold">
               AI (beta)
@@ -198,13 +198,13 @@ export default function BuyerPortal() {
 
           <button
             onClick={() => setActiveTab('market')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+            className={`px-3.5 sm:px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 shrink-0 snap-start active:scale-98 ${
               activeTab === 'market'
                 ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
-            <Store className="w-3.5 h-3.5" />
+            <Store className="w-4 h-4" />
             <span>{(t as any).buyerTabs?.market || 'Farmer Marketplace'}</span>
             <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px]">
               {filteredProduce.length}
@@ -213,13 +213,13 @@ export default function BuyerPortal() {
 
           <button
             onClick={() => setActiveTab('orders')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+            className={`px-3.5 sm:px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 shrink-0 snap-start active:scale-98 ${
               activeTab === 'orders'
                 ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
-            <Boxes className="w-3.5 h-3.5" />
+            <Boxes className="w-4 h-4" />
             <span>{(t as any).buyerTabs?.orders || 'Procurement Orders'}</span>
             <span className="px-1.5 py-0.5 rounded-full bg-zinc-200 text-zinc-800 dark:text-zinc-200 text-[10px]">
               {orders.length}
@@ -228,25 +228,25 @@ export default function BuyerPortal() {
 
           <button
             onClick={() => setActiveTab('tender')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+            className={`px-3.5 sm:px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 shrink-0 snap-start active:scale-98 ${
               activeTab === 'tender'
                 ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
-            <PlusCircle className="w-3.5 h-3.5" />
+            <PlusCircle className="w-4 h-4" />
             <span>{(t as any).buyerTabs?.tender || 'Post Demand Tender'}</span>
           </button>
 
           <button
             onClick={() => setActiveTab('recurring')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+            className={`px-3.5 sm:px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 shrink-0 snap-start active:scale-98 ${
               activeTab === 'recurring'
                 ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
-            <Truck className="w-3.5 h-3.5" />
+            <Truck className="w-4 h-4" />
             <span>{(t as any).buyerTabs?.recurring || 'Recurring Procurement'}</span>
             <span className="px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px]">
               {recurringSchedules.length}
@@ -255,13 +255,13 @@ export default function BuyerPortal() {
 
           <button
             onClick={() => setActiveTab('subscriptions')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+            className={`px-3.5 sm:px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 shrink-0 snap-start active:scale-98 ${
               activeTab === 'subscriptions'
                 ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-xs border border-zinc-200 dark:border-zinc-800'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:text-zinc-50'
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
             <span>{(t as any).buyerTabs?.subscriptions || 'Business Premier'}</span>
             <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-mono font-bold">
               {businessConfig.name.replace('Business ', '')}

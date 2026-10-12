@@ -10,6 +10,7 @@ import FarmerAiListingAdvisor from '../components/FarmerAiListingAdvisor';
 import PwaRegister from '../components/PwaRegister';
 import CookieConsentBanner from '../components/CookieConsentBanner';
 import JsonLd from '../components/JsonLd';
+import MobileBottomNav from '../components/MobileBottomNav';
 import { cookies } from 'next/headers';
 
 const organizationSchema = {
@@ -149,7 +150,10 @@ export default async function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             <LanguageProvider initialLanguage={validLang}>
-              {children}
+              <div className="flex-1 flex flex-col pb-16 md:pb-0">
+                {children}
+              </div>
+              <MobileBottomNav />
               <AiAssistant />
               <ConsumerAiShoppingAdvisor />
               <FarmerAiListingAdvisor />

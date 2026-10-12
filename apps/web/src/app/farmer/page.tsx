@@ -389,8 +389,8 @@ export default function FarmerPortal() {
           </div>
         )}
 
-        {/* Navigation Tabs Bar */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-2 mb-6 border-b border-zinc-200 dark:border-zinc-800 scrollbar-none">
+        {/* Navigation Tabs Bar: Touch-Friendly Horizontal Scroll */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2.5 mb-6 border-b border-zinc-200 dark:border-zinc-850 scrollbar-none snap-x">
           {[
             { id: 'overview', label: (t as any).farmerTabs?.overview || 'Overview', icon: LayoutDashboard },
             { id: 'sell', label: (t as any).farmerTabs?.sell || 'List Harvest', icon: PlusCircle },
@@ -407,13 +407,13 @@ export default function FarmerPortal() {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border ${
+                className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition border shrink-0 snap-start active:scale-98 ${
                   isActive
-                    ? 'bg-zinc-900 text-white border-zinc-900 shadow-xs'
-                    : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:text-zinc-100'
+                    ? 'bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100 shadow-xs'
+                    : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100'
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-400' : 'text-zinc-500'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-400 dark:text-emerald-700' : 'text-zinc-500'}`} />
                 <span>{tab.label}</span>
               </button>
             );

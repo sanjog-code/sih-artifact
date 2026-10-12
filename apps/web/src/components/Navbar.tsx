@@ -283,11 +283,11 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
             )}
           </div>
 
-          {/* Mobile Header Controls */}
-          <div className="flex lg:hidden items-center gap-2">
+          {/* Mobile Header Controls: Strict WCAG touch targets >= 44-48px */}
+          <div className="flex lg:hidden items-center gap-1.5">
             <button
               onClick={toggleTheme}
-              className="p-1.5 rounded-md text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800"
+              className="min-w-[44px] min-h-[44px] p-2.5 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center transition"
               aria-label="Toggle dark mode"
             >
               {theme === 'dark' ? (
@@ -299,7 +299,7 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
 
             <button
               onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="p-1.5 rounded-md text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-1"
+              className="min-w-[44px] min-h-[44px] p-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center gap-1 transition"
               aria-label="Toggle language menu"
               title="Change Language"
             >
@@ -309,7 +309,7 @@ export default function Navbar({ onOpenInquiry }: NavbarProps) {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 rounded-md text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800"
+              className="min-w-[44px] min-h-[44px] p-2.5 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center transition"
               aria-label="Toggle mobile menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

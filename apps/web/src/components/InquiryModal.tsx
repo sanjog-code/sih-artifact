@@ -37,9 +37,9 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/70 backdrop-blur-sm animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-zinc-950/70 backdrop-blur-sm animate-in fade-in duration-150">
       <div
-        className="bg-white dark:bg-zinc-900 rounded-2xl max-w-lg w-full shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden relative"
+        className="bg-white dark:bg-zinc-900 border-t sm:border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
         role="dialog"
         aria-modal="true"
       >
@@ -55,7 +55,8 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
           </div>
           <button
             onClick={handleResetAndClose}
-            className="p-1 rounded-lg text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+            aria-label="Close dialog"
+            className="min-w-[44px] min-h-[44px] p-2.5 rounded-xl text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition flex items-center justify-center"
           >
             <X className="w-5 h-5" />
           </button>

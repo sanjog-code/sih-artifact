@@ -285,8 +285,8 @@ export default function ConsumerPortal() {
             </p>
           </div>
 
-          {/* Tab Navigation Pill */}
-          <div className="flex items-center gap-1.5 p-1 bg-zinc-200/80 dark:bg-zinc-800 rounded-xl self-start sm:self-auto text-xs font-semibold">
+          {/* Tab Navigation Pill with Mobile Horizontal Scroll */}
+          <div className="flex items-center gap-1.5 p-1 bg-zinc-200/80 dark:bg-zinc-850 rounded-xl w-full sm:w-auto overflow-x-auto scrollbar-none text-xs font-semibold shrink-0">
             <button
               onClick={() => setActiveTab('shop')}
               className={`px-3.5 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
@@ -603,40 +603,42 @@ export default function ConsumerPortal() {
                       {/* Card Action Controls */}
                       <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800">
                         {inCartQty > 0 ? (
-                          <div className="flex items-center justify-between bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-lg p-1">
+                          <div className="flex items-center justify-between bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1.5">
                             <button
                               type="button"
                               onClick={() => handleUpdateCartQty(lot.id, -1)}
-                              className="w-7 h-7 rounded bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 font-bold"
+                              aria-label="Decrease quantity"
+                              className="min-w-[40px] min-h-[40px] w-10 h-10 rounded-lg bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 font-bold transition active:scale-95"
                             >
-                              <Minus className="w-3.5 h-3.5" />
+                              <Minus className="w-4 h-4" />
                             </button>
-                            <span className="text-xs font-bold font-mono text-zinc-900 dark:text-zinc-100">
+                            <span className="text-xs sm:text-sm font-bold font-mono text-zinc-900 dark:text-zinc-100 px-2">
                               {t.consumer.inCart.replace('{qty}', String(inCartQty))}
                             </span>
                             <button
                               type="button"
                               onClick={() => handleUpdateCartQty(lot.id, 1)}
                               disabled={inCartQty >= lot.quantityKg}
-                              className="w-7 h-7 rounded bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 font-bold disabled:opacity-50"
+                              aria-label="Increase quantity"
+                              className="min-w-[40px] min-h-[40px] w-10 h-10 rounded-lg bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 font-bold disabled:opacity-50 transition active:scale-95"
                             >
-                              <Plus className="w-3.5 h-3.5" />
+                              <Plus className="w-4 h-4" />
                             </button>
                           </div>
                         ) : (
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-2">
                             <button
                               type="button"
                               onClick={() => handleAddToCart(lot.id, 5)}
-                              className="flex-1 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 shadow-2xs"
+                              className="flex-1 min-h-[44px] py-2.5 px-3 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-900 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 shadow-2xs active:scale-98"
                             >
-                              <ShoppingCart className="w-3 h-3" />
+                              <ShoppingCart className="w-3.5 h-3.5" />
                               <span>{t.consumer.add5kg}</span>
                             </button>
                             <button
                               type="button"
                               onClick={() => handleInstantBuy(lot)}
-                              className="px-2.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 rounded-lg text-xs font-semibold transition"
+                              className="min-h-[44px] px-3.5 py-2.5 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 text-emerald-900 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 rounded-xl text-xs sm:text-sm font-semibold transition active:scale-98"
                             >
                               {t.consumer.buyNow}
                             </button>
@@ -1307,6 +1309,34 @@ export default function ConsumerPortal() {
         )}
         </main>
       </RoleGuard>
+
+      {/* Floating Sticky Mobile Checkout Bar (Visible on mobile when cart has items & in shop tab) */}
+      {cartItems.length > 0 && activeTab === 'shop' && (
+        <aside
+          aria-label="Floating Mobile Basket Bar"
+          className="fixed bottom-16 left-0 right-0 z-30 md:hidden p-3 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-t border-zinc-200 dark:border-zinc-800 shadow-xl animate-in slide-in-from-bottom"
+        >
+          <div className="flex items-center justify-between gap-3 max-w-lg mx-auto">
+            <div>
+              <div className="text-[11px] text-zinc-500 font-medium">
+                {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} in basket
+              </div>
+              <div className="text-sm font-extrabold font-mono text-zinc-950 dark:text-zinc-50">
+                ₹{cartSubtotal.toLocaleString('en-IN')}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setActiveTab('cart')}
+              className="min-h-[44px] px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md active:scale-95"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              <span>{t.consumer.cartTab || 'View Basket'}</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </aside>
+      )}
 
       <Footer />
       <InquiryModal isOpen={inquiryOpen} onClose={() => setInquiryOpen(false)} />

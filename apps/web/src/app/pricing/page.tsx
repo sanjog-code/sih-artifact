@@ -100,13 +100,13 @@ export default function PricingPage() {
           </p>
 
           {/* Role Selector Tabs: Scoped to designated plans when logged in, or full view for visitors */}
-          <div className="mt-8 flex justify-center">
-            <div className="inline-flex p-1.5 bg-zinc-200 dark:bg-zinc-900 rounded-2xl border border-zinc-300 dark:border-zinc-800 gap-1">
+          <div className="mt-8 flex justify-center w-full px-2">
+            <div className="inline-flex p-1.5 bg-zinc-200 dark:bg-zinc-900 rounded-2xl border border-zinc-300 dark:border-zinc-800 gap-1 max-w-full overflow-x-auto scrollbar-none">
               {(!role || role === 'farmer') && (
                 <button
                   type="button"
                   onClick={() => setRoleTab('farmer')}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
+                  className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer shrink-0 min-h-[44px] ${
                     roleTab === 'farmer'
                       ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
@@ -121,7 +121,7 @@ export default function PricingPage() {
                 <button
                   type="button"
                   onClick={() => setRoleTab('business')}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
+                  className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer shrink-0 min-h-[44px] ${
                     roleTab === 'business'
                       ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
@@ -136,7 +136,7 @@ export default function PricingPage() {
                 <button
                   type="button"
                   onClick={() => setRoleTab('consumer')}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
+                  className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer shrink-0 min-h-[44px] ${
                     roleTab === 'consumer'
                       ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs'
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white'
@@ -262,7 +262,37 @@ export default function PricingPage() {
               </div>
 
               {/* Calculator Output Table */}
-              <div className="overflow-x-auto">
+              {/* Responsive Mobile Cards View for Small Screens (< sm) */}
+              <div className="grid grid-cols-1 gap-3 sm:hidden">
+                {(['basic', 'premier', 'premier_pro', 'premier_elite'] as FarmerPlanTier[]).map((tierKey) => {
+                  const res = calculatedPayouts[tierKey];
+                  const config = FARMER_TIER_CONFIGS[tierKey];
+                  return (
+                    <div
+                      key={`card-${tierKey}`}
+                      className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-850/60 space-y-2"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-sm text-zinc-900 dark:text-zinc-100">{config.name}</span>
+                        <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
+                          {res.commissionRatePct}% {tp?.rateCol || 'Rate'}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs pt-1 border-t border-zinc-200 dark:border-zinc-800">
+                        <span className="text-zinc-500">{tp?.commissionCol || 'Commission'}:</span>
+                        <span className="font-mono text-zinc-700 dark:text-zinc-300">₹{res.commissionAmountInr.toLocaleString('en-IN')}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs pt-1 border-t border-zinc-200 dark:border-zinc-800">
+                        <span className="font-semibold text-emerald-800 dark:text-emerald-400">{tp?.farmerReceivesCol || 'Farmer Receives*'}:</span>
+                        <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm">₹{res.netPayoutInr.toLocaleString('en-IN')}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Desktop / Tablet Table View (sm:block) */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="w-full text-xs text-left">
                   <thead>
                     <tr className="border-b border-zinc-200 dark:border-zinc-800 text-[11px] font-mono text-zinc-500 uppercase">
