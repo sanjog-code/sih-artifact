@@ -1,55 +1,250 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --font-indic-devanagari: "Noto Sans Devanagari", "Mangal", "Nirmala UI", sans-serif;
-  --font-indic-gurmukhi: "Noto Sans Gurmukhi", "Raavi", "Nirmala UI", sans-serif;
-  --font-indic-telugu: "Noto Sans Telugu", "Gautami", "Vani", "Nirmala UI", sans-serif;
-  --font-indic-tamil: "Noto Sans Tamil", "Latha", "Vijaya", "Nirmala UI", sans-serif;
-  --font-fallback-stack: var(--font-geist-sans), "Noto Sans Devanagari", "Mangal", "Noto Sans Gurmukhi", "Raavi", "Noto Sans Telugu", "Gautami", "Noto Sans Tamil", "Latha", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --color-primary: #0F766E;
+  --color-primary-hover: #0D6B63;
+  --color-primary-light: #F0FDF4;
+  --color-primary-text: #064E3B;
+  --color-secondary: #111827;
+  --color-text: #1F2937;
+  --color-text-muted: #6B7280;
+  --color-text-light: #9CA3AF;
+  --color-background: #FFFFFF;
+  --color-background-alt: #F9FAFB;
+  --color-border: #E5E7EB;
+  --color-border-strong: #D1D5DB;
+  --color-success: #059669;
+  --color-warning: #D97706;
+  --color-error: #DC2626;
+  --color-info: #2563EB;
+
+  --font-sans: "Inter", "Noto Sans Devanagari", "Mangal", "Noto Sans Gurmukhi", "Raavi", "Noto Sans Telugu", "Gautami", "Noto Sans Tamil", "Latha", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-fallback-stack);
-  --font-mono: var(--font-geist-mono), monospace;
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-light: var(--color-primary-light);
+  --color-primary-text: var(--color-primary-text);
+  --color-secondary: var(--color-secondary);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-light: var(--color-text-light);
+  --color-background: var(--color-background);
+  --color-background-alt: var(--color-background-alt);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+  --color-info: var(--color-info);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-up: slide-up 0.4s ease-out;
+  --animate-pulse-soft: pulse-soft 2s ease-in-out infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-primary-light);
+    color: var(--color-primary-text);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Indic Typography Enhancements */
+  :lang(hi), :lang(mr), html[lang="hi"] body, html[lang="mr"] body {
+    font-family: var(--font-sans), "Noto Sans Devanagari", "Mangal", sans-serif;
+    line-height: 1.7;
+  }
+
+  :lang(pa), html[lang="pa"] body {
+    font-family: var(--font-sans), "Noto Sans Gurmukhi", "Raavi", sans-serif;
+    line-height: 1.7;
+  }
+
+  :lang(te), html[lang="te"] body {
+    font-family: var(--font-sans), "Noto Sans Telugu", "Gautami", sans-serif;
+    line-height: 1.75;
+  }
+
+  :lang(ta), html[lang="ta"] body {
+    font-family: var(--font-sans), "Noto Sans Tamil", "Latha", sans-serif;
+    line-height: 1.7;
+  }
+
+  /* Heading styles */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-secondary);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+  h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
+  h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+  h4 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 px-6 py-3 text-sm;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-white hover:bg-primary-hover focus-visible:ring-primary;
+    @apply shadow-sm hover:shadow-md active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-text border border-border hover:bg-background-alt focus-visible:ring-border;
+    @apply shadow-sm hover:shadow-md active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-text hover:bg-background-alt focus-visible:ring-border;
+  }
+
+  .btn-outline {
+    @apply btn border-2 border-primary text-primary hover:bg-primary-light focus-visible:ring-primary;
+  }
+
+  .card {
+    @apply bg-white border border-border rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply card hover:border-primary/50 hover:shadow-xl hover:-translate-y-1;
+  }
+
+  .input {
+    @apply w-full px-4 py-3 text-sm bg-white border border-border rounded-xl;
+    @apply placeholder:text-text-light;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+    @apply transition-all duration-200;
+  }
+
+  .input-error {
+    @apply input border-error focus:ring-error;
+  }
+
+  .label {
+    @apply block text-xs font-semibold text-text mb-1.5;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-light text-primary-text border border-primary/20;
+  }
+
+  .badge-success {
+    @apply badge bg-green-50 text-green-800 border border-green-200;
+  }
+
+  .badge-warning {
+    @apply badge bg-amber-50 text-amber-800 border border-amber-200;
+  }
+
+  .badge-info {
+    @apply badge bg-blue-50 text-blue-800 border border-blue-200;
+  }
+
+  .section {
+    @apply py-16 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8;
+  }
+
+  .container {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-teal-600 bg-clip-text text-transparent;
+  }
+
+  .divider {
+    @apply w-full h-px bg-border;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-fallback-stack);
-  line-height: 1.5;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-}
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 
-/* Indic Typography Enhancements: Generous line-height to prevent matra/diacritic clipping */
-:lang(hi), :lang(mr), html[lang="hi"] body, html[lang="mr"] body {
-  font-family: var(--font-geist-sans), var(--font-indic-devanagari);
-  line-height: 1.6;
-}
+  .animate-in {
+    animation: fade-in 0.3s ease-out, slide-up 0.4s ease-out;
+  }
 
-:lang(pa), html[lang="pa"] body {
-  font-family: var(--font-geist-sans), var(--font-indic-gurmukhi);
-  line-height: 1.6;
-}
-
-:lang(te), html[lang="te"] body {
-  font-family: var(--font-geist-sans), var(--font-indic-telugu);
-  line-height: 1.65;
-}
-
-:lang(ta), html[lang="ta"] body {
-  font-family: var(--font-geist-sans), var(--font-indic-tamil);
-  line-height: 1.6;
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
 }
